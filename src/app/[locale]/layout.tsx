@@ -6,7 +6,7 @@ import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { getDictionary } from "@/i18n";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";
-import { whatsappLink } from "@/lib/settings-helpers";
+import { settingValue, whatsappLink } from "@/lib/settings-helpers";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -58,7 +58,12 @@ export default async function LocaleLayout({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header locale={locale} dict={dict} whatsapp={whatsapp} />
+      <Header
+        locale={locale}
+        dict={dict}
+        whatsapp={whatsapp}
+        logoUrl={settingValue(settings, "logo_url")}
+      />
       <main className="flex-1">{children}</main>
       <Footer locale={locale} settings={settings} />
       <WhatsAppFloat href={whatsapp} label={dict.common.whatsapp} />

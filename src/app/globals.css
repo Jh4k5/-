@@ -2,34 +2,58 @@
 
 /* ---------------------------------------------------------------
    Jisr to China — design tokens
+   The three brand colours can be overridden per deployment from the
+   dashboard: the root layout writes them onto <html> as inline custom
+   properties, and every derived shade below follows automatically.
    --------------------------------------------------------------- */
 @theme {
   --color-china-red: #c8102e;
-  --color-china-red-dark: #a20d25;
   --color-imperial-gold: #d4af37;
-  --color-imperial-gold-soft: #e6c766;
   --color-trust-blue: #1b3a6b;
-  --color-trust-blue-dark: #12294c;
-  --color-trust-blue-light: #2b5490;
   --color-ivory: #f7f4ef;
   --color-ivory-dark: #ece7dd;
   --color-charcoal: #2a2a2a;
   --color-jade: #00a170;
+
+  --color-china-red-dark: color-mix(in srgb, var(--color-china-red) 80%, #000);
+  --color-china-red-soft: color-mix(in srgb, var(--color-china-red) 12%, #fff);
+  --color-imperial-gold-soft: color-mix(in srgb, var(--color-imperial-gold) 55%, #fff);
+  --color-trust-blue-dark: color-mix(in srgb, var(--color-trust-blue) 72%, #000);
+  --color-trust-blue-light: color-mix(in srgb, var(--color-trust-blue) 72%, #fff);
 
   --font-display: var(--font-heading), system-ui, sans-serif;
   --font-body: var(--font-text), system-ui, sans-serif;
 
   --shadow-soft: 0 10px 30px -12px rgb(27 58 107 / 0.25);
   --shadow-card: 0 18px 45px -20px rgb(27 58 107 / 0.35);
+  --shadow-deep: 0 40px 80px -40px rgb(9 20 40 / 0.75);
   --shadow-glow: 0 25px 60px -25px rgb(200 16 46 / 0.45);
-
-  --radius-xl2: 1.5rem;
 }
 
 :root {
   --font-heading: "Cairo", "Inter Variable", system-ui;
   --font-text: "Tajawal", "Inter Variable", system-ui;
+
+  /* motion scale — overridden by [data-motion] below */
+  --motion-scale: 1;
+  --motion-slow: 1.1s;
+  --motion-medium: 0.7s;
+  --motion-fast: 0.35s;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
   color-scheme: light;
+}
+
+html[data-motion="calm"] {
+  --motion-scale: 0.55;
+  --motion-slow: 0.8s;
+  --motion-medium: 0.5s;
+}
+
+html[data-motion="cinematic"] {
+  --motion-scale: 1.35;
+  --motion-slow: 1.3s;
+  --motion-medium: 0.85s;
 }
 
 html[lang="en"],
@@ -47,7 +71,7 @@ body {
   background-color: var(--color-ivory);
   color: var(--color-charcoal);
   font-family: var(--font-body);
-  font-size: 17px;
+  font-size: clamp(15.5px, 0.45vw + 14.4px, 18px);
   line-height: 1.75;
   overflow-x: hidden;
 }
@@ -58,8 +82,9 @@ h3,
 h4,
 h5 {
   font-family: var(--font-display);
-  line-height: 1.3;
+  line-height: 1.25;
   font-weight: 800;
+  text-wrap: balance;
 }
 
 ::selection {
@@ -67,12 +92,12 @@ h5 {
   color: #fff;
 }
 
-/* --------------------------- utilities --------------------------- */
+/* --------------------------- layout utilities --------------------------- */
 @utility container-page {
   width: 100%;
   margin-inline: auto;
-  max-width: 80rem;
-  padding-inline: 1.25rem;
+  max-width: 82rem;
+  padding-inline: clamp(1rem, 3vw, 2.5rem);
 }
 
 @utility text-gradient-brand {
@@ -94,13 +119,36 @@ h5 {
   box-shadow: var(--shadow-soft);
 }
 
+/** Frosted panel used across the dark, image-backed sections. */
+@utility glass-panel {
+  background: color-mix(in srgb, var(--color-trust-blue-dark) 55%, transparent);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-radius: 1.5rem;
+}
+
+/** Thin gold identity frame reused on media cards. */
+@utility gold-frame {
+  position: relative;
+  border-radius: 1.25rem;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-imperial-gold) 55%, transparent),
+    var(--shadow-card);
+}
+
+@utility stage-3d {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
 /* --------------------------- motion --------------------------- */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(calc(28px * var(--motion-scale)));
   transition:
-    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity var(--motion-medium) var(--motion-ease),
+    transform var(--motion-medium) var(--motion-ease);
   will-change: opacity, transform;
 }
 
@@ -111,24 +159,24 @@ h5 {
 
 @keyframes ken-burns {
   0% {
-    transform: scale(1.04) translate3d(0, 0, 0);
+    transform: scale(1.05) translate3d(0, 0, 0);
   }
   100% {
-    transform: scale(1.18) translate3d(0, -1.5%, 0);
+    transform: scale(calc(1 + 0.16 * var(--motion-scale))) translate3d(0, -1.5%, 0);
   }
 }
 
 .ken-burns {
-  animation: ken-burns 22s ease-in-out infinite alternate;
+  animation: ken-burns 24s ease-in-out infinite alternate;
 }
 
 @keyframes float-slow {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-14px);
+    transform: translate3d(0, calc(-14px * var(--motion-scale)), 0);
   }
 }
 
@@ -136,31 +184,128 @@ h5 {
   animation: float-slow 9s ease-in-out infinite;
 }
 
-@keyframes shimmer-line {
+@keyframes aurora-drift {
   0% {
-    transform: translateX(-100%);
+    transform: translate3d(-6%, -3%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(6%, 4%, 0) scale(1.15);
   }
   100% {
-    transform: translateX(100%);
+    transform: translate3d(-6%, -3%, 0) scale(1.05);
   }
+}
+
+.aurora {
+  animation: aurora-drift 26s ease-in-out infinite;
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  60%,
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgb(255 255 255 / 0.28) 45%,
+    transparent 70%
+  );
+  animation: shine-sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-x-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 46s) linear infinite;
+}
+
+.marquee-track[data-direction="reverse"] {
+  animation-name: marquee-x-reverse;
+}
+
+.marquee-viewport:hover .marquee-track,
+.marquee-viewport:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 220% 220%;
+  animation: gradient-pan 18s ease infinite;
 }
 
 .tilt-card {
   transform-style: preserve-3d;
   transition:
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.45s ease;
+    transform var(--motion-medium) var(--motion-ease),
+    box-shadow var(--motion-medium) ease;
   will-change: transform;
 }
 
 .hero-layer {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s var(--motion-ease);
   will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ken-burns,
-  .float-slow {
+  .float-slow,
+  .aurora,
+  .shine::after,
+  .marquee-track,
+  .animated-gradient {
     animation: none !important;
   }
   .reveal {
@@ -176,6 +321,14 @@ h5 {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* --------------------------- identity marks --------------------------- */
+/** Repeating imperial pattern used as a subtle identity wash. */
+@utility brand-pattern {
+  background-image:
+    radial-gradient(circle at 20% 25%, color-mix(in srgb, var(--color-imperial-gold) 22%, transparent) 0, transparent 38%),
+    radial-gradient(circle at 82% 70%, color-mix(in srgb, var(--color-china-red) 20%, transparent) 0, transparent 42%);
 }
 
 /* --------------------------- rich text --------------------------- */
@@ -224,6 +377,14 @@ h5 {
   height: auto;
 }
 
+/* --------------------------- forms --------------------------- */
+/* 16px minimum keeps iOS Safari from zooming when a field is focused. */
+input,
+select,
+textarea {
+  font-size: max(16px, 1em);
+}
+
 /* --------------------------- scrollbar --------------------------- */
 ::-webkit-scrollbar {
   width: 10px;
@@ -238,4 +399,121 @@ h5 {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-trust-blue);
+}
+
+/* --------------------------- animated scene art --------------------------- */
+@keyframes scene-drift {
+  from {
+    transform: translate3d(-8%, 0, 0);
+  }
+  to {
+    transform: translate3d(108%, 0, 0);
+  }
+}
+
+@keyframes scene-twinkle {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes scene-ripple {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scaleX(1);
+  }
+  50% {
+    transform: translate3d(2.5%, 0, 0) scaleX(1.04);
+  }
+}
+
+@keyframes scene-rise {
+  0% {
+    transform: translate3d(0, 6%, 0);
+    opacity: 0;
+  }
+  15%,
+  75% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(4%, -85%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes scene-beam {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scaleY(0.96);
+  }
+  50% {
+    opacity: 0.38;
+    transform: scaleY(1.04);
+  }
+}
+
+.scene-cloud {
+  animation: scene-drift var(--cloud-duration, 90s) linear infinite;
+}
+
+.scene-window {
+  animation: scene-twinkle var(--twinkle-duration, 5s) ease-in-out infinite;
+}
+
+.scene-water {
+  animation: scene-ripple 9s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.scene-lantern {
+  animation: scene-rise var(--rise-duration, 16s) ease-in-out infinite;
+}
+
+.scene-beam {
+  animation: scene-beam 7s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-cloud,
+  .scene-window,
+  .scene-water,
+  .scene-lantern,
+  .scene-beam {
+    animation: none !important;
+  }
+}
+
+/* --------------------------- admin shell --------------------------- */
+/* Direction-aware drawer: transforms do not flip with `dir`, so the RTL
+   offset is declared explicitly instead of relying on logical utilities. */
+.admin-drawer {
+  transform: translateX(-100%);
+  transition: transform 0.32s var(--motion-ease);
+}
+
+[dir="rtl"] .admin-drawer {
+  transform: translateX(100%);
+}
+
+.admin-drawer[data-open="true"],
+[dir="rtl"] .admin-drawer[data-open="true"] {
+  transform: translateX(0);
+}
+
+@media (min-width: 1024px) {
+  .admin-drawer,
+  [dir="rtl"] .admin-drawer {
+    transform: translateX(0);
+  }
+}
+
+.admin-safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }

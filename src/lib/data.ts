@@ -1,18 +1,23 @@
 import { createPublicSupabase } from "./supabase/server";
 import {
+  DEFAULT_SECTIONS,
   SEED_DESTINATIONS,
   SEED_SERVICES,
   SEED_SETTINGS,
   SEED_STORIES,
+  SEED_UNIVERSITIES,
 } from "./seed-content";
 import type {
+  Admission,
   Article,
   DestinationMedia,
   GalleryItem,
   Service,
   SettingRow,
   SettingsMap,
+  SiteSection,
   SuccessStory,
+  University,
 } from "./types";
 
 async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
@@ -122,3 +127,61 @@ export async function getSettings(): Promise<SettingsMap> {
 }
 
 export { settingValue, settingText, settingNumber, whatsappLink } from "./settings-helpers";
+
+export async function getUniversities(): Promise<University[]> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("universities")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_UNIVERSITIES;
+    return data as University[];
+  }, SEED_UNIVERSITIES);
+}
+
+export async function getFeaturedUniversities(limit = 4): Promise<University[]> {
+  const all = await getUniversities();
+  const featured = all.filter((item) => item.is_featured);
+  return (featured.length > 0 ? featured : all).slice(0, limit);
+}
+
+export async function getUniversityBySlug(slug: string): Promise<University | null> {
+  const all = await getUniversities();
+  return all.find((item) => item.slug === slug) ?? null;
+}
+
+export async function getAdmissions(): Promise<Admission[]> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("admissions")
+      .select("*")
+      .eq("is_visible", true)
+      .order("display_order", { ascending: true });
+    if (error || !data) return [];
+    return data as Admission[];
+  }, []);
+}
+
+/** Home page sections, ordered and filtered by what the dashboard enables. */
+export async function getSections(): Promise<SiteSection[]> {
+  const rows = await safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("site_sections")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return DEFAULT_SECTIONS;
+    return data as SiteSection[];
+  }, DEFAULT_SECTIONS);
+
+  const known = new Map(rows.map((row) => [row.key, row]));
+  for (const fallback of DEFAULT_SECTIONS) {
+    if (!known.has(fallback.key)) known.set(fallback.key, fallback);
+  }
+
+  return [...known.values()]
+    .filter((row) => row.is_visible)
+    .sort((a, b) => a.display_order - b.display_order);
+}

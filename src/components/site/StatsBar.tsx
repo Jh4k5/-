@@ -1,6 +1,6 @@
 import { Building2, CalendarRange, Smile, Users } from "lucide-react";
 import Counter from "@/components/ui/Counter";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 import { settingNumber, type SettingsMapLike } from "@/lib/settings-helpers";

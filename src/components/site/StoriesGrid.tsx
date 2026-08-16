@@ -1,7 +1,7 @@
 import { Quote } from "lucide-react";
-import MediaImage from "@/components/ui/MediaImage";
-import Reveal from "@/components/ui/Reveal";
-import TiltCard from "@/components/ui/TiltCard";
+import MediaFrame from "@/components/ui/MediaFrame";
+import Reveal from "@/components/motion/Reveal";
+import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { SuccessStory } from "@/lib/types";
@@ -25,7 +25,7 @@ export default function StoriesGrid({
         const quote = pick(story, "quote", locale);
         return (
           <Reveal key={story.id} delay={index * 80}>
-            <TiltCard intensity={6} className="h-full">
+            <Tilt3D intensity={6} className="h-full">
               <article className="surface-card group relative flex h-full flex-col overflow-hidden p-7">
                 <span className="absolute -end-6 -top-6 text-[7rem] leading-none text-china-red/8">
                   <Quote className="h-24 w-24" />
@@ -34,7 +34,7 @@ export default function StoriesGrid({
                 <div className="flex items-center gap-4">
                   <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-white">
                     {story.photo ? (
-                      <MediaImage src={story.photo} alt={story.student_name} />
+                      <MediaFrame src={story.photo} alt={story.student_name} />
                     ) : (
                       <span className="flex h-full w-full items-center justify-center font-[family-name:var(--font-display)] text-2xl font-extrabold">
                         {story.student_name.trim().charAt(0)}
@@ -63,7 +63,7 @@ export default function StoriesGrid({
 
                 <span className="mt-auto block h-1 w-12 rounded-full bg-imperial-gold/70 pt-5 transition-all duration-500 group-hover:w-24" />
               </article>
-            </TiltCard>
+            </Tilt3D>
           </Reveal>
         );
       })}

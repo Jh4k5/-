@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, CalendarDays } from "lucide-react";
-import MediaImage from "@/components/ui/MediaImage";
-import TiltCard from "@/components/ui/TiltCard";
+import MediaFrame from "@/components/ui/MediaFrame";
+import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { Article } from "@/lib/types";
@@ -21,11 +21,11 @@ export default function ArticleCard({
     pick(article, "excerpt", locale) || plainExcerpt(pick(article, "content", locale), 150);
 
   return (
-    <TiltCard intensity={5} className="h-full">
+    <Tilt3D intensity={5} className="h-full">
       <article className="surface-card group flex h-full flex-col overflow-hidden">
         <Link href={`/${locale}/blog/${article.slug}`} className="relative block h-48 overflow-hidden">
           <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
-            <MediaImage src={article.cover_image} alt={pick(article, "title", locale)} />
+            <MediaFrame src={article.cover_image} alt={pick(article, "title", locale)} />
           </div>
           <span className="absolute top-4 rounded-full bg-china-red px-3 py-1 text-[11px] font-bold text-white start-4">
             {dict.blog.categories[article.category] ?? article.category}
@@ -53,6 +53,6 @@ export default function ArticleCard({
           </Link>
         </div>
       </article>
-    </TiltCard>
+    </Tilt3D>
   );
 }

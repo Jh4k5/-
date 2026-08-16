@@ -10,6 +10,8 @@ import "@fontsource/tajawal/700.css";
 import "@fontsource-variable/inter";
 import "./globals.css";
 import { defaultLocale, dirOf, isLocale } from "@/i18n/config";
+import { getSettings } from "@/lib/data";
+import { motionIntensity, themeStyle } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: {
@@ -36,8 +38,17 @@ export default async function RootLayout({
   const headerLocale = headerList.get("x-locale");
   const locale = isLocale(headerLocale) ? headerLocale : defaultLocale;
 
+  // Brand colours and motion strength are dashboard-controlled.
+  const settings = await getSettings();
+
   return (
-    <html lang={locale} dir={dirOf(locale)} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={dirOf(locale)}
+      data-motion={motionIntensity(settings)}
+      style={themeStyle(settings)}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen bg-ivory text-charcoal antialiased">{children}</body>
     </html>
   );

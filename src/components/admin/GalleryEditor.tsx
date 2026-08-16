@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Plus, Save, Trash2 } from "lucide-react";
 import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
-import ImageField from "./ImageField";
+import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
 import type { GalleryItem } from "@/lib/types";
 
@@ -96,7 +96,7 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
         <div className="grid gap-5 lg:grid-cols-2">
           {rows.map((row) => (
             <Card key={row.id} className="space-y-5">
-              <ImageField
+              <MediaField
                 value={row.image_url}
                 onChange={(url) => patch(row.id, "image_url", url ?? "")}
               />

@@ -63,6 +63,8 @@ export interface SuccessStory {
 export interface GalleryItem {
   id: string;
   image_url: string;
+  media_type?: "image" | "video" | "scene";
+  poster?: string | null;
   caption_ar: string | null;
   caption_en: string | null;
   caption_ru: string | null;
@@ -73,6 +75,8 @@ export interface GalleryItem {
 export interface DestinationMedia {
   id: string;
   image_url: string;
+  media_type?: "image" | "video" | "scene";
+  poster?: string | null;
   category: DestinationCategory;
   title_ar: string;
   title_en: string | null;
@@ -108,3 +112,83 @@ export interface SettingRow {
 }
 
 export type SettingsMap = Record<string, SettingRow>;
+
+export type MediaType = "image" | "video" | "scene";
+export type ProgramsLanguage = "en" | "zh" | "en_zh";
+
+export interface University {
+  id: string;
+  slug: string;
+  name: string;
+  name_ar: string | null;
+  name_en: string | null;
+  name_ru: string | null;
+  city_ar: string | null;
+  city_en: string | null;
+  city_ru: string | null;
+  logo: string | null;
+  cover_media: string | null;
+  gallery: string[];
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  highlights_ar: string | null;
+  highlights_en: string | null;
+  highlights_ru: string | null;
+  world_rank: number | null;
+  founded_year: number | null;
+  students_count: number | null;
+  international_students: number | null;
+  programs_language: ProgramsLanguage | null;
+  tuition_range: string | null;
+  is_featured: boolean;
+  display_order: number;
+  created_at?: string;
+}
+
+export interface BlurBox {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+export interface Admission {
+  id: string;
+  image_url: string;
+  university_name: string | null;
+  major_ar: string | null;
+  major_en: string | null;
+  major_ru: string | null;
+  year: number | null;
+  blur_enabled: boolean;
+  blur_box: BlurBox;
+  display_order: number;
+  is_visible: boolean;
+  created_at?: string;
+}
+
+export type SectionKey =
+  | "stats"
+  | "admissions"
+  | "universities"
+  | "destinations"
+  | "services"
+  | "why_china"
+  | "stories"
+  | "blog"
+  | "final_cta";
+
+export interface SiteSection {
+  key: SectionKey;
+  is_visible: boolean;
+  display_order: number;
+  title_ar: string | null;
+  title_en: string | null;
+  title_ru: string | null;
+  subtitle_ar: string | null;
+  subtitle_en: string | null;
+  subtitle_ru: string | null;
+}
+
+export type MotionIntensity = "calm" | "balanced" | "cinematic";

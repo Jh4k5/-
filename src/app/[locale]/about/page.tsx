@@ -3,7 +3,7 @@ import { Eye, HeartHandshake, Target } from "lucide-react";
 import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
 import FinalCTA from "@/components/site/FinalCTA";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import SceneArt from "@/components/art/SceneArt";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";

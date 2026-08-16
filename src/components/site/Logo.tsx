@@ -26,9 +26,11 @@ export function LogoMark({ className = "h-11 w-11" }: { className?: string }) {
 export default function Logo({
   locale,
   variant = "dark",
+  logoUrl,
 }: {
   locale: Locale;
   variant?: "dark" | "light";
+  logoUrl?: string;
 }) {
   const dict = getDictionary(locale);
   const titleColor = variant === "light" ? "text-white" : "text-trust-blue";
@@ -36,12 +38,23 @@ export default function Logo({
 
   return (
     <Link href={`/${locale}`} className="group flex items-center gap-3">
-      <LogoMark className="h-11 w-11 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105" />
+      {logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logoUrl}
+          alt={dict.meta.siteName}
+          className="h-11 w-11 object-contain transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105"
+        />
+      ) : (
+        <LogoMark className="h-11 w-11 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105" />
+      )}
       <span className="flex flex-col leading-tight">
-        <span className={`font-[family-name:var(--font-display)] text-lg font-extrabold ${titleColor}`}>
+        <span
+          className={`whitespace-nowrap font-[family-name:var(--font-display)] text-base font-extrabold sm:text-lg ${titleColor}`}
+        >
           {dict.meta.siteName}
         </span>
-        <span className={`text-[11px] tracking-[0.18em] ${subColor}`}>
+        <span className={`whitespace-nowrap text-[10px] tracking-[0.16em] sm:text-[11px] ${subColor}`}>
           {locale === "ar" ? "BRIDGE TO CHINA" : dict.meta.siteNameChinese}
         </span>
       </span>

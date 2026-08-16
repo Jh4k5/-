@@ -3,7 +3,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/components/ui/BrandIcons";
 import PageHero from "@/components/site/PageHero";
 import ContactForm from "@/components/site/ContactForm";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";

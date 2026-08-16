@@ -14,7 +14,7 @@ import {
   StatusNote,
   inputClass,
 } from "./ui";
-import ImageField from "./ImageField";
+import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
 import { slugify } from "@/lib/format";
 import type { Article, ArticleCategory, ArticleStatus } from "@/lib/types";
@@ -211,7 +211,7 @@ export default function ArticleEditor({ article }: { article: Article | null }) 
           </Card>
 
           <Card>
-            <ImageField
+            <MediaField
               label="صورة الغلاف"
               value={draft.cover_image}
               onChange={(url) => set("cover_image", url)}

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CalendarDays, Tag } from "lucide-react";
-import MediaImage from "@/components/ui/MediaImage";
+import MediaFrame from "@/components/ui/MediaFrame";
 import ArticleCard from "@/components/site/ArticleCard";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getArticleBySlug, getArticles } from "@/lib/data";
@@ -56,7 +56,7 @@ export default async function ArticlePage({
       <section className="relative flex min-h-[24rem] items-end overflow-hidden bg-trust-blue-dark pt-28 pb-12">
         <div className="absolute inset-0">
           <div className="ken-burns h-full w-full">
-            <MediaImage src={article.cover_image} alt={pick(article, "title", locale)} priority />
+            <MediaFrame src={article.cover_image} alt={pick(article, "title", locale)} priority />
           </div>
         </div>
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(27,58,107,0.85)_0%,rgba(9,20,40,0.95)_100%)]" />

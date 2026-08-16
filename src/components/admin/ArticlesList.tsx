@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Eye, EyeOff, Pencil, Plus, Trash2 } from "lucide-react";
 import { AdminHeading, Button, StatusNote } from "./ui";
-import MediaImage from "@/components/ui/MediaImage";
+import MediaFrame from "@/components/ui/MediaFrame";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/format";
 import type { Article } from "@/lib/types";
@@ -81,7 +81,7 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
           {articles.map((article) => (
             <article key={article.id} className="surface-card flex flex-wrap items-center gap-4 p-4">
               <div className="h-16 w-24 shrink-0 overflow-hidden rounded-xl bg-ivory">
-                <MediaImage src={article.cover_image} alt="" />
+                <MediaFrame src={article.cover_image} alt="" />
               </div>
 
               <div className="min-w-48 flex-1">

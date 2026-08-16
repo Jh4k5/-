@@ -15,10 +15,13 @@ export default function Footer({
 }) {
   const dict = getDictionary(locale);
   const year = new Date().getFullYear();
+  const logoUrl = settingValue(settings, "logo_url");
 
   const links = [
     { href: `/${locale}/about`, label: dict.nav.about },
     { href: `/${locale}/services`, label: dict.nav.services },
+    { href: `/${locale}/universities`, label: dict.nav.universities },
+    { href: `/${locale}/admissions`, label: dict.nav.admissions },
     { href: `/${locale}/why-china`, label: dict.nav.whyChina },
     { href: `/${locale}/stories`, label: dict.nav.stories },
     { href: `/${locale}/blog`, label: dict.nav.blog },
@@ -48,7 +51,12 @@ export default function Footer({
       <div className="container-page relative grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <div className="flex items-center gap-3">
-            <LogoMark className="h-12 w-12" />
+            {logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logoUrl} alt={dict.meta.siteName} className="h-12 w-12 object-contain" />
+            ) : (
+              <LogoMark className="h-12 w-12" />
+            )}
             <div>
               <p className="font-[family-name:var(--font-display)] text-xl font-extrabold">
                 {dict.meta.siteName}

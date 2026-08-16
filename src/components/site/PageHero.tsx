@@ -16,7 +16,8 @@ export default function PageHero({
           <SceneArt scene={scene} className="h-full w-full object-cover" />
         </div>
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(200,16,46,0.6)_0%,rgba(27,58,107,0.9)_60%,rgba(9,20,40,0.95)_100%)]" />
+      <div className="animated-gradient absolute inset-0 bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-china-red)_52%,transparent)_0%,color-mix(in_srgb,var(--color-trust-blue-dark)_86%,transparent)_58%,rgba(4,10,24,0.92)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,transparent_0%,transparent_42%,rgba(4,10,24,0.5)_100%)]" />
 
       <div className="container-page relative">
         <h1 className="text-[clamp(2rem,5vw,3.4rem)] font-extrabold text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]">

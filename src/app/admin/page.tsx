@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, Inbox, Map, Star } from "lucide-react";
+import { BadgeCheck, FileText, Inbox, School } from "lucide-react";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/format";
 import type { Lead } from "@/lib/types";
@@ -15,7 +15,7 @@ const LEAD_STATUS_LABEL: Record<string, string> = {
 export default async function AdminDashboard() {
   const supabase = await createServerSupabase();
 
-  const [newLeads, allLeads, articles, published, stories, destinations, latest] =
+  const [newLeads, allLeads, articles, published, admissions, universities, latest] =
     await Promise.all([
       supabase.from("leads").select("id", { count: "exact", head: true }).eq("status", "new"),
       supabase.from("leads").select("id", { count: "exact", head: true }),
@@ -24,8 +24,8 @@ export default async function AdminDashboard() {
         .from("articles")
         .select("id", { count: "exact", head: true })
         .eq("status", "published"),
-      supabase.from("success_stories").select("id", { count: "exact", head: true }),
-      supabase.from("destination_media").select("id", { count: "exact", head: true }),
+      supabase.from("admissions").select("id", { count: "exact", head: true }),
+      supabase.from("universities").select("id", { count: "exact", head: true }),
       supabase
         .from("leads")
         .select("*")
@@ -51,19 +51,19 @@ export default async function AdminDashboard() {
       accent: "from-trust-blue to-trust-blue-light",
     },
     {
-      label: "قصص النجاح",
-      value: stories.count ?? 0,
-      hint: "تُعرض في الصفحة الرئيسية",
-      href: "/admin/stories",
-      Icon: Star,
+      label: "نماذج القبولات",
+      value: admissions.count ?? 0,
+      hint: "شريط القبولات في الرئيسية",
+      href: "/admin/admissions",
+      Icon: BadgeCheck,
       accent: "from-imperial-gold to-[#b8952c]",
     },
     {
-      label: "صور الوجهات",
-      value: destinations.count ?? 0,
-      hint: "مدن وحرم جامعي وخلفيات",
-      href: "/admin/destinations",
-      Icon: Map,
+      label: "الجامعات",
+      value: universities.count ?? 0,
+      hint: "بطاقات وصفحات الجامعات",
+      href: "/admin/universities",
+      Icon: School,
       accent: "from-jade to-[#007954]",
     },
   ];
@@ -107,48 +107,35 @@ export default async function AdminDashboard() {
             لا توجد طلبات بعد. ستظهر هنا فور إرسال أول نموذج تواصل.
           </p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[46rem] text-sm">
-              <thead className="bg-ivory text-xs uppercase text-charcoal/50">
-                <tr>
-                  <th className="px-6 py-3 text-start">الاسم</th>
-                  <th className="px-6 py-3 text-start">الدولة</th>
-                  <th className="px-6 py-3 text-start">الهاتف</th>
-                  <th className="px-6 py-3 text-start">اللغة</th>
-                  <th className="px-6 py-3 text-start">الحالة</th>
-                  <th className="px-6 py-3 text-start">التاريخ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recent.map((lead) => (
-                  <tr key={lead.id} className="border-t border-trust-blue/6">
-                    <td className="px-6 py-3 font-bold text-trust-blue">{lead.full_name}</td>
-                    <td className="px-6 py-3">{lead.country}</td>
-                    <td className="px-6 py-3" dir="ltr">
-                      {lead.phone}
-                    </td>
-                    <td className="px-6 py-3 uppercase">{lead.language}</td>
-                    <td className="px-6 py-3">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-bold ${
-                          lead.status === "new"
-                            ? "bg-china-red/10 text-china-red"
-                            : lead.status === "contacted"
-                              ? "bg-imperial-gold/20 text-[#8a6d12]"
-                              : "bg-jade/10 text-jade"
-                        }`}
-                      >
-                        {LEAD_STATUS_LABEL[lead.status] ?? lead.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-3 text-charcoal/60">
-                      {formatDate(lead.created_at, "ar")}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ul className="divide-y divide-trust-blue/6">
+            {recent.map((lead) => (
+              <li key={lead.id} className="flex flex-wrap items-center gap-3 px-5 py-4 sm:px-6">
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-bold text-trust-blue">{lead.full_name}</span>
+                  <span className="block truncate text-xs text-charcoal/55">
+                    {lead.country} · <span dir="ltr">{lead.phone}</span> ·{" "}
+                    {lead.language.toUpperCase()}
+                  </span>
+                </span>
+
+                <span className="shrink-0 text-xs text-charcoal/55">
+                  {formatDate(lead.created_at, "ar")}
+                </span>
+
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${
+                    lead.status === "new"
+                      ? "bg-china-red/10 text-china-red"
+                      : lead.status === "contacted"
+                        ? "bg-imperial-gold/20 text-[#8a6d12]"
+                        : "bg-jade/10 text-jade"
+                  }`}
+                >
+                  {LEAD_STATUS_LABEL[lead.status] ?? lead.status}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>

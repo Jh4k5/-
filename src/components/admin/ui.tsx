@@ -22,8 +22,8 @@ export function AdminHeading({
 }) {
   return (
     <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="text-3xl font-extrabold text-trust-blue">{title}</h1>
+      <div className="min-w-0 flex-1">
+        <h1 className="text-2xl font-extrabold text-trust-blue sm:text-3xl">{title}</h1>
         {subtitle && <p className="mt-1.5 text-sm text-charcoal/60">{subtitle}</p>}
       </div>
       {action}
@@ -79,7 +79,7 @@ export function Button({
     <button
       {...props}
       disabled={props.disabled || loading}
-      className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 ${styles} ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 ${styles} ${className}`}
     >
       {loading && <Loader2 className="h-4 w-4 animate-spin" />}
       {children}

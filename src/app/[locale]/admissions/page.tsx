@@ -1,0 +1,62 @@
+import type { Metadata } from "next";
+import PageHero from "@/components/site/PageHero";
+import AdmissionsStrip from "@/components/site/AdmissionsStrip";
+import AdmissionsGrid from "@/components/site/AdmissionsGrid";
+import FinalCTA from "@/components/site/FinalCTA";
+import { getDictionary } from "@/i18n";
+import { isLocale, type Locale } from "@/i18n/config";
+import { getAdmissions, getSettings } from "@/lib/data";
+import { whatsappLink } from "@/lib/settings-helpers";
+
+export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = getDictionary(isLocale(locale) ? locale : "ar");
+  return { title: dict.admissions.title, description: dict.admissions.subtitle };
+}
+
+export default async function AdmissionsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  const [admissions, settings] = await Promise.all([getAdmissions(), getSettings()]);
+
+  return (
+    <>
+      <PageHero
+        title={dict.admissions.title}
+        subtitle={dict.admissions.subtitle}
+        scene="night-bridge"
+      />
+
+      {admissions.length > 0 ? (
+        <>
+          <AdmissionsStrip
+            items={admissions.slice(0, 10)}
+            locale={locale}
+            dict={dict}
+            showAllLink={false}
+          />
+          <section className="container-page py-16">
+            <AdmissionsGrid items={admissions} locale={locale} dict={dict} />
+          </section>
+        </>
+      ) : (
+        <section className="container-page py-24 text-center text-charcoal/60">
+          {dict.admissions.empty}
+        </section>
+      )}
+
+      <FinalCTA locale={locale} dict={dict} whatsapp={whatsappLink(settings, dict.meta.tagline)} />
+    </>
+  );
+}

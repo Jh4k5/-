@@ -2,7 +2,9 @@ import type {
   DestinationMedia,
   Service,
   SettingRow,
+  SiteSection,
   SuccessStory,
+  University,
 } from "./types";
 
 /**
@@ -292,4 +294,114 @@ export const UNIVERSITY_NAMES = [
   "Nanjing University",
   "Harbin Institute of Technology",
   "Beijing Normal University",
+];
+
+/** Home page sections in their default order — also the offline fallback. */
+export const DEFAULT_SECTIONS: SiteSection[] = [
+  { key: "stats", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "admissions", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "universities", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "destinations", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "services", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "why_china", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stories", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "blog", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "final_cta", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+];
+
+/** Offline fallback for the universities showcase. */
+export const SEED_UNIVERSITIES: University[] = [
+  {
+    id: "u-1",
+    slug: "tsinghua-university",
+    name: "Tsinghua University",
+    name_ar: "جامعة تسينغهوا",
+    name_en: "Tsinghua University",
+    name_ru: "Университет Цинхуа",
+    city_ar: "بكين",
+    city_en: "Beijing",
+    city_ru: "Пекин",
+    logo: null,
+    cover_media: "scene:campus-library",
+    gallery: ["scene:campus-gate", "scene:campus-quad", "scene:beijing"],
+    description_ar:
+      "من أعرق الجامعات الصينية وأكثرها تقدماً في الهندسة وعلوم الحاسب وإدارة الأعمال، وتقع في العاصمة بكين.",
+    description_en:
+      "One of China's most prestigious universities, leading in engineering, computer science and business, located in Beijing.",
+    description_ru:
+      "Один из самых престижных университетов Китая, лидер в инженерии, информатике и бизнесе, расположен в Пекине.",
+    highlights_ar: "ضمن أفضل الجامعات عالمياً في الهندسة\nبرامج بالإنجليزية\nمنح حكومية وجامعية",
+    highlights_en: "Among the world's best in engineering\nEnglish-taught programmes\nGovernment and university scholarships",
+    highlights_ru: "Среди лучших в мире по инженерии\nПрограммы на английском\nГосударственные стипендии",
+    world_rank: 20,
+    founded_year: 1911,
+    students_count: 50000,
+    international_students: 3800,
+    programs_language: "en_zh",
+    tuition_range: "20,000 – 40,000 CNY",
+    is_featured: true,
+    display_order: 1,
+  },
+  {
+    id: "u-2",
+    slug: "peking-university",
+    name: "Peking University",
+    name_ar: "جامعة بكين",
+    name_en: "Peking University",
+    name_ru: "Пекинский университет",
+    city_ar: "بكين",
+    city_en: "Beijing",
+    city_ru: "Пекин",
+    logo: null,
+    cover_media: "scene:beijing",
+    gallery: ["scene:campus-quad", "scene:campus-gate", "scene:campus-library"],
+    description_ar:
+      "جامعة شاملة وأقدم جامعة حديثة في الصين، قوية في الطب والعلوم الإنسانية والاقتصاد والقانون.",
+    description_en:
+      "A comprehensive university and China's oldest modern institution, strong in medicine, humanities, economics and law.",
+    description_ru:
+      "Классический университет и старейшее современное учебное заведение Китая: медицина, гуманитарные науки, экономика и право.",
+    highlights_ar: "أقدم جامعة حديثة في الصين\nقوة في الطب والعلوم الإنسانية\nمركز لتعليم اللغة الصينية",
+    highlights_en: "China's oldest modern university\nStrength in medicine and humanities\nChinese language centre",
+    highlights_ru: "Старейший современный вуз Китая\nСильная медицина\nЦентр китайского языка",
+    world_rank: 14,
+    founded_year: 1898,
+    students_count: 45000,
+    international_students: 4200,
+    programs_language: "en_zh",
+    tuition_range: "26,000 – 45,000 CNY",
+    is_featured: true,
+    display_order: 2,
+  },
+  {
+    id: "u-3",
+    slug: "zhejiang-university",
+    name: "Zhejiang University",
+    name_ar: "جامعة تشجيانغ",
+    name_en: "Zhejiang University",
+    name_ru: "Чжэцзянский университет",
+    city_ar: "هانغتشو",
+    city_en: "Hangzhou",
+    city_ru: "Ханчжоу",
+    logo: null,
+    cover_media: "scene:hangzhou",
+    gallery: ["scene:campus-library", "scene:hangzhou", "scene:campus-quad"],
+    description_ar:
+      "جامعة بحثية كبرى في مدينة هانغتشو، قريبة من مركز التقنية الصيني وشركات التجارة الإلكترونية.",
+    description_en:
+      "A major research university in Hangzhou, next to China's technology and e-commerce hub.",
+    description_ru:
+      "Крупный исследовательский университет в Ханчжоу, рядом с технологическим центром Китая.",
+    highlights_ar: "من أقوى الجامعات البحثية\nقرب شركات التقنية\nتكاليف معيشة أقل",
+    highlights_en: "Top research university\nClose to technology companies\nLower living costs",
+    highlights_ru: "Ведущий исследовательский вуз\nРядом с IT-компаниями\nНиже расходы на жизнь",
+    world_rank: 44,
+    founded_year: 1897,
+    students_count: 60000,
+    international_students: 3500,
+    programs_language: "en_zh",
+    tuition_range: "20,000 – 36,000 CNY",
+    is_featured: true,
+    display_order: 3,
+  },
 ];

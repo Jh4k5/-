@@ -1,5 +1,5 @@
-import Reveal from "@/components/ui/Reveal";
-import TiltCard from "@/components/ui/TiltCard";
+import Reveal from "@/components/motion/Reveal";
+import Tilt3D from "@/components/motion/Tilt3D";
 import { iconFor } from "@/lib/icons";
 import { pick, type Locale } from "@/i18n/config";
 import type { Service } from "@/lib/types";
@@ -21,7 +21,7 @@ export default function ServicesGrid({
 
         return (
           <Reveal key={service.id} delay={index * 70}>
-            <TiltCard className="group h-full">
+            <Tilt3D className="group h-full">
               <article className="surface-card relative flex h-full flex-col overflow-hidden p-7 transition-shadow duration-500 hover:shadow-[var(--shadow-card)]">
                 <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-china-red via-imperial-gold to-trust-blue opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
@@ -41,7 +41,7 @@ export default function ServicesGrid({
 
                 <span className="mt-5 inline-block h-1 w-12 rounded-full bg-imperial-gold/70 transition-all duration-500 group-hover:w-20" />
               </article>
-            </TiltCard>
+            </Tilt3D>
           </Reveal>
         );
       })}

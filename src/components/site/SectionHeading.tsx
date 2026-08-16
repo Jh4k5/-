@@ -1,4 +1,4 @@
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 
 export default function SectionHeading({
   eyebrow,

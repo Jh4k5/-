@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Trash2 } from "lucide-react";
 import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
-import ImageField from "./ImageField";
+import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
 import type { SuccessStory } from "@/lib/types";
 
@@ -159,7 +159,7 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
                   </div>
 
                   <div className="mt-5">
-                    <ImageField
+                    <MediaField
                       label="صورة الطالب"
                       hint="اختيارية — يظهر الحرف الأول من الاسم إن لم توجد صورة."
                       value={row.photo}

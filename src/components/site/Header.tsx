@@ -13,10 +13,12 @@ export default function Header({
   locale,
   dict,
   whatsapp,
+  logoUrl,
 }: {
   locale: Locale;
   dict: Dictionary;
   whatsapp: string;
+  logoUrl?: string;
 }) {
   const pathname = usePathname() || "";
   const [scrolled, setScrolled] = useState(false);
@@ -37,6 +39,8 @@ export default function Header({
     { href: `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/about`, label: dict.nav.about },
     { href: `/${locale}/services`, label: dict.nav.services },
+    { href: `/${locale}/universities`, label: dict.nav.universities },
+    { href: `/${locale}/admissions`, label: dict.nav.admissions },
     { href: `/${locale}/why-china`, label: dict.nav.whyChina },
     { href: `/${locale}/stories`, label: dict.nav.stories },
     { href: `/${locale}/blog`, label: dict.nav.blog },
@@ -55,10 +59,10 @@ export default function Header({
     >
       <div className="container-page flex h-20 items-center justify-between gap-4">
         <div className={scrolled ? "" : "drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"}>
-          <Logo locale={locale} variant={scrolled ? "dark" : "light"} />
+          <Logo locale={locale} variant={scrolled ? "dark" : "light"} logoUrl={logoUrl} />
         </div>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-0.5 xl:flex">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -88,7 +92,7 @@ export default function Header({
             onClick={() => setOpen((value) => !value)}
             aria-label={open ? dict.nav.close : dict.nav.menu}
             aria-expanded={open}
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors lg:hidden ${
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors xl:hidden ${
               scrolled
                 ? "border-trust-blue/15 bg-white text-trust-blue"
                 : "border-white/25 bg-white/10 text-white"
@@ -100,8 +104,8 @@ export default function Header({
       </div>
 
       <div
-        className={`overflow-hidden bg-ivory/98 backdrop-blur-xl transition-[max-height,opacity] duration-500 lg:hidden ${
-          open ? "max-h-[32rem] opacity-100 shadow-xl" : "max-h-0 opacity-0"
+        className={`overflow-hidden bg-ivory/98 backdrop-blur-xl transition-[max-height,opacity] duration-500 xl:hidden ${
+          open ? "max-h-[40rem] opacity-100 shadow-xl" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="container-page flex flex-col gap-1 py-4">

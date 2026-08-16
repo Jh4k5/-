@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MessageCircle, Send } from "lucide-react";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 

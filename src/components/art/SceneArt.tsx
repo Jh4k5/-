@@ -138,6 +138,61 @@ const SCENES: Record<SceneKey, SceneSpec> = {
   },
 };
 
+function Clouds({ tint, seed }: { tint: string; seed: number }) {
+  const rand = rng(seed + 101);
+  return (
+    <g opacity={0.5}>
+      {Array.from({ length: 4 }).map((_, i) => {
+        const y = 90 + rand() * 320;
+        const scale = 0.7 + rand() * 1.1;
+        return (
+          <g
+            key={i}
+            className="scene-cloud"
+            style={{
+              ["--cloud-duration" as string]: `${(120 + rand() * 130).toFixed(0)}s`,
+              animationDelay: `-${(rand() * 120).toFixed(0)}s`,
+            }}
+          >
+            <g transform={`translate(-300 ${y.toFixed(0)}) scale(${scale.toFixed(2)})`}>
+              <ellipse cx="0" cy="0" rx="120" ry="26" fill={tint} opacity="0.35" />
+              <ellipse cx="70" cy="-14" rx="80" ry="22" fill={tint} opacity="0.28" />
+              <ellipse cx="-70" cy="8" rx="70" ry="18" fill={tint} opacity="0.22" />
+            </g>
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function Lanterns({ color, seed }: { color: string; seed: number }) {
+  const rand = rng(seed + 57);
+  return (
+    <g>
+      {Array.from({ length: 7 }).map((_, i) => {
+        const x = 90 + rand() * 1420;
+        const size = 4 + rand() * 7;
+        return (
+          <circle
+            key={i}
+            className="scene-lantern"
+            cx={x.toFixed(0)}
+            cy={880}
+            r={size.toFixed(1)}
+            fill={color}
+            opacity={0.75}
+            style={{
+              ["--rise-duration" as string]: `${(14 + rand() * 16).toFixed(0)}s`,
+              animationDelay: `-${(rand() * 20).toFixed(0)}s`,
+            }}
+          />
+        );
+      })}
+    </g>
+  );
+}
+
 /** Small deterministic PRNG so every scene keeps a stable skyline. */
 function rng(seed: number) {
   let s = seed * 9301 + 49297;
@@ -214,12 +269,17 @@ function Skyline({
           items.push(
             <rect
               key={`w${i}-${c}-${r}`}
+              className="scene-window"
               x={Math.round(x + 8 + c * (w / cols))}
               y={Math.round(y + 16 + r * (h / rows))}
               width={5}
               height={7}
               fill={windowColor}
               opacity={0.55}
+              style={{
+                ["--twinkle-duration" as string]: `${(3 + rand() * 7).toFixed(1)}s`,
+                animationDelay: `${(rand() * 6).toFixed(1)}s`,
+              }}
             />,
           );
         }
@@ -480,6 +540,12 @@ export default function SceneArt({
         opacity="0.45"
       />
 
+      <Clouds tint={spec.glow} seed={spec.seed} />
+
+      <g className="scene-beam" opacity="0.3">
+        <path d="M1080 250 L860 900 L1300 900 Z" fill={`url(#${uid}-glow)`} />
+      </g>
+
       <Skyline
         color={spec.far}
         seed={spec.seed}
@@ -509,21 +575,25 @@ export default function SceneArt({
       {spec.water ? (
         <>
           <rect x="0" y="748" width="1600" height="152" fill={`url(#${uid}-water)`} />
-          {[770, 796, 822, 850, 876].map((y, i) => (
-            <rect
-              key={y}
-              x={80 * i}
-              y={y}
-              width={1600 - 120 * i}
-              height="3"
-              fill={spec.glow}
-              opacity={0.22 - i * 0.03}
-            />
-          ))}
+          <g className="scene-water">
+            {[770, 796, 822, 850, 876].map((y, i) => (
+              <rect
+                key={y}
+                x={80 * i}
+                y={y}
+                width={1600 - 120 * i}
+                height="3"
+                fill={spec.glow}
+                opacity={0.22 - i * 0.03}
+              />
+            ))}
+          </g>
         </>
       ) : (
         <rect x="0" y="758" width="1600" height="142" fill={spec.near} />
       )}
+
+      <Lanterns color={spec.accent} seed={spec.seed} />
     </svg>
   );
 }

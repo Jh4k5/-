@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import ArticleCard from "./ArticleCard";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { Article, ArticleCategory } from "@/lib/types";

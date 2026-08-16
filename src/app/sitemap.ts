@@ -2,7 +2,17 @@ import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
 import { getArticles } from "@/lib/data";
 
-const PAGES = ["", "/about", "/services", "/why-china", "/stories", "/blog", "/contact"];
+const PAGES = [
+  "",
+  "/about",
+  "/services",
+  "/universities",
+  "/admissions",
+  "/why-china",
+  "/stories",
+  "/blog",
+  "/contact",
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jisr-to-china.vercel.app";

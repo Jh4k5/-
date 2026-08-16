@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Star, Trash2 } from "lucide-react";
 import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
-import ImageField from "./ImageField";
-import MediaImage from "@/components/ui/MediaImage";
+import MediaField from "./MediaField";
+import MediaFrame from "@/components/ui/MediaFrame";
 import { createClient } from "@/lib/supabase/client";
 import type { DestinationCategory, DestinationMedia } from "@/lib/types";
 
@@ -128,7 +128,7 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
                 className="flex w-full items-center gap-4 p-4 text-start"
               >
                 <span className="h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-ivory">
-                  <MediaImage src={row.image_url} alt="" />
+                  <MediaFrame src={row.image_url} alt="" />
                 </span>
                 <span className="flex-1">
                   <span className="block font-extrabold text-trust-blue">
@@ -151,7 +151,7 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
 
               {expanded && (
                 <div className="border-t border-trust-blue/8 p-5">
-                  <ImageField
+                  <MediaField
                     value={row.image_url}
                     onChange={(url) => patch(row.id, "image_url", url ?? "")}
                   />

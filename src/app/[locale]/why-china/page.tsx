@@ -3,8 +3,8 @@ import { CheckCircle2 } from "lucide-react";
 import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
 import FinalCTA from "@/components/site/FinalCTA";
-import Reveal from "@/components/ui/Reveal";
-import MediaImage from "@/components/ui/MediaImage";
+import Reveal from "@/components/motion/Reveal";
+import MediaFrame from "@/components/ui/MediaFrame";
 import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getDestinations, getSettings } from "@/lib/data";
@@ -77,7 +77,7 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
               <Reveal key={item.id} delay={index * 90}>
                 <figure className="group relative h-56 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
-                    <MediaImage src={item.image_url} alt={pick(item, "title", locale)} />
+                    <MediaFrame src={item.image_url} alt={pick(item, "title", locale)} />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 to-transparent" />
                   <figcaption className="absolute inset-x-0 bottom-0 p-5 text-lg font-extrabold text-white">

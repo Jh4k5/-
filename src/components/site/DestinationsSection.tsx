@@ -1,7 +1,7 @@
-import MediaImage from "@/components/ui/MediaImage";
-import Reveal from "@/components/ui/Reveal";
+import MediaFrame from "@/components/ui/MediaFrame";
+import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
-import TiltCard from "@/components/ui/TiltCard";
+import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { DestinationMedia } from "@/lib/types";
@@ -10,10 +10,14 @@ export default function DestinationsSection({
   items,
   locale,
   dict,
+  title,
+  subtitle,
 }: {
   items: DestinationMedia[];
   locale: Locale;
   dict: Dictionary;
+  title?: string;
+  subtitle?: string;
 }) {
   const gallery = items.filter((item) => item.category !== "hero");
   if (gallery.length === 0) return null;
@@ -27,16 +31,16 @@ export default function DestinationsSection({
     <section className="container-page py-24">
       <SectionHeading
         eyebrow={dict.nav.whyChina}
-        title={dict.explore.title}
-        subtitle={dict.explore.subtitle}
+        title={title || dict.explore.title}
+        subtitle={subtitle || dict.explore.subtitle}
       />
 
       <div className="mt-14 grid gap-5 lg:grid-cols-3">
         <Reveal className="lg:col-span-2">
-          <TiltCard intensity={5} className="h-full">
+          <Tilt3D intensity={5} className="h-full">
             <figure className="group relative h-[22rem] overflow-hidden rounded-3xl shadow-[var(--shadow-card)] lg:h-full lg:min-h-[26rem]">
               <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-105">
-                <MediaImage src={lead.image_url} alt={pick(lead, "title", locale)} priority />
+                <MediaFrame src={lead.image_url} alt={pick(lead, "title", locale)} priority />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/90 via-trust-blue-dark/25 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-7">
@@ -48,16 +52,20 @@ export default function DestinationsSection({
                 </p>
               </figcaption>
             </figure>
-          </TiltCard>
+          </Tilt3D>
         </Reveal>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
           {rest.slice(0, 2).map((item, index) => (
             <Reveal key={item.id} delay={(index + 1) * 90}>
-              <TiltCard intensity={7}>
+              <Tilt3D intensity={7}>
                 <figure className="group relative h-52 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
-                    <MediaImage src={item.image_url} alt={pick(item, "title", locale)} />
+                    <MediaFrame
+                      src={item.image_url}
+                      poster={item.poster}
+                      alt={pick(item, "title", locale)}
+                    />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-95" />
                   <figcaption className="absolute inset-x-0 bottom-0 p-5">
@@ -69,7 +77,7 @@ export default function DestinationsSection({
                     </p>
                   </figcaption>
                 </figure>
-              </TiltCard>
+              </Tilt3D>
             </Reveal>
           ))}
         </div>
@@ -79,10 +87,14 @@ export default function DestinationsSection({
         <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {rest.slice(2).map((item, index) => (
             <Reveal key={item.id} delay={index * 80}>
-              <TiltCard intensity={7}>
+              <Tilt3D intensity={7}>
                 <figure className="group relative h-48 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
-                    <MediaImage src={item.image_url} alt={pick(item, "title", locale)} />
+                    <MediaFrame
+                      src={item.image_url}
+                      poster={item.poster}
+                      alt={pick(item, "title", locale)}
+                    />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 via-trust-blue-dark/20 to-transparent" />
                   <figcaption className="absolute inset-x-0 bottom-0 p-5">
@@ -94,7 +106,7 @@ export default function DestinationsSection({
                     </p>
                   </figcaption>
                 </figure>
-              </TiltCard>
+              </Tilt3D>
             </Reveal>
           ))}
         </div>
