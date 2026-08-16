@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { BadgeCheck, Expand } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
-import Lightbox from "@/components/motion/Lightbox";
 import Reveal from "@/components/motion/Reveal";
 import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { Admission } from "@/lib/types";
+
+const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
 function PrivacyMask({ admission }: { admission: Admission }) {
   if (!admission.blur_enabled) return null;

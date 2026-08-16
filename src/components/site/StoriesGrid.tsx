@@ -26,28 +26,45 @@ export default function StoriesGrid({
         return (
           <Reveal key={story.id} delay={index * 80}>
             <Tilt3D intensity={6} className="h-full">
-              <article className="surface-card group relative flex h-full flex-col overflow-hidden p-7">
+              <article className="defer-offscreen surface-card group relative flex h-full flex-col overflow-hidden p-7">
                 <span className="absolute -end-6 -top-6 text-[7rem] leading-none text-china-red/8">
                   <Quote className="h-24 w-24" />
                 </span>
 
                 <div className="flex items-center gap-4">
-                  <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-white">
+                  <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-white ring-2 ring-imperial-gold/40">
                     {story.photo ? (
                       <MediaFrame src={story.photo} alt={story.student_name} />
                     ) : (
-                      <span className="flex h-full w-full items-center justify-center font-[family-name:var(--font-display)] text-2xl font-extrabold">
+                      <span className="flex h-full w-full items-center justify-center font-[family-name:var(--font-display)] text-3xl font-extrabold">
                         {story.student_name.trim().charAt(0)}
                       </span>
                     )}
                   </span>
-                  <div>
-                    <p className="text-lg font-extrabold text-trust-blue" dir="auto">
+                  <div className="min-w-0">
+                    <p className="truncate text-lg font-extrabold text-trust-blue" dir="auto">
                       {story.student_name}
                     </p>
                     <p className="text-[11px] font-bold uppercase tracking-widest text-china-red">
                       {dict.stories.achievement}
                     </p>
+                    {(story.university_name || story.country) && (
+                      <p className="mt-1 flex flex-wrap gap-1.5">
+                        {story.university_name && (
+                          <span
+                            dir="ltr"
+                            className="rounded-full bg-trust-blue/8 px-2 py-0.5 text-[11px] font-semibold text-trust-blue"
+                          >
+                            {story.university_name}
+                          </span>
+                        )}
+                        {story.country && (
+                          <span className="rounded-full bg-imperial-gold/15 px-2 py-0.5 text-[11px] font-semibold text-[#8a6d12]">
+                            {story.country}
+                          </span>
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
 

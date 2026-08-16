@@ -142,6 +142,12 @@ h5 {
   transform-style: preserve-3d;
 }
 
+/** Skip layout/paint for card content once it scrolls off-screen. */
+@utility defer-offscreen {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
 /* --------------------------- motion --------------------------- */
 .reveal {
   opacity: 0;

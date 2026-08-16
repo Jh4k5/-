@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { LOCALE_COOKIE, locales, localeConfig, type Locale } from "@/i18n/config";
 
 export default function LanguageSwitcher({
@@ -15,16 +15,26 @@ export default function LanguageSwitcher({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
-  const switchTo = (next: Locale) => {
-    if (next === locale) return;
+  const targetFor = (next: Locale) => {
     const segments = pathname.split("/");
     segments[1] = next;
-    const target = segments.join("/") || `/${next}`;
+    return segments.join("/") || `/${next}`;
+  };
 
+  // Warm the RSC payload for the other two locales so the switch below feels
+  // instant instead of waiting on a fresh fetch after the click.
+  useEffect(() => {
+    for (const code of locales) {
+      if (code !== locale) router.prefetch(targetFor(code));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale, pathname]);
+
+  const switchTo = (next: Locale) => {
+    if (next === locale) return;
     document.cookie = `${LOCALE_COOKIE}=${next};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
     startTransition(() => {
-      router.push(target);
-      router.refresh();
+      router.push(targetFor(next));
     });
   };
 

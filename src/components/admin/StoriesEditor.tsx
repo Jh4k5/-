@@ -13,6 +13,8 @@ const emptyStory = (order: number): Row => ({
   id: `new-${Date.now()}`,
   student_name: "",
   photo: null,
+  university_name: "",
+  country: "",
   achievement_ar: "",
   achievement_en: "",
   achievement_ru: "",
@@ -44,6 +46,8 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
     const payload = {
       student_name: row.student_name,
       photo: row.photo,
+      university_name: row.university_name || null,
+      country: row.country || null,
       achievement_ar: row.achievement_ar,
       achievement_en: row.achievement_en || null,
       achievement_ru: row.achievement_ru || null,
@@ -154,6 +158,23 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
                         className={inputClass}
                         value={row.display_order}
                         onChange={(event) => patch(row.id, "display_order", event.target.value)}
+                      />
+                    </Field>
+                    <Field label="الجامعة" hint="اختياري، بدون ترجمة">
+                      <input
+                        className={inputClass}
+                        dir="ltr"
+                        value={row.university_name ?? ""}
+                        onChange={(event) => patch(row.id, "university_name", event.target.value)}
+                        placeholder="Tsinghua University"
+                      />
+                    </Field>
+                    <Field label="الدولة" hint="اختياري، بدون ترجمة">
+                      <input
+                        className={inputClass}
+                        value={row.country ?? ""}
+                        onChange={(event) => patch(row.id, "country", event.target.value)}
+                        placeholder="مصر"
                       />
                     </Field>
                   </div>

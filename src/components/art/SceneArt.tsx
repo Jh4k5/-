@@ -491,17 +491,35 @@ function Landmark({ kind, accent, glow }: { kind: Landmark; accent: string; glow
   }
 }
 
+export type SceneDetail = "full" | "lite";
+
+/**
+ * `detail="full"` is the richly-animated painting (clouds, twinkling
+ * windows, rising lanterns, a light beam) — reserved for large, singular
+ * placements: the home hero, page banners, the About page illustration.
+ *
+ * `detail="lite"` (the default) drops every animated sub-element and halves
+ * the building count. It still reads as the same skyline, just static, which
+ * matters because this component is the fallback artwork behind dozens of
+ * small cards at once (destinations, universities, stories, admissions,
+ * article covers, and every empty media slot in the dashboard) — animating
+ * ~90 SVG nodes per card was the single biggest source of the site feeling
+ * heavy on mobile.
+ */
 export default function SceneArt({
   scene,
   className,
   style,
+  detail = "lite",
 }: {
   scene: SceneKey;
   className?: string;
   style?: CSSProperties;
+  detail?: SceneDetail;
 }) {
   const spec = SCENES[scene] ?? SCENES.shanghai;
   const uid = `sc-${scene}`;
+  const full = detail === "full";
 
   return (
     <svg
@@ -540,11 +558,13 @@ export default function SceneArt({
         opacity="0.45"
       />
 
-      <Clouds tint={spec.glow} seed={spec.seed} />
+      {full && <Clouds tint={spec.glow} seed={spec.seed} />}
 
-      <g className="scene-beam" opacity="0.3">
-        <path d="M1080 250 L860 900 L1300 900 Z" fill={`url(#${uid}-glow)`} />
-      </g>
+      {full && (
+        <g className="scene-beam" opacity="0.3">
+          <path d="M1080 250 L860 900 L1300 900 Z" fill={`url(#${uid}-glow)`} />
+        </g>
+      )}
 
       <Skyline
         color={spec.far}
@@ -552,7 +572,7 @@ export default function SceneArt({
         baseline={700}
         minH={110}
         maxH={330}
-        count={14}
+        count={full ? 14 : 8}
         opacity={0.85}
         windows={false}
         windowColor={spec.glow}
@@ -566,16 +586,16 @@ export default function SceneArt({
         baseline={760}
         minH={90}
         maxH={260}
-        count={11}
+        count={full ? 11 : 6}
         opacity={0.98}
-        windows
+        windows={full}
         windowColor={spec.glow}
       />
 
       {spec.water ? (
         <>
           <rect x="0" y="748" width="1600" height="152" fill={`url(#${uid}-water)`} />
-          <g className="scene-water">
+          <g className={full ? "scene-water" : undefined}>
             {[770, 796, 822, 850, 876].map((y, i) => (
               <rect
                 key={y}
@@ -593,7 +613,7 @@ export default function SceneArt({
         <rect x="0" y="758" width="1600" height="142" fill={spec.near} />
       )}
 
-      <Lanterns color={spec.accent} seed={spec.seed} />
+      {full && <Lanterns color={spec.accent} seed={spec.seed} />}
     </svg>
   );
 }

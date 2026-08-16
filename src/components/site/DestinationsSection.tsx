@@ -59,7 +59,7 @@ export default function DestinationsSection({
           {rest.slice(0, 2).map((item, index) => (
             <Reveal key={item.id} delay={(index + 1) * 90}>
               <Tilt3D intensity={7}>
-                <figure className="group relative h-52 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
+                <figure className="defer-offscreen group relative h-52 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
                     <MediaFrame
                       src={item.image_url}
@@ -88,7 +88,7 @@ export default function DestinationsSection({
           {rest.slice(2).map((item, index) => (
             <Reveal key={item.id} delay={index * 80}>
               <Tilt3D intensity={7}>
-                <figure className="group relative h-48 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
+                <figure className="defer-offscreen group relative h-48 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
                     <MediaFrame
                       src={item.image_url}

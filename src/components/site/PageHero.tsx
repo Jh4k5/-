@@ -13,7 +13,7 @@ export default function PageHero({
     <section className="relative flex min-h-[22rem] items-end overflow-hidden bg-trust-blue-dark pt-28 pb-14">
       <div className="absolute inset-0">
         <div className="ken-burns h-full w-full">
-          <SceneArt scene={scene} className="h-full w-full object-cover" />
+          <SceneArt scene={scene} detail="full" className="h-full w-full object-cover" />
         </div>
       </div>
       <div className="animated-gradient absolute inset-0 bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-china-red)_52%,transparent)_0%,color-mix(in_srgb,var(--color-trust-blue-dark)_86%,transparent)_58%,rgba(4,10,24,0.92)_100%)]" />

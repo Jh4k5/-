@@ -1,13 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import Link from "next/link";
+import { CalendarDays, Search, Star } from "lucide-react";
 import ArticleCard from "./ArticleCard";
+import MediaFrame from "@/components/ui/MediaFrame";
 import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { Article, ArticleCategory } from "@/lib/types";
-import { plainExcerpt } from "@/lib/format";
+import { formatDate, plainExcerpt } from "@/lib/format";
 
 const CATEGORIES: ArticleCategory[] = ["about_china", "universities", "student_life", "tips"];
 
@@ -35,6 +37,10 @@ export default function BlogExplorer({
       return haystack.includes(needle);
     });
   }, [articles, category, locale, query]);
+
+  const showFeatured = category === "all" && !query.trim();
+  const featured = showFeatured ? filtered.find((article) => article.is_featured) : undefined;
+  const rest = featured ? filtered.filter((article) => article.id !== featured.id) : filtered;
 
   return (
     <div>
@@ -84,13 +90,49 @@ export default function BlogExplorer({
           {articles.length === 0 ? dict.blog.empty : dict.common.noResults}
         </p>
       ) : (
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((article, index) => (
-            <Reveal key={article.id} delay={index * 60}>
-              <ArticleCard article={article} locale={locale} dict={dict} />
+        <>
+          {featured && (
+            <Reveal className="mt-10">
+              <Link
+                href={`/${locale}/blog/${featured.slug}`}
+                className="group grid overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-imperial-gold/25 md:grid-cols-2"
+              >
+                <div className="relative h-56 overflow-hidden md:h-full">
+                  <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
+                    <MediaFrame src={featured.cover_image} alt={pick(featured, "title", locale)} priority />
+                  </div>
+                  <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg start-4">
+                    <Star className="h-3.5 w-3.5" />
+                    {dict.blog.categories[featured.category] ?? featured.category}
+                  </span>
+                </div>
+                <div className="flex flex-col justify-center p-7 sm:p-9">
+                  <p className="flex items-center gap-1.5 text-xs text-charcoal/55">
+                    <CalendarDays className="h-3.5 w-3.5" />
+                    {formatDate(featured.created_at, locale)}
+                  </p>
+                  <h3 className="mt-3 text-2xl font-extrabold text-trust-blue transition-colors group-hover:text-china-red sm:text-3xl">
+                    {pick(featured, "title", locale)}
+                  </h3>
+                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-charcoal/70">
+                    {pick(featured, "excerpt", locale) || plainExcerpt(pick(featured, "content", locale), 200)}
+                  </p>
+                  <span className="mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-bold text-china-red">
+                    {dict.common.readMore}
+                  </span>
+                </div>
+              </Link>
             </Reveal>
-          ))}
-        </div>
+          )}
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {rest.map((article, index) => (
+              <Reveal key={article.id} delay={index * 60}>
+                <ArticleCard article={article} locale={locale} dict={dict} />
+              </Reveal>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

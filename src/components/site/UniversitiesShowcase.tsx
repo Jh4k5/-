@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, Building2 } from "lucide-react";
-import Coverflow3D from "@/components/motion/Coverflow3D";
+
+const Coverflow3D = dynamic(() => import("@/components/motion/Coverflow3D"));
 import Reveal from "@/components/motion/Reveal";
 import UniversityCard from "./UniversityCard";
 import type { Dictionary } from "@/i18n";

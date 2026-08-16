@@ -13,7 +13,6 @@ import {
   MessageCircle,
   Trophy,
   Users,
-  Wallet,
 } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
 import UniversityGallery from "@/components/site/UniversityGallery";
@@ -94,7 +93,6 @@ export default async function UniversityPage({
         : "",
     },
     { Icon: GraduationCap, label: dict.universities.facts.language, value: languageLabel(university, dict) },
-    { Icon: Wallet, label: dict.universities.facts.tuition, value: university.tuition_range ?? "" },
   ].filter((fact) => fact.value);
 
   const others = all.filter((item) => item.slug !== university.slug).slice(0, 3);

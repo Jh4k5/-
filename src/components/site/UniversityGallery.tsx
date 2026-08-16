@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Expand } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
-import Lightbox from "@/components/motion/Lightbox";
 import Tilt3D from "@/components/motion/Tilt3D";
 import Reveal from "@/components/motion/Reveal";
+
+const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
 /** Campus gallery: tilting thumbnails that open a full-screen viewer. */
 export default function UniversityGallery({

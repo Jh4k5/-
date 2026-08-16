@@ -35,7 +35,7 @@ export default function UniversityCard({
   const description = pick(university, "description", locale);
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-trust-blue/8">
+    <article className="defer-offscreen group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-trust-blue/8">
       <div className={`relative overflow-hidden ${tall ? "h-56" : "h-44"}`}>
         <div className="absolute inset-0 transition-transform duration-[1400ms] group-hover:scale-110">
           <MediaFrame src={university.cover_media} alt={universityName(university, locale)} />
@@ -78,11 +78,6 @@ export default function UniversityCard({
             <span className="inline-flex items-center gap-1 rounded-full bg-trust-blue/8 px-2.5 py-1 text-[11px] font-bold text-trust-blue">
               <Building2 className="h-3 w-3" />
               {university.founded_year}
-            </span>
-          )}
-          {university.tuition_range && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-china-red/10 px-2.5 py-1 text-[11px] font-bold text-china-red" dir="ltr">
-              {university.tuition_range}
             </span>
           )}
         </div>

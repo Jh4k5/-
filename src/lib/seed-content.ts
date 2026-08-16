@@ -1,5 +1,6 @@
 import type {
   DestinationMedia,
+  ProcessStep,
   Service,
   SettingRow,
   SiteSection,
@@ -22,11 +23,11 @@ export const SEED_SERVICES: Service[] = [
     title_en: "University admission",
     title_ru: "Поступление в университет",
     description_ar:
-      "نساعدك في التقديم لبرامج البكالوريوس والماجستير والدكتوراه عبر المنصات الرسمية للجامعات الصينية: اختيار الجامعة المناسبة لملفك، تجهيز المستندات وترجمتها وتوثيقها، متابعة الطلب حتى صدور خطاب القبول.",
+      "نساعدك في التقديم لبرامج البكالوريوس والماجستير والدكتوراه عبر المنصات الرسمية للجامعات الصينية. أغلب برامج الماجستير والدكتوراه (حتى 90%) تمنح منحاً كاملة أو جزئية للطلاب الدوليين، ونتولى عنك تجهيز جميع المستندات وترجمتها وتوثيقها حتى صدور خطاب القبول.",
     description_en:
-      "We help you apply for bachelor's, master's and PhD programmes through the official portals of Chinese universities: choosing the university that fits your profile, preparing, translating and authenticating documents, and following the application until the admission letter is issued.",
+      "We help you apply for bachelor's, master's and PhD programmes through the official portals of Chinese universities. Most master's and PhD programmes (up to 90%) offer full or partial scholarships to international students, and we handle preparing, translating and authenticating every document until your admission letter is issued.",
     description_ru:
-      "Помогаем подать документы на программы бакалавриата, магистратуры и докторантуры через официальные порталы китайских университетов: подбор вуза под ваш профиль, подготовка, перевод и легализация документов, сопровождение до получения письма о зачислении.",
+      "Помогаем подать документы на бакалавриат, магистратуру и докторантуру через официальные порталы китайских вузов. Большинство программ магистратуры и докторантуры (до 90%) предлагают полные или частичные стипендии иностранным студентам, а мы берём на себя подготовку, перевод и легализацию всех документов до получения письма о зачислении.",
   },
   {
     id: "seed-2",
@@ -36,11 +37,11 @@ export const SEED_SERVICES: Service[] = [
     title_en: "Chinese language programmes (HSK)",
     title_ru: "Программы китайского языка (HSK)",
     description_ar:
-      "توجيهك للتسجيل في برامج تعلّم اللغة الصينية داخل الصين أو عن بُعد، وتحديد المستوى المناسب لك، والتخطيط للوصول إلى مستوى HSK المطلوب للقبول في تخصصك.",
+      "لسنا الجهة التي تُدرّس اللغة الصينية، بل نتولى تسجيلك في برنامج سنة أو فصل تحضيري معتمد داخل جامعة صينية لتعلّم اللغة، ونساعدك في اختيار المستوى المناسب والجامعة المضيفة والتخطيط لتحقيق مستوى HSK المطلوب لتخصصك.",
     description_en:
-      "Guidance on enrolling in Chinese language programmes inside China or remotely, assessing your current level, and planning the path to the HSK level required by your target major.",
+      "We are not the language teacher — we register you in an accredited preparatory year or semester at a Chinese university to learn the language, helping you choose the right level, host university and a plan to reach the HSK level your major requires.",
     description_ru:
-      "Помощь в поступлении на программы китайского языка в Китае или онлайн, определение вашего уровня и построение плана до нужного уровня HSK для вашей специальности.",
+      "Мы не преподаём китайский язык сами — мы регистрируем вас на аккредитованный подготовительный год или семестр в китайском университете для изучения языка, помогаем выбрать подходящий уровень, принимающий вуз и построить план до нужного уровня HSK для вашей специальности.",
   },
   {
     id: "seed-3",
@@ -50,11 +51,11 @@ export const SEED_SERVICES: Service[] = [
     title_en: "Scholarships",
     title_ru: "Стипендии",
     description_ar:
-      "شرح واضح لأنواع المنح: المنحة الحكومية الصينية (CSC)، منح المقاطعات، والمنح الجامعية — مع مساعدتك في تجهيز ملف التقديم وخطاب الدوافع وخطة الدراسة ورسائل التوصية.",
+      "هذا هو محور عملنا: أغلب الجامعات الصينية تمنح منحاً جزئية أو كاملة لطلابها الدوليين — منحة حكومية (CSC)، منح المقاطعات، ومنح جامعية داخلية. نساعدك في اختيار المسار الأنسب لملفك وتجهيز ملف تقديم قوي (خطاب الدوافع، خطة الدراسة، رسائل التوصية) لرفع فرصك الحقيقية في الحصول على منحة.",
     description_en:
-      "A clear explanation of scholarship types — the Chinese Government Scholarship (CSC), provincial scholarships and university scholarships — plus help preparing your application file, motivation letter, study plan and recommendation letters.",
+      "This is the heart of what we do: most Chinese universities offer partial or full scholarships to international students — the government scholarship (CSC), provincial scholarships, and internal university scholarships. We help you pick the right track for your profile and build a strong application (motivation letter, study plan, recommendation letters) to maximise your real chances of winning one.",
     description_ru:
-      "Понятное объяснение типов стипендий: государственная стипендия Китая (CSC), провинциальные и университетские стипендии, а также помощь в подготовке пакета документов, мотивационного письма, учебного плана и рекомендаций.",
+      "Это суть нашей работы: большинство китайских университетов предлагают иностранным студентам частичные или полные стипендии — государственную стипендию (CSC), провинциальные и внутренние стипендии вуза. Мы поможем выбрать подходящий путь и подготовить сильную заявку (мотивационное письмо, учебный план, рекомендации), чтобы повысить ваши реальные шансы на стипендию.",
   },
   {
     id: "seed-4",
@@ -64,11 +65,11 @@ export const SEED_SERVICES: Service[] = [
     title_en: "Test preparation",
     title_ru: "Подготовка к экзаменам",
     description_ar:
-      "تدريب مركّز على اختبارات HSK وHSKK واختبارات القبول الجامعي، مع خطة زمنية واقعية ونماذج تدريبية ومتابعة مستواك حتى يوم الاختبار.",
+      "تدريب مركّز على اختبارات اللغة (HSK/HSKK) وأي اختبارات أخرى تطلبها الجامعة أو جهة المنحة، مع خطة زمنية واقعية ونماذج تدريبية ومتابعة مستواك حتى يوم الاختبار.",
     description_en:
-      "Focused training for HSK, HSKK and university entrance exams, with a realistic timeline, practice papers and progress tracking up to exam day.",
+      "Focused training for language exams (HSK/HSKK) and any other test your university or scholarship provider requires, with a realistic timeline, practice papers and progress tracking up to exam day.",
     description_ru:
-      "Целенаправленная подготовка к HSK, HSKK и вступительным экзаменам вузов: реалистичный график, пробные задания и контроль прогресса до дня экзамена.",
+      "Целенаправленная подготовка к языковым экзаменам (HSK/HSKK) и любым другим тестам, которые требует вуз или стипендиальная программа: реалистичный график, пробные задания и контроль прогресса до дня экзамена.",
   },
   {
     id: "seed-5",
@@ -78,11 +79,11 @@ export const SEED_SERVICES: Service[] = [
     title_en: "Interview preparation",
     title_ru: "Подготовка к собеседованиям",
     description_ar:
-      "تجهيزك لمقابلات القبول الجامعي: الأسئلة المتوقعة، طريقة عرض خطتك الدراسية، ولغة الجسد والتقديم أمام لجنة القبول لرفع فرص نجاحك.",
+      "تجهيزك لمقابلات القبول والمنح: الأسئلة المتوقعة، طريقة عرض خطتك الدراسية، بالإضافة إلى مساعدتك في تحضير فيديو تعريفي احترافي عن نفسك يُرفق مع ملف التقديم لرفع فرص نجاحك.",
     description_en:
-      "Getting you ready for admission interviews: expected questions, how to present your study plan, and delivery in front of the admission panel to raise your chances.",
+      "Getting you ready for admission and scholarship interviews: expected questions, how to present your study plan, plus help preparing a professional introduction video to attach to your application and raise your chances.",
     description_ru:
-      "Подготовка к вступительным собеседованиям: ожидаемые вопросы, презентация учебного плана и уверенное выступление перед приёмной комиссией.",
+      "Подготовка к собеседованиям на поступление и стипендию: ожидаемые вопросы, презентация учебного плана, а также помощь в создании профессионального видео-визитки для заявки, повышающей ваши шансы.",
   },
   {
     id: "seed-6",
@@ -218,6 +219,8 @@ export const SEED_STORIES: SuccessStory[] = [
     id: "s-1",
     student_name: "Omar A.",
     photo: null,
+    university_name: "Tsinghua University",
+    country: "Egypt",
     display_order: 1,
     achievement_ar: "قبول + منحة حكومية (CSC) — هندسة ميكانيكية",
     achievement_en: "Admission + CSC government scholarship — Mechanical engineering",
@@ -233,6 +236,8 @@ export const SEED_STORIES: SuccessStory[] = [
     id: "s-2",
     student_name: "Lina M.",
     photo: null,
+    university_name: "Peking University",
+    country: "Jordan",
     display_order: 2,
     achievement_ar: "برنامج لغة صينية ثم بكالوريوس طب",
     achievement_en: "Chinese language programme, then an MBBS bachelor's",
@@ -245,6 +250,8 @@ export const SEED_STORIES: SuccessStory[] = [
     id: "s-3",
     student_name: "Yusuf K.",
     photo: null,
+    university_name: "Zhejiang University",
+    country: "Morocco",
     display_order: 3,
     achievement_ar: "ماجستير علوم حاسب + سكن جامعي مدعوم",
     achievement_en: "Master's in computer science + subsidised campus housing",
@@ -298,15 +305,141 @@ export const UNIVERSITY_NAMES = [
 
 /** Home page sections in their default order — also the offline fallback. */
 export const DEFAULT_SECTIONS: SiteSection[] = [
-  { key: "stats", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "admissions", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "universities", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "destinations", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "services", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "why_china", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "stories", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "blog", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "final_cta", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "process", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stats", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "admissions", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "universities", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "destinations", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "services", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "why_china", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stories", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "blog", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "final_cta", is_visible: true, display_order: 10, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+];
+
+/** Offline fallback for the "how we work" timeline — mirrors the DB seed. */
+export const SEED_PROCESS_STEPS: ProcessStep[] = [
+  {
+    id: "p-1",
+    icon: "headphones",
+    display_order: 1,
+    title_ar: "استشارة مجانية أولى",
+    title_en: "Free initial consultation",
+    title_ru: "Бесплатная первичная консультация",
+    description_ar: "نستمع لرغبتك وتخصصك المفضّل، ونوجّهك مجاناً وبلا التزام نحو المسار الأنسب لملفك قبل أي خطوة أخرى.",
+    description_en: "We listen to your goals and preferred major, and guide you — free of charge and with no obligation — towards the path that fits your profile before any other step.",
+    description_ru: "Мы выслушаем ваши цели и желаемую специальность и бесплатно, без обязательств, подскажем путь, который подходит именно вам.",
+  },
+  {
+    id: "p-2",
+    icon: "file-check",
+    display_order: 2,
+    title_ar: "التسجيل وتوقيع العقد الإلكتروني",
+    title_en: "Registration and e-contract",
+    title_ru: "Регистрация и электронный договор",
+    description_ar: "بعد الاتفاق، نوثّق تعاوننا بعقد إلكتروني مسجّل يحدّد الخدمات والمواعيد بوضوح، ونبدأ رحلتك رسمياً.",
+    description_en: "Once we agree, we formalise our cooperation with a recorded electronic contract that clearly states the services and timeline, and officially begin your journey.",
+    description_ru: "После согласования мы оформляем сотрудничество зафиксированным электронным договором с чёткими услугами и сроками — и официально начинаем ваш путь.",
+  },
+  {
+    id: "p-3",
+    icon: "book-open-check",
+    display_order: 3,
+    title_ar: "تحضير اختبارات اللغة والقبول",
+    title_en: "Language and admission exam prep",
+    title_ru: "Подготовка к языковым и вступительным экзаменам",
+    description_ar: "ندرّبك على اختبارات HSK وأي اختبارات أخرى تطلبها الجامعة أو جهة المنحة، بخطة زمنية واضحة ومتابعة مستمرة.",
+    description_en: "We train you for HSK and any other exams your university or scholarship provider requires, with a clear timeline and ongoing follow-up.",
+    description_ru: "Готовим вас к HSK и любым другим экзаменам, которые требует вуз или стипендия, с чётким графиком и постоянным сопровождением.",
+  },
+  {
+    id: "p-4",
+    icon: "messages-square",
+    display_order: 4,
+    title_ar: "تدريب المقابلة والفيديو التعريفي",
+    title_en: "Interview coaching and intro video",
+    title_ru: "Подготовка к собеседованию и видео-визитка",
+    description_ar: "نؤهّلك لمقابلة القبول أو المنحة، ونساعدك في تجهيز فيديو تعريفي احترافي يعزّز ملفك أمام لجنة القبول.",
+    description_en: "We prepare you for the admission or scholarship interview, and help you produce a professional introduction video that strengthens your file before the committee.",
+    description_ru: "Готовим вас к собеседованию на поступление или стипендию и помогаем создать профессиональное видео-представление для приёмной комиссии.",
+  },
+  {
+    id: "p-5",
+    icon: "briefcase",
+    display_order: 5,
+    title_ar: "تجهيز الملفات باحترافية",
+    title_en: "Professional document preparation",
+    title_ru: "Профессиональная подготовка документов",
+    description_ar: "نراجع ونرتّب جميع مستنداتك (الشهادات، كشوف الدرجات، جواز السفر) ونتولى ترجمتها وتوثيقها بالمعايير المطلوبة.",
+    description_en: "We review and organise every document you need (certificates, transcripts, passport) and handle translation and authentication to the required standard.",
+    description_ru: "Проверяем и упорядочиваем все ваши документы (аттестаты, выписки оценок, паспорт), берём на себя перевод и легализацию по требуемым стандартам.",
+  },
+  {
+    id: "p-6",
+    icon: "building",
+    display_order: 6,
+    title_ar: "التقديم على أكثر من جامعة",
+    title_en: "Applying to multiple universities",
+    title_ru: "Подача документов в несколько университетов",
+    description_ar: "نقدّم ملفك على عدة جامعات صينية تناسب تخصصك وميزانيتك في آنٍ واحد، لرفع فرص قبولك.",
+    description_en: "We submit your file to several Chinese universities that fit your major and budget at the same time, to raise your chances of admission.",
+    description_ru: "Одновременно подаём ваши документы в несколько китайских университетов, подходящих по специальности и бюджету, чтобы повысить шансы на зачисление.",
+  },
+  {
+    id: "p-7",
+    icon: "sparkles",
+    display_order: 7,
+    title_ar: "انتظار نتيجة القبول",
+    title_en: "Awaiting the admission result",
+    title_ru: "Ожидание результата зачисления",
+    description_ar: "نتابع طلبك مباشرة مع الجامعات ونبقيك على اطلاع بكل مستجدّ حتى وصول الرد الرسمي.",
+    description_en: "We follow up directly with the universities and keep you updated on every development until the official reply arrives.",
+    description_ru: "Напрямую отслеживаем ваш статус в университетах и держим вас в курсе всех новостей до официального ответа.",
+  },
+  {
+    id: "p-8",
+    icon: "award",
+    display_order: 8,
+    title_ar: "إجراءات القبول الرسمية",
+    title_en: "Official admission procedures",
+    title_ru: "Оформление официального зачисления",
+    description_ar: "عند وصول القبول، نساعدك في استكمال كل إجراءاته الرسمية وفهم خطواته التالية بوضوح.",
+    description_en: "Once your admission arrives, we help you complete all the official procedures and clearly understand the next steps.",
+    description_ru: "После получения зачисления помогаем оформить все официальные процедуры и понятно объясняем следующие шаги.",
+  },
+  {
+    id: "p-9",
+    icon: "stamp",
+    display_order: 9,
+    title_ar: "تجهيز ملف الفيزا والتقديم عليها",
+    title_en: "Visa document prep and application",
+    title_ru: "Подготовка документов и подача на визу",
+    description_ar: "نساعدك في تجهيز كل مستندات تأشيرة الدراسة الصينية (X1/X2) والتقديم عليها بالطريقة الصحيحة.",
+    description_en: "We help you prepare every document for the Chinese study visa (X1/X2) and apply for it the correct way.",
+    description_ru: "Помогаем подготовить все документы для учебной визы в Китай (X1/X2) и правильно подать заявление.",
+  },
+  {
+    id: "p-10",
+    icon: "plane-landing",
+    display_order: 10,
+    title_ar: "حجز الطيران واستقبالك في المطار",
+    title_en: "Flight booking and airport pickup",
+    title_ru: "Бронирование рейса и встреча в аэропорту",
+    description_ar: "نساعدك في حجز رحلة الطيران، ونستقبلك في مطار مدينتك الصينية عند الوصول إن رغبت بذلك.",
+    description_en: "We help you book your flight, and meet you at the airport of your Chinese city on arrival if you would like.",
+    description_ru: "Помогаем забронировать рейс и, при желании, встречаем вас в аэропорту вашего китайского города по прибытии.",
+  },
+  {
+    id: "p-11",
+    icon: "globe",
+    display_order: 11,
+    title_ar: "إعداد VPN ووسائل الدفع في الصين",
+    title_en: "VPN and payment setup in China",
+    title_ru: "Настройка VPN и способов оплаты в Китае",
+    description_ar: "نساعدك في تجهيز VPN موثوق ووسائل الدفع الإلكترونية المستخدمة في الصين، لتبدأ حياتك اليومية هناك دون تعقيد.",
+    description_en: "We help you set up a reliable VPN and the electronic payment methods used in China, so your daily life there starts without hassle.",
+    description_ru: "Помогаем настроить надёжный VPN и электронные способы оплаты, используемые в Китае, чтобы повседневная жизнь началась без сложностей.",
+  },
 ];
 
 /** Offline fallback for the universities showcase. */

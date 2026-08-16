@@ -29,6 +29,7 @@ export interface Article {
   cover_image: string | null;
   category: ArticleCategory;
   status: ArticleStatus;
+  is_featured: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -46,10 +47,26 @@ export interface Service {
   created_at?: string;
 }
 
+/** Same shape as Service — the admin-editable "how we work" timeline. */
+export interface ProcessStep {
+  id: string;
+  title_ar: string;
+  title_en: string | null;
+  title_ru: string | null;
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  icon: string;
+  display_order: number;
+  created_at?: string;
+}
+
 export interface SuccessStory {
   id: string;
   student_name: string;
   photo: string | null;
+  university_name: string | null;
+  country: string | null;
   achievement_ar: string;
   achievement_en: string | null;
   achievement_ru: string | null;
@@ -169,6 +186,7 @@ export interface Admission {
 }
 
 export type SectionKey =
+  | "process"
   | "stats"
   | "admissions"
   | "universities"

@@ -30,6 +30,7 @@ type Draft = {
   slug: string;
   category: ArticleCategory;
   status: ArticleStatus;
+  is_featured: boolean;
   cover_image: string | null;
   title_ar: string;
   title_en: string;
@@ -51,6 +52,7 @@ export default function ArticleEditor({ article }: { article: Article | null }) 
     slug: article?.slug ?? "",
     category: article?.category ?? "about_china",
     status: article?.status ?? "draft",
+    is_featured: article?.is_featured ?? false,
     cover_image: article?.cover_image ?? null,
     title_ar: article?.title_ar ?? "",
     title_en: article?.title_en ?? "",
@@ -82,6 +84,7 @@ export default function ArticleEditor({ article }: { article: Article | null }) 
       slug,
       category: draft.category,
       status: draft.status,
+      is_featured: draft.is_featured,
       cover_image: draft.cover_image,
       title_ar: draft.title_ar.trim(),
       title_en: draft.title_en.trim() || null,
@@ -207,6 +210,20 @@ export default function ArticleEditor({ article }: { article: Article | null }) 
                 <option value="draft">مسودة</option>
                 <option value="published">منشور</option>
               </select>
+            </Field>
+
+            <Field label="مقال مميّز" hint="يظهر ببطاقة أكبر أعلى شبكة المدونة">
+              <label className="flex h-11 items-center gap-2 rounded-xl border border-trust-blue/12 px-4">
+                <input
+                  type="checkbox"
+                  checked={draft.is_featured}
+                  onChange={(event) => set("is_featured", event.target.checked)}
+                  className="h-4 w-4 accent-[#c8102e]"
+                />
+                <span className="text-sm font-semibold text-trust-blue">
+                  {draft.is_featured ? "مفعّل" : "غير مفعّل"}
+                </span>
+              </label>
             </Field>
           </Card>
 

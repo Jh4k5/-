@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Eye, EyeOff, Pencil, Plus, Trash2 } from "lucide-react";
+import { Eye, EyeOff, Pencil, Plus, Star, Trash2 } from "lucide-react";
 import { AdminHeading, Button, StatusNote } from "./ui";
 import MediaFrame from "@/components/ui/MediaFrame";
 import { createClient } from "@/lib/supabase/client";
@@ -85,7 +85,15 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
               </div>
 
               <div className="min-w-48 flex-1">
-                <p className="font-extrabold text-trust-blue">{article.title_ar}</p>
+                <p className="flex items-center gap-1.5 font-extrabold text-trust-blue">
+                  {article.title_ar}
+                  {article.is_featured && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2 py-0.5 text-[10px] font-bold text-[#8a6d12]">
+                      <Star className="h-3 w-3" />
+                      مميّز
+                    </span>
+                  )}
+                </p>
                 <p className="mt-0.5 text-xs text-charcoal/55">
                   {CATEGORY_LABEL[article.category] ?? article.category} ·{" "}
                   {formatDate(article.created_at, "ar")} · /{article.slug}

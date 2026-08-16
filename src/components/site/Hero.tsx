@@ -100,12 +100,16 @@ export default function Hero({
             }`}
             aria-hidden={i !== index}
           >
-            <div className="ken-burns h-full w-full">
+            <div
+              className="ken-burns h-full w-full"
+              style={{ animationPlayState: i === index ? "running" : "paused" }}
+            >
               <MediaFrame
                 src={slide.image_url}
                 poster={slide.poster}
                 alt={pick(slide, "title", locale)}
                 priority={i === 0}
+                sceneDetail="full"
               />
             </div>
           </div>

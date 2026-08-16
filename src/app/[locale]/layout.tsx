@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
+import HtmlLangSync from "@/components/site/HtmlLangSync";
 import { getDictionary } from "@/i18n";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";
@@ -58,6 +59,7 @@ export default async function LocaleLayout({
 
   return (
     <div className="flex min-h-screen flex-col">
+      <HtmlLangSync locale={locale} />
       <Header
         locale={locale}
         dict={dict}

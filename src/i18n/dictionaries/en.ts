@@ -4,9 +4,9 @@ const en: Dictionary = {
   meta: {
     siteName: "Bridge to China",
     siteNameChinese: "通往中国的桥梁",
-    tagline: "Your trusted office for studying in China",
+    tagline: "Your scholarship and university admission platform for China",
     description:
-      "Bridge to China — an educational consultancy focused exclusively on studying in China: university admission, scholarships, Chinese language and airport pick-up.",
+      "Bridge to China — a platform focused on scholarships and university admission in China: most master's and PhD programmes award full scholarships, with complete document preparation, Chinese-language programme enrolment and airport pick-up.",
   },
   nav: {
     home: "Home",
@@ -41,12 +41,38 @@ const en: Dictionary = {
     scrollHint: "Scroll down",
   },
   hero: {
-    badge: "Educational consulting specialised in China",
+    badge: "Scholarship and university admission platform for China",
     title: "Bridge to China",
     subtitle:
-      "Your trusted office for studying in China — from the first consultation to meeting you at the airport",
+      "Most Chinese universities offer partial or full scholarships — we walk with you from a free first consultation to meeting you at the airport",
     ctaPrimary: "Contact us now",
     ctaSecondary: "Explore our services",
+  },
+  process: {
+    title: "How we work with you",
+    subtitle:
+      "From your first free consultation to settling in China — we walk with you every step, openly and transparently.",
+    trustItems: [
+      {
+        title: "Free first consultation",
+        text: "We discuss your major and the right study direction for you, with no commitment or cost.",
+      },
+      {
+        title: "Verified e-contracts",
+        text: "Every agreement between us is documented electronically and clearly protects your rights from day one.",
+      },
+      {
+        title: "Recorded interviews & follow-up",
+        text: "Interview preparation sessions are recorded so we can review and improve your performance together.",
+      },
+      {
+        title: "Fair pricing for everyone",
+        text: "Professional service at a fair cost that suits everyone, with no surprise fees.",
+      },
+    ],
+    bridgePerk:
+      'Signing up with us also gets you free lifetime access to the "Bridge to Chinese" language-learning platform.',
+    cta: "Book your free consultation now",
   },
   stats: {
     title: "Numbers that build trust",

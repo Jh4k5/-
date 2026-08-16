@@ -9,6 +9,7 @@ import StoriesGrid from "@/components/site/StoriesGrid";
 import ArticleCard from "@/components/site/ArticleCard";
 import AdmissionsStrip from "@/components/site/AdmissionsStrip";
 import UniversitiesShowcase from "@/components/site/UniversitiesShowcase";
+import ProcessSection from "@/components/site/ProcessSection";
 import FinalCTA from "@/components/site/FinalCTA";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
@@ -19,6 +20,7 @@ import {
   getDestinations,
   getFeaturedUniversities,
   getHeroSlides,
+  getProcessSteps,
   getSections,
   getServices,
   getSettings,
@@ -41,6 +43,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const [
     slides,
     services,
+    processSteps,
     destinations,
     stories,
     articles,
@@ -51,6 +54,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   ] = await Promise.all([
     getHeroSlides(),
     getServices(),
+    getProcessSteps(),
     getDestinations(),
     getStories(3),
     getArticles(3),
@@ -68,6 +72,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   const render = (section: SiteSection) => {
     switch (section.key) {
+      case "process":
+        return (
+          <ProcessSection
+            key={section.key}
+            steps={processSteps}
+            locale={locale}
+            dict={dict}
+            title={heading(section, "title", dict.process.title)}
+            subtitle={heading(section, "subtitle", dict.process.subtitle)}
+            whatsapp={whatsapp}
+          />
+        );
+
       case "stats":
         return <StatsBar key={section.key} locale={locale} dict={dict} settings={settings} />;
 

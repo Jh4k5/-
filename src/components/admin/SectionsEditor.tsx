@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import type { SiteSection } from "@/lib/types";
 
 const LABELS: Record<string, { title: string; hint: string }> = {
+  process: { title: "خطوات العمل معنا", hint: "شريط الثقة والخط الزمني لخطوات الرحلة مع الطالب" },
   stats: { title: "شريط الإحصائيات", hint: "الأرقام المتحركة أسفل الواجهة" },
   admissions: { title: "نماذج القبولات", hint: "الشريط المتحرك لصور القبولات" },
   universities: { title: "الجامعات", hint: "العرض ثلاثي الأبعاد للجامعات المميّزة" },

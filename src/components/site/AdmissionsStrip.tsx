@@ -2,16 +2,18 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { BadgeCheck, ShieldCheck } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Marquee from "@/components/motion/Marquee";
-import Lightbox from "@/components/motion/Lightbox";
 import ParticleField from "@/components/motion/ParticleField";
 import Reveal from "@/components/motion/Reveal";
 import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { Admission } from "@/lib/types";
+
+const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
 /** The blur patch that hides the student's name, positioned in image %. */
 function PrivacyMask({ admission }: { admission: Admission }) {

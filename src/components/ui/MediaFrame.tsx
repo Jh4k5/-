@@ -1,9 +1,21 @@
-import SceneArt, { isSceneRef, sceneKeyOf } from "@/components/art/SceneArt";
+import Image from "next/image";
+import SceneArt, { isSceneRef, sceneKeyOf, type SceneDetail } from "@/components/art/SceneArt";
+import { supabaseHost } from "@/lib/supabase/config";
 
 const VIDEO_PATTERN = /\.(mp4|webm|mov|m4v)(\?|$)/i;
 
 export function isVideoSrc(src: string | null | undefined) {
   return typeof src === "string" && VIDEO_PATTERN.test(src);
+}
+
+/** next/image only optimizes hosts listed in next.config.ts's remotePatterns (our Supabase storage). */
+function isOptimizableSrc(src: string) {
+  if (!supabaseHost) return false;
+  try {
+    return new URL(src, "http://placeholder").hostname === supabaseHost;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -18,6 +30,7 @@ export default function MediaFrame({
   priority = false,
   poster,
   fallbackScene = "shanghai",
+  sceneDetail = "lite",
 }: {
   src: string | null | undefined;
   alt: string;
@@ -25,11 +38,14 @@ export default function MediaFrame({
   priority?: boolean;
   poster?: string | null;
   fallbackScene?: string;
+  /** "full" for large singular placements (hero, page banners); "lite" (default) for cards/grids/thumbnails. */
+  sceneDetail?: SceneDetail;
 }) {
   if (!src || isSceneRef(src)) {
     return (
       <SceneArt
         scene={src ? sceneKeyOf(src) : sceneKeyOf(`scene:${fallbackScene}`)}
+        detail={sceneDetail}
         className={`h-full w-full object-cover ${className}`}
       />
     );
@@ -48,6 +64,22 @@ export default function MediaFrame({
         preload={priority ? "auto" : "metadata"}
         aria-label={alt}
       />
+    );
+  }
+
+  if (isOptimizableSrc(src)) {
+    return (
+      <div className={`relative h-full w-full ${className}`}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+          priority={priority}
+          {...(priority ? {} : { loading: "lazy" as const })}
+        />
+      </div>
     );
   }
 
