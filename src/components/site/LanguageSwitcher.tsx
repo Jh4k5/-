@@ -1,0 +1,65 @@
+"use client";
+
+import { usePathname, useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { LOCALE_COOKIE, locales, localeConfig, type Locale } from "@/i18n/config";
+
+export default function LanguageSwitcher({
+  locale,
+  variant = "dark",
+}: {
+  locale: Locale;
+  variant?: "dark" | "light";
+}) {
+  const pathname = usePathname() || `/${locale}`;
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+
+  const switchTo = (next: Locale) => {
+    if (next === locale) return;
+    const segments = pathname.split("/");
+    segments[1] = next;
+    const target = segments.join("/") || `/${next}`;
+
+    document.cookie = `${LOCALE_COOKIE}=${next};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
+    startTransition(() => {
+      router.push(target);
+      router.refresh();
+    });
+  };
+
+  const base =
+    variant === "light"
+      ? "border-white/25 bg-white/10 text-white"
+      : "border-trust-blue/15 bg-white text-trust-blue";
+
+  return (
+    <div
+      className={`flex items-center gap-0.5 rounded-full border p-1 backdrop-blur ${base} ${pending ? "opacity-70" : ""}`}
+      role="group"
+      aria-label={localeConfig[locale].label}
+    >
+      {locales.map((code) => {
+        const active = code === locale;
+        return (
+          <button
+            key={code}
+            type="button"
+            onClick={() => switchTo(code)}
+            aria-current={active ? "true" : undefined}
+            title={localeConfig[code].nativeLabel}
+            className={`rounded-full px-2.5 py-1 text-xs font-bold tracking-wide transition-all duration-300 ${
+              active
+                ? "bg-china-red text-white shadow-[0_6px_16px_-6px_rgba(200,16,46,0.9)]"
+                : variant === "light"
+                  ? "text-white/75 hover:bg-white/15"
+                  : "text-trust-blue/70 hover:bg-trust-blue/10"
+            }`}
+          >
+            {localeConfig[code].short}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
