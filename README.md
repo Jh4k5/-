@@ -69,3 +69,31 @@ npm run dev
 ## حماية نموذج التواصل
 
 `/api/leads` يتحقق من الحقول ويطبّق حقل خفي (honeypot) وحداً زمنياً (5 طلبات لكل IP كل 10 دقائق) قبل الإدراج.
+
+---
+
+## النشر · Deployment
+
+- **الموقع الحي:** https://jisr-to-china.vercel.app
+- **لوحة التحكم:** https://jisr-to-china.vercel.app/admin/login
+- **المستودع:** https://github.com/Jh4k5/- (فرع `claude/jisr-china-trilingual-platform-wzojbr`)
+
+المشروع منشور على Vercel كمشروع إنتاج باسم `jisr-to-china`. أمر التثبيت في إعدادات المشروع يسحب الشيفرة من هذا المستودع أثناء البناء:
+
+```bash
+curl -fsSL -o repo.tgz https://codeload.github.com/Jh4k5/-/tar.gz/refs/heads/claude/jisr-china-trilingual-platform-wzojbr \
+  && tar xzf repo.tgz --strip-components=1 && rm -f repo.tgz && npm install
+```
+
+> للحصول على نشر تلقائي مع كل commit، اربط حساب GitHub بحساب Vercel من
+> Settings ← Git ثم اربط المشروع بالمستودع مباشرة؛ عندها يمكن حذف أمر التثبيت المخصص أعلاه.
+
+### بيانات الدخول
+
+حساب المدير أُنشئ داخل Supabase Auth، وكلمة المرور تُسلَّم خارج المستودع (لا تُحفظ في الشيفرة).
+لتغييرها أو لإضافة مدير آخر: Supabase Dashboard ← Authentication ← Users، ثم أضف صفاً مقابلاً في جدول `public.users` بالدور `admin`.
+
+### ملاحظات أمنية
+
+- كل الجداول تعمل بـ Row Level Security؛ الكتابة محصورة بحسابات `public.users` ذات الدور `admin`/`editor`.
+- يُنصح بتفعيل **Leaked Password Protection** من Supabase Dashboard ← Authentication ← Policies.
