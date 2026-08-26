@@ -3,6 +3,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/components/ui/BrandIcons";
 import PageHero from "@/components/site/PageHero";
 import ContactFormSwitcher from "@/components/site/ContactFormSwitcher";
+import TrackedWhatsAppLink from "@/components/site/TrackedWhatsAppLink";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -77,15 +78,14 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   {dict.contact.infoText}
                 </p>
 
-                <a
+                <TrackedWhatsAppLink
                   href={whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  locale={locale}
                   className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-jade px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#008a60]"
                 >
                   <MessageCircle className="h-5 w-5" />
                   {dict.finalCta.whatsapp}
-                </a>
+                </TrackedWhatsAppLink>
 
                 <ul className="mt-6 space-y-3.5 text-sm">
                   <li className="flex items-center gap-3">

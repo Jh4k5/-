@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { MessageCircle } from "lucide-react";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 const FOCUSABLE_FORM_TAGS = new Set(["INPUT", "TEXTAREA", "SELECT"]);
 
@@ -33,6 +35,7 @@ export default function WhatsAppFloat({ href, label }: { href: string; label: st
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
+      onClick={() => track(ANALYTICS_EVENTS.whatsappClick)}
       className={`fixed z-50 inline-flex items-center gap-2 rounded-full bg-jade px-4 py-3.5 text-sm font-bold text-white shadow-[0_10px_24px_-12px_rgba(0,161,112,0.7)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#008a60] end-6 ${
         hidden ? "pointer-events-none translate-y-24 opacity-0" : "translate-y-0 opacity-100"
       }`}

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -7,6 +10,8 @@ import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
 import type { ProcessStep, ProcessTrustBadge } from "@/lib/types";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 export default function ProcessSection({
   steps,
@@ -27,6 +32,8 @@ export default function ProcessSection({
   subtitle?: string;
   whatsapp?: string;
 }) {
+  const [expandedStep, setExpandedStep] = useState<string | null>(null);
+
   if (steps.length === 0) return null;
 
   const bridgePerkTitle = settingText(settings, "process_bridge_perk_title", locale, "");
@@ -72,7 +79,16 @@ export default function ProcessSection({
                     <span className="absolute top-0 hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-white shadow-[0_14px_30px_-16px_rgba(27,58,107,0.9)] sm:flex start-0">
                       <Icon className="h-5 w-5" />
                     </span>
-                    <div className="surface-card flex w-full items-start gap-4 p-5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setExpandedStep((current) => (current === step.id ? null : step.id));
+                        track(ANALYTICS_EVENTS.processExpand, locale);
+                      }}
+                      className={`surface-card flex w-full items-start gap-4 p-5 text-start transition-all duration-300 ${
+                        expandedStep === step.id ? "ring-2 ring-china-red/50" : ""
+                      }`}
+                    >
                       <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-trust-blue/10 text-sm font-extrabold text-trust-blue sm:hidden">
                         {index + 1}
                       </span>
@@ -87,7 +103,7 @@ export default function ProcessSection({
                           {pick(step, "description", locale)}
                         </p>
                       </div>
-                    </div>
+                    </button>
                   </li>
                 </Reveal>
               );
@@ -122,6 +138,7 @@ export default function ProcessSection({
                   href={whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
                   className="inline-flex items-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#008a60]"
                 >
                   <MessageCircle className="h-5 w-5" />

@@ -6,6 +6,8 @@ import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 import { COUNTRY_CODES } from "@/lib/country-codes";
 import { settingText, settingValue, type SettingsMapLike } from "@/lib/settings-helpers";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -29,6 +31,14 @@ export default function EligibilityCheckForm({
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [countryCode, setCountryCode] = useState<string>(COUNTRY_CODES[0].code);
   const [wantsScholarship, setWantsScholarship] = useState<"" | "yes" | "no">("");
+  const [started, setStarted] = useState(false);
+
+  const markStarted = () => {
+    if (started) return;
+    setStarted(true);
+    track(ANALYTICS_EVENTS.eligibilityStart, locale);
+    track(ANALYTICS_EVENTS.formStart, locale);
+  };
 
   const title = settingText(settings, "eligibility_title", locale, dict.eligibility.title);
   const subtitle = settingText(settings, "eligibility_subtitle", locale, dict.eligibility.subtitle);
@@ -64,6 +74,7 @@ export default function EligibilityCheckForm({
       setFieldErrors(errors);
       setStatus("error");
       setMessage("");
+      track(ANALYTICS_EVENTS.formError, locale);
       return;
     }
 
@@ -90,14 +101,22 @@ export default function EligibilityCheckForm({
       setWantsScholarship("");
       setStatus("success");
       setMessage(successMessage);
+      track(ANALYTICS_EVENTS.formSubmit, locale);
+      track(ANALYTICS_EVENTS.eligibilityComplete, locale);
     } catch {
       setStatus("error");
       setMessage(dict.eligibility.error);
+      track(ANALYTICS_EVENTS.formError, locale);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="surface-card relative p-7 sm:p-9" noValidate>
+    <form
+      onSubmit={handleSubmit}
+      onFocus={markStarted}
+      className="surface-card relative p-7 sm:p-9"
+      noValidate
+    >
       <h2 className="text-2xl font-extrabold text-trust-blue">{title}</h2>
       <p className="mt-2 text-sm leading-relaxed text-charcoal/65">{subtitle}</p>
       <span className="mt-3 block h-1 w-20 rounded-full bg-gradient-to-r from-china-red to-imperial-gold" />
@@ -314,6 +333,7 @@ export default function EligibilityCheckForm({
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
             className="inline-flex items-center gap-2 rounded-full bg-jade px-8 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#008a60]"
           >
             <MessageCircle className="h-5 w-5" />

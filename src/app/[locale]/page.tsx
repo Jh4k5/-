@@ -12,9 +12,11 @@ import UniversitiesShowcase from "@/components/site/UniversitiesShowcase";
 import ProcessSection from "@/components/site/ProcessSection";
 import FaqSection from "@/components/site/FaqSection";
 import FinalCTA from "@/components/site/FinalCTA";
+import ViewTracker from "@/components/site/ViewTracker";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 import {
   getAdmissions,
   getArticles,
@@ -139,28 +141,30 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       case "services":
         return (
-          <section key={section.key} className="relative overflow-hidden bg-white py-24">
-            <div className="brand-pattern pointer-events-none absolute inset-0 opacity-30" />
-            <div className="container-page relative">
-              <SectionHeading
-                eyebrow={dict.nav.services}
-                title={heading(section, "title", dict.services.title)}
-                subtitle={heading(section, "subtitle", dict.services.subtitle)}
-              />
-              <div className="mt-14">
-                <ServicesGrid services={services.slice(0, 6)} locale={locale} />
+          <ViewTracker key={section.key} event={ANALYTICS_EVENTS.servicesView} locale={locale}>
+            <section className="relative overflow-hidden bg-white py-24">
+              <div className="brand-pattern pointer-events-none absolute inset-0 opacity-30" />
+              <div className="container-page relative">
+                <SectionHeading
+                  eyebrow={dict.nav.services}
+                  title={heading(section, "title", dict.services.title)}
+                  subtitle={heading(section, "subtitle", dict.services.subtitle)}
+                />
+                <div className="mt-14">
+                  <ServicesGrid services={services.slice(0, 6)} locale={locale} />
+                </div>
+                <div className="mt-10 flex justify-center">
+                  <Link
+                    href={`/${locale}/services`}
+                    className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
+                  >
+                    {dict.services.viewAll}
+                    <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                  </Link>
+                </div>
               </div>
-              <div className="mt-10 flex justify-center">
-                <Link
-                  href={`/${locale}/services`}
-                  className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
-                >
-                  {dict.services.viewAll}
-                  <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
-                </Link>
-              </div>
-            </div>
-          </section>
+            </section>
+          </ViewTracker>
         );
 
       case "why_china":

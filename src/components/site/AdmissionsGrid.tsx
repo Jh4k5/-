@@ -10,6 +10,8 @@ import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import { BLUR_LEVEL_PX, resolveBlurLevel } from "@/lib/blur";
 import type { Admission } from "@/lib/types";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
@@ -67,6 +69,7 @@ export default function AdmissionsGrid({
                 onClick={() => {
                   setIndex(i);
                   setOpen(true);
+                  track(ANALYTICS_EVENTS.admissionOpen, locale);
                 }}
                 className="gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start"
               >

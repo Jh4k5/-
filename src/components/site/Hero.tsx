@@ -11,6 +11,8 @@ import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { DestinationMedia, SettingsMap } from "@/lib/types";
 import { settingText } from "@/lib/settings-helpers";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -250,6 +252,7 @@ export default function Hero({
           >
             <Link
               href={`/${locale}/contact`}
+              onClick={() => track(ANALYTICS_EVENTS.heroPrimaryClick, locale)}
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-10px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-0.5"
             >
               {ctaPrimary}
@@ -261,6 +264,7 @@ export default function Hero({
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
               >
                 <MessageCircle className="h-5 w-5" />

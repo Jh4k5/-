@@ -6,6 +6,8 @@ import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 import { COUNTRY_CODES } from "@/lib/country-codes";
 import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -27,6 +29,13 @@ export default function ContactForm({
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [countryCode, setCountryCode] = useState<string>(COUNTRY_CODES[0].code);
   const [consented, setConsented] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  const markStarted = () => {
+    if (started) return;
+    setStarted(true);
+    track(ANALYTICS_EVENTS.formStart, locale);
+  };
 
   const submitLabel = settingText(settings, "contact_submit_label", locale, dict.contact.submit);
   const afterSubmitNote = settingText(settings, "contact_after_submit_note", locale, "");
@@ -59,6 +68,7 @@ export default function ContactForm({
       setFieldErrors(errors);
       setStatus("error");
       setMessage("");
+      track(ANALYTICS_EVENTS.formError, locale);
       return;
     }
 
@@ -79,14 +89,21 @@ export default function ContactForm({
       setConsented(false);
       setStatus("success");
       setMessage(successMessage);
+      track(ANALYTICS_EVENTS.formSubmit, locale);
     } catch {
       setStatus("error");
       setMessage(errorMessage);
+      track(ANALYTICS_EVENTS.formError, locale);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="surface-card relative p-7 sm:p-9" noValidate>
+    <form
+      onSubmit={handleSubmit}
+      onFocus={markStarted}
+      className="surface-card relative p-7 sm:p-9"
+      noValidate
+    >
       <h2 className="text-2xl font-extrabold text-trust-blue">{dict.contact.formTitle}</h2>
       <span className="mt-3 block h-1 w-20 rounded-full bg-gradient-to-r from-china-red to-imperial-gold" />
 

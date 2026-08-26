@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { MessageCircle, Send } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
+import { track } from "@/lib/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 export default function FinalCTA({
   locale,
@@ -59,6 +63,7 @@ export default function FinalCTA({
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
                 className="inline-flex items-center gap-2 rounded-full bg-jade px-8 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#008a60]"
               >
                 <MessageCircle className="h-5 w-5" />

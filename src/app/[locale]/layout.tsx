@@ -5,6 +5,7 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import HtmlLangSync from "@/components/site/HtmlLangSync";
+import ScrollDepthTracker from "@/components/site/ScrollDepthTracker";
 import { getDictionary } from "@/i18n";
 import { isLocale, locales, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";
@@ -62,6 +63,7 @@ export default async function LocaleLayout({
     <MotionConfig reducedMotion="user">
       <div className="flex min-h-screen flex-col">
         <HtmlLangSync locale={locale} />
+        <ScrollDepthTracker locale={locale} />
         <Header
           locale={locale}
           dict={dict}

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   BadgeCheck,
   Banknote,
+  BarChart3,
   FileText,
   GalleryHorizontal,
   Globe2,
@@ -31,6 +32,7 @@ import { createClient } from "@/lib/supabase/client";
 const LINKS = [
   { href: "/admin", label: "لوحة القيادة", Icon: LayoutDashboard, exact: true },
   { href: "/admin/leads", label: "الطلبات الواردة", Icon: Inbox },
+  { href: "/admin/analytics", label: "التحليلات", Icon: BarChart3 },
   { href: "/admin/admissions", label: "نماذج القبولات", Icon: BadgeCheck },
   { href: "/admin/universities", label: "الجامعات", Icon: School },
   { href: "/admin/articles", label: "المقالات", Icon: FileText },
