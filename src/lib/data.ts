@@ -234,7 +234,10 @@ export const getAdmissions = cache(async function getAdmissions(
     if (error || !data) return [];
     return data as Admission[];
   }, []);
-  return typeof limit === "number" ? rows.slice(0, limit) : rows;
+  // A card missing its core facts (university or year) is never shown
+  // publicly — it stays visible only inside the admin as an incomplete entry.
+  const complete = rows.filter((row) => Boolean(row.university_name?.trim()) && Boolean(row.year));
+  return typeof limit === "number" ? complete.slice(0, limit) : complete;
 });
 
 /** Home page sections, ordered and filtered by what the dashboard enables. */

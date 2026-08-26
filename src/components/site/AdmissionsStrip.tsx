@@ -10,14 +10,17 @@ import Reveal from "@/components/motion/Reveal";
 import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
+import { BLUR_LEVEL_PX, resolveBlurLevel } from "@/lib/blur";
 import type { Admission } from "@/lib/types";
 
 const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
 /** The blur patch that hides the student's name, positioned in image %. */
 function PrivacyMask({ admission }: { admission: Admission }) {
-  if (!admission.blur_enabled) return null;
+  const level = resolveBlurLevel(admission);
+  if (level === "none") return null;
   const box = admission.blur_box ?? { x: 6, y: 22, w: 52, h: 12 };
+  const blurPx = BLUR_LEVEL_PX[level];
 
   return (
     <span
@@ -28,8 +31,8 @@ function PrivacyMask({ admission }: { admission: Admission }) {
         top: `${box.y}%`,
         width: `${box.w}%`,
         height: `${box.h}%`,
-        backdropFilter: "blur(9px)",
-        WebkitBackdropFilter: "blur(9px)",
+        backdropFilter: `blur(${blurPx}px)`,
+        WebkitBackdropFilter: `blur(${blurPx}px)`,
       }}
     />
   );
@@ -94,6 +97,7 @@ export default function AdmissionsStrip({
   title,
   subtitle,
   showAllLink = true,
+  disclaimer,
 }: {
   items: Admission[];
   locale: Locale;
@@ -101,6 +105,7 @@ export default function AdmissionsStrip({
   title?: string;
   subtitle?: string;
   showAllLink?: boolean;
+  disclaimer?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
@@ -173,8 +178,11 @@ export default function AdmissionsStrip({
         ))}
       </div>
 
-      <div className="container-page relative mt-10 flex flex-wrap items-center justify-center gap-4">
-        <p className="text-xs text-white/55">{dict.admissions.privacyNote}</p>
+      <div className="container-page relative mt-10 flex flex-col items-center gap-4">
+        <div className="max-w-2xl space-y-1.5 text-center">
+          <p className="text-xs text-white/55">{dict.admissions.privacyNote}</p>
+          {disclaimer && <p className="text-xs text-white/45">{disclaimer}</p>}
+        </div>
         {showAllLink && (
           <Link
             href={`/${locale}/admissions`}
@@ -193,14 +201,20 @@ export default function AdmissionsStrip({
         onClose={() => setOpen(false)}
         caption={
           active && (
-            <span dir="auto">
-              {[
-                active.university_name,
-                pick(active, "major", locale),
-                active.year ? String(active.year) : null,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
+            <span dir="auto" className="block space-y-1">
+              <span className="block">
+                {[
+                  active.university_name,
+                  pick(active, "city", locale) || null,
+                  pick(active, "major", locale),
+                  active.year ? String(active.year) : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </span>
+              {pick(active, "office_role", locale) && (
+                <span className="block text-xs opacity-75">{pick(active, "office_role", locale)}</span>
+              )}
             </span>
           )
         }

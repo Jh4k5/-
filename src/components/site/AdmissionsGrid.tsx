@@ -8,13 +8,16 @@ import Reveal from "@/components/motion/Reveal";
 import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
+import { BLUR_LEVEL_PX, resolveBlurLevel } from "@/lib/blur";
 import type { Admission } from "@/lib/types";
 
 const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
 function PrivacyMask({ admission }: { admission: Admission }) {
-  if (!admission.blur_enabled) return null;
+  const level = resolveBlurLevel(admission);
+  if (level === "none") return null;
   const box = admission.blur_box ?? { x: 6, y: 22, w: 52, h: 12 };
+  const blurPx = BLUR_LEVEL_PX[level];
 
   return (
     <span
@@ -25,8 +28,8 @@ function PrivacyMask({ admission }: { admission: Admission }) {
         top: `${box.y}%`,
         width: `${box.w}%`,
         height: `${box.h}%`,
-        backdropFilter: "blur(9px)",
-        WebkitBackdropFilter: "blur(9px)",
+        backdropFilter: `blur(${blurPx}px)`,
+        WebkitBackdropFilter: `blur(${blurPx}px)`,
       }}
     />
   );
@@ -37,10 +40,12 @@ export default function AdmissionsGrid({
   items,
   locale,
   dict,
+  disclaimer,
 }: {
   items: Admission[];
   locale: Locale;
   dict: Dictionary;
+  disclaimer?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
@@ -95,7 +100,10 @@ export default function AdmissionsGrid({
         ))}
       </div>
 
-      <p className="mt-8 text-center text-xs text-charcoal/50">{dict.admissions.privacyNote}</p>
+      <div className="mt-8 space-y-1.5 text-center">
+        <p className="text-xs text-charcoal/50">{dict.admissions.privacyNote}</p>
+        {disclaimer && <p className="text-xs text-charcoal/40">{disclaimer}</p>}
+      </div>
 
       <Lightbox
         open={open}
@@ -104,14 +112,20 @@ export default function AdmissionsGrid({
         onClose={() => setOpen(false)}
         caption={
           active && (
-            <span dir="auto">
-              {[
-                active.university_name,
-                pick(active, "major", locale),
-                active.year ? String(active.year) : null,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
+            <span dir="auto" className="block space-y-1">
+              <span className="block">
+                {[
+                  active.university_name,
+                  pick(active, "city", locale) || null,
+                  pick(active, "major", locale),
+                  active.year ? String(active.year) : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </span>
+              {pick(active, "office_role", locale) && (
+                <span className="block text-xs opacity-75">{pick(active, "office_role", locale)}</span>
+              )}
             </span>
           )
         }

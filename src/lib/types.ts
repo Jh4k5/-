@@ -4,6 +4,9 @@ export type ArticleStatus = "draft" | "published";
 export type ContentStatus = "draft" | "published";
 export type DestinationCategory = "city" | "campus" | "hero";
 export type Qualification = "high_school" | "bachelor" | "master";
+export type DegreeLevel = "high_school" | "bachelor" | "master" | "phd";
+export type ResultType = "admission" | "scholarship" | "admission_scholarship" | "pre_admission";
+export type BlurLevel = "none" | "light" | "medium" | "heavy";
 export type ChineseLevel = "none" | "beginner" | "hsk1_2" | "hsk3_4" | "hsk5_6";
 export type PreferredContact = "whatsapp" | "email" | "phone";
 export type LeadStatus = "new" | "contacted" | "completed";
@@ -245,10 +248,24 @@ export interface Admission {
   major_en: string | null;
   major_ru: string | null;
   year: number | null;
+  /** Kept for backward compatibility; derived from blur_level on save. */
   blur_enabled: boolean;
   blur_box: BlurBox;
   display_order: number;
   is_visible: boolean;
+  /** Short student name or code — never the full legal name. */
+  student_label?: string | null;
+  city_ar?: string | null;
+  city_en?: string | null;
+  city_ru?: string | null;
+  degree_level?: DegreeLevel | null;
+  result_type?: ResultType | null;
+  office_role_ar?: string | null;
+  office_role_en?: string | null;
+  office_role_ru?: string | null;
+  /** Must be true before a card is ever shown publicly. */
+  student_consent?: boolean;
+  blur_level?: BlurLevel;
   status?: ContentStatus;
   created_at?: string;
   updated_at?: string;

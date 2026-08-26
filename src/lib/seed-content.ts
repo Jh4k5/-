@@ -475,6 +475,18 @@ export const SEED_SETTINGS: SettingRow[] = [
     value_en: "We start preparing your file and applying after a clear agreement on scope and cost.",
     value_ru: "Мы начинаем подготовку документов и подачу после чёткой договорённости об объёме и стоимости.",
   },
+
+  // Disclaimer shown under the admissions section.
+  {
+    key: "admissions_disclaimer",
+    value: null,
+    value_ar:
+      "هذه حالات سابقة وليست ضماناً لنتيجة أي ملف جديد. تختلف القرارات حسب الجامعة والبرنامج والملف وسنة التقديم.",
+    value_en:
+      "These are past cases, not a guarantee of any new application's outcome. Decisions vary by university, programme, profile and application year.",
+    value_ru:
+      "Это прошлые случаи, а не гарантия результата для новой заявки. Решения зависят от университета, программы, профиля и года подачи.",
+  },
 ];
 
 export const UNIVERSITY_NAMES = [

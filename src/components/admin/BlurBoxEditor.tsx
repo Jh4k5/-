@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import MediaFrame from "@/components/ui/MediaFrame";
-import type { BlurBox } from "@/lib/types";
+import { BLUR_LEVEL_PX } from "@/lib/blur";
+import type { BlurBox, BlurLevel } from "@/lib/types";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
@@ -14,14 +15,16 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
 export default function BlurBoxEditor({
   image,
   box,
-  enabled,
+  level,
   onChange,
 }: {
   image: string | null;
   box: BlurBox;
-  enabled: boolean;
+  level: BlurLevel;
   onChange: (box: BlurBox) => void;
 }) {
+  const enabled = level !== "none";
+  const blurPx = BLUR_LEVEL_PX[level];
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [mode, setMode] = useState<"idle" | "move" | "resize">("idle");
   const origin = useRef({ x: 0, y: 0, box });
@@ -87,8 +90,8 @@ export default function BlurBoxEditor({
             top: `${box.y}%`,
             width: `${box.w}%`,
             height: `${box.h}%`,
-            backdropFilter: "blur(9px)",
-            WebkitBackdropFilter: "blur(9px)",
+            backdropFilter: `blur(${blurPx}px)`,
+            WebkitBackdropFilter: `blur(${blurPx}px)`,
           }}
         >
           <span

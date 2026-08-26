@@ -105,6 +105,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             dict={dict}
             title={heading(section, "title", dict.admissions.title)}
             subtitle={heading(section, "subtitle", dict.admissions.subtitle)}
+            disclaimer={settingText(settings, "admissions_disclaimer", locale)}
           />
         );
 

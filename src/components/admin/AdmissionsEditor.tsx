@@ -23,6 +23,27 @@ type Row = Admission & { _new?: boolean };
 
 const DEFAULT_BOX: BlurBox = { x: 6, y: 22, w: 52, h: 12 };
 
+const DEGREE_LABELS: Record<string, string> = {
+  high_school: "ثانوية",
+  bachelor: "بكالوريوس",
+  master: "ماجستير",
+  phd: "دكتوراه",
+};
+
+const RESULT_LABELS: Record<string, string> = {
+  admission: "قبول",
+  scholarship: "منحة",
+  admission_scholarship: "قبول + منحة",
+  pre_admission: "ما قبل القبول",
+};
+
+const BLUR_LABELS: Record<string, string> = {
+  none: "بلا تمويه",
+  light: "خفيف",
+  medium: "متوسط",
+  heavy: "قوي",
+};
+
 const emptyRow = (order: number): Row => ({
   id: `new-${Date.now()}`,
   image_url: "",
@@ -35,6 +56,17 @@ const emptyRow = (order: number): Row => ({
   blur_box: DEFAULT_BOX,
   display_order: order,
   is_visible: true,
+  student_label: "",
+  city_ar: "",
+  city_en: "",
+  city_ru: "",
+  degree_level: null,
+  result_type: null,
+  office_role_ar: "",
+  office_role_en: "",
+  office_role_ru: "",
+  student_consent: false,
+  blur_level: "medium",
   status: "draft",
   _new: true,
 });
@@ -55,7 +87,12 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
       setNote({ type: "error", text: "ارفع صورة القبول أولاً." });
       return;
     }
+    if (row.status === "published" && !row.student_consent) {
+      setNote({ type: "error", text: "لا يمكن النشر بدون موافقة الطالب على النشر." });
+      return;
+    }
 
+    const blurLevel = row.blur_level ?? "medium";
     setBusy(row.id);
     const payload = {
       image_url: row.image_url,
@@ -64,10 +101,21 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
       major_en: row.major_en || null,
       major_ru: row.major_ru || null,
       year: row.year ? Number(row.year) : null,
-      blur_enabled: row.blur_enabled,
+      blur_enabled: blurLevel !== "none",
+      blur_level: blurLevel,
       blur_box: row.blur_box ?? DEFAULT_BOX,
       display_order: Number(row.display_order) || 0,
       is_visible: row.is_visible,
+      student_label: row.student_label || null,
+      city_ar: row.city_ar || null,
+      city_en: row.city_en || null,
+      city_ru: row.city_ru || null,
+      degree_level: row.degree_level || null,
+      result_type: row.result_type || null,
+      office_role_ar: row.office_role_ar || null,
+      office_role_en: row.office_role_en || null,
+      office_role_ru: row.office_role_ru || null,
+      student_consent: row.student_consent ?? false,
       status: row.status ?? "draft",
     };
 
@@ -137,6 +185,7 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
           {rows.map((row) => {
             const expanded = open === row.id;
             const box = row.blur_box ?? DEFAULT_BOX;
+            const incomplete = !row.university_name?.trim() || !row.year;
 
             return (
               <Card key={row.id} className="p-0">
@@ -171,6 +220,11 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                       </span>
                     </span>
 
+                    {incomplete && (
+                      <span className="shrink-0 rounded-full bg-imperial-gold/15 px-2 py-1 text-[10px] font-bold text-imperial-gold-dark">
+                        غير مكتمل — لن يظهر للزوار
+                      </span>
+                    )}
                     {!row.is_visible && (
                       <span className="shrink-0 rounded-full bg-charcoal/8 px-2 py-1 text-[10px] font-bold text-charcoal/55">
                         مخفي
@@ -179,9 +233,14 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                   </button>
                   <StatusToggle
                     status={row.status ?? "published"}
-                    onToggle={() =>
-                      patch(row.id, "status", row.status === "published" ? "draft" : "published")
-                    }
+                    onToggle={() => {
+                      const next = row.status === "published" ? "draft" : "published";
+                      if (next === "published" && !row.student_consent) {
+                        setNote({ type: "error", text: "لا يمكن النشر بدون موافقة الطالب على النشر." });
+                        return;
+                      }
+                      patch(row.id, "status", next);
+                    }}
                   />
                   <button
                     type="button"
@@ -212,28 +271,28 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                         <BlurBoxEditor
                           image={row.image_url}
                           box={box}
-                          enabled={row.blur_enabled}
+                          level={row.blur_level ?? "medium"}
                           onChange={(next) => patch(row.id, "blur_box", next)}
                         />
 
-                        <label className="mt-3 flex min-h-11 items-center gap-2 rounded-xl border border-trust-blue/12 px-4">
-                          <input
-                            type="checkbox"
-                            checked={row.blur_enabled}
-                            onChange={(event) =>
-                              patch(row.id, "blur_enabled", event.target.checked)
-                            }
-                            className="h-4 w-4 accent-[var(--color-china-red)]"
-                          />
-                          <span className="text-sm font-semibold text-trust-blue">
-                            {row.blur_enabled ? "التمويه مفعّل" : "التمويه متوقف"}
-                          </span>
-                        </label>
+                        <Field label="مستوى التمويه" hint="none = بلا تمويه">
+                          <select
+                            className={inputClass}
+                            value={row.blur_level ?? "medium"}
+                            onChange={(event) => patch(row.id, "blur_level", event.target.value)}
+                          >
+                            {Object.entries(BLUR_LABELS).map(([value, label]) => (
+                              <option key={value} value={value}>
+                                {label}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
                       </div>
 
                       <div className="min-w-0 space-y-4">
                         <div className="grid gap-4 sm:grid-cols-2">
-                          <Field label="اسم الجامعة" hint="اختياري">
+                          <Field label="اسم الجامعة" hint="مطلوب لإظهار البطاقة للزوار">
                             <input
                               className={inputClass}
                               value={row.university_name ?? ""}
@@ -243,7 +302,7 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                               placeholder="Tsinghua University"
                             />
                           </Field>
-                          <Field label="سنة القبول" hint="اختياري">
+                          <Field label="سنة القبول" hint="مطلوب لإظهار البطاقة للزوار">
                             <input
                               type="number"
                               className={inputClass}
@@ -252,6 +311,50 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                             />
                           </Field>
                         </div>
+
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <Field label="اسم/رمز الطالب المختصر" hint="اختياري — لا يُعرض علناً إن تُرك فارغاً">
+                            <input
+                              className={inputClass}
+                              value={row.student_label ?? ""}
+                              onChange={(event) => patch(row.id, "student_label", event.target.value)}
+                              placeholder="مثال: الطالب أ."
+                            />
+                          </Field>
+                          <Field label="نوع النتيجة" hint="اختياري">
+                            <select
+                              className={inputClass}
+                              value={row.result_type ?? ""}
+                              onChange={(event) =>
+                                patch(row.id, "result_type", event.target.value || null)
+                              }
+                            >
+                              <option value="">— بدون تحديد —</option>
+                              {Object.entries(RESULT_LABELS).map(([value, label]) => (
+                                <option key={value} value={value}>
+                                  {label}
+                                </option>
+                              ))}
+                            </select>
+                          </Field>
+                        </div>
+
+                        <Field label="الدرجة العلمية" hint="اختياري">
+                          <select
+                            className={inputClass}
+                            value={row.degree_level ?? ""}
+                            onChange={(event) =>
+                              patch(row.id, "degree_level", event.target.value || null)
+                            }
+                          >
+                            <option value="">— بدون تحديد —</option>
+                            {Object.entries(DEGREE_LABELS).map(([value, label]) => (
+                              <option key={value} value={value}>
+                                {label}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
 
                         <LangTabs compact>
                           {(lang) => (
@@ -266,6 +369,50 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                             </Field>
                           )}
                         </LangTabs>
+
+                        <LangTabs compact>
+                          {(lang) => (
+                            <Field label={`المدينة (${lang})`} hint="اختياري">
+                              <input
+                                className={inputClass}
+                                value={(row[`city_${lang}` as const] as string) ?? ""}
+                                onChange={(event) =>
+                                  patch(row.id, `city_${lang}` as keyof Row, event.target.value)
+                                }
+                              />
+                            </Field>
+                          )}
+                        </LangTabs>
+
+                        <LangTabs compact>
+                          {(lang) => (
+                            <Field
+                              label={`وصف دور المكتب (${lang})`}
+                              hint="اختياري — ماذا فعل المكتب في هذه الحالة"
+                            >
+                              <textarea
+                                rows={2}
+                                className={`${inputClass} resize-y`}
+                                value={(row[`office_role_${lang}` as const] as string) ?? ""}
+                                onChange={(event) =>
+                                  patch(row.id, `office_role_${lang}` as keyof Row, event.target.value)
+                                }
+                              />
+                            </Field>
+                          )}
+                        </LangTabs>
+
+                        <label className="flex min-h-11 items-center gap-2 rounded-xl border border-trust-blue/12 px-4">
+                          <input
+                            type="checkbox"
+                            checked={row.student_consent ?? false}
+                            onChange={(event) => patch(row.id, "student_consent", event.target.checked)}
+                            className="h-4 w-4 accent-[var(--color-china-red)]"
+                          />
+                          <span className="text-sm font-semibold text-trust-blue">
+                            الطالب وافق على نشر حالته
+                          </span>
+                        </label>
 
                         <div className="grid gap-4 sm:grid-cols-2">
                           <Field label="ترتيب العرض">

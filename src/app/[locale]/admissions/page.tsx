@@ -6,7 +6,7 @@ import FinalCTA from "@/components/site/FinalCTA";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getAdmissions, getSettings } from "@/lib/data";
-import { whatsappLink } from "@/lib/settings-helpers";
+import { settingText, whatsappLink } from "@/lib/settings-helpers";
 
 export const revalidate = 60;
 
@@ -29,6 +29,7 @@ export default async function AdmissionsPage({
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
   const [admissions, settings] = await Promise.all([getAdmissions(), getSettings()]);
+  const disclaimer = settingText(settings, "admissions_disclaimer", locale);
 
   return (
     <>
@@ -45,9 +46,10 @@ export default async function AdmissionsPage({
             locale={locale}
             dict={dict}
             showAllLink={false}
+            disclaimer={disclaimer}
           />
           <section className="container-page py-16">
-            <AdmissionsGrid items={admissions} locale={locale} dict={dict} />
+            <AdmissionsGrid items={admissions} locale={locale} dict={dict} disclaimer={disclaimer} />
           </section>
         </>
       ) : (
