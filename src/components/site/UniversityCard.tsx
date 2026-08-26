@@ -42,7 +42,7 @@ export default function UniversityCard({
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/90 via-trust-blue-dark/25 to-transparent" />
 
-        {university.world_rank && (
+        {university.world_rank && university.world_rank_source && (
           <span className="absolute top-4 inline-flex items-center gap-1.5 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg end-4">
             <Trophy className="h-3.5 w-3.5" />#{university.world_rank}
           </span>

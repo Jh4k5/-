@@ -181,6 +181,10 @@ export interface University {
   highlights_en: string | null;
   highlights_ru: string | null;
   world_rank: number | null;
+  /** A displayed ranking must cite where it came from — omit the source and the UI hides the number. */
+  world_rank_source?: string | null;
+  world_rank_year?: number | null;
+  world_rank_link?: string | null;
   founded_year: number | null;
   students_count: number | null;
   international_students: number | null;

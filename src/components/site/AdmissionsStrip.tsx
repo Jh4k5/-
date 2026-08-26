@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import { BadgeCheck, ShieldCheck } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Marquee from "@/components/motion/Marquee";
-import ParticleField from "@/components/motion/ParticleField";
 import Reveal from "@/components/motion/Reveal";
 import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
@@ -129,7 +128,6 @@ export default function AdmissionsStrip({
   return (
     <section className="relative overflow-hidden bg-trust-blue-dark py-20 text-white">
       <div className="brand-pattern pointer-events-none absolute inset-0 opacity-40" />
-      <ParticleField density={0.7} />
 
       <div className="container-page relative">
         <Reveal>

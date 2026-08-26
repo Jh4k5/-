@@ -265,9 +265,9 @@ export const SEED_STORIES: SuccessStory[] = [
 ];
 
 export const SEED_SETTINGS: SettingRow[] = [
-  { key: "whatsapp_number", value: "+8613800000000", value_ar: null, value_en: null, value_ru: null },
+  { key: "whatsapp_number", value: "+201102956107", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_email", value: "info@bridgetochina.com", value_ar: null, value_en: null, value_ru: null },
-  { key: "contact_phone", value: "+86 138 0000 0000", value_ar: null, value_en: null, value_ru: null },
+  { key: "contact_phone", value: "+201102956107", value_ar: null, value_en: null, value_ru: null },
   {
     key: "instagram_url",
     value: "https://www.instagram.com/jisrchina/?utm_source=ig_web_button_share_sheet",

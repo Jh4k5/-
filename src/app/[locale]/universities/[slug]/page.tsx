@@ -17,7 +17,6 @@ import {
 import MediaFrame from "@/components/ui/MediaFrame";
 import UniversityGallery from "@/components/site/UniversityGallery";
 import Reveal from "@/components/motion/Reveal";
-import ParticleField from "@/components/motion/ParticleField";
 import { languageLabel, universityCity, universityName } from "@/components/site/UniversityCard";
 import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
@@ -107,7 +106,6 @@ export default async function UniversityPage({
           </div>
         </div>
         <div className="absolute inset-0 bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-china-red)_55%,transparent)_0%,color-mix(in_srgb,var(--color-trust-blue)_92%,transparent)_60%,rgba(6,14,30,0.96)_100%)]" />
-        <ParticleField density={0.7} />
 
         <div className="container-page relative">
           <Link

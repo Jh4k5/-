@@ -37,6 +37,9 @@ const emptyRow = (order: number): Row => ({
   highlights_en: "",
   highlights_ru: "",
   world_rank: null,
+  world_rank_source: "",
+  world_rank_year: null,
+  world_rank_link: "",
   founded_year: null,
   students_count: null,
   international_students: null,
@@ -68,6 +71,10 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
       setNote({ type: "error", text: "الاسم اللاتيني للجامعة مطلوب." });
       return;
     }
+    if (row.world_rank && !row.world_rank_source?.trim()) {
+      setNote({ type: "error", text: "أدخلت ترتيباً عالمياً بلا مصدر — أضف اسم المصدر أو احذف الترتيب." });
+      return;
+    }
 
     setBusy(row.id);
     const payload = {
@@ -89,6 +96,9 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
       highlights_en: row.highlights_en || null,
       highlights_ru: row.highlights_ru || null,
       world_rank: number(row.world_rank),
+      world_rank_source: row.world_rank_source || null,
+      world_rank_year: number(row.world_rank_year),
+      world_rank_link: row.world_rank_link || null,
       founded_year: number(row.founded_year),
       students_count: number(row.students_count),
       international_students: number(row.international_students),
@@ -268,12 +278,39 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
                   </LangTabs>
 
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <Field label="الترتيب العالمي">
+                    <Field
+                      label="الترتيب العالمي"
+                      hint="لن يظهر الرقم في الموقع بلا اسم مصدر — إلزامي إن أدخلت ترتيباً."
+                    >
                       <input
                         type="number"
                         className={inputClass}
                         value={row.world_rank ?? ""}
                         onChange={(event) => patch(row.id, "world_rank", event.target.value)}
+                      />
+                    </Field>
+                    <Field label="مصدر الترتيب" hint="مثال: QS World University Rankings">
+                      <input
+                        className={inputClass}
+                        value={row.world_rank_source ?? ""}
+                        onChange={(event) => patch(row.id, "world_rank_source", event.target.value)}
+                      />
+                    </Field>
+                    <Field label="سنة الترتيب">
+                      <input
+                        type="number"
+                        className={inputClass}
+                        value={row.world_rank_year ?? ""}
+                        onChange={(event) => patch(row.id, "world_rank_year", event.target.value)}
+                      />
+                    </Field>
+                    <Field label="رابط المصدر" hint="اختياري">
+                      <input
+                        dir="ltr"
+                        className={inputClass}
+                        value={row.world_rank_link ?? ""}
+                        onChange={(event) => patch(row.id, "world_rank_link", event.target.value)}
+                        placeholder="https://..."
                       />
                     </Field>
                     <Field label="سنة التأسيس">
