@@ -1,4 +1,5 @@
 import type {
+  CostFactor,
   DestinationMedia,
   Faq,
   ProcessStep,
@@ -515,6 +516,25 @@ export const SEED_SETTINGS: SettingRow[] = [
       "Ваша информация получена. Мы проведём первичный анализ и свяжемся с вами, чтобы объяснить подходящие направления и условия, которые ещё требуют официального подтверждения.",
   },
   { key: "eligibility_whatsapp_status", value: "active", value_ar: null, value_en: null, value_ru: null },
+
+  // Cost-transparency section on /services.
+  {
+    key: "services_cost_title",
+    value: null,
+    value_ar: "كيف تتحدد التكلفة؟",
+    value_en: "How is the cost determined?",
+    value_ru: "Как определяется стоимость?",
+  },
+  {
+    key: "cost_transparency_text",
+    value: null,
+    value_ar:
+      "تختلف التكلفة حسب ملفك والخدمات التي تحتاجها. بعد المقابلة نرسل لك نطاقاً واضحاً وخطة مكتوبة قبل بدء التعاقد، ولا توجد رسوم مخفية خارج ما ينص عليه العقد.",
+    value_en:
+      "The cost varies according to your profile and the services you need. After the interview we send you a clear range and a written plan before the contract begins, with no hidden fees beyond what the contract states.",
+    value_ru:
+      "Стоимость зависит от вашего профиля и необходимых услуг. После собеседования мы присылаем чёткий диапазон и письменный план до начала сотрудничества, без скрытых платежей за пределами того, что указано в контракте.",
+  },
 ];
 
 /** Offline fallback for the FAQ section — mirrors the DB seed. */
@@ -912,6 +932,76 @@ export const SEED_WHY_CHINA_POINTS: WhyChinaPoint[] = [
     description_ar: "خبرة الدراسة في ثاني أكبر اقتصاد بالعالم وإتقان الصينية يفتحان أبواباً في التجارة والصناعة والتقنية.",
     description_en: "Studying in the world's second-largest economy and mastering Chinese opens doors in trade, industry and technology.",
     description_ru: "Учёба во второй экономике мира и владение китайским открывают двери в торговле, промышленности и технологиях.",
+  },
+];
+
+/** Offline fallback for the cost-transparency factors on /services — mirrors the DB seed. */
+export const SEED_COST_FACTORS: CostFactor[] = [
+  {
+    id: "cf-1",
+    icon: "graduation-cap",
+    display_order: 1,
+    title_ar: "المرحلة الدراسية والدرجة العلمية",
+    title_en: "Academic stage and degree",
+    title_ru: "Учебный этап и степень",
+    description_ar: "تختلف التكلفة باختلاف مرحلتك الدراسية (ثانوية، بكالوريوس، ماجستير، دكتوراه) وتعقيد متطلبات كل درجة.",
+    description_en: "Cost varies by your academic stage (high school, bachelor's, master's, PhD) and the complexity of each degree's requirements.",
+    description_ru: "Стоимость зависит от вашего учебного этапа (школа, бакалавриат, магистратура, докторантура) и сложности требований каждой степени.",
+  },
+  {
+    id: "cf-2",
+    icon: "building",
+    display_order: 2,
+    title_ar: "عدد الجامعات والبرامج",
+    title_en: "Number of universities and programmes",
+    title_ru: "Количество университетов и программ",
+    description_ar: "كلما زاد عدد الجامعات أو البرامج التي تتقدّم إليها، زاد حجم العمل المطلوب في التجهيز والمتابعة.",
+    description_en: "The more universities or programmes you apply to, the more work is required in preparation and follow-up.",
+    description_ru: "Чем больше университетов или программ, на которые вы подаёте документы, тем больше объём подготовки и сопровождения.",
+  },
+  {
+    id: "cf-3",
+    icon: "file-check",
+    display_order: 3,
+    title_ar: "نطاق تجهيز الملف والترجمة والتوثيق",
+    title_en: "Scope of file preparation, translation and authentication",
+    title_ru: "Объём подготовки документов, перевода и легализации",
+    description_ar: "تختلف التكلفة حسب عدد المستندات المطلوب ترجمتها وتوثيقها، ومدى تعقيد إجراءات الجهة المستقبلة.",
+    description_en: "Cost depends on how many documents need translation and authentication, and how complex the receiving institution's procedures are.",
+    description_ru: "Стоимость зависит от количества документов, требующих перевода и легализации, и сложности процедур принимающей стороны.",
+  },
+  {
+    id: "cf-4",
+    icon: "messages-square",
+    display_order: 4,
+    title_ar: "المقابلات والاختبارات",
+    title_en: "Interviews and tests",
+    title_ru: "Собеседования и тесты",
+    description_ar: "بعض البرامج تتطلب مقابلات أو اختبارات إضافية، وهذا يضيف وقتاً وجهداً إلى ملفك يُؤخذ بعين الاعتبار عند تحديد التكلفة.",
+    description_en: "Some programmes require additional interviews or tests, which adds time and effort to your file and is factored into the cost.",
+    description_ru: "Некоторые программы требуют дополнительных собеседований или тестов, что увеличивает объём работы над вашим досье и учитывается в стоимости.",
+  },
+  {
+    id: "cf-5",
+    icon: "plane-landing",
+    display_order: 5,
+    title_ar: "خدمات ما بعد القبول",
+    title_en: "Post-admission services",
+    title_ru: "Услуги после зачисления",
+    description_ar: "مساعدتك في خطوات ما بعد صدور القبول، مثل التأشيرة أو الترتيبات الأولى، تُحسب ضمن نطاق الخدمة المتفق عليه.",
+    description_en: "Helping you with the steps after admission is issued, such as the visa or initial arrangements, is counted within the agreed service scope.",
+    description_ru: "Помощь на этапах после получения admission, таких как виза или первые организационные шаги, учитывается в согласованном объёме услуг.",
+  },
+  {
+    id: "cf-6",
+    icon: "shield",
+    display_order: 6,
+    title_ar: "خدمات إضافية حسب العقد",
+    title_en: "Extra services per contract",
+    title_ru: "Дополнительные услуги по контракту",
+    description_ar: "أي خدمة إضافية خارج النطاق الأساسي المتفق عليه تُذكر بوضوح في العقد قبل بدء العمل، ولا توجد رسوم مخفية.",
+    description_en: "Any extra service outside the agreed core scope is clearly stated in the contract before work begins — there are no hidden fees.",
+    description_ru: "Любая дополнительная услуга вне согласованного базового объёма чётко прописывается в контракте до начала работы — скрытых платежей нет.",
   },
 ];
 

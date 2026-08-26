@@ -289,6 +289,22 @@ export type SectionKey =
   | "faq"
   | "final_cta";
 
+/** Same shape as WhyChinaPoint — the six cost-transparency factors shown on /services. */
+export interface CostFactor {
+  id: string;
+  title_ar: string;
+  title_en: string | null;
+  title_ru: string | null;
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  icon: string;
+  display_order: number;
+  status?: ContentStatus;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface Faq {
   id: string;
   question_ar: string;

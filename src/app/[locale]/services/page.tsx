@@ -6,8 +6,9 @@ import ServicesGrid from "@/components/site/ServicesGrid";
 import Reveal from "@/components/motion/Reveal";
 import FinalCTA from "@/components/site/FinalCTA";
 import { getDictionary } from "@/i18n";
-import { isLocale, type Locale } from "@/i18n/config";
-import { getServices, getSettings } from "@/lib/data";
+import { isLocale, pick, type Locale } from "@/i18n/config";
+import { getCostFactors, getServices, getSettings } from "@/lib/data";
+import { iconFor } from "@/lib/icons";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
 
 export const revalidate = 60;
@@ -26,7 +27,11 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
-  const [services, settings] = await Promise.all([getServices(), getSettings()]);
+  const [services, settings, costFactors] = await Promise.all([
+    getServices(),
+    getSettings(),
+    getCostFactors(),
+  ]);
 
   const afterInterviewTitle = settingText(
     settings,
@@ -61,6 +66,14 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     ),
   ];
 
+  const costTitle = settingText(settings, "services_cost_title", locale, "كيف تتحدد التكلفة؟");
+  const costText = settingText(
+    settings,
+    "cost_transparency_text",
+    locale,
+    "تختلف التكلفة حسب ملفك والخدمات التي تحتاجها. بعد المقابلة نرسل لك نطاقاً واضحاً وخطة مكتوبة قبل بدء التعاقد، ولا توجد رسوم مخفية خارج ما ينص عليه العقد.",
+  );
+
   return (
     <>
       <PageHero title={dict.services.title} subtitle={dict.services.subtitle} scene="campus-library" />
@@ -92,6 +105,30 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
           </div>
         </div>
       </section>
+
+      {costFactors.length > 0 && (
+        <section className="container-page py-20">
+          <SectionHeading eyebrow={dict.nav.services} title={costTitle} subtitle={costText} />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {costFactors.map((factor, index) => {
+              const Icon = iconFor(factor.icon);
+              return (
+                <Reveal key={factor.id} delay={index * 70}>
+                  <div className="surface-card h-full p-6">
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <p className="mt-4 font-extrabold text-trust-blue">{pick(factor, "title", locale)}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
+                      {pick(factor, "description", locale)}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <FinalCTA locale={locale} dict={dict} whatsapp={whatsappLink(settings, dict.meta.tagline)} />
     </>

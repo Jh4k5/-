@@ -2,6 +2,7 @@ import { cache } from "react";
 import { createPublicSupabase } from "./supabase/server";
 import {
   DEFAULT_SECTIONS,
+  SEED_COST_FACTORS,
   SEED_DESTINATIONS,
   SEED_FAQS,
   SEED_PROCESS_STEPS,
@@ -15,6 +16,7 @@ import {
 import type {
   Admission,
   Article,
+  CostFactor,
   DestinationMedia,
   Faq,
   GalleryItem,
@@ -82,6 +84,18 @@ export const getWhyChinaPoints = cache(async function getWhyChinaPoints(): Promi
     if (error || !data || data.length === 0) return SEED_WHY_CHINA_POINTS;
     return data as WhyChinaPoint[];
   }, SEED_WHY_CHINA_POINTS);
+});
+
+export const getCostFactors = cache(async function getCostFactors(): Promise<CostFactor[]> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("cost_factors")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_COST_FACTORS;
+    return data as CostFactor[];
+  }, SEED_COST_FACTORS);
 });
 
 export const getFaqs = cache(async function getFaqs(): Promise<Faq[]> {

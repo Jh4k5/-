@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   BadgeCheck,
+  Banknote,
   FileText,
   GalleryHorizontal,
   Globe2,
@@ -34,6 +35,7 @@ const LINKS = [
   { href: "/admin/universities", label: "الجامعات", Icon: School },
   { href: "/admin/articles", label: "المقالات", Icon: FileText },
   { href: "/admin/services", label: "الخدمات", Icon: Sparkles },
+  { href: "/admin/cost-factors", label: "عوامل التكلفة", Icon: Banknote },
   { href: "/admin/process", label: "خطوات العمل معنا", Icon: ListChecks },
   { href: "/admin/why-china", label: "لماذا الصين؟", Icon: Globe2 },
   { href: "/admin/stories", label: "قصص النجاح", Icon: Star },
