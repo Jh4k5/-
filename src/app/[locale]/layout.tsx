@@ -23,24 +23,15 @@ export async function generateMetadata({
   const { locale } = await params;
   const dict = getDictionary(isLocale(locale) ? locale : "ar");
 
+  // Only the title template lives here — canonical, hreflang and OG are set
+  // per-page (via buildMetadata) so they reflect the actual current path
+  // instead of always pointing at the locale root.
   return {
     title: {
       default: `${dict.meta.siteName} — ${dict.meta.tagline}`,
       template: `%s | ${dict.meta.siteName}`,
     },
     description: dict.meta.description,
-    alternates: {
-      languages: {
-        ar: "/ar",
-        en: "/en",
-        ru: "/ru",
-      },
-    },
-    openGraph: {
-      title: `${dict.meta.siteName} — ${dict.meta.tagline}`,
-      description: dict.meta.description,
-      type: "website",
-    },
   };
 }
 

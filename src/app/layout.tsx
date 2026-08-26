@@ -10,8 +10,15 @@ import "@fontsource/tajawal/700.css";
 import "@fontsource-variable/inter";
 import "./globals.css";
 import { defaultLocale, dirOf, isLocale } from "@/i18n/config";
+import { getDictionary } from "@/i18n";
 import { getSettings } from "@/lib/data";
 import { motionIntensity, themeStyle } from "@/lib/theme";
+import { settingValue } from "@/lib/settings-helpers";
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://jisr-to-china.vercel.app").replace(
+  /\/$/,
+  "",
+);
 
 export const metadata: Metadata = {
   title: {
@@ -40,6 +47,32 @@ export default async function RootLayout({
 
   // Brand colours and motion strength are dashboard-controlled.
   const settings = await getSettings();
+  const dict = getDictionary(locale);
+
+  const logo = settingValue(settings, "logo_url");
+  const phone = settingValue(settings, "contact_phone");
+  const socialLinks = [
+    ["facebook_url", "facebook_status"],
+    ["instagram_url", "instagram_status"],
+    ["youtube_url", "youtube_status"],
+    ["tiktok_url", "tiktok_status"],
+  ]
+    .map(([urlKey, statusKey]) => ({
+      url: settingValue(settings, urlKey),
+      active: settingValue(settings, statusKey, "hidden") === "active",
+    }))
+    .filter((item) => item.active && item.url)
+    .map((item) => item.url);
+
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    name: dict.meta.siteName,
+    url: SITE_URL,
+    ...(logo ? { logo } : {}),
+    ...(phone ? { telephone: phone } : {}),
+    ...(socialLinks.length > 0 ? { sameAs: socialLinks } : {}),
+  };
 
   return (
     <html
@@ -49,7 +82,13 @@ export default async function RootLayout({
       style={themeStyle(settings)}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-ivory text-charcoal antialiased">{children}</body>
+      <body className="min-h-screen bg-ivory text-charcoal antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

@@ -8,6 +8,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getDestinations, getSettings, getWhyChinaPoints } from "@/lib/data";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
+import { buildMetadata } from "@/lib/seo";
 import { UNIVERSITY_NAMES } from "@/lib/seed-content";
 import { iconFor } from "@/lib/icons";
 
@@ -18,9 +19,15 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const dict = getDictionary(isLocale(locale) ? locale : "ar");
-  return { title: dict.whyChina.title, description: dict.whyChina.subtitle };
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  return buildMetadata({
+    locale,
+    path: "/why-china",
+    title: dict.whyChina.title,
+    description: dict.whyChina.subtitle,
+  });
 }
 
 export default async function WhyChinaPage({ params }: { params: Promise<{ locale: string }> }) {

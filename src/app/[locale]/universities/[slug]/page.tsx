@@ -22,6 +22,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getSettings, getUniversities, getUniversityBySlug } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
+import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -35,10 +36,13 @@ export async function generateMetadata({
   const university = await getUniversityBySlug(slug);
   if (!university) return { title: "404" };
 
-  return {
+  return buildMetadata({
+    locale,
+    path: `/universities/${slug}`,
     title: universityName(university, locale),
     description: pick(university, "description", locale).slice(0, 155),
-  };
+    image: university.logo || university.cover_media,
+  });
 }
 
 export default async function UniversityPage({

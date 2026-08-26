@@ -10,6 +10,7 @@ import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getCostFactors, getServices, getSettings } from "@/lib/data";
 import { iconFor } from "@/lib/icons";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
+import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -18,9 +19,15 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const dict = getDictionary(isLocale(locale) ? locale : "ar");
-  return { title: dict.services.title, description: dict.services.subtitle };
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  return buildMetadata({
+    locale,
+    path: "/services",
+    title: dict.services.title,
+    description: dict.services.subtitle,
+  });
 }
 
 export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {

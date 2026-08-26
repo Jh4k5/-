@@ -9,15 +9,22 @@ import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
+import { buildMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const dict = getDictionary(isLocale(locale) ? locale : "ar");
-  return { title: dict.about.title, description: dict.about.subtitle };
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  return buildMetadata({
+    locale,
+    path: "/about",
+    title: dict.about.title,
+    description: dict.about.subtitle,
+  });
 }
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {

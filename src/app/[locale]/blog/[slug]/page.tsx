@@ -9,6 +9,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getArticleBySlug, getArticles } from "@/lib/data";
 import { formatDate, plainExcerpt } from "@/lib/format";
+import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -23,12 +24,17 @@ export async function generateMetadata({
   if (!article) return { title: "404" };
 
   const title = pick(article, "title", locale);
-  return {
+  const description =
+    pick(article, "excerpt", locale) || plainExcerpt(pick(article, "content", locale), 155);
+  const base = buildMetadata({
+    locale,
+    path: `/blog/${slug}`,
     title,
-    description:
-      pick(article, "excerpt", locale) || plainExcerpt(pick(article, "content", locale), 155),
-    openGraph: { title, type: "article" },
-  };
+    description,
+    image: article.cover_image,
+  });
+
+  return { ...base, openGraph: { ...base.openGraph, type: "article" } };
 }
 
 export default async function ArticlePage({

@@ -7,6 +7,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getAdmissions, getSettings } from "@/lib/data";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
+import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -15,9 +16,15 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const dict = getDictionary(isLocale(locale) ? locale : "ar");
-  return { title: dict.admissions.title, description: dict.admissions.subtitle };
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  return buildMetadata({
+    locale,
+    path: "/admissions",
+    title: dict.admissions.title,
+    description: dict.admissions.subtitle,
+  });
 }
 
 export default async function AdmissionsPage({

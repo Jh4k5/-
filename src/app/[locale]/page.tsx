@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Hero from "@/components/site/Hero";
@@ -35,9 +36,29 @@ import {
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
 import { heroOverlay } from "@/lib/theme";
 import { UNIVERSITY_NAMES } from "@/lib/seed-content";
+import { buildMetadata } from "@/lib/seo";
 import type { SiteSection } from "@/lib/types";
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  const settings = await getSettings();
+
+  return buildMetadata({
+    locale,
+    path: "",
+    title: `${dict.meta.siteName} — ${dict.meta.tagline}`,
+    description: dict.meta.description,
+    settings,
+  });
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;

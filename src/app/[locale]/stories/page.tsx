@@ -6,6 +6,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getSettings, getStories } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
+import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -14,9 +15,15 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const dict = getDictionary(isLocale(locale) ? locale : "ar");
-  return { title: dict.stories.title, description: dict.stories.subtitle };
+  const { locale: raw } = await params;
+  const locale = (isLocale(raw) ? raw : "ar") as Locale;
+  const dict = getDictionary(locale);
+  return buildMetadata({
+    locale,
+    path: "/stories",
+    title: dict.stories.title,
+    description: dict.stories.subtitle,
+  });
 }
 
 export default async function StoriesPage({ params }: { params: Promise<{ locale: string }> }) {
