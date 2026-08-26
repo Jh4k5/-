@@ -3,6 +3,7 @@ import { createPublicSupabase } from "./supabase/server";
 import {
   DEFAULT_SECTIONS,
   SEED_DESTINATIONS,
+  SEED_FAQS,
   SEED_PROCESS_STEPS,
   SEED_PROCESS_TRUST_BADGES,
   SEED_SERVICES,
@@ -15,6 +16,7 @@ import type {
   Admission,
   Article,
   DestinationMedia,
+  Faq,
   GalleryItem,
   ProcessStep,
   ProcessTrustBadge,
@@ -80,6 +82,18 @@ export const getWhyChinaPoints = cache(async function getWhyChinaPoints(): Promi
     if (error || !data || data.length === 0) return SEED_WHY_CHINA_POINTS;
     return data as WhyChinaPoint[];
   }, SEED_WHY_CHINA_POINTS);
+});
+
+export const getFaqs = cache(async function getFaqs(): Promise<Faq[]> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("faqs")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_FAQS;
+    return data as Faq[];
+  }, SEED_FAQS);
 });
 
 export const getProcessTrustBadges = cache(async function getProcessTrustBadges(): Promise<

@@ -16,6 +16,7 @@ const LABELS: Record<string, { title: string; hint: string }> = {
   why_china: { title: "لماذا الصين؟", hint: "نقاط التميّز وشريط أسماء الجامعات" },
   stories: { title: "قصص النجاح", hint: "بطاقات قصص الطلاب" },
   blog: { title: "المدونة", hint: "أحدث المقالات" },
+  faq: { title: "الأسئلة الشائعة", hint: "الأسئلة والأجوبة المعروضة قبل قسم التواصل" },
   final_cta: { title: "دعوة التواصل", hint: "القسم الأخير قبل الفوتر" },
 };
 

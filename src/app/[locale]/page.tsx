@@ -10,6 +10,7 @@ import ArticleCard from "@/components/site/ArticleCard";
 import AdmissionsStrip from "@/components/site/AdmissionsStrip";
 import UniversitiesShowcase from "@/components/site/UniversitiesShowcase";
 import ProcessSection from "@/components/site/ProcessSection";
+import FaqSection from "@/components/site/FaqSection";
 import FinalCTA from "@/components/site/FinalCTA";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
@@ -18,6 +19,7 @@ import {
   getAdmissions,
   getArticles,
   getDestinations,
+  getFaqs,
   getFeaturedUniversities,
   getHeroSlides,
   getProcessSteps,
@@ -55,6 +57,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     sections,
     admissions,
     universities,
+    faqs,
   ] = await Promise.all([
     getHeroSlides(),
     getServices(),
@@ -68,6 +71,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     getSections(),
     getAdmissions(12),
     getFeaturedUniversities(4),
+    getFaqs(),
   ]);
 
   const whatsapp = whatsappLink(settings, dict.meta.tagline);
@@ -266,6 +270,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </section>
         );
 
+      case "faq":
+        if (faqs.length === 0) return null;
+        return (
+          <FaqSection
+            key={section.key}
+            items={faqs}
+            locale={locale}
+            dict={dict}
+            title={heading(section, "title", dict.faq.title)}
+            subtitle={heading(section, "subtitle", dict.faq.subtitle)}
+          />
+        );
+
       case "final_cta":
         return <FinalCTA key={section.key} locale={locale} dict={dict} whatsapp={whatsapp} />;
 
@@ -274,8 +291,31 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     }
   };
 
+  const faqSectionVisible = sections.some((section) => section.key === "faq");
+  const faqJsonLd =
+    faqSectionVisible && faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((item) => ({
+            "@type": "Question",
+            name: pick(item, "question", locale),
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: pick(item, "answer", locale),
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <Hero
         locale={locale}
         dict={dict}

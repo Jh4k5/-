@@ -281,7 +281,23 @@ export type SectionKey =
   | "why_china"
   | "stories"
   | "blog"
+  | "faq"
   | "final_cta";
+
+export interface Faq {
+  id: string;
+  question_ar: string;
+  question_en: string | null;
+  question_ru: string | null;
+  answer_ar: string;
+  answer_en: string | null;
+  answer_ru: string | null;
+  category?: string | null;
+  display_order: number;
+  status?: ContentStatus;
+  created_at?: string;
+  updated_at?: string;
+}
 
 export interface SiteSection {
   key: SectionKey;

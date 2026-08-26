@@ -1,0 +1,68 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, HelpCircle } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
+import SectionHeading from "./SectionHeading";
+import type { Dictionary } from "@/i18n";
+import { pick, type Locale } from "@/i18n/config";
+import type { Faq } from "@/lib/types";
+
+export default function FaqSection({
+  items,
+  locale,
+  dict,
+  title,
+  subtitle,
+}: {
+  items: Faq[];
+  locale: Locale;
+  dict: Dictionary;
+  title?: string;
+  subtitle?: string;
+}) {
+  const [open, setOpen] = useState<string | null>(items[0]?.id ?? null);
+
+  if (items.length === 0) return null;
+
+  return (
+    <section className="bg-ivory py-24">
+      <div className="container-page">
+        <SectionHeading title={title || dict.faq.title} subtitle={subtitle || dict.faq.subtitle} />
+
+        <div className="mx-auto mt-12 max-w-3xl space-y-3">
+          {items.map((item, index) => {
+            const expanded = open === item.id;
+            return (
+              <Reveal key={item.id} delay={index * 40}>
+                <div className="surface-card overflow-hidden p-0">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(expanded ? null : item.id)}
+                    aria-expanded={expanded}
+                    className="flex w-full items-center gap-3 p-5 text-start"
+                  >
+                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-trust-blue/10 text-trust-blue">
+                      <HelpCircle className="h-4.5 w-4.5" />
+                    </span>
+                    <span className="flex-1 font-extrabold text-trust-blue">
+                      {pick(item, "question", locale)}
+                    </span>
+                    <ChevronDown
+                      className={`h-4 w-4 shrink-0 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  {expanded && (
+                    <p className="border-t border-trust-blue/8 px-5 py-4 text-sm leading-relaxed text-charcoal/75 ps-[3.75rem]">
+                      {pick(item, "answer", locale)}
+                    </p>
+                  )}
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

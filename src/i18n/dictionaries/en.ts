@@ -254,6 +254,11 @@ const en: Dictionary = {
     university: "University",
     major: "Major",
   },
+  faq: {
+    title: "Frequently asked questions",
+    subtitle: "Direct answers to what students and parents ask most before applying.",
+    empty: "Frequently asked questions will be published soon.",
+  },
   universities: {
     title: "Universities we work with",
     subtitle: "Precise profiles of the leading Chinese universities we help our students join.",
