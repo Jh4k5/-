@@ -23,6 +23,7 @@ export default function Coverflow3D({
 }) {
   const [active, setActive] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const startX = useRef<number | null>(null);
   const hovering = useRef(false);
   const count = items.length;
@@ -35,12 +36,20 @@ export default function Coverflow3D({
   );
 
   useEffect(() => {
-    if (count < 2 || autoPlayMs <= 0) return;
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(query.matches);
+    const onChange = () => setReducedMotion(query.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (count < 2 || autoPlayMs <= 0 || reducedMotion) return;
     const timer = setInterval(() => {
       if (!hovering.current && !dragging) go(1);
     }, autoPlayMs);
     return () => clearInterval(timer);
-  }, [autoPlayMs, count, dragging, go]);
+  }, [autoPlayMs, count, dragging, go, reducedMotion]);
 
   if (count === 0) return null;
 
@@ -99,9 +108,10 @@ export default function Coverflow3D({
                 transform: `translate3d(${offset * direction * 42}%, 0, ${-distance * 190}px) rotateY(${-offset * direction * 26}deg) scale(${1 - distance * 0.06})`,
                 opacity: visible ? 1 - distance * 0.32 : 0,
                 zIndex: 20 - distance,
-                transition: dragging
-                  ? "none"
-                  : "transform 0.75s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease",
+                transition:
+                  dragging || reducedMotion
+                    ? "none"
+                    : "transform 0.75s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease",
                 pointerEvents: offset === 0 ? "auto" : "none",
                 filter: distance > 0 ? `blur(${distance * 1.4}px)` : undefined,
               }}

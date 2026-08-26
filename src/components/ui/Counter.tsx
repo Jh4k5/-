@@ -15,6 +15,7 @@ export default function Counter({
 }) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const [display, setDisplay] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
   const started = useRef(false);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function Counter({
     const run = () => {
       if (started.current) return;
       started.current = true;
+      setHasStarted(true);
 
       const reduce =
         typeof window !== "undefined" &&
@@ -61,8 +63,17 @@ export default function Counter({
 
   return (
     <span ref={ref} className="tabular-nums">
-      {formatted}
-      {suffix}
+      {hasStarted ? (
+        <>
+          {formatted}
+          {suffix}
+        </>
+      ) : (
+        <span
+          className="inline-block h-[0.9em] w-10 animate-pulse rounded-full bg-current/20 align-middle"
+          aria-hidden="true"
+        />
+      )}
     </span>
   );
 }

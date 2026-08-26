@@ -7,13 +7,13 @@
    properties, and every derived shade below follows automatically.
    --------------------------------------------------------------- */
 @theme {
-  --color-china-red: #c8102e;
-  --color-imperial-gold: #d4af37;
-  --color-trust-blue: #1b3a6b;
+  --color-china-red: #b73535;
+  --color-imperial-gold: #c6a15b;
+  --color-trust-blue: #0f2740;
   --color-ivory: #f7f4ef;
   --color-ivory-dark: #ece7dd;
   --color-charcoal: #2a2a2a;
-  --color-jade: #00a170;
+  --color-jade: #1f7a68;
 
   --color-china-red-dark: color-mix(in srgb, var(--color-china-red) 80%, #000);
   --color-china-red-soft: color-mix(in srgb, var(--color-china-red) 12%, #fff);
@@ -24,10 +24,10 @@
   --font-display: var(--font-heading), system-ui, sans-serif;
   --font-body: var(--font-text), system-ui, sans-serif;
 
-  --shadow-soft: 0 10px 30px -12px rgb(27 58 107 / 0.25);
-  --shadow-card: 0 18px 45px -20px rgb(27 58 107 / 0.35);
-  --shadow-deep: 0 40px 80px -40px rgb(9 20 40 / 0.75);
-  --shadow-glow: 0 25px 60px -25px rgb(200 16 46 / 0.45);
+  --shadow-soft: 0 8px 22px -14px rgb(15 39 64 / 0.22);
+  --shadow-card: 0 14px 32px -18px rgb(15 39 64 / 0.28);
+  --shadow-deep: 0 30px 60px -36px rgb(9 20 40 / 0.55);
+  --shadow-glow: 0 14px 30px -18px rgb(183 53 53 / 0.32);
 }
 
 :root {

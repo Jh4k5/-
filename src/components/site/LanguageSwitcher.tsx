@@ -7,9 +7,12 @@ import { LOCALE_COOKIE, locales, localeConfig, type Locale } from "@/i18n/config
 export default function LanguageSwitcher({
   locale,
   variant = "dark",
+  size = "sm",
 }: {
   locale: Locale;
   variant?: "dark" | "light";
+  /** "lg" gives each option a ≥44px tap target for mobile drawers. */
+  size?: "sm" | "lg";
 }) {
   const pathname = usePathname() || `/${locale}`;
   const router = useRouter();
@@ -45,7 +48,7 @@ export default function LanguageSwitcher({
 
   return (
     <div
-      className={`flex items-center gap-0.5 rounded-full border p-1 backdrop-blur ${base} ${pending ? "opacity-70" : ""}`}
+      className={`flex items-center gap-0.5 rounded-full border p-1 ${base} ${pending ? "opacity-70" : ""}`}
       role="group"
       aria-label={localeConfig[locale].label}
     >
@@ -58,7 +61,9 @@ export default function LanguageSwitcher({
             onClick={() => switchTo(code)}
             aria-current={active ? "true" : undefined}
             title={localeConfig[code].nativeLabel}
-            className={`rounded-full px-2.5 py-1 text-xs font-bold tracking-wide transition-all duration-300 ${
+            className={`flex items-center justify-center rounded-full font-bold tracking-wide transition-all duration-300 ${
+              size === "lg" ? "min-h-11 min-w-11 px-4 py-2.5 text-sm" : "px-2.5 py-1 text-xs"
+            } ${
               active
                 ? "bg-china-red text-white shadow-[0_6px_16px_-6px_rgba(200,16,46,0.9)]"
                 : variant === "light"

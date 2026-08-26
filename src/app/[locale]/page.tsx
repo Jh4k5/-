@@ -21,12 +21,14 @@ import {
   getFeaturedUniversities,
   getHeroSlides,
   getProcessSteps,
+  getProcessTrustBadges,
   getSections,
   getServices,
   getSettings,
   getStories,
+  getWhyChinaPoints,
 } from "@/lib/data";
-import { whatsappLink } from "@/lib/settings-helpers";
+import { settingText, whatsappLink } from "@/lib/settings-helpers";
 import { heroOverlay } from "@/lib/theme";
 import { UNIVERSITY_NAMES } from "@/lib/seed-content";
 import type { SiteSection } from "@/lib/types";
@@ -44,6 +46,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     slides,
     services,
     processSteps,
+    trustBadges,
+    whyChinaPoints,
     destinations,
     stories,
     articles,
@@ -55,6 +59,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     getHeroSlides(),
     getServices(),
     getProcessSteps(),
+    getProcessTrustBadges(),
+    getWhyChinaPoints(),
     getDestinations(),
     getStories(3),
     getArticles(3),
@@ -77,8 +83,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <ProcessSection
             key={section.key}
             steps={processSteps}
+            trustBadges={trustBadges}
             locale={locale}
             dict={dict}
+            settings={settings}
             title={heading(section, "title", dict.process.title)}
             subtitle={heading(section, "subtitle", dict.process.subtitle)}
             whatsapp={whatsapp}
@@ -163,13 +171,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
               <Reveal delay={120} direction="start">
                 <ul className="grid gap-4 sm:grid-cols-2">
-                  {dict.whyChina.points.slice(0, 4).map((point) => (
+                  {whyChinaPoints.slice(0, 4).map((point) => (
                     <li
-                      key={point.title}
+                      key={point.id}
                       className="surface-card p-5 transition-transform duration-500 hover:-translate-y-1"
                     >
-                      <p className="font-extrabold text-trust-blue">{point.title}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-charcoal/70">{point.text}</p>
+                      <p className="font-extrabold text-trust-blue">{pick(point, "title", locale)}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
+                        {pick(point, "description", locale)}
+                      </p>
                     </li>
                   ))}
                 </ul>
@@ -177,7 +187,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </div>
 
             <Reveal delay={100}>
-              <div className="mt-14 overflow-hidden rounded-3xl border border-trust-blue/10 bg-white py-6">
+              <div className="mt-14 overflow-hidden rounded-2xl border border-trust-blue/10 bg-white py-6">
                 <p className="px-6 text-center text-xs font-bold uppercase tracking-widest text-charcoal/45">
                   {dict.whyChina.universitiesTitle}
                 </p>
@@ -192,6 +202,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                     </span>
                   ))}
                 </div>
+                {settingText(settings, "university_examples_disclaimer", locale, "") && (
+                  <p className="mx-auto mt-5 max-w-xl px-6 text-center text-xs leading-relaxed text-charcoal/50">
+                    {settingText(settings, "university_examples_disclaimer", locale, "")}
+                  </p>
+                )}
               </div>
             </Reveal>
           </section>
@@ -267,6 +282,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         rtl={rtl}
         overlay={heroOverlay(settings)}
         whatsapp={whatsapp}
+        settings={settings}
       />
       {sections.map(render)}
     </>

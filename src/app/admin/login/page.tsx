@@ -36,7 +36,7 @@ function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
+    <form onSubmit={handleSubmit} className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
       <div className="flex flex-col items-center text-center">
         <LogoMark className="h-14 w-14" />
         <h1 className="mt-4 text-2xl font-extrabold text-trust-blue">لوحة تحكم جسر إلى الصين</h1>

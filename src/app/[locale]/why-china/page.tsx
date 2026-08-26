@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CheckCircle2 } from "lucide-react";
 import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
 import FinalCTA from "@/components/site/FinalCTA";
@@ -7,9 +6,10 @@ import Reveal from "@/components/motion/Reveal";
 import MediaFrame from "@/components/ui/MediaFrame";
 import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
-import { getDestinations, getSettings } from "@/lib/data";
-import { whatsappLink } from "@/lib/settings-helpers";
+import { getDestinations, getSettings, getWhyChinaPoints } from "@/lib/data";
+import { settingText, whatsappLink } from "@/lib/settings-helpers";
 import { UNIVERSITY_NAMES } from "@/lib/seed-content";
+import { iconFor } from "@/lib/icons";
 
 export const revalidate = 60;
 
@@ -27,8 +27,13 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
-  const [destinations, settings] = await Promise.all([getDestinations(), getSettings()]);
+  const [destinations, settings, whyChinaPoints] = await Promise.all([
+    getDestinations(),
+    getSettings(),
+    getWhyChinaPoints(),
+  ]);
   const showcase = destinations.filter((item) => item.category !== "hero").slice(0, 3);
+  const disclaimer = settingText(settings, "university_examples_disclaimer", locale, "");
 
   return (
     <>
@@ -36,17 +41,24 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
 
       <section className="container-page py-20">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {dict.whyChina.points.map((point, index) => (
-            <Reveal key={point.title} delay={index * 70}>
-              <article className="surface-card h-full p-7 transition-transform duration-500 hover:-translate-y-1">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-china-red/10 text-china-red">
-                  <CheckCircle2 className="h-6 w-6" />
-                </span>
-                <h3 className="mt-5 text-lg font-extrabold text-trust-blue">{point.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-charcoal/75">{point.text}</p>
-              </article>
-            </Reveal>
-          ))}
+          {whyChinaPoints.map((point, index) => {
+            const Icon = iconFor(point.icon);
+            return (
+              <Reveal key={point.id} delay={index * 70}>
+                <article className="surface-card h-full p-7 transition-transform duration-500 hover:-translate-y-1">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-china-red/10 text-china-red">
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-extrabold text-trust-blue">
+                    {pick(point, "title", locale)}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-charcoal/75">
+                    {pick(point, "description", locale)}
+                  </p>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
@@ -72,10 +84,16 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
             </div>
           </Reveal>
 
+          {disclaimer && (
+            <p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-relaxed text-charcoal/50">
+              {disclaimer}
+            </p>
+          )}
+
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {showcase.map((item, index) => (
               <Reveal key={item.id} delay={index * 90}>
-                <figure className="group relative h-56 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
+                <figure className="group relative h-56 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
                     <MediaFrame src={item.image_url} alt={pick(item, "title", locale)} />
                   </div>

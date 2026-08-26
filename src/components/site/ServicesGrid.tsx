@@ -22,7 +22,7 @@ export default function ServicesGrid({
         return (
           <Reveal key={service.id} delay={index * 70}>
             <Tilt3D className="group h-full">
-              <article className="surface-card relative flex h-full flex-col overflow-hidden p-7 transition-shadow duration-500 hover:shadow-[var(--shadow-card)]">
+              <article className="defer-offscreen surface-card relative flex h-full flex-col overflow-hidden p-7 transition-shadow duration-500 hover:shadow-[var(--shadow-card)]">
                 <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-china-red via-imperial-gold to-trust-blue opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-trust-blue to-trust-blue-light text-white shadow-[0_16px_30px_-16px_rgba(27,58,107,0.95)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:from-china-red group-hover:to-china-red-dark">

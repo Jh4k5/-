@@ -203,7 +203,7 @@ export default async function UniversityPage({
                 </dl>
               </div>
 
-              <div className="relative mt-5 overflow-hidden rounded-3xl bg-gradient-to-br from-china-red to-trust-blue p-6 text-white">
+              <div className="relative mt-5 overflow-hidden rounded-2xl bg-gradient-to-br from-china-red to-trust-blue p-6 text-white">
                 <div className="brand-pattern pointer-events-none absolute inset-0 opacity-40" />
                 <h3 className="relative text-lg font-extrabold">{dict.universities.ctaTitle}</h3>
                 <p className="relative mt-2 text-sm text-white/80">{dict.universities.ctaText}</p>
@@ -242,7 +242,7 @@ export default async function UniversityPage({
               {others.map((item, index) => (
                 <Reveal key={item.id} delay={index * 80} direction="scale">
                   <Link href={`/${locale}/universities/${item.slug}`} className="block">
-                    <article className="group relative h-52 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
+                    <article className="group relative h-52 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
                       <div className="absolute inset-0 transition-transform duration-[1300ms] group-hover:scale-110">
                         <MediaFrame src={item.cover_media} alt={universityName(item, locale)} />
                       </div>

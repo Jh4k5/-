@@ -4,10 +4,12 @@ import {
   DEFAULT_SECTIONS,
   SEED_DESTINATIONS,
   SEED_PROCESS_STEPS,
+  SEED_PROCESS_TRUST_BADGES,
   SEED_SERVICES,
   SEED_SETTINGS,
   SEED_STORIES,
   SEED_UNIVERSITIES,
+  SEED_WHY_CHINA_POINTS,
 } from "./seed-content";
 import type {
   Admission,
@@ -15,12 +17,14 @@ import type {
   DestinationMedia,
   GalleryItem,
   ProcessStep,
+  ProcessTrustBadge,
   Service,
   SettingRow,
   SettingsMap,
   SiteSection,
   SuccessStory,
   University,
+  WhyChinaPoint,
 } from "./types";
 
 async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
@@ -62,6 +66,34 @@ export const getProcessSteps = cache(async function getProcessSteps(): Promise<P
     if (error || !data || data.length === 0) return SEED_PROCESS_STEPS;
     return data as ProcessStep[];
   }, SEED_PROCESS_STEPS);
+});
+
+export const getWhyChinaPoints = cache(async function getWhyChinaPoints(): Promise<
+  WhyChinaPoint[]
+> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("why_china_points")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_WHY_CHINA_POINTS;
+    return data as WhyChinaPoint[];
+  }, SEED_WHY_CHINA_POINTS);
+});
+
+export const getProcessTrustBadges = cache(async function getProcessTrustBadges(): Promise<
+  ProcessTrustBadge[]
+> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("process_trust_badges")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_PROCESS_TRUST_BADGES;
+    return data as ProcessTrustBadge[];
+  }, SEED_PROCESS_TRUST_BADGES);
 });
 
 export const getDestinations = cache(async function getDestinations(): Promise<

@@ -176,7 +176,7 @@ export default function AdmissionsStrip({
         {showAllLink && (
           <Link
             href={`/${locale}/admissions`}
-            className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-2.5 text-sm font-bold text-white backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
           >
             {dict.admissions.viewAll}
           </Link>

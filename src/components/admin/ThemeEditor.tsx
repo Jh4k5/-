@@ -21,6 +21,7 @@ type State = {
   brand_primary: string;
   brand_gold: string;
   brand_blue: string;
+  brand_jade: string;
   motion_intensity: MotionIntensity;
   logo_url: string;
   hero_overlay_opacity: string;
@@ -41,6 +42,7 @@ export default function ThemeEditor({
     brand_primary: initial("brand_primary", DEFAULT_THEME.primary),
     brand_gold: initial("brand_gold", DEFAULT_THEME.gold),
     brand_blue: initial("brand_blue", DEFAULT_THEME.blue),
+    brand_jade: initial("brand_jade", DEFAULT_THEME.jade),
     motion_intensity: initial("motion_intensity", DEFAULT_THEME.motion) as MotionIntensity,
     logo_url: initial("logo_url", ""),
     hero_overlay_opacity: initial("hero_overlay_opacity", String(DEFAULT_THEME.overlay)),
@@ -81,6 +83,7 @@ export default function ThemeEditor({
       brand_primary: DEFAULT_THEME.primary,
       brand_gold: DEFAULT_THEME.gold,
       brand_blue: DEFAULT_THEME.blue,
+      brand_jade: DEFAULT_THEME.jade,
       motion_intensity: DEFAULT_THEME.motion,
       logo_url: "",
       hero_overlay_opacity: String(DEFAULT_THEME.overlay),
@@ -137,6 +140,7 @@ export default function ThemeEditor({
           {colorField("brand_primary", "الأحمر الصيني (أساسي)")}
           {colorField("brand_gold", "الذهبي الإمبراطوري")}
           {colorField("brand_blue", "الأزرق الموثوق")}
+          {colorField("brand_jade", "الأخضر اليشمي (واتساب)")}
 
           <div
             className="mt-2 flex h-24 items-center justify-center rounded-2xl text-sm font-extrabold text-white"

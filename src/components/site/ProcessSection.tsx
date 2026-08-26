@@ -1,30 +1,37 @@
 import Link from "next/link";
-import { FileSignature, MessageCircle, ShieldCheck, Sparkles, Video } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
 import { iconFor } from "@/lib/icons";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
-import type { ProcessStep } from "@/lib/types";
-
-const TRUST_ICONS = [ShieldCheck, FileSignature, Video, Sparkles];
+import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
+import type { ProcessStep, ProcessTrustBadge } from "@/lib/types";
 
 export default function ProcessSection({
   steps,
+  trustBadges,
   locale,
   dict,
+  settings,
   title,
   subtitle,
   whatsapp,
 }: {
   steps: ProcessStep[];
+  trustBadges: ProcessTrustBadge[];
   locale: Locale;
   dict: Dictionary;
+  settings: SettingsMapLike;
   title?: string;
   subtitle?: string;
   whatsapp?: string;
 }) {
   if (steps.length === 0) return null;
+
+  const bridgePerkTitle = settingText(settings, "process_bridge_perk_title", locale, "");
+  const bridgePerkDuration = settingText(settings, "process_bridge_perk_duration", locale, "");
+  const bridgePerkText = settingText(settings, "process_bridge_perk_text", locale, dict.process.bridgePerk);
 
   return (
     <section className="relative overflow-hidden bg-white py-24">
@@ -36,16 +43,18 @@ export default function ProcessSection({
         />
 
         <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {dict.process.trustItems.map((item, index) => {
-            const Icon = TRUST_ICONS[index % TRUST_ICONS.length];
+          {trustBadges.map((badge) => {
+            const Icon = iconFor(badge.icon);
             return (
-              <RevealItem key={item.title}>
+              <RevealItem key={badge.id}>
                 <div className="h-full rounded-2xl border border-trust-blue/10 bg-ivory p-5">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-trust-blue/10 text-trust-blue">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <p className="mt-4 font-extrabold text-trust-blue">{item.title}</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">{item.text}</p>
+                  <p className="mt-4 font-extrabold text-trust-blue">{pick(badge, "title", locale)}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
+                    {pick(badge, "description", locale)}
+                  </p>
                 </div>
               </RevealItem>
             );
@@ -87,14 +96,24 @@ export default function ProcessSection({
         </div>
 
         <Reveal delay={100}>
-          <div className="mt-14 flex flex-col items-center gap-6 rounded-3xl bg-trust-blue/5 p-8 text-center">
+          <div className="mt-14 flex flex-col items-center gap-4 rounded-2xl bg-trust-blue/5 p-8 text-center">
+            {bridgePerkDuration && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-jade/10 px-3 py-1 text-xs font-bold text-jade">
+                {bridgePerkDuration}
+              </span>
+            )}
+            {bridgePerkTitle && (
+              <p className="text-xs font-bold uppercase tracking-widest text-trust-blue/60">
+                {bridgePerkTitle}
+              </p>
+            )}
             <p className="max-w-2xl text-sm leading-relaxed text-charcoal/75 sm:text-base">
-              {dict.process.bridgePerk}
+              {bridgePerkText}
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 href={`/${locale}/contact`}
-                className="inline-flex items-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_20px_45px_-18px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-1"
+                className="inline-flex items-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-12px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-1"
               >
                 {dict.process.cta}
               </Link>

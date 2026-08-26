@@ -33,7 +33,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <section className="container-page py-20">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl shadow-[var(--shadow-card)]">
+            <div className="relative overflow-hidden rounded-2xl shadow-[var(--shadow-card)]">
               <SceneArt scene="hangzhou" detail="full" className="h-80 w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/60 to-transparent" />
             </div>

@@ -61,6 +61,34 @@ export interface ProcessStep {
   created_at?: string;
 }
 
+/** Same shape as Service — the six "why China" selling points. */
+export interface WhyChinaPoint {
+  id: string;
+  title_ar: string;
+  title_en: string | null;
+  title_ru: string | null;
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  icon: string;
+  display_order: number;
+  created_at?: string;
+}
+
+/** Same shape as Service — the four trust badges shown with the process timeline. */
+export interface ProcessTrustBadge {
+  id: string;
+  title_ar: string;
+  title_en: string | null;
+  title_ru: string | null;
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  icon: string;
+  display_order: number;
+  created_at?: string;
+}
+
 export interface SuccessStory {
   id: string;
   student_name: string;

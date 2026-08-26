@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, MessageCircle, MousePointerClick } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
-import ParticleField from "@/components/motion/ParticleField";
 import TextReveal from "@/components/motion/TextReveal";
 import { LogoMark } from "./Logo";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
-import type { DestinationMedia } from "@/lib/types";
+import type { DestinationMedia, SettingsMap } from "@/lib/types";
+import { settingText } from "@/lib/settings-helpers";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -21,6 +21,7 @@ export default function Hero({
   rtl,
   overlay = 0.66,
   whatsapp,
+  settings,
 }: {
   locale: Locale;
   dict: Dictionary;
@@ -28,10 +29,23 @@ export default function Hero({
   rtl: boolean;
   overlay?: number;
   whatsapp?: string;
+  settings: SettingsMap;
 }) {
   const [index, setIndex] = useState(0);
   const [tilt, setTilt] = useState({ x: 0, y: 0, scroll: 0 });
   const Arrow = rtl ? ArrowLeft : ArrowRight;
+
+  const headline = settingText(settings, "hero_headline", locale, dict.hero.title);
+  const description = settingText(settings, "hero_description", locale, dict.hero.subtitle);
+  const ctaPrimary = settingText(settings, "hero_cta_primary", locale, dict.hero.ctaPrimary);
+  const ctaWhatsapp = settingText(settings, "hero_cta_secondary", locale, dict.common.whatsapp);
+  const servicesLinkLabel = settingText(
+    settings,
+    "hero_services_link_label",
+    locale,
+    dict.hero.ctaSecondary,
+  );
+  const trustLine = settingText(settings, "hero_trust_line", locale, "");
 
   useEffect(() => {
     if (slides.length < 2) return;
@@ -116,32 +130,17 @@ export default function Hero({
         ))}
       </div>
 
-      {/* layer 2 — brand wash */}
+      {/* layer 2 — a single calm dark wash for text legibility */}
       <div
-        className="animated-gradient absolute inset-0"
+        className="absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(118deg, color-mix(in srgb, var(--color-china-red) 62%, transparent) 0%, color-mix(in srgb, var(--color-trust-blue-dark) 88%, transparent) 46%, rgba(4,10,24,0.92) 100%)",
+            "linear-gradient(180deg, rgba(6,14,28,0.72) 0%, rgba(6,14,28,0.5) 42%, rgba(6,14,28,0.86) 100%)",
           opacity: overlay,
         }}
       />
-      {/* vignette keeps the centre of the artwork readable */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,transparent_0%,transparent_38%,rgba(4,10,24,0.55)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_118%,color-mix(in_srgb,var(--color-imperial-gold)_30%,transparent)_0%,transparent_58%)]" />
 
-      {/* layer 3 — drifting aurora */}
-      <div
-        className="aurora pointer-events-none absolute -inset-[20%] opacity-45 blur-3xl"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 25% 35%, color-mix(in srgb, var(--color-china-red) 55%, transparent) 0, transparent 45%), radial-gradient(circle at 75% 60%, color-mix(in srgb, var(--color-imperial-gold) 45%, transparent) 0, transparent 45%)",
-        }}
-      />
-
-      {/* layer 4 — golden motes */}
-      <ParticleField density={1.15} />
-
-      {/* layer 5 — parallax bridge */}
+      {/* layer 3 — parallax bridge */}
       <div
         className="hero-layer pointer-events-none absolute inset-x-0 bottom-0 h-[26%] opacity-55"
         style={layer(46, -0.14)}
@@ -188,7 +187,7 @@ export default function Hero({
         </svg>
       </div>
 
-      {/* layer 6 — floating brand emblem */}
+      {/* layer 4 — floating brand emblem (solid surface, no glass blur) */}
       <motion.div
         className="pointer-events-none absolute top-[18%] hidden lg:block end-[8%]"
         style={layer(-70, 0.05, 60)}
@@ -196,71 +195,54 @@ export default function Hero({
         animate={{ opacity: 1, scale: 1, rotateY: 0 }}
         transition={{ duration: 1.4, ease: EASE, delay: 0.6 }}
       >
-        <div className="float-slow rounded-[2rem] border border-white/15 bg-white/5 p-8 backdrop-blur-md">
-          <LogoMark className="h-28 w-28 drop-shadow-[0_18px_40px_rgba(0,0,0,0.55)]" />
+        <div className="float-slow rounded-[1.5rem] border border-white/15 bg-white/10 p-8">
+          <LogoMark className="h-28 w-28 drop-shadow-[0_10px_24px_rgba(0,0,0,0.4)]" />
         </div>
       </motion.div>
 
-      {/* layer 7 — content */}
-      <div className="container-page relative z-10 pt-28 pb-24" style={layer(-16, 0.03)}>
+      {/* layer 5 — content */}
+      <div
+        className="container-page relative z-10 pt-24 pb-14 sm:pt-28 sm:pb-20 lg:pb-24"
+        style={layer(-16, 0.03)}
+      >
         <div className="max-w-3xl">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-bold tracking-wide text-white backdrop-blur-md"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold tracking-wide text-white"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-imperial-gold opacity-70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-imperial-gold" />
-            </span>
+            <span className="h-2 w-2 rounded-full bg-imperial-gold" />
             {dict.hero.badge}
           </motion.span>
 
           <TextReveal
-            text={dict.hero.title}
+            text={headline}
             delay={0.15}
-            className="mt-6 text-[clamp(2.6rem,7vw,5.4rem)] font-extrabold leading-[1.08] text-white drop-shadow-[0_14px_50px_rgba(0,0,0,0.5)]"
+            className="mt-6 text-[clamp(1.9rem,5.2vw,3.6rem)] font-extrabold leading-[1.2] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.4)]"
           />
-
-          <motion.p
-            initial={{ opacity: 0, letterSpacing: "0.6em" }}
-            animate={{ opacity: 1, letterSpacing: "0.3em" }}
-            transition={{ duration: 1.2, ease: EASE, delay: 0.8 }}
-            className="mt-3 text-lg font-semibold text-imperial-gold"
-          >
-            {dict.meta.siteNameChinese}
-          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.9 }}
-            className="mt-6 max-w-2xl text-[clamp(1rem,1.4vw,1.3rem)] leading-relaxed text-white/85"
+            transition={{ duration: 0.9, ease: EASE, delay: 0.5 }}
+            className="mt-5 max-w-2xl text-[clamp(1rem,1.4vw,1.2rem)] leading-relaxed text-white/85"
           >
-            {dict.hero.subtitle}
+            {description}
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 1.05 }}
-            className="mt-9 grid gap-3 sm:flex sm:flex-wrap sm:items-center"
+            transition={{ duration: 0.9, ease: EASE, delay: 0.65 }}
+            className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
           >
             <Link
               href={`/${locale}/contact`}
-              className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_20px_45px_-18px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-1"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-10px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-0.5"
             >
-              <span className="shine absolute inset-0 overflow-hidden rounded-full" aria-hidden="true" />
-              <span className="relative">{dict.hero.ctaPrimary}</span>
-              <Arrow className="relative h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
-            </Link>
-
-            <Link
-              href={`/${locale}/services`}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-base font-bold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/20"
-            >
-              {dict.hero.ctaSecondary}
+              {ctaPrimary}
+              <Arrow className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
             </Link>
 
             {whatsapp && (
@@ -268,20 +250,46 @@ export default function Hero({
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-jade/90 px-6 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-jade sm:hidden"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
               >
                 <MessageCircle className="h-5 w-5" />
-                {dict.common.whatsapp}
+                {ctaWhatsapp}
               </a>
             )}
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.8 }}
+            className="mt-4"
+          >
+            <Link
+              href={`/${locale}/services`}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/75 underline underline-offset-4 transition-colors hover:text-white"
+            >
+              {servicesLinkLabel}
+              <Arrow className="h-3.5 w-3.5" />
+            </Link>
+          </motion.div>
+
+          {trustLine && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0.95 }}
+              className="mt-6 max-w-xl text-sm leading-relaxed text-white/65"
+            >
+              {trustLine}
+            </motion.p>
+          )}
 
           {slides.length > 1 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.3 }}
-              className="mt-10 flex flex-wrap items-center gap-2"
+              transition={{ duration: 0.8, delay: 1.1 }}
+              className="mt-8 flex flex-wrap items-center gap-2"
             >
               {slides.map((slide, i) => (
                 <button
@@ -305,8 +313,8 @@ export default function Hero({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.8 }}
-        className="absolute inset-x-0 bottom-6 z-10 flex justify-center"
+        transition={{ delay: 1.3, duration: 0.8 }}
+        className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden justify-center sm:flex"
       >
         <span className="float-slow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/60">
           <MousePointerClick className="h-3.5 w-3.5" />

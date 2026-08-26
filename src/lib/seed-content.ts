@@ -1,11 +1,13 @@
 import type {
   DestinationMedia,
   ProcessStep,
+  ProcessTrustBadge,
   Service,
   SettingRow,
   SiteSection,
   SuccessStory,
   University,
+  WhyChinaPoint,
 } from "./types";
 
 /**
@@ -266,10 +268,16 @@ export const SEED_SETTINGS: SettingRow[] = [
   { key: "whatsapp_number", value: "+8613800000000", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_email", value: "info@bridgetochina.com", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_phone", value: "+86 138 0000 0000", value_ar: null, value_en: null, value_ru: null },
-  { key: "instagram_url", value: "https://instagram.com/", value_ar: null, value_en: null, value_ru: null },
-  { key: "facebook_url", value: "https://facebook.com/", value_ar: null, value_en: null, value_ru: null },
-  { key: "tiktok_url", value: "https://tiktok.com/", value_ar: null, value_en: null, value_ru: null },
-  { key: "youtube_url", value: "https://youtube.com/", value_ar: null, value_en: null, value_ru: null },
+  {
+    key: "instagram_url",
+    value: "https://www.instagram.com/jisrchina/?utm_source=ig_web_button_share_sheet",
+    value_ar: null,
+    value_en: null,
+    value_ru: null,
+  },
+  { key: "facebook_url", value: "", value_ar: null, value_en: null, value_ru: null },
+  { key: "tiktok_url", value: "", value_ar: null, value_en: null, value_ru: null },
+  { key: "youtube_url", value: "", value_ar: null, value_en: null, value_ru: null },
   { key: "stat_students_helped", value: "480", value_ar: null, value_en: null, value_ru: null },
   { key: "stat_years_experience", value: "8", value_ar: null, value_en: null, value_ru: null },
   { key: "stat_universities", value: "35", value_ar: null, value_en: null, value_ru: null },
@@ -288,6 +296,148 @@ export const SEED_SETTINGS: SettingRow[] = [
     value_en: "Bridge to China… a future without borders.",
     value_ru: "Мост в Китай… будущее без границ.",
   },
+
+  // hero
+  {
+    key: "hero_headline",
+    value: null,
+    value_ar: "تريد الدراسة في الصين؟ ابدأ بخطة واضحة لملفك.",
+    value_en: "Want to study in China? Start with a clear plan for your file.",
+    value_ru: "Хотите учиться в Китае? Начните с чёткого плана для вашего дела.",
+  },
+  {
+    key: "hero_description",
+    value: null,
+    value_ar:
+      "نساعدك على اختيار المسار المناسب، تجهيز ملفك، والتقديم على برامج ومنح تتوافق مبدئياً مع مؤهلك وأهدافك.",
+    value_en:
+      "We help you choose the right path, prepare your file, and apply to programmes and scholarships that initially match your qualifications and goals.",
+    value_ru:
+      "Мы поможем выбрать подходящее направление, подготовить документы и подать заявку на программы и стипендии, предварительно соответствующие вашей квалификации и целям.",
+  },
+  { key: "hero_cta_primary", value: null, value_ar: "تواصل معنا الآن", value_en: "Contact us now", value_ru: "Связаться с нами" },
+  {
+    key: "hero_cta_secondary",
+    value: null,
+    value_ar: "تحدث معنا على واتساب",
+    value_en: "Chat with us on WhatsApp",
+    value_ru: "Написать нам в WhatsApp",
+  },
+  {
+    key: "hero_trust_line",
+    value: null,
+    value_ar: "نوضح لك الشروط والخطوات بواقعية؛ أما قرار القبول والمنحة فيصدر من الجهة المختصة.",
+    value_en: "We explain the terms and steps honestly; the admission and scholarship decision is issued by the relevant institution.",
+    value_ru: "Мы честно объясняем условия и этапы; решение о зачислении и стипендии принимает соответствующее учреждение.",
+  },
+  {
+    key: "hero_services_link_label",
+    value: null,
+    value_ar: "تعرّف على خدماتنا",
+    value_en: "Explore our services",
+    value_ru: "Наши услуги",
+  },
+
+  // stats
+  { key: "stat_students_helped_label", value: null, value_ar: "طالب تمت مساعدته", value_en: "Students assisted", value_ru: "Студентов получили помощь" },
+  { key: "stat_years_experience_label", value: null, value_ar: "سنوات خبرة", value_en: "Years of experience", value_ru: "Лет опыта" },
+  {
+    key: "stat_universities_label",
+    value: null,
+    value_ar: "جامعة صينية نتعامل معها",
+    value_en: "Chinese universities we work with",
+    value_ru: "Китайских вузов-партнёров",
+  },
+  { key: "stat_satisfaction_rate_label", value: null, value_ar: "نسبة رضا الطلاب", value_en: "Student satisfaction rate", value_ru: "Уровень удовлетворённости" },
+  { key: "stats_measured_at", value: null, value_ar: "بيانات محدثة دورياً", value_en: "Figures updated periodically", value_ru: "Данные обновляются регулярно" },
+
+  // footer
+  {
+    key: "footer_about",
+    value: null,
+    value_ar: "مكتب استشارات تعليمية متخصص حصرياً في الدراسة بالصين، يرافق الطالب من أول استشارة حتى الاستقرار.",
+    value_en: "An educational consultancy focused exclusively on studying in China, accompanying the student from the first consultation to settling in.",
+    value_ru: "Образовательный консалтинг, работающий исключительно с обучением в Китае и сопровождающий студента от первой консультации до обустройства.",
+  },
+  { key: "footer_quick_links_title", value: null, value_ar: "روابط سريعة", value_en: "Quick links", value_ru: "Быстрые ссылки" },
+  { key: "footer_contact_title", value: null, value_ar: "تواصل معنا", value_en: "Contact", value_ru: "Контакты" },
+  { key: "footer_rights", value: null, value_ar: "جميع الحقوق محفوظة", value_en: "All rights reserved", value_ru: "Все права защищены" },
+  {
+    key: "footer_builtwith",
+    value: null,
+    value_ar: "جسر إلى الصين — نرافقك خطوة بخطوة نحو جامعتك في الصين",
+    value_en: "Bridge to China — walking with you step by step toward your university in China",
+    value_ru: "Мост в Китай — сопровождаем вас шаг за шагом на пути к вашему университету в Китае",
+  },
+
+  // "Bridge to Chinese" subscription perk (two months free, not lifetime)
+  {
+    key: "process_bridge_perk_title",
+    value: null,
+    value_ar: "مزايا إضافية عند التسجيل",
+    value_en: "An extra perk when you sign up",
+    value_ru: "Дополнительный бонус при регистрации",
+  },
+  { key: "process_bridge_perk_duration", value: null, value_ar: "شهران مجاناً", value_en: "Two months free", value_ru: "Два месяца бесплатно" },
+  {
+    key: "process_bridge_perk_text",
+    value: null,
+    value_ar: "بالتسجيل معنا تحصل أيضاً على اشتراك مجاني لمدة شهرين في منصّة «Bridge to Chinese» لتعلّم اللغة الصينية.",
+    value_en: 'Signing up with us also gets you two months of free access to the "Bridge to Chinese" language-learning platform.',
+    value_ru: "Регистрируясь у нас, вы также получаете бесплатный двухмесячный доступ к платформе изучения китайского языка «Bridge to Chinese».",
+  },
+
+  // university examples disclaimer (home section)
+  {
+    key: "university_examples_disclaimer",
+    value: null,
+    value_ar:
+      "لا نرسل قائمة عامة عشوائية. نبدأ بمقابلة نفهم فيها مرحلتك وتخصصك وهدفك وميزانيتك، ثم نرسل لك خطة تقديم مخصصة بالمسارات والجامعات المقترحة.",
+    value_en:
+      "We don't send a random public list. We start with an interview to understand your stage, major, goal and budget, then send you a tailored application plan with suggested tracks and universities.",
+    value_ru:
+      "Мы не отправляем случайный общий список. Сначала мы проводим интервью, чтобы понять ваш этап, специальность, цель и бюджет, а затем присылаем индивидуальный план подачи с рекомендованными направлениями и университетами.",
+  },
+
+  // contact form
+  { key: "contact_submit_label", value: null, value_ar: "أرسل بياناتي للمراجعة", value_en: "Send my details for review", value_ru: "Отправить данные на рассмотрение" },
+  {
+    key: "contact_after_submit_note",
+    value: null,
+    value_ar: "سنراجع بياناتك يدوياً ونعود إليك خلال 24–48 ساعة عمل عبر وسيلة التواصل التي اخترتها.",
+    value_en: "We review every submission manually and get back to you within 24–48 business hours via your chosen contact method.",
+    value_ru: "Мы вручную рассматриваем каждую заявку и отвечаем в течение 24–48 рабочих часов через выбранный вами способ связи.",
+  },
+  {
+    key: "contact_privacy_consent_text",
+    value: null,
+    value_ar: "بإرسال هذا النموذج، أوافق على استخدام بياناتي للتواصل معي بخصوص طلبي فقط.",
+    value_en: "By submitting this form, I agree that my details will be used only to contact me about my request.",
+    value_ru: "Отправляя эту форму, я соглашаюсь на использование моих данных исключительно для связи по моему запросу.",
+  },
+  {
+    key: "contact_success_message",
+    value: null,
+    value_ar: "تم إرسال طلبك بنجاح! سنتواصل معك قريباً عبر الوسيلة التي اخترتها.",
+    value_en: "Your request has been sent! We will contact you soon through your chosen channel.",
+    value_ru: "Заявка отправлена! Мы свяжемся с вами выбранным способом.",
+  },
+  {
+    key: "contact_error_message",
+    value: null,
+    value_ar: "تعذّر إرسال الطلب. تحقق من البيانات وحاول مرة أخرى.",
+    value_en: "The request could not be sent. Please check your details and try again.",
+    value_ru: "Не удалось отправить заявку. Проверьте данные и попробуйте снова.",
+  },
+
+  // social link visibility state: active | coming_soon | hidden
+  { key: "facebook_status", value: "hidden", value_ar: null, value_en: null, value_ru: null },
+  { key: "instagram_status", value: "active", value_ar: null, value_en: null, value_ru: null },
+  { key: "youtube_status", value: "hidden", value_ar: null, value_en: null, value_ru: null },
+  { key: "tiktok_status", value: "hidden", value_ar: null, value_en: null, value_ru: null },
+
+  // muted brand accent used for WhatsApp CTAs (theme-editable)
+  { key: "brand_jade", value: "#1f7a68", value_ar: null, value_en: null, value_ru: null },
 ];
 
 export const UNIVERSITY_NAMES = [
@@ -305,12 +455,12 @@ export const UNIVERSITY_NAMES = [
 
 /** Home page sections in their default order — also the offline fallback. */
 export const DEFAULT_SECTIONS: SiteSection[] = [
-  { key: "process", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "stats", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "admissions", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "universities", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "destinations", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "services", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stats", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "process", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "services", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "admissions", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "universities", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "destinations", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "why_china", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "stories", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "blog", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
@@ -439,6 +589,124 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     description_ar: "نساعدك في تجهيز VPN موثوق ووسائل الدفع الإلكترونية المستخدمة في الصين، لتبدأ حياتك اليومية هناك دون تعقيد.",
     description_en: "We help you set up a reliable VPN and the electronic payment methods used in China, so your daily life there starts without hassle.",
     description_ru: "Помогаем настроить надёжный VPN и электронные способы оплаты, используемые в Китае, чтобы повседневная жизнь началась без сложностей.",
+  },
+];
+
+/** Offline fallback for the four trust badges shown with the process timeline — mirrors the DB seed. */
+export const SEED_PROCESS_TRUST_BADGES: ProcessTrustBadge[] = [
+  {
+    id: "tb-1",
+    icon: "headphones",
+    display_order: 1,
+    title_ar: "استشارة أولى مجانية",
+    title_en: "Free first consultation",
+    title_ru: "Бесплатная первая консультация",
+    description_ar: "نناقش تخصصك ووجهتك الدراسية المناسبة دون أي التزام أو تكلفة.",
+    description_en: "We discuss your major and the right study direction for you, with no commitment or cost.",
+    description_ru: "Обсуждаем вашу специальность и подходящее направление обучения — без обязательств и без оплаты.",
+  },
+  {
+    id: "tb-2",
+    icon: "file-check",
+    display_order: 2,
+    title_ar: "عقود إلكترونية موثّقة",
+    title_en: "Verified e-contracts",
+    title_ru: "Подтверждённые электронные договоры",
+    description_ar: "كل اتفاق بيننا موثّق إلكترونياً بوضوح يحفظ حقك من البداية.",
+    description_en: "Every agreement between us is documented electronically and clearly protects your rights from day one.",
+    description_ru: "Каждая договорённость фиксируется электронно и чётко защищает ваши права с самого начала.",
+  },
+  {
+    id: "tb-3",
+    icon: "messages-square",
+    display_order: 3,
+    title_ar: "مقابلات ومتابعة مسجّلة",
+    title_en: "Recorded interviews & follow-up",
+    title_ru: "Записанные собеседования",
+    description_ar: "جلسات التحضير للمقابلات تُسجَّل لمراجعتها معك وتطوير أدائك.",
+    description_en: "Interview preparation sessions are recorded so we can review and improve your performance together.",
+    description_ru: "Сессии подготовки к собеседованию записываются, чтобы вместе разобрать и улучшить результат.",
+  },
+  {
+    id: "tb-4",
+    icon: "shield",
+    display_order: 4,
+    title_ar: "تسعير عادل للجميع",
+    title_en: "Fair pricing for everyone",
+    title_ru: "Честные цены для всех",
+    description_ar: "خدمة احترافية بتكلفة منصفة تناسب الجميع، بلا رسوم مفاجئة.",
+    description_en: "Professional service at a fair cost that suits everyone, with no surprise fees.",
+    description_ru: "Профессиональная услуга по справедливой цене без скрытых платежей.",
+  },
+];
+
+/** Offline fallback for the "why China" selling points — mirrors the DB seed. */
+export const SEED_WHY_CHINA_POINTS: WhyChinaPoint[] = [
+  {
+    id: "wc-1",
+    icon: "award",
+    display_order: 1,
+    title_ar: "جامعات ضمن التصنيفات العالمية",
+    title_en: "Universities in global rankings",
+    title_ru: "Университеты в мировых рейтингах",
+    description_ar: "الصين تضم عدداً من أفضل الجامعات عالمياً في الهندسة والطب والأعمال وعلوم الحاسب، مع اعتراف دولي بشهاداتها.",
+    description_en: "China hosts several of the world's leading universities in engineering, medicine, business and computer science, with internationally recognised degrees.",
+    description_ru: "В Китае работают ведущие мировые университеты в инженерии, медицине, бизнесе и информатике с международно признанными дипломами.",
+  },
+  {
+    id: "wc-2",
+    icon: "home",
+    display_order: 2,
+    title_ar: "تكلفة دراسة ومعيشة معقولة",
+    title_en: "Reasonable tuition and living costs",
+    title_ru: "Разумная стоимость обучения и жизни",
+    description_ar: "الرسوم الدراسية وتكاليف المعيشة أقل بكثير من أوروبا وأمريكا، مع مستوى خدمات وبنية تحتية متقدمة جداً.",
+    description_en: "Tuition and living expenses are far lower than in Europe or the United States, alongside highly advanced services and infrastructure.",
+    description_ru: "Обучение и проживание обходятся значительно дешевле, чем в Европе и США, при современном уровне инфраструктуры.",
+  },
+  {
+    id: "wc-3",
+    icon: "sparkles",
+    display_order: 3,
+    title_ar: "منح دراسية واسعة",
+    title_en: "A wide range of scholarships",
+    title_ru: "Широкие возможности стипендий",
+    description_ar: "منح حكومية (CSC) ومنح مقاطعات ومنح جامعية تغطي الرسوم أو السكن أو مصروف شهري — والتقديم عليها ممكن.",
+    description_en: "Government (CSC), provincial and university scholarships cover tuition, accommodation or a monthly stipend — and applying is realistic.",
+    description_ru: "Государственные (CSC), провинциальные и университетские стипендии покрывают обучение, проживание или ежемесячную выплату.",
+  },
+  {
+    id: "wc-4",
+    icon: "languages",
+    display_order: 4,
+    title_ar: "برامج باللغة الإنجليزية",
+    title_en: "English-taught programmes",
+    title_ru: "Программы на английском языке",
+    description_ar: "عدد كبير من البرامج يُدرَّس بالكامل بالإنجليزية، مع إمكانية تعلّم الصينية بالتوازي لفتح فرص أكبر.",
+    description_en: "Many programmes are taught entirely in English, while you learn Chinese in parallel to open even bigger opportunities.",
+    description_ru: "Многие программы полностью преподаются на английском, а китайский можно изучать параллельно.",
+  },
+  {
+    id: "wc-5",
+    icon: "shield",
+    display_order: 5,
+    title_ar: "أمان وبنية تحتية متقدمة",
+    title_en: "Safety and modern infrastructure",
+    title_ru: "Безопасность и современная инфраструктура",
+    description_ar: "مدن آمنة، مواصلات حديثة، ومدن جامعية مجهزة بالكامل تجعل تجربة الطالب الدولي مريحة.",
+    description_en: "Safe cities, modern transport and fully equipped campuses make the international student experience comfortable.",
+    description_ru: "Безопасные города, современный транспорт и полностью оснащённые кампусы делают жизнь студента комфортной.",
+  },
+  {
+    id: "wc-6",
+    icon: "briefcase",
+    display_order: 6,
+    title_ar: "سوق عمل وفرص مستقبلية",
+    title_en: "Career and future opportunities",
+    title_ru: "Карьера и перспективы",
+    description_ar: "خبرة الدراسة في ثاني أكبر اقتصاد بالعالم وإتقان الصينية يفتحان أبواباً في التجارة والصناعة والتقنية.",
+    description_en: "Studying in the world's second-largest economy and mastering Chinese opens doors in trade, industry and technology.",
+    description_ru: "Учёба во второй экономике мира и владение китайским открывают двери в торговле, промышленности и технологиях.",
   },
 ];
 

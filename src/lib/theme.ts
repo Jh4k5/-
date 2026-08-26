@@ -3,9 +3,10 @@ import { settingValue, type SettingsMapLike } from "./settings-helpers";
 import type { MotionIntensity } from "./types";
 
 export const DEFAULT_THEME = {
-  primary: "#c8102e",
-  gold: "#d4af37",
-  blue: "#1b3a6b",
+  primary: "#b73535",
+  gold: "#c6a15b",
+  blue: "#0f2740",
+  jade: "#1f7a68",
   motion: "cinematic" as MotionIntensity,
   overlay: 66,
 };
@@ -34,6 +35,10 @@ export function themeStyle(settings: SettingsMapLike): CSSProperties {
     ["--color-trust-blue" as string]: colorOr(
       settingValue(settings, "brand_blue", DEFAULT_THEME.blue),
       DEFAULT_THEME.blue,
+    ),
+    ["--color-jade" as string]: colorOr(
+      settingValue(settings, "brand_jade", DEFAULT_THEME.jade),
+      DEFAULT_THEME.jade,
     ),
   };
 }

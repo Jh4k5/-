@@ -35,6 +35,16 @@ export default function Header({
     setOpen(false);
   }, [pathname]);
 
+  // Keep the page behind the drawer from scrolling on touch devices.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
   const links = [
     { href: `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/about`, label: dict.nav.about },
@@ -53,7 +63,7 @@ export default function Header({
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-ivory/90 shadow-[0_10px_40px_-24px_rgba(27,58,107,0.6)] backdrop-blur-xl"
+          ? "bg-ivory shadow-[0_6px_20px_-16px_rgba(15,39,64,0.5)]"
           : "bg-transparent"
       }`}
     >
@@ -77,7 +87,9 @@ export default function Header({
         </nav>
 
         <div className="flex items-center gap-2">
-          <LanguageSwitcher locale={locale} variant={scrolled ? "dark" : "light"} />
+          <div className="hidden xl:block">
+            <LanguageSwitcher locale={locale} variant={scrolled ? "dark" : "light"} />
+          </div>
 
           <Link
             href={`/${locale}/contact`}
@@ -104,7 +116,7 @@ export default function Header({
       </div>
 
       <div
-        className={`overflow-hidden bg-ivory/98 backdrop-blur-xl transition-[max-height,opacity] duration-500 xl:hidden ${
+        className={`overflow-hidden bg-ivory transition-[max-height,opacity] duration-500 xl:hidden ${
           open ? "max-h-[40rem] opacity-100 shadow-xl" : "max-h-0 opacity-0"
         }`}
       >
@@ -113,7 +125,7 @@ export default function Header({
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
+              className={`flex min-h-12 items-center rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
                 isActive(link.href)
                   ? "bg-trust-blue text-white"
                   : "text-trust-blue hover:bg-trust-blue/8"
@@ -122,10 +134,16 @@ export default function Header({
               {link.label}
             </Link>
           ))}
+
+          <div className="mt-3 flex items-center justify-between gap-3 border-t border-trust-blue/10 pt-3">
+            <span className="text-xs font-semibold text-trust-blue/60">{dict.nav.language}</span>
+            <LanguageSwitcher locale={locale} variant="dark" size="lg" />
+          </div>
+
           <div className="mt-2 grid grid-cols-2 gap-2">
             <Link
               href={`/${locale}/contact`}
-              className="rounded-xl bg-china-red px-4 py-3 text-center text-sm font-bold text-white"
+              className="flex min-h-12 items-center justify-center rounded-xl bg-china-red px-4 py-3 text-center text-sm font-bold text-white"
             >
               {dict.nav.cta}
             </Link>
@@ -133,7 +151,7 @@ export default function Header({
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl bg-jade px-4 py-3 text-center text-sm font-bold text-white"
+              className="flex min-h-12 items-center justify-center rounded-xl bg-jade px-4 py-3 text-center text-sm font-bold text-white"
             >
               {dict.common.whatsapp}
             </a>

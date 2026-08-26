@@ -34,6 +34,7 @@ export default function Tilt3D({
 
   const handleMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== "mouse") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const node = ref.current;
     if (!node) return;
     pointerActive.current = true;

@@ -88,7 +88,7 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
   return (
     <div>
       <AdminHeading
-        title="خطوات العمل معنا"
+        title="الخط الزمني"
         subtitle="عدّل خطوات رحلة الطالب معنا (من الاستشارة المجانية حتى الاستقرار في الصين) بثلاث لغات، مع الأيقونة وترتيب العرض."
         action={
           <Button

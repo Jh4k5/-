@@ -63,7 +63,7 @@ export default function AdmissionsGrid({
                   setIndex(i);
                   setOpen(true);
                 }}
-                className="gold-frame group block w-full overflow-hidden bg-white text-start"
+                className="gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start"
               >
                 <span className="relative block aspect-3/4 overflow-hidden">
                   <span className="absolute inset-0 block transition-transform duration-[1300ms] group-hover:scale-105">
@@ -74,7 +74,7 @@ export default function AdmissionsGrid({
                     <BadgeCheck className="h-3 w-3" />
                     {dict.admissions.badge}
                   </span>
-                  <span className="absolute bottom-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur transition-transform duration-500 group-hover:scale-110 end-3">
+                  <span className="absolute bottom-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-trust-blue-dark/70 text-white transition-transform duration-500 group-hover:scale-110 end-3">
                     <Expand className="h-4 w-4" />
                   </span>
                 </span>

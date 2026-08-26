@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MotionConfig } from "framer-motion";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
@@ -58,17 +59,19 @@ export default async function LocaleLayout({
   const whatsapp = whatsappLink(settings, dict.meta.tagline);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <HtmlLangSync locale={locale} />
-      <Header
-        locale={locale}
-        dict={dict}
-        whatsapp={whatsapp}
-        logoUrl={settingValue(settings, "logo_url")}
-      />
-      <main className="flex-1">{children}</main>
-      <Footer locale={locale} settings={settings} />
-      <WhatsAppFloat href={whatsapp} label={dict.common.whatsapp} />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="flex min-h-screen flex-col">
+        <HtmlLangSync locale={locale} />
+        <Header
+          locale={locale}
+          dict={dict}
+          whatsapp={whatsapp}
+          logoUrl={settingValue(settings, "logo_url")}
+        />
+        <main className="flex-1">{children}</main>
+        <Footer locale={locale} settings={settings} />
+        <WhatsAppFloat href={whatsapp} label={dict.common.whatsapp} />
+      </div>
+    </MotionConfig>
   );
 }

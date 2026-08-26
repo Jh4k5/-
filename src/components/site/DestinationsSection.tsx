@@ -38,9 +38,9 @@ export default function DestinationsSection({
       <div className="mt-14 grid gap-5 lg:grid-cols-3">
         <Reveal className="lg:col-span-2">
           <Tilt3D intensity={5} className="h-full">
-            <figure className="group relative h-[22rem] overflow-hidden rounded-3xl shadow-[var(--shadow-card)] lg:h-full lg:min-h-[26rem]">
+            <figure className="defer-offscreen group relative h-[22rem] overflow-hidden rounded-2xl shadow-[var(--shadow-card)] lg:h-full lg:min-h-[26rem]">
               <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-105">
-                <MediaFrame src={lead.image_url} alt={pick(lead, "title", locale)} priority />
+                <MediaFrame src={lead.image_url} alt={pick(lead, "title", locale)} />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/90 via-trust-blue-dark/25 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-7">
@@ -59,7 +59,7 @@ export default function DestinationsSection({
           {rest.slice(0, 2).map((item, index) => (
             <Reveal key={item.id} delay={(index + 1) * 90}>
               <Tilt3D intensity={7}>
-                <figure className="defer-offscreen group relative h-52 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
+                <figure className="defer-offscreen group relative h-52 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
                     <MediaFrame
                       src={item.image_url}
@@ -88,7 +88,7 @@ export default function DestinationsSection({
           {rest.slice(2).map((item, index) => (
             <Reveal key={item.id} delay={index * 80}>
               <Tilt3D intensity={7}>
-                <figure className="defer-offscreen group relative h-48 overflow-hidden rounded-3xl shadow-[var(--shadow-soft)]">
+                <figure className="defer-offscreen group relative h-48 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
                     <MediaFrame
                       src={item.image_url}

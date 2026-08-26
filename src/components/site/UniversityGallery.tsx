@@ -39,13 +39,13 @@ export default function UniversityGallery({
                   setIndex(i);
                   setOpen(true);
                 }}
-                className="group relative block h-56 w-full overflow-hidden rounded-3xl shadow-[var(--shadow-card)]"
+                className="group relative block h-56 w-full overflow-hidden rounded-2xl shadow-[var(--shadow-card)]"
               >
                 <span className="absolute inset-0 block transition-transform duration-[1300ms] group-hover:scale-110">
                   <MediaFrame src={image} alt={alt} />
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/70 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-90" />
-                <span className="absolute bottom-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-transform duration-500 group-hover:scale-110 end-4">
+                <span className="absolute bottom-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-trust-blue-dark/70 text-white transition-transform duration-500 group-hover:scale-110 end-4">
                   <Expand className="h-4 w-4" />
                 </span>
               </button>

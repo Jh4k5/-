@@ -33,11 +33,31 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   const location = settingText(settings, "office_location", locale, "China");
 
   const socials = [
-    { href: settingValue(settings, "facebook_url"), Icon: FacebookIcon, label: "Facebook" },
-    { href: settingValue(settings, "instagram_url"), Icon: InstagramIcon, label: "Instagram" },
-    { href: settingValue(settings, "youtube_url"), Icon: YoutubeIcon, label: "YouTube" },
-    { href: settingValue(settings, "tiktok_url"), Icon: TiktokIcon, label: "TikTok" },
-  ].filter((item) => item.href);
+    {
+      href: settingValue(settings, "facebook_url"),
+      status: settingValue(settings, "facebook_status", "hidden"),
+      Icon: FacebookIcon,
+      label: "Facebook",
+    },
+    {
+      href: settingValue(settings, "instagram_url"),
+      status: settingValue(settings, "instagram_status", "hidden"),
+      Icon: InstagramIcon,
+      label: "Instagram",
+    },
+    {
+      href: settingValue(settings, "youtube_url"),
+      status: settingValue(settings, "youtube_status", "hidden"),
+      Icon: YoutubeIcon,
+      label: "YouTube",
+    },
+    {
+      href: settingValue(settings, "tiktok_url"),
+      status: settingValue(settings, "tiktok_status", "hidden"),
+      Icon: TiktokIcon,
+      label: "TikTok",
+    },
+  ].filter((item) => item.status === "active" && item.href);
 
   return (
     <>
@@ -46,7 +66,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       <section className="container-page py-16">
         <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
           <Reveal>
-            <ContactForm locale={locale} dict={dict} />
+            <ContactForm locale={locale} dict={dict} settings={settings} />
           </Reveal>
 
           <Reveal delay={120}>
@@ -115,7 +135,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                 </div>
               )}
 
-              <div className="relative overflow-hidden rounded-3xl bg-trust-blue p-7 text-white">
+              <div className="relative overflow-hidden rounded-2xl bg-trust-blue p-7 text-white">
                 <div
                   className="pointer-events-none absolute inset-0 opacity-30"
                   style={{

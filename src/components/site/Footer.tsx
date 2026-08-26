@@ -28,12 +28,34 @@ export default function Footer({
     { href: `/${locale}/contact`, label: dict.nav.contact },
   ];
 
+  const comingSoonLabel = { ar: "قريباً", en: "Coming soon", ru: "Скоро" }[locale];
+
   const socials = [
-    { href: settingValue(settings, "facebook_url"), Icon: FacebookIcon, label: "Facebook" },
-    { href: settingValue(settings, "instagram_url"), Icon: InstagramIcon, label: "Instagram" },
-    { href: settingValue(settings, "youtube_url"), Icon: YoutubeIcon, label: "YouTube" },
-    { href: settingValue(settings, "tiktok_url"), Icon: TiktokIcon, label: "TikTok" },
-  ].filter((item) => item.href);
+    {
+      href: settingValue(settings, "facebook_url"),
+      status: settingValue(settings, "facebook_status", "hidden"),
+      Icon: FacebookIcon,
+      label: "Facebook",
+    },
+    {
+      href: settingValue(settings, "instagram_url"),
+      status: settingValue(settings, "instagram_status", "hidden"),
+      Icon: InstagramIcon,
+      label: "Instagram",
+    },
+    {
+      href: settingValue(settings, "youtube_url"),
+      status: settingValue(settings, "youtube_status", "hidden"),
+      Icon: YoutubeIcon,
+      label: "YouTube",
+    },
+    {
+      href: settingValue(settings, "tiktok_url"),
+      status: settingValue(settings, "tiktok_status", "hidden"),
+      Icon: TiktokIcon,
+      label: "TikTok",
+    },
+  ].filter((item) => item.status === "active" || item.status === "coming_soon");
 
   const email = settingValue(settings, "contact_email", "info@bridgetochina.com");
   const phone = settingValue(settings, "contact_phone", "+86 138 0000 0000");
@@ -64,15 +86,17 @@ export default function Footer({
               <p className="text-xs tracking-[0.2em] text-white/60">{dict.meta.siteNameChinese}</p>
             </div>
           </div>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-white/70">{dict.footer.about}</p>
+          <p className="mt-5 max-w-md text-sm leading-relaxed text-white/70">
+            {settingText(settings, "footer_about", locale, dict.footer.about)}
+          </p>
           <p className="mt-5 text-sm font-semibold text-imperial-gold">
-            {settingText(settings, "footer_note", locale, dict.footer.builtWith)}
+            {settingText(settings, "footer_builtwith", locale, dict.footer.builtWith)}
           </p>
         </div>
 
         <div>
           <h3 className="text-sm font-bold uppercase tracking-widest text-imperial-gold">
-            {dict.footer.quickLinks}
+            {settingText(settings, "footer_quick_links_title", locale, dict.footer.quickLinks)}
           </h3>
           <ul className="mt-5 space-y-2.5">
             {links.map((link) => (
@@ -90,7 +114,7 @@ export default function Footer({
 
         <div>
           <h3 className="text-sm font-bold uppercase tracking-widest text-imperial-gold">
-            {dict.footer.contactTitle}
+            {settingText(settings, "footer_contact_title", locale, dict.footer.contactTitle)}
           </h3>
           <ul className="mt-5 space-y-3 text-sm text-white/70">
             <li className="flex items-center gap-2.5">
@@ -112,19 +136,31 @@ export default function Footer({
           </ul>
 
           {socials.length > 0 && (
-            <div className="mt-5 flex gap-2">
-              {socials.map(({ href, Icon, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 transition-all duration-300 hover:-translate-y-0.5 hover:border-imperial-gold hover:text-imperial-gold"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              {socials.map(({ href, status, Icon, label }) =>
+                status === "active" && href ? (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 transition-all duration-300 hover:-translate-y-0.5 hover:border-imperial-gold hover:text-imperial-gold"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ) : (
+                  <span
+                    key={label}
+                    aria-label={`${label} — ${comingSoonLabel}`}
+                    title={comingSoonLabel}
+                    className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 text-white/40"
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span className="text-[10px] font-semibold">{comingSoonLabel}</span>
+                  </span>
+                ),
+              )}
             </div>
           )}
         </div>
@@ -133,7 +169,7 @@ export default function Footer({
       <div className="relative border-t border-white/10">
         <div className="container-page flex flex-col items-center justify-between gap-3 py-5 text-xs text-white/55 sm:flex-row">
           <p>
-            © {year} {dict.meta.siteName} — {dict.footer.rights}
+            © {year} {dict.meta.siteName} — {settingText(settings, "footer_rights", locale, dict.footer.rights)}
           </p>
           <Link href="/admin/login" className="transition-colors hover:text-white/85">
             {dict.footer.adminLink}
