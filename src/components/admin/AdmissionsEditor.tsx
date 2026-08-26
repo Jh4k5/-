@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, Eye, EyeOff, Plus, Save, Trash2 } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import MediaField from "./MediaField";
 import BlurBoxEditor from "./BlurBoxEditor";
 import MediaFrame from "@/components/ui/MediaFrame";
@@ -25,6 +35,7 @@ const emptyRow = (order: number): Row => ({
   blur_box: DEFAULT_BOX,
   display_order: order,
   is_visible: true,
+  status: "draft",
   _new: true,
 });
 
@@ -57,6 +68,7 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
       blur_box: row.blur_box ?? DEFAULT_BOX,
       display_order: Number(row.display_order) || 0,
       is_visible: row.is_visible,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -128,46 +140,60 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
 
             return (
               <Card key={row.id} className="p-0">
-                <button
-                  type="button"
-                  onClick={() => setOpen(expanded ? null : row.id)}
-                  className="flex w-full items-center gap-3 p-4 text-start"
-                >
-                  <span className="relative h-16 w-12 shrink-0 overflow-hidden rounded-lg bg-ivory">
-                    <MediaFrame src={row.image_url} alt="" />
-                    {row.blur_enabled && (
-                      <span
-                        className="absolute bg-white/30"
-                        style={{
-                          left: `${box.x}%`,
-                          top: `${box.y}%`,
-                          width: `${box.w}%`,
-                          height: `${box.h}%`,
-                          backdropFilter: "blur(4px)",
-                        }}
-                      />
+                <div className="flex w-full items-center gap-3 p-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(expanded ? null : row.id)}
+                    className="flex min-w-0 flex-1 items-center gap-3 text-start"
+                  >
+                    <span className="relative h-16 w-12 shrink-0 overflow-hidden rounded-lg bg-ivory">
+                      <MediaFrame src={row.image_url} alt="" />
+                      {row.blur_enabled && (
+                        <span
+                          className="absolute bg-white/30"
+                          style={{
+                            left: `${box.x}%`,
+                            top: `${box.y}%`,
+                            width: `${box.w}%`,
+                            height: `${box.h}%`,
+                            backdropFilter: "blur(4px)",
+                          }}
+                        />
+                      )}
+                    </span>
+
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-extrabold text-trust-blue" dir="auto">
+                        {row.university_name || "نموذج قبول"}
+                      </span>
+                      <span className="block truncate text-xs text-charcoal/50">
+                        {[row.major_ar, row.year].filter(Boolean).join(" · ") || "بدون تفاصيل"}
+                      </span>
+                    </span>
+
+                    {!row.is_visible && (
+                      <span className="shrink-0 rounded-full bg-charcoal/8 px-2 py-1 text-[10px] font-bold text-charcoal/55">
+                        مخفي
+                      </span>
                     )}
-                  </span>
-
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-extrabold text-trust-blue" dir="auto">
-                      {row.university_name || "نموذج قبول"}
-                    </span>
-                    <span className="block truncate text-xs text-charcoal/50">
-                      {[row.major_ar, row.year].filter(Boolean).join(" · ") || "بدون تفاصيل"}
-                    </span>
-                  </span>
-
-                  {!row.is_visible && (
-                    <span className="shrink-0 rounded-full bg-charcoal/8 px-2 py-1 text-[10px] font-bold text-charcoal/55">
-                      مخفي
-                    </span>
-                  )}
-
-                  <ChevronDown
-                    className={`h-4 w-4 shrink-0 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  </button>
+                  <StatusToggle
+                    status={row.status ?? "published"}
+                    onToggle={() =>
+                      patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                    }
                   />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(expanded ? null : row.id)}
+                    aria-label={expanded ? "طي" : "توسيع"}
+                    className="shrink-0 rounded-full p-1.5 hover:bg-trust-blue/8"
+                  >
+                    <ChevronDown
+                      className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                </div>
 
                 {expanded && (
                   <div className="border-t border-trust-blue/8 p-4 sm:p-5">
@@ -275,7 +301,7 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                       </div>
                     </div>
 
-                    <div className="mt-5 flex flex-wrap gap-2">
+                    <div className="mt-5 flex flex-wrap items-center gap-3">
                       <Button onClick={() => save(row)} loading={busy === row.id}>
                         <Save className="h-4 w-4" />
                         حفظ
@@ -284,6 +310,7 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                         <Trash2 className="h-4 w-4" />
                         حذف
                       </Button>
+                      <UpdatedAtLabel value={row.updated_at} />
                     </div>
                   </div>
                 )}

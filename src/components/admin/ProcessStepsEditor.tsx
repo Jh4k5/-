@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Trash2 } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import { createClient } from "@/lib/supabase/client";
 import { ICON_KEYS, iconFor } from "@/lib/icons";
 import type { ProcessStep } from "@/lib/types";
@@ -19,6 +29,7 @@ const emptyStep = (order: number): Row => ({
   description_ru: "",
   icon: "headphones",
   display_order: order,
+  status: "draft",
   _new: true,
 });
 
@@ -49,6 +60,7 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
       description_ru: row.description_ru || null,
       icon: row.icon,
       display_order: Number(row.display_order) || 0,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -117,26 +129,41 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
 
           return (
             <Card key={row.id} className="p-0">
-              <button
-                type="button"
-                onClick={() => setOpen(expanded ? null : row.id)}
-                className="flex w-full items-center gap-4 p-5 text-start"
-              >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="flex-1">
-                  <span className="block font-extrabold text-trust-blue">
-                    {row.title_ar || "خطوة بدون عنوان"}
+              <div className="flex w-full items-center gap-4 p-5">
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  className="flex flex-1 items-center gap-4 text-start"
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
+                    <Icon className="h-5 w-5" />
                   </span>
-                  <span className="block text-xs text-charcoal/50">
-                    ترتيب العرض: {row.display_order}
+                  <span className="flex-1">
+                    <span className="block font-extrabold text-trust-blue">
+                      {row.title_ar || "خطوة بدون عنوان"}
+                    </span>
+                    <span className="block text-xs text-charcoal/50">
+                      ترتيب العرض: {row.display_order}
+                    </span>
                   </span>
-                </span>
-                <ChevronDown
-                  className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                </button>
+                <StatusToggle
+                  status={row.status ?? "published"}
+                  onToggle={() =>
+                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                  }
                 />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  aria-label={expanded ? "طي" : "توسيع"}
+                  className="shrink-0 rounded-full p-1.5 hover:bg-trust-blue/8"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
 
               {expanded && (
                 <div className="border-t border-trust-blue/8 p-5">
@@ -191,7 +218,7 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
                     </Field>
                   </div>
 
-                  <div className="mt-5 flex gap-2">
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
                       <Save className="h-4 w-4" />
                       حفظ
@@ -200,6 +227,7 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
                       <Trash2 className="h-4 w-4" />
                       حذف
                     </Button>
+                    <UpdatedAtLabel value={row.updated_at} />
                   </div>
                 </div>
               )}

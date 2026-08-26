@@ -34,7 +34,7 @@ export default function StoriesGrid({
                 <div className="flex items-center gap-4">
                   <span className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-white ring-2 ring-imperial-gold/40">
                     {story.photo ? (
-                      <MediaFrame src={story.photo} alt={story.student_name} />
+                      <MediaFrame src={story.photo} alt={story.student_name} sizes="80px" />
                     ) : (
                       <span className="flex h-full w-full items-center justify-center font-[family-name:var(--font-display)] text-3xl font-extrabold">
                         {story.student_name.trim().charAt(0)}

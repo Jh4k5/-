@@ -55,11 +55,15 @@ function AdmissionCard({
       <button
         type="button"
         onClick={onOpen}
-        className="gold-frame group block w-full overflow-hidden bg-white text-start"
+        className="gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start"
       >
         <span className="relative block aspect-3/4 overflow-hidden">
           <span className="absolute inset-0 block transition-transform duration-[1200ms] group-hover:scale-105">
-            <MediaFrame src={admission.image_url} alt={dict.admissions.badge} />
+            <MediaFrame
+              src={admission.image_url}
+              alt={dict.admissions.badge}
+              sizes={compact ? "272px" : "(min-width: 1024px) 33vw, 100vw"}
+            />
           </span>
           <PrivacyMask admission={admission} />
 

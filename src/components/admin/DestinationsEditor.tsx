@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Star, Trash2 } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import MediaField from "./MediaField";
 import MediaFrame from "@/components/ui/MediaFrame";
 import { createClient } from "@/lib/supabase/client";
@@ -23,8 +33,10 @@ const emptyRow = (order: number): Row => ({
   title_ar: "",
   title_en: "",
   title_ru: "",
+  alt_text: "",
   display_order: order,
   is_featured: false,
+  status: "draft",
   _new: true,
 });
 
@@ -52,8 +64,10 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
       title_ar: row.title_ar,
       title_en: row.title_en || null,
       title_ru: row.title_ru || null,
+      alt_text: row.alt_text || null,
       display_order: Number(row.display_order) || 0,
       is_featured: row.is_featured,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -122,32 +136,47 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
           const expanded = open === row.id;
           return (
             <Card key={row.id} className="p-0">
-              <button
-                type="button"
-                onClick={() => setOpen(expanded ? null : row.id)}
-                className="flex w-full items-center gap-4 p-4 text-start"
-              >
-                <span className="h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-ivory">
-                  <MediaFrame src={row.image_url} alt="" />
-                </span>
-                <span className="flex-1">
-                  <span className="block font-extrabold text-trust-blue">
-                    {row.title_ar || "بدون عنوان"}
+              <div className="flex w-full items-center gap-4 p-4">
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  className="flex flex-1 items-center gap-4 text-start"
+                >
+                  <span className="h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-ivory">
+                    <MediaFrame src={row.image_url} alt="" />
                   </span>
-                  <span className="block text-xs text-charcoal/50">
-                    {CATEGORY_LABEL[row.category]} · ترتيب {row.display_order}
+                  <span className="flex-1">
+                    <span className="block font-extrabold text-trust-blue">
+                      {row.title_ar || "بدون عنوان"}
+                    </span>
+                    <span className="block text-xs text-charcoal/50">
+                      {CATEGORY_LABEL[row.category]} · ترتيب {row.display_order}
+                    </span>
                   </span>
-                </span>
-                {row.is_featured && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-xs font-bold text-[#8a6d12]">
-                    <Star className="h-3 w-3" />
-                    مميّزة
-                  </span>
-                )}
-                <ChevronDown
-                  className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  {row.is_featured && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-xs font-bold text-[#8a6d12]">
+                      <Star className="h-3 w-3" />
+                      مميّزة
+                    </span>
+                  )}
+                </button>
+                <StatusToggle
+                  status={row.status ?? "published"}
+                  onToggle={() =>
+                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                  }
                 />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  aria-label={expanded ? "طي" : "توسيع"}
+                  className="shrink-0 rounded-full p-1.5 hover:bg-trust-blue/8"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
 
               {expanded && (
                 <div className="border-t border-trust-blue/8 p-5">
@@ -211,7 +240,17 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
                     </LangTabs>
                   </div>
 
-                  <div className="mt-5 flex gap-2">
+                  <div className="mt-4">
+                    <Field label="النص البديل (alt)" hint="لقارئ الشاشة — وصف مختصر لمحتوى الصورة">
+                      <input
+                        className={inputClass}
+                        value={row.alt_text ?? ""}
+                        onChange={(event) => patch(row.id, "alt_text", event.target.value)}
+                      />
+                    </Field>
+                  </div>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
                       <Save className="h-4 w-4" />
                       حفظ
@@ -220,6 +259,7 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
                       <Trash2 className="h-4 w-4" />
                       حذف
                     </Button>
+                    <UpdatedAtLabel value={row.updated_at} />
                   </div>
                 </div>
               )}

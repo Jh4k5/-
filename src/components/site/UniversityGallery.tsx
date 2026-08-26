@@ -39,7 +39,7 @@ export default function UniversityGallery({
                   setIndex(i);
                   setOpen(true);
                 }}
-                className="group relative block h-56 w-full overflow-hidden rounded-2xl shadow-[var(--shadow-card)]"
+                className="defer-offscreen group relative block h-56 w-full overflow-hidden rounded-2xl shadow-[var(--shadow-card)]"
               >
                 <span className="absolute inset-0 block transition-transform duration-[1300ms] group-hover:scale-110">
                   <MediaFrame src={image} alt={alt} />

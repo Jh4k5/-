@@ -1,5 +1,7 @@
 export type ArticleCategory = "about_china" | "universities" | "student_life" | "tips";
 export type ArticleStatus = "draft" | "published";
+/** Shared draft/published workflow status, added to every content table in Prompt 2. */
+export type ContentStatus = "draft" | "published";
 export type DestinationCategory = "city" | "campus" | "hero";
 export type Qualification = "high_school" | "bachelor" | "master";
 export type ChineseLevel = "none" | "beginner" | "hsk1_2" | "hsk3_4" | "hsk5_6";
@@ -27,6 +29,7 @@ export interface Article {
   content_en: string | null;
   content_ru: string | null;
   cover_image: string | null;
+  cover_image_alt?: string | null;
   category: ArticleCategory;
   status: ArticleStatus;
   is_featured: boolean;
@@ -44,7 +47,21 @@ export interface Service {
   description_ru: string | null;
   icon: string;
   display_order: number;
+  /** "What we provide" — optional, one line per item. */
+  includes_ar?: string | null;
+  includes_en?: string | null;
+  includes_ru?: string | null;
+  /** "What we don't guarantee" — optional, one line per item. */
+  excludes_ar?: string | null;
+  excludes_en?: string | null;
+  excludes_ru?: string | null;
+  cta_label_ar?: string | null;
+  cta_label_en?: string | null;
+  cta_label_ru?: string | null;
+  cta_link?: string | null;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 /** Same shape as Service — the admin-editable "how we work" timeline. */
@@ -58,7 +75,9 @@ export interface ProcessStep {
   description_ru: string | null;
   icon: string;
   display_order: number;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 /** Same shape as Service — the six "why China" selling points. */
@@ -72,7 +91,9 @@ export interface WhyChinaPoint {
   description_ru: string | null;
   icon: string;
   display_order: number;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 /** Same shape as Service — the four trust badges shown with the process timeline. */
@@ -86,7 +107,9 @@ export interface ProcessTrustBadge {
   description_ru: string | null;
   icon: string;
   display_order: number;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface SuccessStory {
@@ -102,7 +125,11 @@ export interface SuccessStory {
   quote_en: string | null;
   quote_ru: string | null;
   display_order: number;
+  /** Must be true before a story is ever shown publicly. */
+  consent?: boolean;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface GalleryItem {
@@ -113,8 +140,11 @@ export interface GalleryItem {
   caption_ar: string | null;
   caption_en: string | null;
   caption_ru: string | null;
+  alt_text?: string | null;
   display_order: number;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface DestinationMedia {
@@ -126,9 +156,12 @@ export interface DestinationMedia {
   title_ar: string;
   title_en: string | null;
   title_ru: string | null;
+  alt_text?: string | null;
   display_order: number;
   is_featured: boolean;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface Lead {
@@ -192,7 +225,9 @@ export interface University {
   tuition_range: string | null;
   is_featured: boolean;
   display_order: number;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface BlurBox {
@@ -214,7 +249,9 @@ export interface Admission {
   blur_box: BlurBox;
   display_order: number;
   is_visible: boolean;
+  status?: ContentStatus;
   created_at?: string;
+  updated_at?: string;
 }
 
 export type SectionKey =

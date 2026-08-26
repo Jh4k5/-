@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Trash2 } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
 import type { SuccessStory } from "@/lib/types";
@@ -22,6 +32,8 @@ const emptyStory = (order: number): Row => ({
   quote_en: "",
   quote_ru: "",
   display_order: order,
+  consent: false,
+  status: "draft",
   _new: true,
 });
 
@@ -41,6 +53,10 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
       setNote({ type: "error", text: "اسم الطالب مطلوب." });
       return;
     }
+    if (row.status === "published" && !row.consent) {
+      setNote({ type: "error", text: "لا يمكن نشر القصة دون تفعيل موافقة الطالب على النشر." });
+      return;
+    }
 
     setBusy(row.id);
     const payload = {
@@ -55,6 +71,8 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
       quote_en: row.quote_en || null,
       quote_ru: row.quote_ru || null,
       display_order: Number(row.display_order) || 0,
+      consent: row.consent ?? false,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -123,24 +141,39 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
           const expanded = open === row.id;
           return (
             <Card key={row.id} className="p-0">
-              <button
-                type="button"
-                onClick={() => setOpen(expanded ? null : row.id)}
-                className="flex w-full items-center gap-4 p-5 text-start"
-              >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-lg font-extrabold text-white">
-                  {row.student_name.trim().charAt(0) || "?"}
-                </span>
-                <span className="flex-1">
-                  <span className="block font-extrabold text-trust-blue" dir="auto">
-                    {row.student_name || "قصة جديدة"}
+              <div className="flex w-full items-center gap-4 p-5">
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  className="flex flex-1 items-center gap-4 text-start"
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-lg font-extrabold text-white">
+                    {row.student_name.trim().charAt(0) || "?"}
                   </span>
-                  <span className="block text-xs text-charcoal/50">{row.achievement_ar}</span>
-                </span>
-                <ChevronDown
-                  className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  <span className="flex-1">
+                    <span className="block font-extrabold text-trust-blue" dir="auto">
+                      {row.student_name || "قصة جديدة"}
+                    </span>
+                    <span className="block text-xs text-charcoal/50">{row.achievement_ar}</span>
+                  </span>
+                </button>
+                <StatusToggle
+                  status={row.status ?? "published"}
+                  onToggle={() =>
+                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                  }
                 />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  aria-label={expanded ? "طي" : "توسيع"}
+                  className="shrink-0 rounded-full p-1.5 hover:bg-trust-blue/8"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
 
               {expanded && (
                 <div className="border-t border-trust-blue/8 p-5">
@@ -216,7 +249,19 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
                     </LangTabs>
                   </div>
 
-                  <div className="mt-5 flex gap-2">
+                  <label className="mt-6 flex min-h-11 items-center gap-2.5 rounded-xl border border-trust-blue/12 px-4">
+                    <input
+                      type="checkbox"
+                      checked={row.consent ?? false}
+                      onChange={(event) => patch(row.id, "consent", event.target.checked)}
+                      className="h-4 w-4 accent-[var(--color-china-red)]"
+                    />
+                    <span className="text-sm font-semibold text-trust-blue">
+                      الطالب وافق على نشر قصته
+                    </span>
+                  </label>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
                       <Save className="h-4 w-4" />
                       حفظ
@@ -225,6 +270,7 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
                       <Trash2 className="h-4 w-4" />
                       حذف
                     </Button>
+                    <UpdatedAtLabel value={row.updated_at} />
                   </div>
                 </div>
               )}

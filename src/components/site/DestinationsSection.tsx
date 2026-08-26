@@ -85,7 +85,7 @@ export default function DestinationsSection({
 
       {rest.length > 2 && (
         <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {rest.slice(2).map((item, index) => (
+          {rest.slice(2, 6).map((item, index) => (
             <Reveal key={item.id} delay={index * 80}>
               <Tilt3D intensity={7}>
                 <figure className="defer-offscreen group relative h-48 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">

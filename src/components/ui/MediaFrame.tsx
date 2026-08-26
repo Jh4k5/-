@@ -31,6 +31,7 @@ export default function MediaFrame({
   poster,
   fallbackScene = "shanghai",
   sceneDetail = "lite",
+  sizes = "(min-width: 1024px) 50vw, 100vw",
 }: {
   src: string | null | undefined;
   alt: string;
@@ -40,6 +41,8 @@ export default function MediaFrame({
   fallbackScene?: string;
   /** "full" for large singular placements (hero, page banners); "lite" (default) for cards/grids/thumbnails. */
   sceneDetail?: SceneDetail;
+  /** next/image `sizes` hint — override for small slots (avatars, marquee cards) so they don't request a full-width source. */
+  sizes?: string;
 }) {
   if (!src || isSceneRef(src)) {
     return (
@@ -74,7 +77,7 @@ export default function MediaFrame({
           src={src}
           alt={alt}
           fill
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          sizes={sizes}
           className="object-cover"
           priority={priority}
           {...(priority ? {} : { loading: "lazy" as const })}

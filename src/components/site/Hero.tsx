@@ -32,6 +32,7 @@ export default function Hero({
   settings: SettingsMap;
 }) {
   const [index, setIndex] = useState(0);
+  const [visited, setVisited] = useState<Set<number>>(() => new Set([0]));
   const [tilt, setTilt] = useState({ x: 0, y: 0, scroll: 0 });
   const Arrow = rtl ? ArrowLeft : ArrowRight;
 
@@ -52,6 +53,14 @@ export default function Hero({
     const timer = setInterval(() => setIndex((i) => (i + 1) % slides.length), 7500);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  // Only fetch a slide's image once it has actually been shown — avoids
+  // eagerly loading every hero photo on first paint just because they're
+  // geometrically stacked (opacity alone doesn't stop the browser from
+  // fetching an absolutely-positioned, in-viewport <img>).
+  useEffect(() => {
+    setVisited((prev) => (prev.has(index) ? prev : new Set(prev).add(index)));
+  }, [index]);
 
   // Parallax input: pointer on desktop, device tilt + scroll on phones, so the
   // depth effect is present on every device.
@@ -118,13 +127,15 @@ export default function Hero({
               className="ken-burns h-full w-full"
               style={{ animationPlayState: i === index ? "running" : "paused" }}
             >
-              <MediaFrame
-                src={slide.image_url}
-                poster={slide.poster}
-                alt={pick(slide, "title", locale)}
-                priority={i === 0}
-                sceneDetail="full"
-              />
+              {(i === index || visited.has(i)) && (
+                <MediaFrame
+                  src={slide.image_url}
+                  poster={slide.poster}
+                  alt={pick(slide, "title", locale)}
+                  priority={i === 0}
+                  sceneDetail="full"
+                />
+              )}
             </div>
           </div>
         ))}

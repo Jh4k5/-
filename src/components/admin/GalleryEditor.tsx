@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { Plus, Save, Trash2 } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
 import type { GalleryItem } from "@/lib/types";
@@ -15,7 +25,9 @@ const emptyRow = (order: number): Row => ({
   caption_ar: "",
   caption_en: "",
   caption_ru: "",
+  alt_text: "",
   display_order: order,
+  status: "draft",
   _new: true,
 });
 
@@ -36,7 +48,9 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
       caption_ar: row.caption_ar || null,
       caption_en: row.caption_en || null,
       caption_ru: row.caption_ru || null,
+      alt_text: row.alt_text || null,
       display_order: Number(row.display_order) || 0,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -96,6 +110,16 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
         <div className="grid gap-5 lg:grid-cols-2">
           {rows.map((row) => (
             <Card key={row.id} className="space-y-5">
+              <div className="flex items-center justify-between gap-3">
+                <StatusToggle
+                  status={row.status ?? "published"}
+                  onToggle={() =>
+                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                  }
+                />
+                <UpdatedAtLabel value={row.updated_at} />
+              </div>
+
               <MediaField
                 value={row.image_url}
                 onChange={(url) => patch(row.id, "image_url", url ?? "")}
@@ -114,6 +138,14 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
                   </Field>
                 )}
               </LangTabs>
+
+              <Field label="النص البديل (alt)" hint="لقارئ الشاشة">
+                <input
+                  className={inputClass}
+                  value={row.alt_text ?? ""}
+                  onChange={(event) => patch(row.id, "alt_text", event.target.value)}
+                />
+              </Field>
 
               <div className="flex items-end gap-3">
                 <Field label="ترتيب العرض">

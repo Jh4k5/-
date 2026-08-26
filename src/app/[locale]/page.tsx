@@ -66,7 +66,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     getArticles(3),
     getSettings(),
     getSections(),
-    getAdmissions(),
+    getAdmissions(12),
     getFeaturedUniversities(4),
   ]);
 

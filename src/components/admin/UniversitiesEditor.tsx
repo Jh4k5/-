@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Star, Trash2, X } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import MediaField from "./MediaField";
 import MediaFrame from "@/components/ui/MediaFrame";
 import { createClient } from "@/lib/supabase/client";
@@ -47,6 +57,7 @@ const emptyRow = (order: number): Row => ({
   tuition_range: "",
   is_featured: false,
   display_order: order,
+  status: "draft",
   _new: true,
 });
 
@@ -106,6 +117,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
       tuition_range: row.tuition_range || null,
       is_featured: row.is_featured,
       display_order: number(row.display_order) ?? 0,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -178,32 +190,47 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
 
           return (
             <Card key={row.id} className="p-0">
-              <button
-                type="button"
-                onClick={() => setOpen(expanded ? null : row.id)}
-                className="flex w-full items-center gap-3 p-4 text-start"
-              >
-                <span className="h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-ivory">
-                  <MediaFrame src={row.cover_media} alt="" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-extrabold text-trust-blue" dir="auto">
-                    {row.name_ar || row.name || "جامعة جديدة"}
+              <div className="flex w-full items-center gap-3 p-4">
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  className="flex min-w-0 flex-1 items-center gap-3 text-start"
+                >
+                  <span className="h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-ivory">
+                    <MediaFrame src={row.cover_media} alt="" />
                   </span>
-                  <span className="block truncate text-xs text-charcoal/50" dir="ltr">
-                    {row.name} · {row.city_ar || row.city_en || ""}
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-extrabold text-trust-blue" dir="auto">
+                      {row.name_ar || row.name || "جامعة جديدة"}
+                    </span>
+                    <span className="block truncate text-xs text-charcoal/50" dir="ltr">
+                      {row.name} · {row.city_ar || row.city_en || ""}
+                    </span>
                   </span>
-                </span>
-                {row.is_featured && (
-                  <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-[10px] font-bold text-[#8a6d12]">
-                    <Star className="h-3 w-3" />
-                    مميّزة
-                  </span>
-                )}
-                <ChevronDown
-                  className={`h-4 w-4 shrink-0 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  {row.is_featured && (
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-[10px] font-bold text-[#8a6d12]">
+                      <Star className="h-3 w-3" />
+                      مميّزة
+                    </span>
+                  )}
+                </button>
+                <StatusToggle
+                  status={row.status ?? "published"}
+                  onToggle={() =>
+                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                  }
                 />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  aria-label={expanded ? "طي" : "توسيع"}
+                  className="shrink-0 rounded-full p-1.5 hover:bg-trust-blue/8"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
 
               {expanded && (
                 <div className="space-y-6 border-t border-trust-blue/8 p-4 sm:p-5">
@@ -447,7 +474,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
                     </Field>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
                       <Save className="h-4 w-4" />
                       حفظ
@@ -456,6 +483,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
                       <Trash2 className="h-4 w-4" />
                       حذف
                     </Button>
+                    <UpdatedAtLabel value={row.updated_at} />
                   </div>
                 </div>
               )}

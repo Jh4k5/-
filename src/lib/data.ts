@@ -110,10 +110,13 @@ export const getDestinations = cache(async function getDestinations(): Promise<
   }, SEED_DESTINATIONS);
 });
 
-export const getHeroSlides = cache(async function getHeroSlides(): Promise<DestinationMedia[]> {
+export const getHeroSlides = cache(async function getHeroSlides(
+  limit = 6,
+): Promise<DestinationMedia[]> {
   const all = await getDestinations();
   const featured = all.filter((d) => d.is_featured || d.category === "hero");
-  return featured.length > 0 ? featured : all.slice(0, 3);
+  const slides = featured.length > 0 ? featured : all.slice(0, 3);
+  return slides.slice(0, limit);
 });
 
 export const getStories = cache(async function getStories(
@@ -218,8 +221,10 @@ export const getUniversityBySlug = cache(async function getUniversityBySlug(
   return all.find((item) => item.slug === slug) ?? null;
 });
 
-export const getAdmissions = cache(async function getAdmissions(): Promise<Admission[]> {
-  return safe(async () => {
+export const getAdmissions = cache(async function getAdmissions(
+  limit?: number,
+): Promise<Admission[]> {
+  const rows = await safe(async () => {
     const supabase = createPublicSupabase();
     const { data, error } = await supabase
       .from("admissions")
@@ -229,6 +234,7 @@ export const getAdmissions = cache(async function getAdmissions(): Promise<Admis
     if (error || !data) return [];
     return data as Admission[];
   }, []);
+  return typeof limit === "number" ? rows.slice(0, limit) : rows;
 });
 
 /** Home page sections, ordered and filtered by what the dashboard enables. */

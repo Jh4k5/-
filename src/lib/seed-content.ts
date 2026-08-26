@@ -438,6 +438,43 @@ export const SEED_SETTINGS: SettingRow[] = [
 
   // muted brand accent used for WhatsApp CTAs (theme-editable)
   { key: "brand_jade", value: "#1f7a68", value_ar: null, value_en: null, value_ru: null },
+
+  // "what happens after the interview?" block on /services
+  {
+    key: "services_after_interview_title",
+    value: null,
+    value_ar: "ماذا يحدث بعد المقابلة؟",
+    value_en: "What happens after the interview?",
+    value_ru: "Что происходит после собеседования?",
+  },
+  {
+    key: "services_after_interview_step1",
+    value: null,
+    value_ar: "نفهم مرحلتك الدراسية وتخصصك وهدفك وميزانيتك.",
+    value_en: "We understand your academic stage, major, goal and budget.",
+    value_ru: "Мы разбираемся в вашем учебном этапе, специальности, цели и бюджете.",
+  },
+  {
+    key: "services_after_interview_step2",
+    value: null,
+    value_ar: "نراجع المسارات والبرامج التي تناسب ملفك مبدئياً.",
+    value_en: "We review the tracks and programmes that initially suit your profile.",
+    value_ru: "Мы рассматриваем направления и программы, предварительно подходящие вашему профилю.",
+  },
+  {
+    key: "services_after_interview_step3",
+    value: null,
+    value_ar: "نرسل لك خطة تقديم مخصصة لتختار منها.",
+    value_en: "We send you a tailored application plan to choose from.",
+    value_ru: "Мы отправляем вам индивидуальный план подачи документов на выбор.",
+  },
+  {
+    key: "services_after_interview_step4",
+    value: null,
+    value_ar: "نبدأ تجهيز الملف والتقديم بعد الاتفاق الواضح على النطاق والتكلفة.",
+    value_en: "We start preparing your file and applying after a clear agreement on scope and cost.",
+    value_ru: "Мы начинаем подготовку документов и подачу после чёткой договорённости об объёме и стоимости.",
+  },
 ];
 
 export const UNIVERSITY_NAMES = [

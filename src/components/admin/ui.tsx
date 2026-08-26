@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { CheckCircle2, Loader2, TriangleAlert } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, Loader2, TriangleAlert } from "lucide-react";
+import { formatDate } from "@/lib/format";
 
 export const LANGS = [
   { code: "ar", label: "عربي" },
@@ -103,6 +104,49 @@ export function StatusNote({ status }: { status: { type: "ok" | "error"; text: s
       )}
       {status.text}
     </p>
+  );
+}
+
+/** Shared مسودة/منشور badge + toggle button — reused by every content editor. */
+export function StatusToggle({
+  status,
+  onToggle,
+}: {
+  status: "draft" | "published";
+  onToggle: () => void;
+}) {
+  const published = status === "published";
+  return (
+    <span className="inline-flex items-center gap-2">
+      <span
+        className={`rounded-full px-3 py-1 text-xs font-bold ${
+          published ? "bg-jade/10 text-jade" : "bg-charcoal/8 text-charcoal/55"
+        }`}
+      >
+        {published ? "منشور" : "مسودة"}
+      </span>
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggle();
+        }}
+        className="inline-flex items-center gap-1.5 rounded-full bg-trust-blue/10 px-3 py-1.5 text-xs font-bold text-trust-blue transition-colors hover:bg-trust-blue/20"
+      >
+        {published ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {published ? "إخفاء" : "نشر"}
+      </button>
+    </span>
+  );
+}
+
+/** Shared "آخر تعديل" (last modified) label — reused by every content editor. */
+export function UpdatedAtLabel({ value }: { value?: string | null }) {
+  if (!value) return null;
+  return (
+    <span className="text-xs text-charcoal/45">
+      آخر تعديل: {formatDate(value, "ar")}
+    </span>
   );
 }
 

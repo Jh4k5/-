@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { ChevronDown, Plus, Save, Trash2 } from "lucide-react";
-import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import {
+  AdminHeading,
+  Button,
+  Card,
+  Field,
+  LangTabs,
+  StatusNote,
+  StatusToggle,
+  UpdatedAtLabel,
+  inputClass,
+} from "./ui";
 import { createClient } from "@/lib/supabase/client";
 import { ICON_KEYS, iconFor } from "@/lib/icons";
 import type { Service } from "@/lib/types";
@@ -19,6 +29,17 @@ const emptyService = (order: number): Row => ({
   description_ru: "",
   icon: "graduation-cap",
   display_order: order,
+  includes_ar: "",
+  includes_en: "",
+  includes_ru: "",
+  excludes_ar: "",
+  excludes_en: "",
+  excludes_ru: "",
+  cta_label_ar: "",
+  cta_label_en: "",
+  cta_label_ru: "",
+  cta_link: "",
+  status: "draft",
   _new: true,
 });
 
@@ -49,6 +70,17 @@ export default function ServicesEditor({ initial }: { initial: Service[] }) {
       description_ru: row.description_ru || null,
       icon: row.icon,
       display_order: Number(row.display_order) || 0,
+      includes_ar: row.includes_ar || null,
+      includes_en: row.includes_en || null,
+      includes_ru: row.includes_ru || null,
+      excludes_ar: row.excludes_ar || null,
+      excludes_en: row.excludes_en || null,
+      excludes_ru: row.excludes_ru || null,
+      cta_label_ar: row.cta_label_ar || null,
+      cta_label_en: row.cta_label_en || null,
+      cta_label_ru: row.cta_label_ru || null,
+      cta_link: row.cta_link || null,
+      status: row.status ?? "draft",
     };
 
     const supabase = createClient();
@@ -117,26 +149,41 @@ export default function ServicesEditor({ initial }: { initial: Service[] }) {
 
           return (
             <Card key={row.id} className="p-0">
-              <button
-                type="button"
-                onClick={() => setOpen(expanded ? null : row.id)}
-                className="flex w-full items-center gap-4 p-5 text-start"
-              >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="flex-1">
-                  <span className="block font-extrabold text-trust-blue">
-                    {row.title_ar || "خدمة بدون عنوان"}
+              <div className="flex w-full items-center gap-4 p-5">
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  className="flex flex-1 items-center gap-4 text-start"
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
+                    <Icon className="h-5 w-5" />
                   </span>
-                  <span className="block text-xs text-charcoal/50">
-                    ترتيب العرض: {row.display_order}
+                  <span className="flex-1">
+                    <span className="block font-extrabold text-trust-blue">
+                      {row.title_ar || "خدمة بدون عنوان"}
+                    </span>
+                    <span className="block text-xs text-charcoal/50">
+                      ترتيب العرض: {row.display_order}
+                    </span>
                   </span>
-                </span>
-                <ChevronDown
-                  className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                </button>
+                <StatusToggle
+                  status={row.status ?? "published"}
+                  onToggle={() =>
+                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
+                  }
                 />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setOpen(expanded ? null : row.id)}
+                  aria-label={expanded ? "طي" : "توسيع"}
+                  className="shrink-0 rounded-full p-1.5 hover:bg-trust-blue/8"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 text-charcoal/40 transition-transform ${expanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
 
               {expanded && (
                 <div className="border-t border-trust-blue/8 p-5">
@@ -162,9 +209,50 @@ export default function ServicesEditor({ initial }: { initial: Service[] }) {
                             }
                           />
                         </Field>
+                        <Field label={`ما نقدمه (${lang})`} hint="اختياري — سطر لكل عنصر">
+                          <textarea
+                            rows={3}
+                            className={`${inputClass} resize-y`}
+                            value={(row[`includes_${lang}` as const] as string) ?? ""}
+                            onChange={(event) =>
+                              patch(row.id, `includes_${lang}` as keyof Row, event.target.value)
+                            }
+                          />
+                        </Field>
+                        <Field label={`ما لا نضمنه (${lang})`} hint="اختياري — سطر لكل عنصر">
+                          <textarea
+                            rows={3}
+                            className={`${inputClass} resize-y`}
+                            value={(row[`excludes_${lang}` as const] as string) ?? ""}
+                            onChange={(event) =>
+                              patch(row.id, `excludes_${lang}` as keyof Row, event.target.value)
+                            }
+                          />
+                        </Field>
+                        <Field label={`نص زر CTA مخصص (${lang})`} hint="اختياري — يبقى الزر الافتراضي إن تُرك فارغاً">
+                          <input
+                            className={inputClass}
+                            value={(row[`cta_label_${lang}` as const] as string) ?? ""}
+                            onChange={(event) =>
+                              patch(row.id, `cta_label_${lang}` as keyof Row, event.target.value)
+                            }
+                          />
+                        </Field>
                       </div>
                     )}
                   </LangTabs>
+
+                  <div className="mt-5">
+                    <Field label="رابط زر CTA المخصص" hint="اختياري — رابط أو رقم واتساب">
+                      <input
+                        dir="ltr"
+                        className={inputClass}
+                        value={row.cta_link ?? ""}
+                        onChange={(event) => patch(row.id, "cta_link", event.target.value)}
+                        placeholder="https://... أو https://wa.me/..."
+                      />
+                    </Field>
+                  </div>
 
                   <div className="mt-5 grid gap-4 sm:grid-cols-2">
                     <Field label="الأيقونة">
@@ -191,7 +279,7 @@ export default function ServicesEditor({ initial }: { initial: Service[] }) {
                     </Field>
                   </div>
 
-                  <div className="mt-5 flex gap-2">
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
                       <Save className="h-4 w-4" />
                       حفظ
@@ -200,6 +288,7 @@ export default function ServicesEditor({ initial }: { initial: Service[] }) {
                       <Trash2 className="h-4 w-4" />
                       حذف
                     </Button>
+                    <UpdatedAtLabel value={row.updated_at} />
                   </div>
                 </div>
               )}
