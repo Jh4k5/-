@@ -535,6 +535,17 @@ export const SEED_SETTINGS: SettingRow[] = [
     value_ru:
       "Стоимость зависит от вашего профиля и необходимых услуг. После собеседования мы присылаем чёткий диапазон и письменный план до начала сотрудничества, без скрытых платежей за пределами того, что указано в контракте.",
   },
+
+  // Future-feature flags (§10) — disabled by default; no page/route/table
+  // exists for any of these yet. Flipping one to "true" is only meaningful
+  // once the corresponding feature is actually built.
+  { key: "feature_grants_directory_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "feature_university_comparison_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "feature_cost_calculator_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "feature_appointment_booking_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "feature_student_portal_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "feature_parent_center_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "feature_forms_library_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
 ];
 
 /** Offline fallback for the FAQ section — mirrors the DB seed. */
