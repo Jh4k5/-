@@ -3,10 +3,11 @@ import { createPublicSupabase } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
-const QUALIFICATIONS = new Set(["high_school", "bachelor", "master"]);
+const QUALIFICATIONS = new Set(["high_school", "bachelor", "master", "phd"]);
 const LEVELS = new Set(["none", "beginner", "hsk1_2", "hsk3_4", "hsk5_6"]);
 const CONTACTS = new Set(["whatsapp", "email", "phone"]);
 const LANGUAGES = new Set(["ar", "en", "ru"]);
+const SOURCES = new Set(["contact_form", "eligibility_check"]);
 
 /** Very small in-memory throttle: 5 submissions per IP per 10 minutes. */
 const WINDOW_MS = 10 * 60 * 1000;
@@ -62,6 +63,13 @@ export async function POST(request: Request) {
   const level = text(payload.chinese_level, 20);
   const contact = text(payload.preferred_contact, 20);
   const language = text(payload.language, 2);
+  const source = text(payload.source, 20);
+
+  const startYearRaw = Number.parseInt(String(payload.desired_start_year ?? ""), 10);
+  const startYear =
+    Number.isFinite(startYearRaw) && startYearRaw >= 2024 && startYearRaw <= 2035
+      ? startYearRaw
+      : null;
 
   const record = {
     full_name,
@@ -75,6 +83,9 @@ export async function POST(request: Request) {
     message: text(payload.message, 2000),
     language: language && LANGUAGES.has(language) ? language : "ar",
     status: "new",
+    source: source && SOURCES.has(source) ? source : "contact_form",
+    wants_scholarship: typeof payload.wants_scholarship === "boolean" ? payload.wants_scholarship : null,
+    desired_start_year: startYear,
   };
 
   const supabase = createPublicSupabase();

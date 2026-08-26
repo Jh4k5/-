@@ -215,11 +215,40 @@ const en: Dictionary = {
     error: "The request could not be sent. Please check your details and try again.",
     requiredError: "Please fill in the required fields.",
   },
+  eligibility: {
+    title: "Quick eligibility check",
+    subtitle: "Answer a few quick questions so we can understand your situation before we get in touch.",
+    fields: {
+      country: "Country",
+      stage: "Target academic stage",
+      major: "Desired major",
+      startYear: "Expected start year",
+      chineseLevel: "Chinese language level",
+      wantsScholarship: "Are you looking for a scholarship?",
+      preferredContact: "Preferred contact method",
+      choose: "Choose…",
+    },
+    placeholders: {
+      country: "e.g. Egypt",
+      major: "e.g. Computer Engineering",
+      startYear: "e.g. 2026",
+    },
+    yes: "Yes",
+    no: "No",
+    submit: "Submit",
+    sending: "Sending…",
+    success:
+      "Your information has been received. We will do an initial review and reach out to explain the suitable tracks and any conditions that still need official verification.",
+    error: "The information could not be sent. Please try again.",
+    requiredError: "Please fill in the required fields.",
+    whatsappCta: "Or message us directly on WhatsApp",
+  },
   options: {
     qualification: {
       high_school: "High school",
       bachelor: "Bachelor's",
       master: "Master's",
+      phd: "PhD",
     },
     chineseLevel: {
       none: "None",

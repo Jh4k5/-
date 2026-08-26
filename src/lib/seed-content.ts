@@ -488,6 +488,33 @@ export const SEED_SETTINGS: SettingRow[] = [
     value_ru:
       "Это прошлые случаи, а не гарантия результата для новой заявки. Решения зависят от университета, программы, профиля и года подачи.",
   },
+
+  // Eligibility quick-check form copy.
+  {
+    key: "eligibility_title",
+    value: null,
+    value_ar: "فحص أهلية أولي",
+    value_en: "Quick eligibility check",
+    value_ru: "Быстрая проверка права на поступление",
+  },
+  {
+    key: "eligibility_subtitle",
+    value: null,
+    value_ar: "أجب عن بضعة أسئلة سريعة لنفهم وضعك قبل أن نتواصل معك.",
+    value_en: "Answer a few quick questions so we can understand your situation before we get in touch.",
+    value_ru: "Ответьте на несколько коротких вопросов, чтобы мы поняли вашу ситуацию перед тем, как связаться с вами.",
+  },
+  {
+    key: "eligibility_success_message",
+    value: null,
+    value_ar:
+      "وصلت معلوماتك. سنراجعها مبدئياً ونتواصل معك لتوضيح المسارات المناسبة والشروط التي تحتاج إلى تحقق رسمي.",
+    value_en:
+      "Your information has been received. We will do an initial review and reach out to explain the suitable tracks and any conditions that still need official verification.",
+    value_ru:
+      "Ваша информация получена. Мы проведём первичный анализ и свяжемся с вами, чтобы объяснить подходящие направления и условия, которые ещё требуют официального подтверждения.",
+  },
+  { key: "eligibility_whatsapp_status", value: "active", value_ar: null, value_en: null, value_ru: null },
 ];
 
 /** Offline fallback for the FAQ section — mirrors the DB seed. */

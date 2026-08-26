@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/components/ui/BrandIcons";
 import PageHero from "@/components/site/PageHero";
-import ContactForm from "@/components/site/ContactForm";
+import ContactFormSwitcher from "@/components/site/ContactFormSwitcher";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
@@ -66,7 +66,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       <section className="container-page py-16">
         <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
           <Reveal>
-            <ContactForm locale={locale} dict={dict} settings={settings} />
+            <ContactFormSwitcher locale={locale} dict={dict} settings={settings} whatsapp={whatsapp} />
           </Reveal>
 
           <Reveal delay={120}>

@@ -4,34 +4,14 @@ import { useState } from "react";
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
+import { COUNTRY_CODES } from "@/lib/country-codes";
 import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
 
 type Status = "idle" | "sending" | "success" | "error";
 
-const QUALIFICATIONS = ["high_school", "bachelor", "master"] as const;
+const QUALIFICATIONS = ["high_school", "bachelor", "master", "phd"] as const;
 const LEVELS = ["none", "beginner", "hsk1_2", "hsk3_4", "hsk5_6"] as const;
 const CONTACT_METHODS = ["whatsapp", "email", "phone"] as const;
-
-const COUNTRY_CODES = [
-  { code: "+20", label: "مصر +20" },
-  { code: "+966", label: "السعودية +966" },
-  { code: "+971", label: "الإمارات +971" },
-  { code: "+965", label: "الكويت +965" },
-  { code: "+974", label: "قطر +974" },
-  { code: "+973", label: "البحرين +973" },
-  { code: "+968", label: "عُمان +968" },
-  { code: "+962", label: "الأردن +962" },
-  { code: "+964", label: "العراق +964" },
-  { code: "+212", label: "المغرب +212" },
-  { code: "+213", label: "الجزائر +213" },
-  { code: "+216", label: "تونس +216" },
-  { code: "+218", label: "ليبيا +218" },
-  { code: "+249", label: "السودان +249" },
-  { code: "+967", label: "اليمن +967" },
-  { code: "+86", label: "الصين +86" },
-  { code: "+7", label: "روسيا / كازاخستان +7" },
-  { code: "", label: "أخرى (اكتب الرمز يدوياً)" },
-] as const;
 
 export default function ContactForm({
   locale,

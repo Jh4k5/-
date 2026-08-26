@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronDown, Mail, MessageCircle, Phone, Search, Trash2 } from "lucide-react";
+import { ChevronDown, ClipboardCheck, Mail, MessageCircle, Phone, Search, Trash2 } from "lucide-react";
 import { AdminHeading, Button, StatusNote, inputClass } from "./ui";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/format";
-import type { Lead, LeadStatus } from "@/lib/types";
+import type { Lead, LeadSource, LeadStatus } from "@/lib/types";
 
 const STATUS_LABEL: Record<LeadStatus, string> = {
   new: "جديد",
@@ -13,10 +13,16 @@ const STATUS_LABEL: Record<LeadStatus, string> = {
   completed: "مكتمل",
 };
 
+const SOURCE_LABEL: Record<LeadSource, string> = {
+  contact_form: "نموذج التواصل",
+  eligibility_check: "فحص الأهلية السريع",
+};
+
 const QUALIFICATION_LABEL: Record<string, string> = {
   high_school: "ثانوي",
   bachelor: "بكالوريوس",
   master: "ماجستير",
+  phd: "دكتوراه",
 };
 
 const LEVEL_LABEL: Record<string, string> = {
@@ -42,6 +48,7 @@ const LANGUAGE_LABEL: Record<string, string> = {
 export default function LeadsTable({ initial }: { initial: Lead[] }) {
   const [leads, setLeads] = useState(initial);
   const [status, setStatus] = useState<LeadStatus | "all">("all");
+  const [source, setSource] = useState<LeadSource | "all">("all");
   const [language, setLanguage] = useState<"all" | "ar" | "en" | "ru">("all");
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -51,13 +58,14 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
     const needle = query.trim().toLowerCase();
     return leads.filter((lead) => {
       if (status !== "all" && lead.status !== status) return false;
+      if (source !== "all" && (lead.source ?? "contact_form") !== source) return false;
       if (language !== "all" && lead.language !== language) return false;
       if (!needle) return true;
       return `${lead.full_name} ${lead.country} ${lead.phone} ${lead.email ?? ""} ${lead.desired_major ?? ""}`
         .toLowerCase()
         .includes(needle);
     });
-  }, [leads, status, language, query]);
+  }, [leads, status, source, language, query]);
 
   const counts = useMemo(
     () => ({
@@ -123,6 +131,16 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
         </div>
 
         <select
+          value={source}
+          onChange={(event) => setSource(event.target.value as typeof source)}
+          className={`${inputClass} w-auto`}
+        >
+          <option value="all">كل المصادر</option>
+          <option value="contact_form">{SOURCE_LABEL.contact_form}</option>
+          <option value="eligibility_check">{SOURCE_LABEL.eligibility_check}</option>
+        </select>
+
+        <select
           value={language}
           onChange={(event) => setLanguage(event.target.value as typeof language)}
           className={`${inputClass} w-auto`}
@@ -185,6 +203,13 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                     </span>
                   </span>
 
+                  {lead.source === "eligibility_check" && (
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-trust-blue/10 px-2.5 py-1 text-[10px] font-bold text-trust-blue">
+                      <ClipboardCheck className="h-3 w-3" />
+                      {SOURCE_LABEL.eligibility_check}
+                    </span>
+                  )}
+
                   <span className="text-xs text-charcoal/55">{formatDate(lead.created_at, "ar")}</span>
 
                   <span
@@ -211,8 +236,18 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                         ["الهاتف / واتساب", lead.phone],
                         ["البريد الإلكتروني", lead.email || "—"],
                         ["التخصص المرغوب", lead.desired_major || "—"],
+                        ["سنة البدء المتوقعة", lead.desired_start_year ? String(lead.desired_start_year) : "—"],
                         ["مستوى الصينية", lead.chinese_level ? LEVEL_LABEL[lead.chinese_level] : "—"],
+                        [
+                          "يبحث عن منحة؟",
+                          lead.wants_scholarship === null || lead.wants_scholarship === undefined
+                            ? "—"
+                            : lead.wants_scholarship
+                              ? "نعم"
+                              : "لا",
+                        ],
                         ["وسيلة التواصل المفضلة", CONTACT_LABEL[lead.preferred_contact]],
+                        ["مصدر الطلب", SOURCE_LABEL[lead.source ?? "contact_form"]],
                         ["لغة الإرسال", LANGUAGE_LABEL[lead.language]],
                       ].map(([label, value]) => (
                         <div key={label}>

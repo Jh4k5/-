@@ -3,7 +3,7 @@ export type ArticleStatus = "draft" | "published";
 /** Shared draft/published workflow status, added to every content table in Prompt 2. */
 export type ContentStatus = "draft" | "published";
 export type DestinationCategory = "city" | "campus" | "hero";
-export type Qualification = "high_school" | "bachelor" | "master";
+export type Qualification = "high_school" | "bachelor" | "master" | "phd";
 export type DegreeLevel = "high_school" | "bachelor" | "master" | "phd";
 export type ResultType = "admission" | "scholarship" | "admission_scholarship" | "pre_admission";
 export type BlurLevel = "none" | "light" | "medium" | "heavy";
@@ -167,6 +167,8 @@ export interface DestinationMedia {
   updated_at?: string;
 }
 
+export type LeadSource = "contact_form" | "eligibility_check";
+
 export interface Lead {
   id: string;
   full_name: string;
@@ -180,6 +182,9 @@ export interface Lead {
   message: string | null;
   language: "ar" | "en" | "ru";
   status: LeadStatus;
+  source?: LeadSource;
+  wants_scholarship?: boolean | null;
+  desired_start_year?: number | null;
   created_at: string;
 }
 
