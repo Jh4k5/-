@@ -435,7 +435,7 @@ textarea {
   font-family: var(--font-chinese);
 }
 .kanji-watermark--lg {
-  font-size: clamp(7rem, 18vw, 15rem);
+  font-size: clamp(5rem, 11vw, 9.5rem);
 }
 /* Sized to sit whole inside a one-line strip rather than being cropped by it. */
 .kanji-watermark--sm {

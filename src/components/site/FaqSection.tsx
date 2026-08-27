@@ -35,7 +35,7 @@ export default function FaqSection({
 
   return (
     <section className="surface-deep relative overflow-hidden py-24">
-      <KanjiWatermark char="bridge" className="-top-10 end-0 hidden lg:block" />
+      <KanjiWatermark char="bridge" className="top-6 end-6 hidden lg:block" />
       <div className="container-page">
         <SectionHeading title={title || dict.faq.title} subtitle={subtitle || dict.faq.subtitle} />
 

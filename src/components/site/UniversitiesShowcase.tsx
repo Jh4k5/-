@@ -34,7 +34,7 @@ export default function UniversitiesShowcase({
 
   return (
     <section className="surface-deep relative overflow-hidden py-24">
-      <KanjiWatermark char="study" className="-top-10 end-0 hidden lg:block" />
+      <KanjiWatermark char="study" className="top-6 end-6 hidden lg:block" />
 
       <div className="container-page relative">
         <Reveal>

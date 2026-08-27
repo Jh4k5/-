@@ -30,7 +30,7 @@ export default function AboutTeaser({
 
   return (
     <section className="surface-deep relative overflow-hidden py-20">
-      <KanjiWatermark char="bridge" className="-top-10 end-0 hidden lg:block" />
+      <KanjiWatermark char="bridge" className="top-6 end-6 hidden lg:block" />
       <div className="container-page relative">
       <div className="mx-auto max-w-3xl text-center">
         <SectionHeading eyebrow={dict.nav.about} title={title || dict.about.title} />

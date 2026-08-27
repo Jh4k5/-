@@ -31,7 +31,7 @@ export default function LanguagePlatformSection({
 
   return (
     <section className="relative overflow-hidden bg-ivory-dark/40 py-24">
-      <KanjiWatermark char="language" className="-top-8 end-0 hidden lg:block" />
+      <KanjiWatermark char="language" className="top-6 end-6 hidden lg:block" />
       <div className="container-page relative">
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           <Reveal direction="scale" className="order-1">
