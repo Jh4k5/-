@@ -34,6 +34,7 @@ export default function Reveal({
   duration = 0.8,
   className,
   once = true,
+  as = "div",
 }: {
   children: ReactNode;
   /** Delay in milliseconds, matching the rest of the codebase. */
@@ -43,9 +44,17 @@ export default function Reveal({
   duration?: number;
   className?: string;
   once?: boolean;
+  /**
+   * Element to render. Inside a list this must be "li": a motion div sitting
+   * between <ul>/<ol> and its <li> children breaks the list semantics screen
+   * readers rely on to announce "list, 6 items".
+   */
+  as?: "div" | "li";
 }) {
+  const Motion = as === "li" ? motion.li : motion.div;
+
   return (
-    <motion.div
+    <Motion
       className={className}
       initial={{
         opacity: 0,
@@ -57,7 +66,7 @@ export default function Reveal({
       transition={{ duration, delay: delay / 1000, ease: EASE }}
     >
       {children}
-    </motion.div>
+    </Motion>
   );
 }
 

@@ -157,7 +157,7 @@ export default function Footer({
                     className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 text-white/40"
                   >
                     <Icon className="h-4 w-4" aria-hidden="true" />
-                    <span className="text-[10px] font-semibold">{comingSoonLabel}</span>
+                    <span className="text-[0.625rem] font-semibold">{comingSoonLabel}</span>
                   </span>
                 ),
               )}

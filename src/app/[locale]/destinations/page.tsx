@@ -88,7 +88,7 @@ export default async function DestinationsIndexPage({
                   </span>
                   <span className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 to-transparent" />
                   <span className="absolute inset-x-0 bottom-0 p-5">
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-imperial-gold">
+                    <span className="inline-flex items-center gap-1 text-[0.6875rem] font-bold text-imperial-gold">
                       <MapPin className="h-3 w-3" aria-hidden="true" />
                       {dict.explore.cityLabel}
                     </span>

@@ -88,7 +88,7 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
                 <p className="flex items-center gap-1.5 font-extrabold text-trust-blue">
                   {article.title_ar}
                   {article.is_featured && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2 py-0.5 text-[10px] font-bold text-[#8a6d12]">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2 py-0.5 text-[0.625rem] font-bold text-[#6b5410]">
                       <Star className="h-3 w-3" aria-hidden="true" />
                       مميّز
                     </span>
@@ -110,7 +110,7 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
                     return (
                       <span
                         key={lang}
-                        className={`rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${
+                        className={`rounded px-1.5 py-0.5 text-[0.625rem] font-bold uppercase ${
                           filled ? "bg-jade/12 text-jade" : "bg-charcoal/8 text-charcoal/40"
                         }`}
                       >

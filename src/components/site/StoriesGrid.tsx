@@ -69,7 +69,7 @@ export default function StoriesGrid({
             <p className="truncate text-lg font-extrabold text-trust-blue" dir="auto">
               {story.student_name}
             </p>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-china-red">
+            <p className="text-[0.6875rem] font-bold uppercase tracking-widest text-china-red">
               {dict.stories.achievement}
             </p>
             {(story.university_name || story.country) && (
@@ -77,13 +77,13 @@ export default function StoriesGrid({
                 {story.university_name && (
                   <span
                     dir="ltr"
-                    className="rounded-full bg-trust-blue/8 px-2 py-0.5 text-[11px] font-semibold text-trust-blue"
+                    className="rounded-full bg-trust-blue/8 px-2 py-0.5 text-[0.6875rem] font-semibold text-trust-blue"
                   >
                     {story.university_name}
                   </span>
                 )}
                 {story.country && (
-                  <span className="rounded-full bg-imperial-gold/15 px-2 py-0.5 text-[11px] font-semibold text-[#8a6d12]">
+                  <span className="rounded-full bg-imperial-gold/15 px-2 py-0.5 text-[0.6875rem] font-semibold text-[#6b5410]">
                     {story.country}
                   </span>
                 )}
@@ -97,7 +97,7 @@ export default function StoriesGrid({
         </p>
 
         {quote && (
-          <p className="relative mt-4 text-[15px] leading-relaxed text-charcoal/75">“{quote}”</p>
+          <p className="relative mt-4 text-base leading-relaxed text-charcoal/75">“{quote}”</p>
         )}
 
         <span className="mt-auto block h-1 w-12 rounded-full bg-imperial-gold/70 pt-5 transition-all duration-500 group-hover:w-24" />
@@ -158,7 +158,7 @@ export default function StoriesGrid({
                 {pick(story, "achievement", locale)}
               </p>
               {pick(story, "quote", locale) && (
-                <p className="mt-3 text-center text-[15px] leading-relaxed text-charcoal/75">
+                <p className="mt-3 text-center text-base leading-relaxed text-charcoal/75">
                   “{pick(story, "quote", locale)}”
                 </p>
               )}

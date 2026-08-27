@@ -127,7 +127,7 @@ export default async function AdminDashboard() {
                     lead.status === "new"
                       ? "bg-china-red/10 text-china-red"
                       : lead.status === "contacted"
-                        ? "bg-imperial-gold/20 text-[#8a6d12]"
+                        ? "bg-imperial-gold/20 text-[#6b5410]"
                         : "bg-jade/10 text-jade"
                   }`}
                 >

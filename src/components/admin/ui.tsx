@@ -57,7 +57,7 @@ export function Field({
 }
 
 export const inputClass =
-  "w-full rounded-xl border border-trust-blue/12 bg-white px-4 py-2.5 text-[15px] outline-none transition-all duration-300 focus:border-china-red/45 focus:shadow-[0_0_0_4px_rgba(200,16,46,0.08)]";
+  "w-full rounded-xl border border-trust-blue/12 bg-white px-4 py-2.5 text-base outline-none transition-all duration-300 focus:border-china-red/45 focus:shadow-[0_0_0_4px_rgba(200,16,46,0.08)]";
 
 export function Button({
   children,
@@ -269,7 +269,7 @@ export function RichTextEditor({
           lastValue.current = html;
           onChange(html);
         }}
-        className="rich-text min-h-64 px-5 py-4 text-[15px] leading-[1.9] outline-none"
+        className="rich-text min-h-64 px-5 py-4 text-base leading-[1.9] outline-none"
       />
     </div>
   );

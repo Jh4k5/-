@@ -44,8 +44,12 @@ export default function ProcessSection({
             {stages.map((stage, index) => {
               const Icon = iconFor(stage.icon);
               return (
-                <Reveal key={stage.id} delay={index * 90} className="lg:flex-1">
-                  <li className="relative flex gap-5 ps-0 lg:flex-col lg:gap-0 lg:ps-0">
+                <Reveal
+                  key={stage.id}
+                  delay={index * 90}
+                  as="li"
+                  className="relative flex gap-5 ps-0 lg:flex-1 lg:flex-col lg:gap-0 lg:ps-0"
+                >
                     <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white lg:mb-5">
                       <span className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-imperial-gold">
                         {String(index + 1).padStart(2, "0")}
@@ -62,7 +66,6 @@ export default function ProcessSection({
                         {pick(stage, "description", locale)}
                       </p>
                     </div>
-                  </li>
                 </Reveal>
               );
             })}

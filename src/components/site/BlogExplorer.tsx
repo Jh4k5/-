@@ -101,7 +101,7 @@ export default function BlogExplorer({
                   <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
                     <MediaFrame src={featured.cover_image} alt={pick(featured, "title", locale)} priority />
                   </div>
-                  <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg start-4">
+                  <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[0.6875rem] font-extrabold text-trust-blue-dark shadow-lg start-4">
                     <Star className="h-3.5 w-3.5" aria-hidden="true" />
                     {dict.blog.categories[featured.category] ?? featured.category}
                   </span>

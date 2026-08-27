@@ -47,7 +47,7 @@ export default function DestinationsSection({
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/90 via-trust-blue-dark/25 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-7">
-                <span className="inline-flex rounded-full bg-china-red px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
+                <span className="inline-flex rounded-full bg-china-red px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-widest text-white">
                   {label(lead)}
                 </span>
                 <p className="mt-3 font-[family-name:var(--font-display)] text-2xl font-extrabold text-white sm:text-3xl">
@@ -72,7 +72,7 @@ export default function DestinationsSection({
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-95" />
                   <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-imperial-gold">
+                    <span className="text-[0.625rem] font-bold uppercase tracking-widest text-imperial-gold">
                       {label(item)}
                     </span>
                     <p className="mt-1 text-lg font-extrabold text-white">
@@ -101,7 +101,7 @@ export default function DestinationsSection({
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 via-trust-blue-dark/20 to-transparent" />
                   <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-imperial-gold">
+                    <span className="text-[0.625rem] font-bold uppercase tracking-widest text-imperial-gold">
                       {label(item)}
                     </span>
                     <p className="mt-1 text-base font-extrabold text-white">

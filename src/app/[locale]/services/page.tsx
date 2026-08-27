@@ -105,7 +105,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
                   <span className="mt-3 block text-xs font-bold text-charcoal/40">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="mt-2 text-[15px] leading-relaxed text-charcoal/80">{step}</p>
+                  <p className="mt-2 text-base leading-relaxed text-charcoal/80">{step}</p>
                 </div>
               </Reveal>
             ))}

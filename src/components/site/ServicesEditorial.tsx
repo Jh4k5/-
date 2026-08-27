@@ -20,8 +20,7 @@ export default function ServicesEditorial({
     <div className="mx-auto max-w-3xl">
       <ol className="divide-y divide-trust-blue/10 border-y border-trust-blue/10">
         {services.slice(0, 6).map((service, index) => (
-          <Reveal key={service.id} delay={index * 60}>
-            <li className="flex gap-5 py-6">
+          <Reveal key={service.id} delay={index * 60} as="li" className="flex gap-5 py-6">
               <span className="shrink-0 font-[family-name:var(--font-display)] text-2xl font-extrabold text-imperial-gold">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -33,7 +32,6 @@ export default function ServicesEditorial({
                   {pick(service, "description", locale)}
                 </p>
               </div>
-            </li>
           </Reveal>
         ))}
       </ol>

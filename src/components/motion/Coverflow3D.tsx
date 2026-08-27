@@ -126,7 +126,11 @@ export default function Coverflow3D({
           return (
             <div
               key={item.id}
-              aria-hidden={offset !== 0}
+              // The off-axis cards are faded and blurred decoration. `inert`
+              // takes them out of the accessibility tree *and* out of the tab
+              // order — without it a keyboard user tabs into links they cannot
+              // see, and contrast tooling grades text at its faded opacity.
+              inert={offset !== 0}
               className={`absolute inset-x-0 mx-auto w-[min(88vw,32rem)] ${cardClassName}`}
               style={{
                 transform: `translate3d(${offset * direction * 44}%, 0, ${-distance * 210}px) rotateY(${-offset * direction * 30}deg) scale(${1 - distance * 0.06})`,

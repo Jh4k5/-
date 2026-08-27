@@ -27,11 +27,11 @@ export default function ArticleCard({
           <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
             <MediaFrame src={article.cover_image} alt={pick(article, "title", locale)} />
           </div>
-          <span className="absolute top-4 rounded-full bg-china-red px-3 py-1 text-[11px] font-bold text-white start-4">
+          <span className="absolute top-4 rounded-full bg-china-red px-3 py-1 text-[0.6875rem] font-bold text-white start-4">
             {dict.blog.categories[article.category] ?? article.category}
           </span>
           {article.is_featured && (
-            <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg end-4">
+            <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[0.6875rem] font-extrabold text-trust-blue-dark shadow-lg end-4">
               <Star className="h-3.5 w-3.5" aria-hidden="true" />
             </span>
           )}

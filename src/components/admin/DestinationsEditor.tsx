@@ -154,7 +154,7 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
                     </span>
                   </span>
                   {row.is_featured && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-xs font-bold text-[#8a6d12]">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-xs font-bold text-[#6b5410]">
                       <Star className="h-3 w-3" aria-hidden="true" />
                       مميّزة
                     </span>

@@ -86,7 +86,7 @@ export default function AdmissionsGrid({
                     <MediaFrame src={admission.image_url} alt={dict.admissions.badge} />
                   </span>
                   <PrivacyMask admission={admission} />
-                  <span className="absolute top-3 inline-flex items-center gap-1 rounded-full bg-china-red px-2.5 py-1 text-[10px] font-bold text-white start-3">
+                  <span className="absolute top-3 inline-flex items-center gap-1 rounded-full bg-china-red px-2.5 py-1 text-[0.625rem] font-bold text-white start-3">
                     <BadgeCheck className="h-3 w-3" aria-hidden="true" />
                     {dict.admissions.badge}
                   </span>

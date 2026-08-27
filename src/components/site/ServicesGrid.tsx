@@ -47,7 +47,7 @@ export default function ServicesGrid({
                 </h3>
 
                 <p
-                  className={`mt-3 text-[15px] leading-relaxed text-charcoal/75 ${detailed ? "" : "line-clamp-4"}`}
+                  className={`mt-3 text-base leading-relaxed text-charcoal/75 ${detailed ? "" : "line-clamp-4"}`}
                 >
                   {description}
                 </p>

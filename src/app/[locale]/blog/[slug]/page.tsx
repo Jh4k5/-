@@ -146,7 +146,7 @@ export default async function ArticlePage({
           )}
 
           <div
-            className="rich-text text-[17px] leading-[1.9] text-charcoal/85"
+            className="rich-text text-[1.0625rem] leading-[1.9] text-charcoal/85"
             // eslint-disable-next-line react/no-danger -- audited: sanitizeRichText strips scripts and unsafe schemes server-side
             dangerouslySetInnerHTML={{ __html: content }}
           />

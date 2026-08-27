@@ -285,7 +285,7 @@ export default function Hero({
             <Link
               href={`/${locale}/contact`}
               onClick={() => track(ANALYTICS_EVENTS.heroPrimaryClick, locale)}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-10px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-0.5"
+              className="btn-seal group justify-center text-base"
             >
               {ctaPrimary}
               <Arrow className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -297,7 +297,7 @@ export default function Hero({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 <MessageCircle className="h-5 w-5" aria-hidden="true" />
                 {ctaWhatsapp}
@@ -363,7 +363,7 @@ export default function Hero({
         transition={{ delay: 1.3, duration: 0.8 }}
         className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden justify-center sm:flex"
       >
-        <span className="float-slow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/60">
+        <span className="float-slow flex items-center gap-2 text-[0.6875rem] font-semibold uppercase tracking-[0.25em] text-white/60">
           <MousePointerClick className="h-3.5 w-3.5" aria-hidden="true" />
           {dict.common.scrollHint}
         </span>

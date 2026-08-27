@@ -175,7 +175,7 @@ export default async function SearchPage({
                 {hits.map((hit) => (
                   <li key={hit.href + hit.title}>
                     <Link href={hit.href} className="block py-5 transition-colors hover:bg-white/60">
-                      <span className="text-[11px] font-bold uppercase tracking-widest text-imperial-gold">
+                      <span className="text-[0.6875rem] font-bold uppercase tracking-widest text-imperial-gold">
                         {hit.kind}
                       </span>
                       <span className="mt-1 block font-extrabold text-trust-blue">{hit.title}</span>

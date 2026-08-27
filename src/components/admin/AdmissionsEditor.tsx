@@ -221,12 +221,12 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                     </span>
 
                     {incomplete && (
-                      <span className="shrink-0 rounded-full bg-imperial-gold/15 px-2 py-1 text-[10px] font-bold text-imperial-gold-dark">
+                      <span className="shrink-0 rounded-full bg-imperial-gold/15 px-2 py-1 text-[0.625rem] font-bold text-imperial-gold-dark">
                         غير مكتمل — لن يظهر للزوار
                       </span>
                     )}
                     {!row.is_visible && (
-                      <span className="shrink-0 rounded-full bg-charcoal/8 px-2 py-1 text-[10px] font-bold text-charcoal/55">
+                      <span className="shrink-0 rounded-full bg-charcoal/8 px-2 py-1 text-[0.625rem] font-bold text-charcoal/55">
                         مخفي
                       </span>
                     )}

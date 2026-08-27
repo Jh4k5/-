@@ -51,7 +51,7 @@ export default function ContactForm({
   const errorMessage = settingText(settings, "contact_error_message", locale, dict.contact.error);
 
   const fieldClass =
-    "w-full rounded-xl border border-trust-blue/12 bg-white px-4 py-3 text-[15px] outline-none transition-all duration-300 focus:border-china-red/45 focus:shadow-[0_0_0_4px_rgba(200,16,46,0.08)]";
+    "w-full rounded-xl border border-trust-blue/12 bg-white px-4 py-3 text-base outline-none transition-all duration-300 focus:border-china-red/45 focus:shadow-[0_0_0_4px_rgba(200,16,46,0.08)]";
   const labelClass = "mb-1.5 block text-sm font-bold text-trust-blue";
   const errorClass = "mt-1.5 text-xs font-semibold text-china-red";
 

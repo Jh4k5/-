@@ -182,7 +182,7 @@ export default async function UniversityPage({
                 {dict.universities.aboutTitle}
               </h2>
               <span className="mt-3 block h-1 w-20 rounded-full bg-china-red" />
-              <p className="mt-5 text-[17px] leading-[1.9] text-charcoal/80">{description}</p>
+              <p className="mt-5 text-[1.0625rem] leading-[1.9] text-charcoal/80">{description}</p>
 
               {highlights.length > 0 && (
                 <>

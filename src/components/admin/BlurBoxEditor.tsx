@@ -102,7 +102,7 @@ export default function BlurBoxEditor({
         </div>
       )}
 
-      <span className="pointer-events-none absolute bottom-2 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold text-white start-2">
+      <span className="pointer-events-none absolute bottom-2 rounded-full bg-black/60 px-2.5 py-1 text-[0.625rem] font-bold text-white start-2">
         اسحب المستطيل لتغطية اسم الطالب
       </span>
     </div>

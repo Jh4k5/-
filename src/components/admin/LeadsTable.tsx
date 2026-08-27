@@ -33,12 +33,12 @@ const STATUS_ORDER: LeadStatus[] = [
 const STATUS_COLOR: Record<LeadStatus, string> = {
   new: "bg-china-red/10 text-china-red",
   reviewed: "bg-trust-blue/10 text-trust-blue",
-  awaiting_reply: "bg-imperial-gold/20 text-[#8a6d12]",
+  awaiting_reply: "bg-imperial-gold/20 text-[#6b5410]",
   qualified: "bg-trust-blue/10 text-trust-blue",
   contracted: "bg-jade/15 text-jade",
   unqualified: "bg-charcoal/8 text-charcoal/55",
   deferred: "bg-charcoal/8 text-charcoal/55",
-  contacted: "bg-imperial-gold/20 text-[#8a6d12]",
+  contacted: "bg-imperial-gold/20 text-[#6b5410]",
   completed: "bg-jade/15 text-jade",
 };
 
@@ -221,7 +221,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                   </span>
 
                   {lead.source === "eligibility_check" && (
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-trust-blue/10 px-2.5 py-1 text-[10px] font-bold text-trust-blue">
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-trust-blue/10 px-2.5 py-1 text-[0.625rem] font-bold text-trust-blue">
                       <ClipboardCheck className="h-3 w-3" aria-hidden="true" />
                       {SOURCE_LABEL.eligibility_check}
                     </span>

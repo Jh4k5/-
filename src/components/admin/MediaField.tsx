@@ -71,7 +71,7 @@ export default function MediaField({
         <div className="relative h-32 overflow-hidden rounded-2xl border border-trust-blue/12 bg-ivory">
           <MediaFrame src={value} alt="" />
           {isVideoSrc(value) && (
-            <span className="absolute bottom-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-[10px] font-bold text-white start-2">
+            <span className="absolute bottom-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-[0.625rem] font-bold text-white start-2">
               <FileVideo className="h-3 w-3" aria-hidden="true" />
               فيديو
             </span>
@@ -136,7 +136,7 @@ export default function MediaField({
                   key={scene}
                   type="button"
                   onClick={() => onChange(`scene:${scene}`)}
-                  className={`rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition-colors ${
+                  className={`rounded-lg px-2.5 py-1.5 text-[0.6875rem] font-bold transition-colors ${
                     value === `scene:${scene}`
                       ? "bg-china-red text-white"
                       : "bg-trust-blue/8 text-trust-blue hover:bg-trust-blue/16"
