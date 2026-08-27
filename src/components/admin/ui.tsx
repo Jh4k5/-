@@ -82,7 +82,7 @@ export function Button({
       disabled={props.disabled || loading}
       className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60 ${styles} ${className}`}
     >
-      {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+      {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
       {children}
     </button>
   );
@@ -98,9 +98,9 @@ export function StatusNote({ status }: { status: { type: "ok" | "error"; text: s
       }`}
     >
       {status.type === "ok" ? (
-        <CheckCircle2 className="h-4 w-4" />
+        <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
       ) : (
-        <TriangleAlert className="h-4 w-4" />
+        <TriangleAlert className="h-4 w-4" aria-hidden="true" />
       )}
       {status.text}
     </p>
@@ -133,7 +133,7 @@ export function StatusToggle({
         }}
         className="inline-flex items-center gap-1.5 rounded-full bg-trust-blue/10 px-3 py-1.5 text-xs font-bold text-trust-blue transition-colors hover:bg-trust-blue/20"
       >
-        {published ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {published ? <EyeOff className="h-3.5 w-3.5" aria-hidden="true" /> : <Eye className="h-3.5 w-3.5" aria-hidden="true" />}
         {published ? "إخفاء" : "نشر"}
       </button>
     </span>

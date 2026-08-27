@@ -44,7 +44,7 @@ export default function UniversityCard({
 
         {university.world_rank && university.world_rank_source && (
           <span className="absolute top-4 inline-flex items-center gap-1.5 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg end-4">
-            <Trophy className="h-3.5 w-3.5" />#{university.world_rank}
+            <Trophy className="h-3.5 w-3.5" aria-hidden="true" />#{university.world_rank}
           </span>
         )}
 
@@ -60,7 +60,7 @@ export default function UniversityCard({
             </h3>
             {city && (
               <p className="mt-0.5 flex items-center gap-1 text-xs text-white/75">
-                <MapPin className="h-3 w-3" />
+                <MapPin className="h-3 w-3" aria-hidden="true" />
                 {city}
               </p>
             )}
@@ -71,12 +71,12 @@ export default function UniversityCard({
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap gap-1.5">
           <span className="inline-flex items-center gap-1 rounded-full bg-trust-blue/8 px-2.5 py-1 text-[11px] font-bold text-trust-blue">
-            <GraduationCap className="h-3 w-3" />
+            <GraduationCap className="h-3 w-3" aria-hidden="true" />
             {languageLabel(university, dict)}
           </span>
           {university.founded_year && (
             <span className="inline-flex items-center gap-1 rounded-full bg-trust-blue/8 px-2.5 py-1 text-[11px] font-bold text-trust-blue">
-              <Building2 className="h-3 w-3" />
+              <Building2 className="h-3 w-3" aria-hidden="true" />
               {university.founded_year}
             </span>
           )}
@@ -89,7 +89,7 @@ export default function UniversityCard({
           className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-bold text-china-red"
         >
           {dict.universities.exploreOne}
-          <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+          <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true" />
         </Link>
       </div>
     </article>

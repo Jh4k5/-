@@ -39,7 +39,7 @@ export default function ServicesGrid({
                 <span className="absolute inset-x-0 top-0 h-1 bg-china-red opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-trust-blue text-white shadow-[0_16px_30px_-16px_rgba(27,58,107,0.95)] transition-[transform,background-color] duration-500 group-hover:-translate-y-1 group-hover:bg-china-red">
-                  <Icon className="h-6 w-6" />
+                  <Icon className="h-6 w-6" aria-hidden="true" />
                 </span>
 
                 <h3 className="mt-5 text-xl font-extrabold text-trust-blue">
@@ -58,7 +58,7 @@ export default function ServicesGrid({
                       <ul className="space-y-1.5">
                         {includes.map((item) => (
                           <li key={item} className="flex items-start gap-2 text-sm text-charcoal/80">
-                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-jade" />
+                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-jade" aria-hidden="true" />
                             {item}
                           </li>
                         ))}
@@ -68,7 +68,7 @@ export default function ServicesGrid({
                       <ul className="space-y-1.5">
                         {excludes.map((item) => (
                           <li key={item} className="flex items-start gap-2 text-sm text-charcoal/60">
-                            <X className="mt-0.5 h-4 w-4 shrink-0 text-china-red/70" />
+                            <X className="mt-0.5 h-4 w-4 shrink-0 text-china-red/70" aria-hidden="true" />
                             {item}
                           </li>
                         ))}

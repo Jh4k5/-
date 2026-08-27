@@ -38,7 +38,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
       <div className="flex flex-col items-center text-center">
-        <LogoMark className="h-14 w-14" />
+        <LogoMark className="h-14 w-14" aria-hidden="true" />
         <h1 className="mt-4 text-2xl font-extrabold text-trust-blue">لوحة تحكم جسر إلى الصين</h1>
         <p className="mt-1 text-sm text-charcoal/60">تسجيل دخول المدير</p>
       </div>
@@ -79,7 +79,7 @@ function LoginForm() {
 
       {error && (
         <p className="mt-5 flex items-center gap-2 rounded-xl bg-china-red/10 px-4 py-3 text-sm font-semibold text-china-red">
-          <AlertCircle className="h-5 w-5 shrink-0" />
+          <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
           {error}
         </p>
       )}
@@ -89,7 +89,7 @@ function LoginForm() {
         disabled={loading}
         className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-china-red px-6 py-3.5 font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-china-red-dark disabled:opacity-60"
       >
-        <LogIn className="h-5 w-5" />
+        <LogIn className="h-5 w-5" aria-hidden="true" />
         {loading ? "جارٍ الدخول…" : "تسجيل الدخول"}
       </button>
 

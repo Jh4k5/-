@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/site/PageHero";
@@ -10,7 +11,7 @@ import { getDictionary } from "@/i18n";
 import { pick, isLocale, type Locale } from "@/i18n/config";
 import { getArticles, getFaqs, getSettings } from "@/lib/data";
 import { settingText, settingValue, whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, courseJsonLd, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, courseJsonLd } from "@/lib/seo";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 
 export async function generateMetadata({
@@ -88,10 +89,7 @@ export default async function LanguagePlatformPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(
-          courseJsonLd({
+      <JsonLd data={courseJsonLd({
             locale,
             name: headline,
             description: settingText(
@@ -103,13 +101,8 @@ export default async function LanguagePlatformPage({
             path: "/language-platform",
             settings,
             image,
-          }),
-        )}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+          })} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={headline} subtitle={dict.languagePlatform.subtitle} scene="campus-library" />
       <Breadcrumbs locale={locale} trail={trail} />

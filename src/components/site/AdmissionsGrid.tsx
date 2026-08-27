@@ -87,11 +87,11 @@ export default function AdmissionsGrid({
                   </span>
                   <PrivacyMask admission={admission} />
                   <span className="absolute top-3 inline-flex items-center gap-1 rounded-full bg-china-red px-2.5 py-1 text-[10px] font-bold text-white start-3">
-                    <BadgeCheck className="h-3 w-3" />
+                    <BadgeCheck className="h-3 w-3" aria-hidden="true" />
                     {dict.admissions.badge}
                   </span>
                   <span className="absolute bottom-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-trust-blue-dark/70 text-white transition-transform duration-500 group-hover:scale-110 end-3">
-                    <Expand className="h-4 w-4" />
+                    <Expand className="h-4 w-4" aria-hidden="true" />
                   </span>
                 </span>
 

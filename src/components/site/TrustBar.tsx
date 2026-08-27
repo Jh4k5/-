@@ -36,7 +36,7 @@ export default function TrustBar({
           {points.map(({ Icon, text }, index) => (
             <Reveal key={text} delay={index * 60} className="flex-1">
               <div className="flex items-center gap-3 py-3 sm:justify-center sm:px-6 sm:py-0">
-                <Icon className="h-4.5 w-4.5 shrink-0 text-imperial-gold-soft" />
+                <Icon className="h-4.5 w-4.5 shrink-0 text-imperial-gold-soft" aria-hidden="true" />
                 <span className="text-sm font-semibold text-white">{text}</span>
               </div>
             </Reveal>

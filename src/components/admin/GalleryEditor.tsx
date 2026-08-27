@@ -90,7 +90,7 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
         subtitle="صور عامة يمكن استخدامها في أنحاء الموقع، مع تعليق اختياري بثلاث لغات."
         action={
           <Button onClick={() => setRows((current) => [...current, emptyRow(current.length + 1)])}>
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true" />
             صورة جديدة
           </Button>
         }
@@ -157,11 +157,11 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
                   />
                 </Field>
                 <Button onClick={() => save(row)} loading={busy === row.id}>
-                  <Save className="h-4 w-4" />
+                  <Save className="h-4 w-4" aria-hidden="true" />
                   حفظ
                 </Button>
                 <Button variant="danger" onClick={() => remove(row)}>
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </div>
             </Card>

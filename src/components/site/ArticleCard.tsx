@@ -32,14 +32,14 @@ export default function ArticleCard({
           </span>
           {article.is_featured && (
             <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg end-4">
-              <Star className="h-3.5 w-3.5" />
+              <Star className="h-3.5 w-3.5" aria-hidden="true" />
             </span>
           )}
         </Link>
 
         <div className="flex flex-1 flex-col p-6">
           <p className="flex items-center gap-1.5 text-xs text-charcoal/55">
-            <CalendarDays className="h-3.5 w-3.5" />
+            <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
             {formatDate(article.created_at, locale)}
           </p>
 
@@ -54,7 +54,7 @@ export default function ArticleCard({
             className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-bold text-china-red"
           >
             {dict.common.readMore}
-            <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+            <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true" />
           </Link>
         </div>
       </article>

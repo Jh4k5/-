@@ -102,9 +102,9 @@ export default function AdminNav({ email }: { email: string }) {
           aria-label="القائمة"
           aria-expanded={open}
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5" aria-hidden="true" />
         </button>
-        <LogoMark className="h-9 w-9 shrink-0" />
+        <LogoMark className="h-9 w-9 shrink-0" aria-hidden="true" />
         <span className="min-w-0 flex-1 truncate font-[family-name:var(--font-display)] text-base font-extrabold text-trust-blue">
           {current?.label ?? "لوحة التحكم"}
         </span>
@@ -124,7 +124,7 @@ export default function AdminNav({ email }: { email: string }) {
       >
         <div className="flex items-center justify-between gap-2">
           <Link href="/admin" className="flex min-w-0 items-center gap-2.5">
-            <LogoMark className="h-10 w-10 shrink-0" />
+            <LogoMark className="h-10 w-10 shrink-0" aria-hidden="true" />
             <span className="truncate font-[family-name:var(--font-display)] text-base font-extrabold text-white">
               لوحة التحكم
             </span>
@@ -135,7 +135,7 @@ export default function AdminNav({ email }: { email: string }) {
             className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white/70 hover:bg-white/10 lg:hidden"
             aria-label="إغلاق"
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -150,7 +150,7 @@ export default function AdminNav({ email }: { email: string }) {
                   : "text-white/70 hover:bg-white/10 hover:text-white"
               }`}
             >
-              <Icon className="h-4.5 w-4.5 shrink-0" />
+              <Icon className="h-4.5 w-4.5 shrink-0" aria-hidden="true" />
               <span className="truncate">{label}</span>
             </Link>
           ))}
@@ -173,7 +173,7 @@ export default function AdminNav({ email }: { email: string }) {
               onClick={signOut}
               className="inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-china-red px-4 text-xs font-bold text-white transition-colors hover:bg-china-red-dark"
             >
-              <LogOut className="h-4 w-4" />
+              <LogOut className="h-4 w-4" aria-hidden="true" />
               خروج
             </button>
           </div>

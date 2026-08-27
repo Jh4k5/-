@@ -77,7 +77,7 @@ export default function Footer({
               // eslint-disable-next-line @next/next/no-img-element
               <img src={logoUrl} alt={dict.meta.siteName} className="h-12 w-12 object-contain" />
             ) : (
-              <LogoMark className="h-12 w-12" />
+              <LogoMark className="h-12 w-12" aria-hidden="true" />
             )}
             <div>
               <p className="font-[family-name:var(--font-display)] text-xl font-extrabold">
@@ -118,19 +118,19 @@ export default function Footer({
           </h3>
           <ul className="mt-5 space-y-3 text-sm text-white/70">
             <li className="flex items-center gap-2.5">
-              <Mail className="h-4 w-4 shrink-0 text-china-red" />
+              <Mail className="h-4 w-4 shrink-0 text-china-red" aria-hidden="true" />
               <a href={`mailto:${email}`} className="hover:text-white" dir="ltr">
                 {email}
               </a>
             </li>
             <li className="flex items-center gap-2.5">
-              <Phone className="h-4 w-4 shrink-0 text-china-red" />
+              <Phone className="h-4 w-4 shrink-0 text-china-red" aria-hidden="true" />
               <a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-white" dir="ltr">
                 {phone}
               </a>
             </li>
             <li className="flex items-center gap-2.5">
-              <MapPin className="h-4 w-4 shrink-0 text-china-red" />
+              <MapPin className="h-4 w-4 shrink-0 text-china-red" aria-hidden="true" />
               <span>{location}</span>
             </li>
           </ul>
@@ -147,7 +147,7 @@ export default function Footer({
                     aria-label={label}
                     className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 transition-all duration-300 hover:-translate-y-0.5 hover:border-imperial-gold hover:text-imperial-gold"
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4" aria-hidden="true" />
                   </a>
                 ) : (
                   <span
@@ -156,7 +156,7 @@ export default function Footer({
                     title={comingSoonLabel}
                     className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 text-white/40"
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4" aria-hidden="true" />
                     <span className="text-[10px] font-semibold">{comingSoonLabel}</span>
                   </span>
                 ),

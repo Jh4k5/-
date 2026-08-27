@@ -4,7 +4,7 @@ import { LogoMark } from "@/components/site/Logo";
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-trust-blue-dark px-6 text-center text-white">
-      <LogoMark className="h-16 w-16" />
+      <LogoMark className="h-16 w-16" aria-hidden="true" />
       <p className="font-[family-name:var(--font-display)] text-6xl font-extrabold text-imperial-gold">
         404
       </p>

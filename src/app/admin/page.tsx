@@ -83,7 +83,7 @@ export default async function AdminDashboard() {
             <span
               className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${accent} text-white`}
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-5 w-5" aria-hidden="true" />
             </span>
             <p className="mt-4 font-[family-name:var(--font-display)] text-3xl font-extrabold text-trust-blue">
               {value}

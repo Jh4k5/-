@@ -48,7 +48,7 @@ export default function LanguageSwitcher({
 
   return (
     <div
-      className={`flex items-center gap-0.5 rounded-full border p-1 ${base} ${pending ? "opacity-70" : ""}`}
+      className={`flex items-center gap-0.5 rounded-[6px] border p-1 ${base} ${pending ? "opacity-70" : ""}`}
       role="group"
       aria-label={localeConfig[locale].label}
     >
@@ -61,7 +61,7 @@ export default function LanguageSwitcher({
             onClick={() => switchTo(code)}
             aria-current={active ? "true" : undefined}
             title={localeConfig[code].nativeLabel}
-            className={`flex items-center justify-center rounded-full font-bold tracking-wide transition-all duration-300 ${
+            className={`flex items-center justify-center rounded-[4px] font-bold tracking-wide transition-all duration-300 focus-visible:ring-2 focus-visible:ring-china-red focus-visible:outline-none ${
               size === "lg" ? "min-h-11 min-w-11 px-4 py-2.5 text-sm" : "px-2.5 py-1 text-xs"
             } ${
               active

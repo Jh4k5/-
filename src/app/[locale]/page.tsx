@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -267,7 +268,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   className="group inline-flex items-center gap-2 rounded-full border-2 border-china-red px-7 py-3 text-sm font-bold text-china-red transition-all duration-300 hover:-translate-y-0.5 hover:bg-china-red hover:text-white"
                 >
                   {ctaLabel(section, dict.stories.viewAll)}
-                  <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                  <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -296,7 +297,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
               >
                 {ctaLabel(section, dict.blog.viewAll)}
-                <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true" />
               </Link>
             </div>
           </section>
@@ -354,10 +355,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <>
       {faqJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-        />
+        <JsonLd data={faqJsonLd} />
       )}
       <Hero
         locale={locale}

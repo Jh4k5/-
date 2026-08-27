@@ -50,7 +50,7 @@ export default function StatsBar({
           {items.map(({ Icon, value, suffix, label }) => (
             <div key={label} className="flex items-center gap-4">
               <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-china-red text-white shadow-[0_8px_18px_-10px_rgba(15,39,64,0.55)]">
-                <Icon className="h-5 w-5" />
+                <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
                 <p className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-trust-blue">

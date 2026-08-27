@@ -72,7 +72,7 @@ export default function MediaField({
           <MediaFrame src={value} alt="" />
           {isVideoSrc(value) && (
             <span className="absolute bottom-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-[10px] font-bold text-white start-2">
-              <FileVideo className="h-3 w-3" />
+              <FileVideo className="h-3 w-3" aria-hidden="true" />
               فيديو
             </span>
           )}
@@ -87,9 +87,9 @@ export default function MediaField({
               className="inline-flex min-h-11 items-center gap-2 rounded-full bg-trust-blue px-4 text-xs font-bold text-white transition-colors hover:bg-trust-blue-dark disabled:opacity-60"
             >
               {uploading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
               ) : (
-                <ImageUp className="h-4 w-4" />
+                <ImageUp className="h-4 w-4" aria-hidden="true" />
               )}
               {uploading ? "جارٍ الرفع…" : allowVideo ? "رفع صورة أو فيديو" : "رفع صورة"}
             </button>
@@ -100,7 +100,7 @@ export default function MediaField({
                 onClick={() => onChange(null)}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full border border-china-red/30 px-4 text-xs font-bold text-china-red transition-colors hover:bg-china-red/10"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-4 w-4" aria-hidden="true" />
                 إزالة
               </button>
             )}
@@ -119,7 +119,7 @@ export default function MediaField({
           />
 
           <div className="relative">
-            <Link2 className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/35 start-3" />
+            <Link2 className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/35 start-3" aria-hidden="true" />
             <input
               value={value ?? ""}
               onChange={(event) => onChange(event.target.value || null)}

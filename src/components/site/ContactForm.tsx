@@ -359,9 +359,9 @@ export default function ContactForm({
           }`}
         >
           {status === "success" ? (
-            <CheckCircle2 className="h-5 w-5 shrink-0" />
+            <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" />
           ) : (
-            <AlertCircle className="h-5 w-5 shrink-0" />
+            <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
           )}
           {message}
         </p>
@@ -372,7 +372,7 @@ export default function ContactForm({
         disabled={status === "sending"}
         className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-china-red px-8 py-4 text-base font-bold text-white shadow-[0_10px_24px_-12px_var(--color-china-red)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-china-red-dark disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
-        <Send className="h-5 w-5" />
+        <Send className="h-5 w-5" aria-hidden="true" />
         {status === "sending" ? dict.contact.sending : submitLabel}
       </button>
     </form>

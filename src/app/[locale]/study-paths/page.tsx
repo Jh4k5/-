@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/site/PageHero";
@@ -9,7 +10,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getSettings, getStudyPaths } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
@@ -61,11 +62,8 @@ export default async function StudyPathsIndexPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(collectionJsonLd)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={collectionJsonLd} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={dict.studyPaths.title} subtitle={dict.studyPaths.subtitle} scene="campus-quad" />
       <Breadcrumbs locale={locale} trail={trail} />
@@ -81,7 +79,7 @@ export default async function StudyPathsIndexPage({
                   className="surface-card group flex h-full flex-col p-7 transition-transform duration-300 hover:-translate-y-1"
                 >
                   <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-china-red/10 text-china-red transition-colors duration-300 group-hover:bg-china-red group-hover:text-white">
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
                   <h2 className="mt-5 text-lg font-extrabold text-trust-blue">
                     {pick(path, "title", locale)}

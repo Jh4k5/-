@@ -104,7 +104,7 @@ export default function HeroSlidesEditor({ initial }: { initial: DestinationMedi
               setOpen(row.id);
             }}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true" />
             شريحة جديدة
           </Button>
         }
@@ -186,11 +186,11 @@ export default function HeroSlidesEditor({ initial }: { initial: DestinationMedi
 
                   <div className="mt-5 flex gap-2">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
-                      <Save className="h-4 w-4" />
+                      <Save className="h-4 w-4" aria-hidden="true" />
                       حفظ
                     </Button>
                     <Button variant="danger" onClick={() => remove(row)}>
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                       حذف
                     </Button>
                   </div>

@@ -72,7 +72,7 @@ export default function UniversitiesExplorer({
         </div>
 
         <label className="relative w-full lg:w-80">
-          <Search className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/40 start-4" />
+          <Search className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/40 start-4" aria-hidden="true" />
           <input
             type="search"
             value={query}

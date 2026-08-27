@@ -1,3 +1,5 @@
+import { sanitizeRichText } from "@/lib/sanitize";
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,7 +11,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getArticleBySlug, getArticles, getSettings } from "@/lib/data";
 import { formatDate, plainExcerpt } from "@/lib/format";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
@@ -58,7 +60,8 @@ export default async function ArticlePage({
 
   const all = await getArticles(4);
   const related = all.filter((item) => item.id !== article.id).slice(0, 3);
-  const content = pick(article, "content", locale);
+  // Stored article HTML is cleaned on the server before it is ever injected.
+  const content = sanitizeRichText(pick(article, "content", locale));
   const localized =
     locale === "ar" ? article.content_ar : locale === "en" ? article.content_en : article.content_ru;
   const hasTranslation = Boolean(localized && localized.trim());
@@ -95,11 +98,8 @@ export default async function ArticlePage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(articleJsonLd)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={articleJsonLd} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <section className="relative flex min-h-[24rem] items-end overflow-hidden bg-trust-blue-dark pt-28 pb-12">
         <div className="absolute inset-0">
@@ -114,7 +114,7 @@ export default async function ArticlePage({
             href={`/${locale}/blog`}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 transition-colors hover:text-white"
           >
-            <Arrow className="h-4 w-4" />
+            <Arrow className="h-4 w-4" aria-hidden="true" />
             {dict.blog.title}
           </Link>
 
@@ -124,11 +124,11 @@ export default async function ArticlePage({
 
           <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-white/70">
             <span className="inline-flex items-center gap-1.5">
-              <CalendarDays className="h-4 w-4" />
+              <CalendarDays className="h-4 w-4" aria-hidden="true" />
               {dict.common.publishedOn} {formatDate(article.created_at, locale)}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-china-red px-3 py-1 text-xs font-bold text-white">
-              <Tag className="h-3 w-3" />
+              <Tag className="h-3 w-3" aria-hidden="true" />
               {dict.blog.categories[article.category] ?? article.category}
             </span>
           </div>
@@ -147,6 +147,7 @@ export default async function ArticlePage({
 
           <div
             className="rich-text text-[17px] leading-[1.9] text-charcoal/85"
+            // eslint-disable-next-line react/no-danger -- audited: sanitizeRichText strips scripts and unsafe schemes server-side
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

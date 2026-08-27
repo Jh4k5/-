@@ -56,7 +56,7 @@ function AdmissionCard({
     <button
       type="button"
       onClick={onOpen}
-      className="gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start"
+      className="card-3d gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start focus-visible:ring-2 focus-visible:ring-imperial-gold focus-visible:outline-none"
     >
       <span className="relative block aspect-3/4 overflow-hidden">
         <span className="absolute inset-0 block transition-transform duration-700 group-hover:scale-105">
@@ -69,7 +69,7 @@ function AdmissionCard({
         <PrivacyMask admission={admission} />
 
         <span className="absolute top-3 inline-flex items-center gap-1 rounded-full bg-china-red px-2.5 py-1 text-[10px] font-bold text-white shadow-lg start-3">
-          <BadgeCheck className="h-3 w-3" />
+          <BadgeCheck className="h-3 w-3" aria-hidden="true" />
           {dict.admissions.badge}
         </span>
       </span>
@@ -129,23 +129,20 @@ export default function AdmissionsStrip({
   const active = items[index];
 
   return (
-    <section className="relative overflow-hidden bg-trust-blue-dark py-20 text-white">
+    <section className="surface-deep-dark relative overflow-hidden py-20 text-white">
       <div className="brand-pattern pointer-events-none absolute inset-0 opacity-40" />
 
       <div className="container-page relative">
         <Reveal>
           <div className="flex flex-col items-center gap-3 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold tracking-widest text-imperial-gold uppercase">
-              <ShieldCheck className="h-3.5 w-3.5" />
+            <span className="seal-chip">
+              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
               {dict.nav.admissions}
             </span>
-            <h2 className="text-[clamp(1.9rem,4vw,3rem)] font-extrabold text-white">
+            <h2 className="text-fluid-h2 font-extrabold text-white">
               {title || dict.admissions.title}
             </h2>
-            <span className="flex items-center gap-1" aria-hidden="true">
-              <span className="h-1 w-14 rounded-full bg-china-red" />
-              <span className="h-1 w-6 rounded-full bg-imperial-gold" />
-            </span>
+            <span className="brand-rule" aria-hidden="true" />
             <p className="max-w-2xl text-white/75">{subtitle || dict.admissions.subtitle}</p>
           </div>
         </Reveal>
@@ -181,7 +178,7 @@ export default function AdmissionsStrip({
           {showAllLink && (
             <Link
               href={`/${locale}/admissions`}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
+              className="btn-seal-ghost"
             >
               {dict.admissions.viewAll}
             </Link>

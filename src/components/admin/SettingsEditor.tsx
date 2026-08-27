@@ -271,7 +271,7 @@ export default function SettingsEditor({ initial }: { initial: SettingRow[] }) {
         subtitle="كل نص أو رقم يظهر للزوار — من الهيرو إلى نموذج التواصل — قابل للتعديل من هنا بثلاث لغات."
         action={
           <Button onClick={saveAll} loading={saving}>
-            <Save className="h-4 w-4" />
+            <Save className="h-4 w-4" aria-hidden="true" />
             حفظ كل الإعدادات
           </Button>
         }
@@ -489,7 +489,7 @@ export default function SettingsEditor({ initial }: { initial: SettingRow[] }) {
                 {keyError && <p className="mt-1.5 text-xs font-semibold text-china-red">{keyError}</p>}
               </div>
               <Button variant="soft" onClick={addCustomKey}>
-                <Plus className="h-4 w-4" />
+                <Plus className="h-4 w-4" aria-hidden="true" />
                 إضافة مفتاح
               </Button>
             </div>
@@ -499,7 +499,7 @@ export default function SettingsEditor({ initial }: { initial: SettingRow[] }) {
 
       <div className="sticky bottom-4 mt-6 lg:hidden">
         <Button onClick={saveAll} loading={saving} className="w-full shadow-lg">
-          <Save className="h-4 w-4" />
+          <Save className="h-4 w-4" aria-hidden="true" />
           حفظ الإعدادات
         </Button>
       </div>

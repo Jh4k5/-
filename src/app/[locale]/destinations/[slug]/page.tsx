@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -11,7 +12,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getDestinationBySlug, getDestinations, getSettings, getUniversities } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { slugify } from "@/lib/slug";
 
 export const revalidate = 60;
@@ -91,10 +92,7 @@ export default async function DestinationPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <section className="relative h-[18rem] overflow-hidden bg-trust-blue-dark sm:h-[24rem]">
         <MediaFrame src={city.image_url} alt={city.alt_text || name} priority sceneDetail="full" />
@@ -107,7 +105,7 @@ export default async function DestinationPage({
         />
         <div className="container-page absolute inset-x-0 bottom-0 pb-8">
           <p className="inline-flex items-center gap-1.5 text-xs font-bold text-imperial-gold">
-            <MapPin className="h-3.5 w-3.5" />
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             {dict.explore.cityLabel}
           </p>
           <h1 className="mt-2 text-[clamp(1.8rem,4.5vw,3rem)] font-extrabold text-white">{name}</h1>

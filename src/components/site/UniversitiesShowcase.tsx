@@ -1,17 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, Building2 } from "lucide-react";
 
 import KanjiWatermark from "@/components/art/KanjiWatermark";
-import HorizontalRail from "@/components/motion/HorizontalRail";
+import CloudDivider from "@/components/art/CloudDivider";
 import Reveal from "@/components/motion/Reveal";
 import UniversityCard from "./UniversityCard";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 import type { University } from "@/lib/types";
 
-/** Home page carousel: three or four universities rotating in 3D. */
+const Coverflow3D = dynamic(() => import("@/components/motion/Coverflow3D"));
+
+/** Home page showcase: universities rotating through a 3D depth carousel. */
 export default function UniversitiesShowcase({
   universities,
   locale,
@@ -30,59 +33,49 @@ export default function UniversitiesShowcase({
   const Arrow = rtl ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="relative overflow-hidden py-24">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-70"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--color-imperial-gold) 16%, transparent) 0, transparent 40%), radial-gradient(circle at 85% 75%, color-mix(in srgb, var(--color-trust-blue) 14%, transparent) 0, transparent 45%)",
-        }}
-      />
-
+    <section className="surface-deep relative overflow-hidden py-24">
       <KanjiWatermark char="study" className="-top-10 end-0 hidden lg:block" />
 
       <div className="container-page relative">
         <Reveal>
           <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-china-red/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-china-red">
-              <Building2 className="h-3.5 w-3.5" />
+            <span className="seal-chip">
+              <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
               {dict.nav.universities}
             </span>
-            <h2 className="text-[clamp(1.9rem,4vw,3rem)] font-extrabold text-trust-blue">
+            <h2 className="text-fluid-h2 font-extrabold text-trust-blue">
               {title || dict.universities.title}
             </h2>
-            <span className="flex items-center gap-1" aria-hidden="true">
-              <span className="h-1 w-14 rounded-full bg-china-red" />
-              <span className="h-1 w-6 rounded-full bg-imperial-gold" />
-            </span>
+            <span className="brand-rule" aria-hidden="true" />
             <p className="text-charcoal/70">{subtitle || dict.universities.subtitle}</p>
           </div>
         </Reveal>
 
         <div className="mt-12">
-          <HorizontalRail
+          <Coverflow3D
+            rtl={rtl}
             ariaLabel={title || dict.universities.title}
             prevLabel={dict.common.previous}
             nextLabel={dict.common.next}
             items={universities.map((university) => ({
               id: university.id,
-              node: (
-                <UniversityCard university={university} locale={locale} dict={dict} tall />
-              ),
+              node: <UniversityCard university={university} locale={locale} dict={dict} tall />,
             }))}
           />
         </div>
 
         <div className="mt-10 flex justify-center">
-          <Link
-            href={`/${locale}/universities`}
-            className="group inline-flex items-center gap-2 rounded-full bg-trust-blue px-8 py-3.5 text-sm font-bold text-white shadow-[0_18px_40px_-20px_var(--color-trust-blue)] transition-all duration-300 hover:-translate-y-1 hover:bg-china-red"
-          >
+          <Link href={`/${locale}/universities`} className="btn-seal group">
             {dict.universities.viewAll}
-            <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+            <Arrow
+              className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1"
+              aria-hidden="true"
+            />
           </Link>
         </div>
       </div>
+
+      <CloudDivider tone="red" className="absolute inset-x-0 bottom-0" />
     </section>
   );
 }

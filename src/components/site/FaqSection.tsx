@@ -1,5 +1,6 @@
 "use client";
 
+import KanjiWatermark from "@/components/art/KanjiWatermark";
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, HelpCircle } from "lucide-react";
@@ -33,7 +34,8 @@ export default function FaqSection({
   const hasMore = shown.length < items.length;
 
   return (
-    <section className="bg-ivory py-24">
+    <section className="surface-deep relative overflow-hidden py-24">
+      <KanjiWatermark char="bridge" className="-top-10 end-0 hidden lg:block" />
       <div className="container-page">
         <SectionHeading title={title || dict.faq.title} subtitle={subtitle || dict.faq.subtitle} />
 
@@ -50,7 +52,7 @@ export default function FaqSection({
                     className="flex w-full items-center gap-3 p-5 text-start"
                   >
                     <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-trust-blue/10 text-trust-blue">
-                      <HelpCircle className="h-4.5 w-4.5" />
+                      <HelpCircle className="h-4.5 w-4.5" aria-hidden="true" />
                     </span>
                     <span className="flex-1 font-extrabold text-trust-blue">
                       {pick(item, "question", locale)}

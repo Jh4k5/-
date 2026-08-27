@@ -117,11 +117,11 @@ export default function ThemeEditor({
         action={
           <div className="flex gap-2">
             <Button variant="ghost" onClick={reset}>
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
               استعادة الافتراضي
             </Button>
             <Button onClick={save} loading={saving}>
-              <Save className="h-4 w-4" />
+              <Save className="h-4 w-4" aria-hidden="true" />
               حفظ
             </Button>
           </div>
@@ -181,7 +181,7 @@ export default function ThemeEditor({
                 {state.logo_url ? (
                   <MediaFrame src={state.logo_url} alt="" className="object-contain" />
                 ) : (
-                  <LogoMark className="h-12 w-12" />
+                  <LogoMark className="h-12 w-12" aria-hidden="true" />
                 )}
               </span>
               <p className="text-xs text-charcoal/55">
@@ -237,7 +237,7 @@ export default function ThemeEditor({
 
       <div className="sticky bottom-4 mt-6 lg:hidden">
         <Button onClick={save} loading={saving} className="w-full shadow-lg">
-          <Save className="h-4 w-4" />
+          <Save className="h-4 w-4" aria-hidden="true" />
           حفظ الهوية
         </Button>
       </div>

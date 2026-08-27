@@ -1,3 +1,4 @@
+import KanjiWatermark from "@/components/art/KanjiWatermark";
 import Link from "next/link";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
@@ -22,7 +23,9 @@ export default function StudyPathsSection({
   if (paths.length === 0) return null;
 
   return (
-    <section className="container-page py-24">
+    <section className="surface-deep relative overflow-hidden py-24">
+      <KanjiWatermark char="path" className="-top-10 end-0 hidden lg:block" />
+      <div className="container-page relative">
       <SectionHeading
         title={title || dict.studyPaths.title}
         subtitle={subtitle || dict.studyPaths.subtitle}
@@ -38,7 +41,7 @@ export default function StudyPathsSection({
                 className="surface-card group flex h-full flex-col p-6 transition-transform duration-300 hover:-translate-y-1"
               >
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue transition-colors duration-300 group-hover:bg-china-red group-hover:text-white">
-                  <Icon className="h-6 w-6" />
+                  <Icon className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <h3 className="mt-5 text-lg font-extrabold text-trust-blue">
                   {pick(path, "title", locale)}
@@ -54,6 +57,7 @@ export default function StudyPathsSection({
           );
         })}
       </RevealGroup>
+    </div>
     </section>
   );
 }

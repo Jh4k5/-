@@ -49,10 +49,10 @@ export default function StoriesGrid({
           setOpen(true);
           track(ANALYTICS_EVENTS.storyOpen, locale);
         }}
-        className="defer-offscreen surface-card group relative flex h-full w-full flex-col overflow-hidden p-7 text-start"
+        className="card-3d defer-offscreen surface-card group relative flex h-full w-full flex-col overflow-hidden p-7 text-start focus-visible:ring-2 focus-visible:ring-china-red focus-visible:outline-none"
       >
         <span className="absolute -end-6 -top-6 text-[7rem] leading-none text-china-red/8">
-          <Quote className="h-24 w-24" />
+          <Quote className="h-24 w-24" aria-hidden="true" />
         </span>
 
         <div className="flex items-center gap-4">

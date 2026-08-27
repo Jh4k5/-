@@ -175,7 +175,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
         </select>
 
         <label className="relative ms-auto w-full sm:w-64">
-          <Search className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/40 start-3" />
+          <Search className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/40 start-3" aria-hidden="true" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -222,7 +222,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
 
                   {lead.source === "eligibility_check" && (
                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-trust-blue/10 px-2.5 py-1 text-[10px] font-bold text-trust-blue">
-                      <ClipboardCheck className="h-3 w-3" />
+                      <ClipboardCheck className="h-3 w-3" aria-hidden="true" />
                       {SOURCE_LABEL.eligibility_check}
                     </span>
                   )}
@@ -281,14 +281,14 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 rounded-full bg-jade px-4 py-2 text-xs font-bold text-white"
                       >
-                        <MessageCircle className="h-4 w-4" />
+                        <MessageCircle className="h-4 w-4" aria-hidden="true" />
                         واتساب
                       </a>
                       <a
                         href={`tel:${lead.phone.replace(/\s/g, "")}`}
                         className="inline-flex items-center gap-2 rounded-full bg-trust-blue/10 px-4 py-2 text-xs font-bold text-trust-blue"
                       >
-                        <Phone className="h-4 w-4" />
+                        <Phone className="h-4 w-4" aria-hidden="true" />
                         اتصال
                       </a>
                       {lead.email && (
@@ -296,7 +296,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                           href={`mailto:${lead.email}`}
                           className="inline-flex items-center gap-2 rounded-full bg-trust-blue/10 px-4 py-2 text-xs font-bold text-trust-blue"
                         >
-                          <Mail className="h-4 w-4" />
+                          <Mail className="h-4 w-4" aria-hidden="true" />
                           إيميل
                         </a>
                       )}
@@ -317,7 +317,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                       </select>
 
                       <Button variant="danger" className="ms-auto" onClick={() => remove(lead.id)}>
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
                         حذف
                       </Button>
                     </div>

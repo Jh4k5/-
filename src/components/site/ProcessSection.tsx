@@ -1,3 +1,4 @@
+import KanjiWatermark from "@/components/art/KanjiWatermark";
 import Link from "next/link";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
@@ -27,7 +28,8 @@ export default function ProcessSection({
   if (stages.length === 0) return null;
 
   return (
-    <section className="bg-white py-24">
+    <section className="surface-deep relative overflow-hidden py-24">
+      <KanjiWatermark char="path" className="-top-10 end-0 hidden lg:block" />
       <div className="container-page">
         <SectionHeading
           title={title || dict.process.title}
@@ -92,7 +94,7 @@ export default function ProcessSection({
                 locale={locale}
                 className="inline-flex items-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
               >
-                <MessageCircle className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" aria-hidden="true" />
                 {dict.common.whatsapp}
               </TrackedWhatsAppLink>
             )}

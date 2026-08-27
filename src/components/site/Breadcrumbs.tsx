@@ -21,7 +21,7 @@ export default function Breadcrumbs({
           const href = `/${locale}${crumb.path === "/" ? "" : crumb.path}`;
           return (
             <li key={href} className="flex items-center gap-1">
-              {index > 0 && <ChevronLeft className="h-3 w-3 shrink-0 rtl:rotate-180" />}
+              {index > 0 && <ChevronLeft className="h-3 w-3 shrink-0 rtl:rotate-180" aria-hidden="true" />}
               {last ? (
                 <span className="font-semibold text-trust-blue" aria-current="page">
                   {crumb.name}

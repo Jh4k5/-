@@ -119,7 +119,7 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
               setOpen(row.id);
             }}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true" />
             صورة جديدة
           </Button>
         }
@@ -155,7 +155,7 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
                   </span>
                   {row.is_featured && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-xs font-bold text-[#8a6d12]">
-                      <Star className="h-3 w-3" />
+                      <Star className="h-3 w-3" aria-hidden="true" />
                       مميّزة
                     </span>
                   )}
@@ -252,11 +252,11 @@ export default function DestinationsEditor({ initial }: { initial: DestinationMe
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
-                      <Save className="h-4 w-4" />
+                      <Save className="h-4 w-4" aria-hidden="true" />
                       حفظ
                     </Button>
                     <Button variant="danger" onClick={() => remove(row)}>
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                       حذف
                     </Button>
                     <UpdatedAtLabel value={row.updated_at} />

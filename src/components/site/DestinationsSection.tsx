@@ -1,3 +1,4 @@
+import KanjiWatermark from "@/components/art/KanjiWatermark";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
@@ -28,7 +29,9 @@ export default function DestinationsSection({
     item.category === "campus" ? dict.explore.campusLabel : dict.explore.cityLabel;
 
   return (
-    <section className="container-page py-24">
+    <section className="surface-deep relative overflow-hidden py-24">
+      <KanjiWatermark char="gate" className="-top-10 end-0 hidden lg:block" />
+      <div className="container-page relative">
       <SectionHeading
         eyebrow={dict.nav.whyChina}
         title={title || dict.explore.title}
@@ -111,6 +114,7 @@ export default function DestinationsSection({
           ))}
         </div>
       )}
+    </div>
     </section>
   );
 }

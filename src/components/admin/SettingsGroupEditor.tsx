@@ -201,7 +201,7 @@ export default function SettingsGroupEditor({
 
       <div className="flex items-center gap-3">
         <Button onClick={save} disabled={saving}>
-          <Save className="h-4 w-4" />
+          <Save className="h-4 w-4" aria-hidden="true" />
           {saving ? "جارٍ الحفظ…" : "حفظ"}
         </Button>
         <StatusNote status={note} />

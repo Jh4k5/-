@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "@fontsource/cairo/400.css";
@@ -101,14 +102,8 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-ivory text-charcoal antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
+        <JsonLd data={organizationJsonLd} />
+        <JsonLd data={websiteJsonLd} />
         {children}
       </body>
     </html>

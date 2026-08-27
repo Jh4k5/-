@@ -100,7 +100,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
               <Reveal key={step} delay={index * 90}>
                 <div className="surface-card h-full p-6">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-jade/10 text-jade">
-                    <CheckCircle2 className="h-5 w-5" />
+                    <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span className="mt-3 block text-xs font-bold text-charcoal/40">
                     {String(index + 1).padStart(2, "0")}
@@ -123,7 +123,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
                 <Reveal key={factor.id} delay={index * 70}>
                   <div className="surface-card h-full p-6">
                     <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <p className="mt-4 font-extrabold text-trust-blue">{pick(factor, "title", locale)}</p>
                     <p className="mt-2 text-sm leading-relaxed text-charcoal/70">

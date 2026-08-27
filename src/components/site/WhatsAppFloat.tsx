@@ -49,7 +49,7 @@ export default function WhatsAppFloat({ href, label }: { href: string; label: st
       style={{ bottom: "calc(1.5rem + env(safe-area-inset-bottom))" }}
       tabIndex={hidden ? -1 : undefined}
     >
-      <MessageCircle className="h-5 w-5" />
+      <MessageCircle className="h-5 w-5" aria-hidden="true" />
       <span className="hidden sm:inline">{label}</span>
     </a>
   );

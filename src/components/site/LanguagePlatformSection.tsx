@@ -73,7 +73,7 @@ export default function LanguagePlatformSection({
                   href={`/${locale}/contact`}
                   className="inline-flex items-center gap-2 rounded-[10px] border border-china-red px-6 py-3 text-sm font-bold text-china-red transition-colors duration-300 hover:bg-china-red hover:text-white"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   {dict.hero.ctaPrimary}
                 </Link>
               </div>

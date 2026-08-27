@@ -60,7 +60,7 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
             href="/admin/articles/new"
             className="inline-flex items-center gap-2 rounded-full bg-china-red px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-china-red-dark"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true" />
             مقال جديد
           </Link>
         }
@@ -89,7 +89,7 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
                   {article.title_ar}
                   {article.is_featured && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-imperial-gold/20 px-2 py-0.5 text-[10px] font-bold text-[#8a6d12]">
-                      <Star className="h-3 w-3" />
+                      <Star className="h-3 w-3" aria-hidden="true" />
                       مميّز
                     </span>
                   )}
@@ -134,9 +134,9 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
               <div className="flex gap-2">
                 <Button variant="soft" onClick={() => toggleStatus(article)}>
                   {article.status === "published" ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="h-4 w-4" aria-hidden="true" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-4 w-4" aria-hidden="true" />
                   )}
                   {article.status === "published" ? "إخفاء" : "نشر"}
                 </Button>
@@ -145,12 +145,12 @@ export default function ArticlesList({ initial }: { initial: Article[] }) {
                   href={`/admin/articles/${article.id}`}
                   className="inline-flex items-center gap-2 rounded-full border border-trust-blue/15 px-5 py-2.5 text-sm font-bold text-trust-blue transition-colors hover:bg-trust-blue/8"
                 >
-                  <Pencil className="h-4 w-4" />
+                  <Pencil className="h-4 w-4" aria-hidden="true" />
                   تعديل
                 </Link>
 
                 <Button variant="danger" onClick={() => remove(article)}>
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </div>
             </article>

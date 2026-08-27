@@ -93,14 +93,14 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   locale={locale}
                   className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-jade px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#008a60]"
                 >
-                  <MessageCircle className="h-5 w-5" />
+                  <MessageCircle className="h-5 w-5" aria-hidden="true" />
                   {dict.finalCta.whatsapp}
                 </TrackedWhatsAppLink>
 
                 <ul className="mt-6 space-y-3.5 text-sm">
                   <li className="flex items-center gap-3">
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-china-red/10 text-china-red">
-                      <Mail className="h-4 w-4" />
+                      <Mail className="h-4 w-4" aria-hidden="true" />
                     </span>
                     <a href={`mailto:${email}`} dir="ltr" className="hover:text-china-red">
                       {email}
@@ -108,7 +108,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-china-red/10 text-china-red">
-                      <Phone className="h-4 w-4" />
+                      <Phone className="h-4 w-4" aria-hidden="true" />
                     </span>
                     <a href={`tel:${phone.replace(/\s/g, "")}`} dir="ltr" className="hover:text-china-red">
                       {phone}
@@ -116,7 +116,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   </li>
                   <li className="flex items-center gap-3">
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-china-red/10 text-china-red">
-                      <MapPin className="h-4 w-4" />
+                      <MapPin className="h-4 w-4" aria-hidden="true" />
                     </span>
                     <span>{location}</span>
                   </li>
@@ -138,7 +138,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                         aria-label={label}
                         className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-trust-blue/8 text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
                       >
-                        <Icon className="h-5 w-5" />
+                        <Icon className="h-5 w-5" aria-hidden="true" />
                       </a>
                     ))}
                   </div>

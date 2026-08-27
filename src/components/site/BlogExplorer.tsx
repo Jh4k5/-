@@ -74,7 +74,7 @@ export default function BlogExplorer({
         </div>
 
         <label className="relative w-full lg:w-80">
-          <Search className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/40 start-4" />
+          <Search className="absolute top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal/40 start-4" aria-hidden="true" />
           <input
             type="search"
             value={query}
@@ -102,13 +102,13 @@ export default function BlogExplorer({
                     <MediaFrame src={featured.cover_image} alt={pick(featured, "title", locale)} priority />
                   </div>
                   <span className="absolute top-4 inline-flex items-center gap-1 rounded-full bg-imperial-gold px-3 py-1 text-[11px] font-extrabold text-trust-blue-dark shadow-lg start-4">
-                    <Star className="h-3.5 w-3.5" />
+                    <Star className="h-3.5 w-3.5" aria-hidden="true" />
                     {dict.blog.categories[featured.category] ?? featured.category}
                   </span>
                 </div>
                 <div className="flex flex-col justify-center p-7 sm:p-9">
                   <p className="flex items-center gap-1.5 text-xs text-charcoal/55">
-                    <CalendarDays className="h-3.5 w-3.5" />
+                    <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
                     {formatDate(featured.created_at, locale)}
                   </p>
                   <h3 className="mt-3 text-2xl font-extrabold text-trust-blue transition-colors group-hover:text-china-red sm:text-3xl">

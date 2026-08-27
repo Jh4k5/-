@@ -84,7 +84,7 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
         subtitle="تحكّم في ظهور كل قسم وترتيبه، وعدّل عنوانه ووصفه بثلاث لغات. اترك الحقل فارغاً لاستخدام النص الافتراضي."
         action={
           <Button onClick={saveAll} loading={saving}>
-            <Save className="h-4 w-4" />
+            <Save className="h-4 w-4" aria-hidden="true" />
             حفظ الترتيب والنصوص
           </Button>
         }
@@ -127,7 +127,7 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
                     aria-label="أعلى"
                     className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-trust-blue/8 text-trust-blue disabled:opacity-35"
                   >
-                    <ChevronUp className="h-4 w-4" />
+                    <ChevronUp className="h-4 w-4" aria-hidden="true" />
                   </button>
                   <button
                     type="button"
@@ -136,7 +136,7 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
                     aria-label="أسفل"
                     className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-trust-blue/8 text-trust-blue disabled:opacity-35"
                   >
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-4 w-4" aria-hidden="true" />
                   </button>
                   <button
                     type="button"
@@ -146,7 +146,7 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
                       row.is_visible ? "bg-jade/12 text-jade" : "bg-charcoal/8 text-charcoal/55"
                     }`}
                   >
-                    {row.is_visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                    {row.is_visible ? <Eye className="h-4 w-4" aria-hidden="true" /> : <EyeOff className="h-4 w-4" aria-hidden="true" />}
                     {row.is_visible ? "ظاهر" : "مخفي"}
                   </button>
                 </div>
@@ -224,7 +224,7 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
 
       <div className="sticky bottom-4 mt-6 lg:hidden">
         <Button onClick={saveAll} loading={saving} className="w-full shadow-lg">
-          <Save className="h-4 w-4" />
+          <Save className="h-4 w-4" aria-hidden="true" />
           حفظ الترتيب والنصوص
         </Button>
       </div>

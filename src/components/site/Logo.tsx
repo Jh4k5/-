@@ -46,7 +46,7 @@ export default function Logo({
           className="h-11 w-11 object-contain transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105"
         />
       ) : (
-        <LogoMark className="h-11 w-11 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105" />
+        <LogoMark className="h-11 w-11 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105" aria-hidden="true" />
       )}
       <span className="flex flex-col leading-tight">
         <span

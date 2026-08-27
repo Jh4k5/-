@@ -46,7 +46,7 @@ export default function UniversityGallery({
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/70 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-90" />
                 <span className="absolute bottom-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-trust-blue-dark/70 text-white transition-transform duration-500 group-hover:scale-110 end-4">
-                  <Expand className="h-4 w-4" />
+                  <Expand className="h-4 w-4" aria-hidden="true" />
                 </span>
               </button>
             </Tilt3D>

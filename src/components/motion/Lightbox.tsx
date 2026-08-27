@@ -57,7 +57,7 @@ export default function Lightbox({
             aria-label="close"
             className="absolute top-5 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-colors hover:bg-white/20 end-5"
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
 
           <motion.div
@@ -91,7 +91,7 @@ export default function Lightbox({
                 aria-label="previous"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-colors hover:bg-white/20"
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
               <span className="text-sm font-bold text-white/70">
                 {index + 1} / {slides.length}
@@ -102,7 +102,7 @@ export default function Lightbox({
                 aria-label="next"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition-colors hover:bg-white/20"
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
           )}

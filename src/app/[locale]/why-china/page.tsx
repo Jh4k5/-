@@ -54,7 +54,7 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
               <Reveal key={point.id} delay={index * 70}>
                 <article className="surface-card h-full p-7 transition-transform duration-500 hover:-translate-y-1">
                   <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-china-red/10 text-china-red">
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
                   <h3 className="mt-5 text-lg font-extrabold text-trust-blue">
                     {pick(point, "title", locale)}

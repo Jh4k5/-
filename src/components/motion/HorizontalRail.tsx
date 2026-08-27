@@ -98,7 +98,7 @@ export default function HorizontalRail({
             aria-label={prevLabel}
             className={arrowBase}
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -107,7 +107,7 @@ export default function HorizontalRail({
             aria-label={nextLabel}
             className={arrowBase}
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
       )}

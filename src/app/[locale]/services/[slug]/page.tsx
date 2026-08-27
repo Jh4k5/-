@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -11,7 +12,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getServiceBySlug, getServices, getSettings } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
@@ -89,11 +90,8 @@ export default async function ServiceDetailPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(serviceJsonLd)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={serviceJsonLd} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={title} subtitle={dict.services.subtitle} scene="campus-gate" />
       <Breadcrumbs locale={locale} trail={trail} />
@@ -102,7 +100,7 @@ export default async function ServiceDetailPage({
         <div className="mx-auto max-w-3xl">
           <Reveal>
             <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-china-red/10 text-china-red">
-              <Icon className="h-6 w-6" />
+              <Icon className="h-6 w-6" aria-hidden="true" />
             </span>
             <p className="mt-6 text-base leading-relaxed text-charcoal/80">{description}</p>
           </Reveal>
@@ -118,7 +116,7 @@ export default async function ServiceDetailPage({
                     <ul className="mt-4 space-y-2.5">
                       {includes.map((item) => (
                         <li key={item} className="flex items-start gap-2.5 text-sm text-charcoal/80">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-jade" />
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-jade" aria-hidden="true" />
                           {item}
                         </li>
                       ))}
@@ -133,7 +131,7 @@ export default async function ServiceDetailPage({
                     <ul className="mt-4 space-y-2.5">
                       {excludes.map((item) => (
                         <li key={item} className="flex items-start gap-2.5 text-sm text-charcoal/60">
-                          <X className="mt-0.5 h-4 w-4 shrink-0 text-china-red/70" />
+                          <X className="mt-0.5 h-4 w-4 shrink-0 text-china-red/70" aria-hidden="true" />
                           {item}
                         </li>
                       ))}
@@ -158,7 +156,7 @@ export default async function ServiceDetailPage({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-[10px] border border-jade px-6 py-3 text-sm font-bold text-jade transition-colors hover:bg-jade hover:text-white"
               >
-                <MessageCircle className="h-4 w-4" />
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 {dict.common.whatsapp}
               </a>
             </div>

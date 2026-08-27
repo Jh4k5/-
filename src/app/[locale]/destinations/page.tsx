@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
@@ -10,7 +11,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getDestinations, getSettings } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
@@ -63,11 +64,8 @@ export default async function DestinationsIndexPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(collectionJsonLd)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={collectionJsonLd} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={dict.explore.title} subtitle={dict.explore.subtitle} scene="shanghai" />
       <Breadcrumbs locale={locale} trail={trail} />
@@ -91,7 +89,7 @@ export default async function DestinationsIndexPage({
                   <span className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/85 to-transparent" />
                   <span className="absolute inset-x-0 bottom-0 p-5">
                     <span className="inline-flex items-center gap-1 text-[11px] font-bold text-imperial-gold">
-                      <MapPin className="h-3 w-3" />
+                      <MapPin className="h-3 w-3" aria-hidden="true" />
                       {dict.explore.cityLabel}
                     </span>
                     <span className="mt-1 block text-lg font-extrabold text-white">

@@ -130,7 +130,7 @@ export default function ArticleEditor({ article }: { article: Article | null }) 
             href="/admin/articles"
             className="inline-flex items-center gap-2 rounded-full border border-trust-blue/15 px-5 py-2.5 text-sm font-bold text-trust-blue transition-colors hover:bg-trust-blue/8"
           >
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
             رجوع
           </Link>
         }
@@ -238,7 +238,7 @@ export default function ArticleEditor({ article }: { article: Article | null }) 
           <div className="space-y-3">
             {note && <StatusNote status={note} />}
             <Button onClick={save} loading={saving} className="w-full">
-              <Save className="h-4 w-4" />
+              <Save className="h-4 w-4" aria-hidden="true" />
               حفظ المقال
             </Button>
           </div>

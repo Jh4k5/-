@@ -35,7 +35,7 @@ export default function HowItWorksAccordion({
                 className="flex w-full items-center gap-4 p-5 text-start"
               >
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-trust-blue text-white">
-                  <StageIcon className="h-5 w-5" />
+                  <StageIcon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="flex-1">
                   <span className="block text-xs font-bold uppercase tracking-widest text-china-red">
@@ -61,7 +61,7 @@ export default function HowItWorksAccordion({
                       return (
                         <li key={step.id} className="flex gap-4">
                           <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-trust-blue/10 text-trust-blue">
-                            <StepIcon className="h-4 w-4" />
+                            <StepIcon className="h-4 w-4" aria-hidden="true" />
                           </span>
                           <div className="min-w-0">
                             <p className="text-xs font-bold text-charcoal/45">

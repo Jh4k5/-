@@ -28,6 +28,29 @@
   --font-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
     "Noto Sans CJK SC", sans-serif;
 
+  /* Spacing scale — one source for every gap, pad and margin, so rhythm is
+     consistent instead of hand-picked per component. */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+
+  /* Type scale, ratio 1.25 from a 1rem base. Body never drops below 16px. */
+  --text-step--1: 0.8rem;
+  --text-step-0: 1rem;
+  --text-step-1: 1.25rem;
+  --text-step-2: 1.563rem;
+  --text-step-3: 1.953rem;
+  --text-step-4: 2.441rem;
+  --text-step-5: 3.052rem;
+
+  /* Paper grain, inlined as SVG so depth costs no network request. */
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+
   --shadow-soft: 0 8px 22px -14px rgb(15 39 64 / 0.22);
   --shadow-card: 0 14px 32px -18px rgb(15 39 64 / 0.28);
   --shadow-deep: 0 30px 60px -36px rgb(9 20 40 / 0.55);
@@ -423,6 +446,142 @@ textarea {
 .china-red-panel {
   background-color: var(--color-china-red);
   color: #fff;
+}
+
+/* --------------------------- identity components --------------------------- */
+/* Grouping utilities behind one meaningful class keeps the markup readable and
+   guarantees every chip, rule and button across the site is genuinely identical
+   instead of a near-copy that drifted. */
+
+/* A seal-shaped label (印章) instead of the pill every template ships. */
+.seal-chip {
+  @apply relative inline-flex items-center gap-2 rounded-[4px] bg-china-red px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase;
+  box-shadow: 0 8px 20px -12px color-mix(in srgb, var(--color-china-red) 85%, transparent);
+}
+.seal-chip::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Two solid brand strokes — the house rule underneath every section heading. */
+.brand-rule {
+  @apply block h-1 w-20 rounded-[2px];
+  background: linear-gradient(
+    to right,
+    var(--color-china-red) 0 70%,
+    var(--color-imperial-gold) 70% 100%
+  );
+}
+
+/* Primary call to action, stamped rather than rounded. */
+.btn-seal {
+  @apply relative inline-flex items-center gap-2 rounded-[6px] bg-china-red px-8 py-3.5 text-sm font-bold text-white transition-[transform,background-color,box-shadow] duration-300;
+  box-shadow: 0 16px 34px -18px color-mix(in srgb, var(--color-china-red) 90%, transparent);
+}
+.btn-seal:hover {
+  @apply -translate-y-0.5 bg-china-red-dark;
+}
+.btn-seal:focus-visible {
+  @apply ring-2 ring-china-red ring-offset-2 outline-none;
+}
+
+/* Secondary action on a dark or red ground. */
+.btn-seal-ghost {
+  @apply inline-flex items-center gap-2 rounded-[6px] border border-white/30 bg-white/10 px-7 py-3 text-sm font-bold text-white transition-[transform,background-color] duration-300;
+}
+.btn-seal-ghost:hover {
+  @apply -translate-y-0.5 bg-white/20;
+}
+.btn-seal-ghost:focus-visible {
+  @apply ring-2 ring-white ring-offset-2 ring-offset-china-red outline-none;
+}
+
+/* Section grounds with real depth: a paper grain plus a wide brand wash, so a
+   light section never reads as flat white. The grain is an inline SVG so it
+   costs no extra request. */
+.surface-deep {
+  background-color: var(--color-ivory);
+  background-image:
+    radial-gradient(
+      ellipse 80% 60% at 12% 0%,
+      color-mix(in srgb, var(--color-china-red) 7%, transparent) 0,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 60% at 88% 100%,
+      color-mix(in srgb, var(--color-trust-blue) 8%, transparent) 0,
+      transparent 60%
+    ),
+    var(--texture-grain);
+}
+
+.surface-deep-dark {
+  background-color: var(--color-trust-blue-dark);
+  background-image:
+    radial-gradient(
+      ellipse 70% 60% at 85% 0%,
+      color-mix(in srgb, var(--color-china-red) 26%, transparent) 0,
+      transparent 62%
+    ),
+    var(--texture-grain);
+}
+
+/* Card that lifts toward the visitor on hover — the 3D language of the site,
+   applied with transform only so it stays cheap. */
+.card-3d {
+  transform-style: preserve-3d;
+  transition:
+    transform var(--motion-medium) var(--motion-ease),
+    box-shadow var(--motion-medium) var(--motion-ease);
+  will-change: transform;
+}
+.card-3d:hover,
+.card-3d:focus-within {
+  transform: translate3d(0, -6px, 0) rotateX(2.5deg) rotateY(-2.5deg);
+  box-shadow: var(--shadow-deep);
+}
+
+/* Staggered entrance for a list: each child waits one beat longer. Set
+   --stagger-index on the child, or let the nth-child rules below do it. */
+.stagger > * {
+  animation: rise-in var(--motion-medium) var(--motion-ease) both;
+  animation-delay: calc(var(--stagger-index, 0) * 70ms);
+}
+.stagger > *:nth-child(1) { --stagger-index: 0; }
+.stagger > *:nth-child(2) { --stagger-index: 1; }
+.stagger > *:nth-child(3) { --stagger-index: 2; }
+.stagger > *:nth-child(4) { --stagger-index: 3; }
+.stagger > *:nth-child(5) { --stagger-index: 4; }
+.stagger > *:nth-child(6) { --stagger-index: 5; }
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, calc(18px * var(--motion-scale)), 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Fluid heading sizes built on the type scale, so headings never jump between
+   breakpoints and never need a hand-written clamp at the call site. */
+.text-fluid-h1 {
+  font-size: clamp(var(--text-step-3), 5vw, var(--text-step-5));
+  line-height: 1.15;
+}
+.text-fluid-h2 {
+  font-size: clamp(var(--text-step-2), 4vw, var(--text-step-4));
+  line-height: 1.2;
+}
+.text-fluid-h3 {
+  font-size: clamp(var(--text-step-1), 2.4vw, var(--text-step-2));
+  line-height: 1.3;
 }
 
 /* --------------------------- horizontal rail --------------------------- */

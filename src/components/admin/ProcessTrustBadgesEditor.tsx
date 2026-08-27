@@ -117,7 +117,7 @@ export default function ProcessTrustBadgesEditor({ initial }: { initial: Process
             setOpen(row.id);
           }}
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-4 w-4" aria-hidden="true" />
           بطاقة جديدة
         </Button>
       </div>
@@ -142,7 +142,7 @@ export default function ProcessTrustBadgesEditor({ initial }: { initial: Process
                   className="flex flex-1 items-center gap-4 text-start"
                 >
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue">
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span className="flex-1">
                     <span className="block font-extrabold text-trust-blue">
@@ -226,11 +226,11 @@ export default function ProcessTrustBadgesEditor({ initial }: { initial: Process
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
-                      <Save className="h-4 w-4" />
+                      <Save className="h-4 w-4" aria-hidden="true" />
                       حفظ
                     </Button>
                     <Button variant="danger" onClick={() => remove(row)}>
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                       حذف
                     </Button>
                     <UpdatedAtLabel value={row.updated_at} />

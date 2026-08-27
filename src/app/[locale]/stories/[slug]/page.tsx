@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -11,7 +12,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getSettings, getStories, getStoryBySlug } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -72,10 +73,7 @@ export default async function StoryPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={story.student_name} subtitle={achievement} scene="campus-library" />
       <Breadcrumbs locale={locale} trail={trail} />
@@ -94,13 +92,13 @@ export default async function StoryPage({
                 <p className="mt-0.5 flex flex-wrap items-center gap-3 text-sm text-charcoal/60">
                   {story.university_name && (
                     <span className="inline-flex items-center gap-1">
-                      <GraduationCap className="h-3.5 w-3.5" />
+                      <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />
                       {story.university_name}
                     </span>
                   )}
                   {story.country && (
                     <span className="inline-flex items-center gap-1">
-                      <MapPin className="h-3.5 w-3.5" />
+                      <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                       {story.country}
                     </span>
                   )}
@@ -116,7 +114,7 @@ export default async function StoryPage({
           {quote && (
             <Reveal delay={120}>
               <blockquote className="mt-6 border-s-4 border-imperial-gold ps-5 text-lg leading-relaxed text-charcoal/80 italic">
-                <Quote className="mb-2 h-5 w-5 text-imperial-gold" />
+                <Quote className="mb-2 h-5 w-5 text-imperial-gold" aria-hidden="true" />
                 {quote}
               </blockquote>
             </Reveal>

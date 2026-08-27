@@ -240,7 +240,7 @@ export default function Hero({
         transition={{ duration: 1.4, ease: EASE, delay: 0.6 }}
       >
         <div className="float-slow rounded-[1.5rem] border border-white/15 bg-white/10 p-8">
-          <LogoMark className="h-28 w-28 drop-shadow-[0_10px_24px_rgba(0,0,0,0.4)]" />
+          <LogoMark className="h-28 w-28 drop-shadow-[0_10px_24px_rgba(0,0,0,0.4)]" aria-hidden="true" />
         </div>
       </motion.div>
 
@@ -288,7 +288,7 @@ export default function Hero({
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-10px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-0.5"
             >
               {ctaPrimary}
-              <Arrow className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
+              <Arrow className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
             </Link>
 
             {whatsapp && (
@@ -299,7 +299,7 @@ export default function Hero({
                 onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
               >
-                <MessageCircle className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" aria-hidden="true" />
                 {ctaWhatsapp}
               </a>
             )}
@@ -327,7 +327,7 @@ export default function Hero({
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/75 underline underline-offset-4 transition-colors hover:text-white"
             >
               {servicesLinkLabel}
-              <Arrow className="h-3.5 w-3.5" />
+              <Arrow className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </motion.div>
 
@@ -364,7 +364,7 @@ export default function Hero({
         className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden justify-center sm:flex"
       >
         <span className="float-slow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/60">
-          <MousePointerClick className="h-3.5 w-3.5" />
+          <MousePointerClick className="h-3.5 w-3.5" aria-hidden="true" />
           {dict.common.scrollHint}
         </span>
       </motion.div>

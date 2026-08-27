@@ -1,3 +1,4 @@
+import KanjiWatermark from "@/components/art/KanjiWatermark";
 import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/motion/Reveal";
@@ -28,7 +29,9 @@ export default function AboutTeaser({
   const showCeo = ceoEnabled && Boolean(ceoName) && Boolean(ceoPhoto);
 
   return (
-    <section className="container-page py-20">
+    <section className="surface-deep relative overflow-hidden py-20">
+      <KanjiWatermark char="bridge" className="-top-10 end-0 hidden lg:block" />
+      <div className="container-page relative">
       <div className="mx-auto max-w-3xl text-center">
         <SectionHeading eyebrow={dict.nav.about} title={title || dict.about.title} />
         <Reveal delay={80}>
@@ -58,6 +61,7 @@ export default function AboutTeaser({
           </Link>
         </Reveal>
       </div>
+    </div>
     </section>
   );
 }

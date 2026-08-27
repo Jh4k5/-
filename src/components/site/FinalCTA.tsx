@@ -56,7 +56,7 @@ export default function FinalCTA({
                 href={`/${locale}/contact`}
                 className="inline-flex items-center gap-2 rounded-full bg-china-red px-8 py-4 text-base font-bold text-white shadow-[0_22px_45px_-20px_rgba(200,16,46,1)] transition-all duration-300 hover:-translate-y-1 hover:bg-china-red-dark"
               >
-                <Send className="h-5 w-5" />
+                <Send className="h-5 w-5" aria-hidden="true" />
                 {dict.finalCta.button}
               </Link>
               <a
@@ -66,7 +66,7 @@ export default function FinalCTA({
                 onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
                 className="inline-flex items-center gap-2 rounded-full bg-jade px-8 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#008a60]"
               >
-                <MessageCircle className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" aria-hidden="true" />
                 {dict.finalCta.whatsapp}
               </a>
             </div>

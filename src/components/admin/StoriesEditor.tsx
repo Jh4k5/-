@@ -124,7 +124,7 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
               setOpen(row.id);
             }}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true" />
             قصة جديدة
           </Button>
         }
@@ -263,11 +263,11 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
-                      <Save className="h-4 w-4" />
+                      <Save className="h-4 w-4" aria-hidden="true" />
                       حفظ
                     </Button>
                     <Button variant="danger" onClick={() => remove(row)}>
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                       حذف
                     </Button>
                     <UpdatedAtLabel value={row.updated_at} />

@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -22,7 +23,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getSettings, getUniversities, getUniversityBySlug } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -124,11 +125,8 @@ export default async function UniversityPage({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(collegeJsonLd)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={collegeJsonLd} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <section className="relative flex min-h-[26rem] items-end overflow-hidden bg-trust-blue-dark pt-28 pb-14">
         <div className="absolute inset-0">
@@ -143,7 +141,7 @@ export default async function UniversityPage({
             href={`/${locale}/universities`}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 transition-colors hover:text-white"
           >
-            <Arrow className="h-4 w-4" />
+            <Arrow className="h-4 w-4" aria-hidden="true" />
             {dict.universities.backToList}
           </Link>
 
@@ -160,12 +158,12 @@ export default async function UniversityPage({
               <p className="mt-2 flex flex-wrap items-center gap-3 text-sm text-white/75">
                 {city && (
                   <span className="inline-flex items-center gap-1.5">
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="h-4 w-4" aria-hidden="true" />
                     {city}
                   </span>
                 )}
                 <span className="inline-flex items-center gap-1.5" dir="ltr">
-                  <Building2 className="h-4 w-4" />
+                  <Building2 className="h-4 w-4" aria-hidden="true" />
                   {university.name}
                 </span>
               </p>
@@ -197,7 +195,7 @@ export default async function UniversityPage({
                         key={line}
                         className="flex items-start gap-2.5 rounded-2xl bg-white p-4 shadow-[var(--shadow-soft)]"
                       >
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-jade" />
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-jade" aria-hidden="true" />
                         <span className="text-sm leading-relaxed text-charcoal/80">{line}</span>
                       </li>
                     ))}
@@ -219,7 +217,7 @@ export default async function UniversityPage({
                   {facts.map(({ Icon, label, value }) => (
                     <div key={label} className="flex items-center gap-3 px-6 py-3.5">
                       <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-china-red/10 text-china-red">
-                        <Icon className="h-4 w-4" />
+                        <Icon className="h-4 w-4" aria-hidden="true" />
                       </span>
                       <div className="min-w-0 flex-1">
                         <dt className="text-xs text-charcoal/50">{label}</dt>
@@ -249,7 +247,7 @@ export default async function UniversityPage({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-jade px-5 py-2.5 text-sm font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
                     {dict.common.whatsapp}
                   </a>
                 </div>

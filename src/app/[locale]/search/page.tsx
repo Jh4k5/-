@@ -149,7 +149,7 @@ export default async function SearchPage({
       <section className="container-page py-14">
         <form action={`/${locale}/search`} className="mx-auto max-w-2xl">
           <div className="relative">
-            <Search className="absolute top-1/2 h-5 w-5 -translate-y-1/2 text-charcoal/35 start-4" />
+            <Search className="absolute top-1/2 h-5 w-5 -translate-y-1/2 text-charcoal/35 start-4" aria-hidden="true" />
             <input
               type="search"
               name="q"

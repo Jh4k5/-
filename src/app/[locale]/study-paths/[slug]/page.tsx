@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -16,7 +17,7 @@ import {
   getStudyPaths,
 } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -74,10 +75,7 @@ export default async function StudyPathPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={title} subtitle={description} scene="campus-quad" />
       <Breadcrumbs locale={locale} trail={trail} />
@@ -86,7 +84,7 @@ export default async function StudyPathPage({
         <div className="mx-auto max-w-3xl">
           <Reveal>
             <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-china-red/10 text-china-red">
-              <Icon className="h-6 w-6" />
+              <Icon className="h-6 w-6" aria-hidden="true" />
             </span>
             <p className="mt-6 text-base leading-relaxed text-charcoal/80">{description}</p>
           </Reveal>
@@ -136,7 +134,7 @@ export default async function StudyPathPage({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-[10px] border border-jade px-6 py-3 text-sm font-bold text-jade transition-colors hover:bg-jade hover:text-white"
               >
-                <MessageCircle className="h-4 w-4" />
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 {dict.common.whatsapp}
               </a>
             </div>

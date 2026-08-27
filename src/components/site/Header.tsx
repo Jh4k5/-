@@ -104,19 +104,22 @@ export default function Header({
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href={`/${locale}/search`}
-            aria-label={dict.search.title}
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors ${
-              scrolled
-                ? "border-trust-blue/15 bg-white text-trust-blue hover:bg-trust-blue/8"
-                : "border-white/25 bg-white/10 text-white hover:bg-white/20"
-            }`}
-          >
-            <SearchIcon className="h-4.5 w-4.5" />
-          </Link>
+          {/* Search and language sit together as one control cluster, visible at
+              every width — switching language is a top-level action here, not
+              something buried in the mobile drawer. */}
+          <div className="flex items-center gap-1.5">
+            <Link
+              href={`/${locale}/search`}
+              aria-label={dict.search.title}
+              className={`inline-flex h-11 w-11 items-center justify-center rounded-[6px] border transition-colors focus-visible:ring-2 focus-visible:ring-china-red focus-visible:ring-offset-2 focus-visible:outline-none ${
+                scrolled
+                  ? "border-trust-blue/15 bg-white text-trust-blue hover:bg-trust-blue/8"
+                  : "border-white/25 bg-white/10 text-white hover:bg-white/20"
+              }`}
+            >
+              <SearchIcon className="h-4.5 w-4.5" aria-hidden="true" />
+            </Link>
 
-          <div className="hidden xl:block">
             <LanguageSwitcher locale={locale} variant={scrolled ? "dark" : "light"} />
           </div>
 
@@ -124,7 +127,7 @@ export default function Header({
             href={`/${locale}/contact`}
             className="hidden items-center gap-2 rounded-full bg-china-red px-5 py-2.5 text-sm font-bold text-white shadow-[0_14px_30px_-14px_rgba(200,16,46,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-china-red-dark md:inline-flex"
           >
-            <MessageCircle className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
             {dict.nav.cta}
           </Link>
 
@@ -139,7 +142,7 @@ export default function Header({
                 : "border-white/25 bg-white/10 text-white"
             }`}
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
           </button>
         </div>
       </div>

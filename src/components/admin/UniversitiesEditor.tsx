@@ -171,7 +171,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
               setOpen(row.id);
             }}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" aria-hidden="true" />
             جامعة جديدة
           </Button>
         }
@@ -209,7 +209,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
                   </span>
                   {row.is_featured && (
                     <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-imperial-gold/20 px-2.5 py-1 text-[10px] font-bold text-[#8a6d12]">
-                      <Star className="h-3 w-3" />
+                      <Star className="h-3 w-3" aria-hidden="true" />
                       مميّزة
                     </span>
                   )}
@@ -433,7 +433,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
                               className="absolute top-1.5 inline-flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white end-1.5"
                               aria-label="حذف"
                             >
-                              <X className="h-3.5 w-3.5" />
+                              <X className="h-3.5 w-3.5" aria-hidden="true" />
                             </button>
                           </div>
                         ))}
@@ -476,11 +476,11 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
 
                   <div className="flex flex-wrap items-center gap-3">
                     <Button onClick={() => save(row)} loading={busy === row.id}>
-                      <Save className="h-4 w-4" />
+                      <Save className="h-4 w-4" aria-hidden="true" />
                       حفظ
                     </Button>
                     <Button variant="danger" onClick={() => remove(row)}>
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                       حذف
                     </Button>
                     <UpdatedAtLabel value={row.updated_at} />

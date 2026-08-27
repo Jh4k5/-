@@ -1,3 +1,4 @@
+import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import PageHero from "@/components/site/PageHero";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
@@ -7,7 +8,7 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getFaqs, getSettings } from "@/lib/data";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
-import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -74,11 +75,8 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(faqJsonLd)} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
-      />
+      <JsonLd data={faqJsonLd} />
+      <JsonLd data={breadcrumbJsonLd(locale, trail, settings)} />
 
       <PageHero title={dict.faq.title} subtitle={dict.faq.subtitle} scene="campus-library" />
       <Breadcrumbs locale={locale} trail={trail} />
