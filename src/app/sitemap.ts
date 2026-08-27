@@ -11,6 +11,8 @@ const PAGES = [
   "/why-china",
   "/stories",
   "/blog",
+  "/how-it-works",
+  "/language-platform",
   "/contact",
 ];
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Eye, HeartHandshake, Target } from "lucide-react";
 import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
@@ -8,7 +9,7 @@ import SceneArt from "@/components/art/SceneArt";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";
-import { whatsappLink } from "@/lib/settings-helpers";
+import { settingText, settingValue, whatsappLink } from "@/lib/settings-helpers";
 import { buildMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -33,6 +34,23 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const dict = getDictionary(locale);
   const settings = await getSettings();
 
+  const storyText = settingText(settings, "about_story_text", locale, dict.about.storyText);
+  const visionText = settingText(settings, "about_vision_text", locale, dict.about.visionText);
+  const missionText = settingText(settings, "about_mission_text", locale, dict.about.missionText);
+  const whyExclusiveText = settingText(
+    settings,
+    "about_why_exclusive_text",
+    locale,
+    dict.about.whyExclusiveText,
+  );
+
+  const ceoEnabled = settingValue(settings, "ceo_section_enabled") === "true";
+  const ceoName = settingValue(settings, "ceo_name");
+  const ceoPhoto = settingValue(settings, "ceo_photo");
+  const ceoTitle = settingText(settings, "ceo_title", locale);
+  const ceoBio = settingText(settings, "ceo_bio", locale);
+  const showCeo = ceoEnabled && Boolean(ceoName) && Boolean(ceoPhoto);
+
   return (
     <>
       <PageHero title={dict.about.title} subtitle={dict.about.subtitle} scene="campus-gate" />
@@ -53,16 +71,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               align="start"
             />
             <Reveal delay={90}>
-              <p className="mt-6 text-base leading-relaxed text-charcoal/80">
-                {dict.about.storyText}
-              </p>
+              <p className="mt-6 text-base leading-relaxed text-charcoal/80">{storyText}</p>
               <div className="mt-8 rounded-2xl border-s-4 border-china-red bg-white p-6 shadow-[var(--shadow-soft)]">
                 <h3 className="text-lg font-extrabold text-trust-blue">
                   {dict.about.whyExclusiveTitle}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/75">
-                  {dict.about.whyExclusiveText}
-                </p>
+                <p className="mt-2 text-sm leading-relaxed text-charcoal/75">{whyExclusiveText}</p>
               </div>
             </Reveal>
           </div>
@@ -72,8 +86,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <section className="bg-white py-20">
         <div className="container-page grid gap-6 md:grid-cols-2">
           {[
-            { Icon: Eye, title: dict.about.visionTitle, text: dict.about.visionText },
-            { Icon: Target, title: dict.about.missionTitle, text: dict.about.missionText },
+            { Icon: Eye, title: dict.about.visionTitle, text: visionText },
+            { Icon: Target, title: dict.about.missionTitle, text: missionText },
           ].map(({ Icon, title, text }, index) => (
             <Reveal key={title} delay={index * 100}>
               <article className="surface-card h-full p-8">
@@ -107,6 +121,27 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           ))}
         </div>
       </section>
+
+      {showCeo && (
+        <section className="bg-white py-20">
+          <div className="container-page">
+            <div className="surface-card mx-auto grid max-w-4xl items-center gap-8 p-8 sm:grid-cols-[auto_1fr] sm:p-10">
+              <Reveal>
+                <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-[var(--shadow-soft)] sm:h-40 sm:w-40">
+                  <Image src={ceoPhoto} alt={ceoName} fill sizes="160px" className="object-cover" />
+                </div>
+              </Reveal>
+              <Reveal delay={90} direction="start">
+                <p className="text-xl font-extrabold text-trust-blue">{ceoName}</p>
+                {ceoTitle && <p className="mt-1 text-sm font-bold text-china-red">{ceoTitle}</p>}
+                {ceoBio && (
+                  <p className="mt-3 text-sm leading-relaxed text-charcoal/75">{ceoBio}</p>
+                )}
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      )}
 
       <FinalCTA locale={locale} dict={dict} whatsapp={whatsappLink(settings, dict.meta.tagline)} />
     </>

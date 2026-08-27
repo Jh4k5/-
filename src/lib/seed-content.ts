@@ -2,11 +2,13 @@ import type {
   CostFactor,
   DestinationMedia,
   Faq,
+  ProcessStage,
   ProcessStep,
   ProcessTrustBadge,
   Service,
   SettingRow,
   SiteSection,
+  StudyPath,
   SuccessStory,
   University,
   WhyChinaPoint,
@@ -546,6 +548,64 @@ export const SEED_SETTINGS: SettingRow[] = [
       "Стоимость зависит от вашего профиля и необходимых услуг. После собеседования мы присылаем чёткий диапазон и письменный план до начала сотрудничества, без скрытых платежей за пределами того, что указано в контракте.",
   },
 
+  // /about page prose (Prompt 3 §5) — moved from the dictionary to settings.
+  {
+    key: "about_story_text",
+    value: null,
+    value_ar:
+      "بدأت فكرة «جسر إلى الصين» من تجربة شخصية مع تعقيد إجراءات الدراسة في الخارج: مستندات متفرقة، معلومات متضاربة، ووعود لا تُنفَّذ. اخترنا أن نتخصص في وجهة واحدة فقط ونتقنها بدل تشتيت الجهد على عشرات الدول. اليوم نرافق الطالب العربي خطوة بخطوة، من أول سؤال عن التخصص وحتى استقباله في مطار المدينة الصينية التي سيدرس فيها.",
+    value_en:
+      "Bridge to China began with first-hand experience of how complicated studying abroad can be: scattered documents, conflicting information and promises that were never kept. We chose to specialise in a single destination and master it, instead of spreading our effort across dozens of countries. Today we walk with the student step by step, from the first question about a major to being met at the airport of the Chinese city where they will study.",
+    value_ru:
+      "«Мост в Китай» вырос из личного опыта: разрозненные документы, противоречивая информация и невыполненные обещания. Мы решили специализироваться на одном направлении и делать это безупречно, вместо того чтобы распылять усилия на десятки стран. Сегодня мы сопровождаем студента шаг за шагом — от первого вопроса о специальности до встречи в аэропорту китайского города, где он будет учиться.",
+  },
+  {
+    key: "about_vision_text",
+    value: null,
+    value_ar: "أن نكون الجهة العربية الرائدة في دعم الطلاب الراغبين في الدراسة بالصين، وتحويل طموحاتهم إلى واقع ملموس.",
+    value_en: "To be the leading Arab reference for students who want to study in China, turning their ambitions into tangible reality.",
+    value_ru: "Стать ведущим центром поддержки студентов, желающих учиться в Китае, и превращать их амбиции в реальный результат.",
+  },
+  {
+    key: "about_mission_text",
+    value: null,
+    value_ar:
+      "تقديم استشارات وخدمات متكاملة وموثوقة ومبسّطة، تُمكّن الطالب العربي من الالتحاق بالجامعات الصينية وبناء مستقبله الأكاديمي والمهني.",
+    value_en:
+      "To provide integrated, reliable and simplified consulting and services that enable students to join Chinese universities and build their academic and professional future.",
+    value_ru:
+      "Предоставлять комплексные, надёжные и понятные консультации и услуги, которые позволяют студенту поступить в китайский университет и построить академическое и профессиональное будущее.",
+  },
+  {
+    key: "about_why_exclusive_text",
+    value: null,
+    value_ar:
+      "لأن نظام القبول الصيني له تفاصيله الخاصة: مواعيد تقديم مختلفة لكل جامعة، متطلبات لغة متفاوتة، ومنح لها شروط دقيقة. التخصص يعني أننا نعرف هذه التفاصيل عن قرب، ولدينا شبكة علاقات فعلية داخل الصين تخدم الطالب بدل أن تتركه وحيداً.",
+    value_en:
+      "Because the Chinese admission system has its own details: different application windows for every university, varying language requirements and scholarships with precise conditions. Specialising means we know those details closely and hold a real network inside China that serves the student instead of leaving them alone.",
+    value_ru:
+      "Потому что китайская система приёма имеет свои особенности: разные сроки подачи в каждом вузе, разные языковые требования и стипендии с точными условиями. Специализация означает, что мы знаем эти детали изнутри и располагаем реальной сетью контактов в Китае.",
+  },
+
+  // CEO section — hidden until an admin fills it in and flips it on.
+  { key: "ceo_section_enabled", value: "false", value_ar: null, value_en: null, value_ru: null },
+  { key: "ceo_name", value: null, value_ar: null, value_en: null, value_ru: null },
+  { key: "ceo_photo", value: null, value_ar: null, value_en: null, value_ru: null },
+  { key: "ceo_title", value: null, value_ar: null, value_en: null, value_ru: null },
+  { key: "ceo_bio", value: null, value_ar: null, value_en: null, value_ru: null },
+
+  // /language-platform page terms.
+  {
+    key: "language_platform_terms",
+    value: null,
+    value_ar:
+      "الاشتراك المجاني لمدة شهرين ينطبق على الطلاب الجدد المسجَّلين معنا، ويشمل الوصول لدروس اللغة الصينية الأساسية. تُطبَّق الشروط الكاملة عند التسجيل.",
+    value_en:
+      "The two-month free subscription applies to new students registered with us and includes access to core Chinese language lessons. Full terms apply at sign-up.",
+    value_ru:
+      "Бесплатная двухмесячная подписка распространяется на новых студентов, зарегистрированных у нас, и включает доступ к базовым урокам китайского языка. Полные условия действуют при регистрации.",
+  },
+
   // Future-feature flags (§10) — disabled by default; no page/route/table
   // exists for any of these yet. Flipping one to "true" is only meaningful
   // once the corresponding feature is actually built.
@@ -701,16 +761,122 @@ export const UNIVERSITY_NAMES = [
 /** Home page sections in their default order — also the offline fallback. */
 export const DEFAULT_SECTIONS: SiteSection[] = [
   { key: "stats", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "process", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "services", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "admissions", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "universities", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "destinations", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "why_china", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "stories", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "blog", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "faq", is_visible: true, display_order: 10, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "final_cta", is_visible: true, display_order: 11, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "study_paths", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "destinations", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "services", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "process", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "admissions", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "universities", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "why_china", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "language_platform", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stories", is_visible: true, display_order: 10, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "faq", is_visible: true, display_order: 11, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "blog", is_visible: true, display_order: 12, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "final_cta", is_visible: true, display_order: 13, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+];
+
+/** Offline fallback for "اختر مسارك" — mirrors the DB seed (0015_study_paths.sql). */
+export const SEED_STUDY_PATHS: StudyPath[] = [
+  {
+    id: "sp-language",
+    path_key: "language",
+    icon: "languages",
+    display_order: 1,
+    title_ar: "برنامج اللغة الصينية",
+    title_en: "Chinese language programme",
+    title_ru: "Программа китайского языка",
+    description_ar: "ابدأ بتعلّم اللغة الصينية كخطوة تمهيدية قبل الالتحاق بالدراسة الأكاديمية، أو كمسار مستقل.",
+    description_en: "Start by learning Chinese as preparation before academic study, or as a standalone track.",
+    description_ru: "Начните с изучения китайского языка в качестве подготовки перед академическим обучением или как отдельное направление.",
+  },
+  {
+    id: "sp-bachelor",
+    path_key: "bachelor",
+    icon: "graduation-cap",
+    display_order: 2,
+    title_ar: "البكالوريوس",
+    title_en: "Bachelor's degree",
+    title_ru: "Бакалавриат",
+    description_ar: "التحق ببرنامج بكالوريوس في إحدى الجامعات الصينية بعد الثانوية العامة، مع مساعدتك في كل خطوة.",
+    description_en: "Join a bachelor's programme at a Chinese university after high school, with our help at every step.",
+    description_ru: "Поступите на бакалавриат в китайский университет после окончания школы — мы поможем на каждом этапе.",
+  },
+  {
+    id: "sp-master",
+    path_key: "master",
+    icon: "award",
+    display_order: 3,
+    title_ar: "الماجستير",
+    title_en: "Master's degree",
+    title_ru: "Магистратура",
+    description_ar: "أكمل دراستك العليا ببرنامج ماجستير مناسب لتخصصك، مع فرص منح واسعة في الجامعات الصينية.",
+    description_en: "Continue your postgraduate studies with a master's programme suited to your field, with broad scholarship opportunities at Chinese universities.",
+    description_ru: "Продолжите обучение по программе магистратуры, соответствующей вашей специальности, с широкими возможностями получения стипендий.",
+  },
+  {
+    id: "sp-phd",
+    path_key: "phd",
+    icon: "book-open-check",
+    display_order: 4,
+    title_ar: "الدكتوراه",
+    title_en: "PhD",
+    title_ru: "Докторантура",
+    description_ar: "واصل بحثك الأكاديمي ببرنامج دكتوراه في الصين، مع دعم كامل في التقديم والمنح البحثية.",
+    description_en: "Continue your academic research with a PhD programme in China, with full support in applying and research funding.",
+    description_ru: "Продолжите научные исследования по программе докторантуры в Китае при полной поддержке в подаче документов и поиске финансирования.",
+  },
+];
+
+/** Offline fallback for the 4 process stages — mirrors the DB seed (0016_process_stages.sql). */
+export const SEED_PROCESS_STAGES: ProcessStage[] = [
+  {
+    id: "ps-1",
+    stage_number: 1,
+    icon: "headphones",
+    display_order: 1,
+    title_ar: "الاستشارة والتسجيل",
+    title_en: "Consultation and registration",
+    title_ru: "Консультация и регистрация",
+    description_ar: "نفهم هدفك ووضعك الدراسي، ثم نوثّق اتفاقنا معك بعقد إلكتروني واضح.",
+    description_en: "We understand your goal and academic situation, then formalise our agreement with a clear electronic contract.",
+    description_ru: "Мы разбираемся в вашей цели и учебной ситуации, затем оформляем договорённость чётким электронным контрактом.",
+  },
+  {
+    id: "ps-2",
+    stage_number: 2,
+    icon: "file-check",
+    display_order: 2,
+    title_ar: "التحضير والتقديم",
+    title_en: "Preparation and application",
+    title_ru: "Подготовка и подача документов",
+    description_ar: "نحضّرك للاختبارات والمقابلة، ونجهّز ملفك، ونقدّم نيابة عنك لأكثر من جامعة.",
+    description_en: "We prepare you for tests and interviews, put your file together, and apply to more than one university on your behalf.",
+    description_ru: "Мы готовим вас к тестам и собеседованиям, собираем документы и подаём заявки более чем в один университет от вашего имени.",
+  },
+  {
+    id: "ps-3",
+    stage_number: 3,
+    icon: "stamp",
+    display_order: 3,
+    title_ar: "القبول والفيزا",
+    title_en: "Admission and visa",
+    title_ru: "Зачисление и виза",
+    description_ar: "ننتظر معك نتيجة القبول، ثم نُنهي إجراءاته الرسمية ونجهّز ملف الفيزا ونقدّمه.",
+    description_en: "We wait for the admission result with you, then complete its official procedures and prepare and submit the visa file.",
+    description_ru: "Мы вместе ждём результата зачисления, затем оформляем официальные процедуры и готовим и подаём визовое дело.",
+  },
+  {
+    id: "ps-4",
+    stage_number: 4,
+    icon: "plane-landing",
+    display_order: 4,
+    title_ar: "السفر والاستقرار",
+    title_en: "Travel and settling in",
+    title_ru: "Поездка и обустройство",
+    description_ar: "نحجز طيرانك ونستقبلك في المطار، ونساعدك في إعداد VPN ووسائل الدفع بالصين.",
+    description_en: "We book your flight and welcome you at the airport, and help you set up a VPN and payment methods in China.",
+    description_ru: "Мы бронируем перелёт и встречаем вас в аэропорту, помогаем настроить VPN и способы оплаты в Китае.",
+  },
 ];
 
 /** Offline fallback for the "how we work" timeline — mirrors the DB seed. */
@@ -719,6 +885,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-1",
     icon: "headphones",
     display_order: 1,
+    stage_number: 1,
     title_ar: "استشارة مجانية أولى",
     title_en: "Free initial consultation",
     title_ru: "Бесплатная первичная консультация",
@@ -730,6 +897,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-2",
     icon: "file-check",
     display_order: 2,
+    stage_number: 1,
     title_ar: "التسجيل وتوقيع العقد الإلكتروني",
     title_en: "Registration and e-contract",
     title_ru: "Регистрация и электронный договор",
@@ -741,6 +909,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-3",
     icon: "book-open-check",
     display_order: 3,
+    stage_number: 2,
     title_ar: "تحضير اختبارات اللغة والقبول",
     title_en: "Language and admission exam prep",
     title_ru: "Подготовка к языковым и вступительным экзаменам",
@@ -752,6 +921,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-4",
     icon: "messages-square",
     display_order: 4,
+    stage_number: 2,
     title_ar: "تدريب المقابلة والفيديو التعريفي",
     title_en: "Interview coaching and intro video",
     title_ru: "Подготовка к собеседованию и видео-визитка",
@@ -763,6 +933,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-5",
     icon: "briefcase",
     display_order: 5,
+    stage_number: 2,
     title_ar: "تجهيز الملفات باحترافية",
     title_en: "Professional document preparation",
     title_ru: "Профессиональная подготовка документов",
@@ -774,6 +945,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-6",
     icon: "building",
     display_order: 6,
+    stage_number: 2,
     title_ar: "التقديم على أكثر من جامعة",
     title_en: "Applying to multiple universities",
     title_ru: "Подача документов в несколько университетов",
@@ -785,6 +957,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-7",
     icon: "sparkles",
     display_order: 7,
+    stage_number: 3,
     title_ar: "انتظار نتيجة القبول",
     title_en: "Awaiting the admission result",
     title_ru: "Ожидание результата зачисления",
@@ -796,6 +969,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-8",
     icon: "award",
     display_order: 8,
+    stage_number: 3,
     title_ar: "إجراءات القبول الرسمية",
     title_en: "Official admission procedures",
     title_ru: "Оформление официального зачисления",
@@ -807,6 +981,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-9",
     icon: "stamp",
     display_order: 9,
+    stage_number: 3,
     title_ar: "تجهيز ملف الفيزا والتقديم عليها",
     title_en: "Visa document prep and application",
     title_ru: "Подготовка документов и подача на визу",
@@ -818,6 +993,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-10",
     icon: "plane-landing",
     display_order: 10,
+    stage_number: 4,
     title_ar: "حجز الطيران واستقبالك في المطار",
     title_en: "Flight booking and airport pickup",
     title_ru: "Бронирование рейса и встреча в аэропорту",
@@ -829,6 +1005,7 @@ export const SEED_PROCESS_STEPS: ProcessStep[] = [
     id: "p-11",
     icon: "globe",
     display_order: 11,
+    stage_number: 4,
     title_ar: "إعداد VPN ووسائل الدفع في الصين",
     title_en: "VPN and payment setup in China",
     title_ru: "Настройка VPN и способов оплаты в Китае",

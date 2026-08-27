@@ -77,6 +77,41 @@ export interface Service {
   updated_at?: string;
 }
 
+/** The four grouping stages the 11 detailed process_steps sit under. */
+export interface ProcessStage {
+  id: string;
+  stage_number: number;
+  title_ar: string;
+  title_en: string | null;
+  title_ru: string | null;
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  icon: string;
+  display_order: number;
+  status?: ContentStatus;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/** "اختر مسارك" — the four fixed study tracks shown on the homepage. */
+export type StudyPathKey = "language" | "bachelor" | "master" | "phd";
+export interface StudyPath {
+  id: string;
+  path_key: StudyPathKey;
+  title_ar: string;
+  title_en: string | null;
+  title_ru: string | null;
+  description_ar: string;
+  description_en: string | null;
+  description_ru: string | null;
+  icon: string;
+  display_order: number;
+  status?: ContentStatus;
+  created_at?: string;
+  updated_at?: string;
+}
+
 /** Same shape as Service — the admin-editable "how we work" timeline. */
 export interface ProcessStep {
   id: string;
@@ -88,6 +123,8 @@ export interface ProcessStep {
   description_ru: string | null;
   icon: string;
   display_order: number;
+  /** Which of the 4 process_stages this detailed step belongs to. */
+  stage_number?: number | null;
   status?: ContentStatus;
   created_at?: string;
   updated_at?: string;
@@ -297,6 +334,8 @@ export type SectionKey =
   | "stories"
   | "blog"
   | "faq"
+  | "study_paths"
+  | "language_platform"
   | "final_cta";
 
 /** Same shape as WhyChinaPoint — the six cost-transparency factors shown on /services. */

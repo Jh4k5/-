@@ -11,6 +11,8 @@ import ArticleCard from "@/components/site/ArticleCard";
 import AdmissionsStrip from "@/components/site/AdmissionsStrip";
 import UniversitiesShowcase from "@/components/site/UniversitiesShowcase";
 import ProcessSection from "@/components/site/ProcessSection";
+import StudyPathsSection from "@/components/site/StudyPathsSection";
+import LanguagePlatformSection from "@/components/site/LanguagePlatformSection";
 import FaqSection from "@/components/site/FaqSection";
 import FinalCTA from "@/components/site/FinalCTA";
 import ViewTracker from "@/components/site/ViewTracker";
@@ -25,12 +27,13 @@ import {
   getFaqs,
   getFeaturedUniversities,
   getHeroSlides,
-  getProcessSteps,
+  getProcessStages,
   getProcessTrustBadges,
   getSections,
   getServices,
   getSettings,
   getStories,
+  getStudyPaths,
   getWhyChinaPoints,
 } from "@/lib/data";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
@@ -70,7 +73,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const [
     slides,
     services,
-    processSteps,
+    processStages,
     trustBadges,
     whyChinaPoints,
     destinations,
@@ -81,10 +84,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     admissions,
     universities,
     faqs,
+    studyPaths,
   ] = await Promise.all([
     getHeroSlides(),
     getServices(),
-    getProcessSteps(),
+    getProcessStages(),
     getProcessTrustBadges(),
     getWhyChinaPoints(),
     getDestinations(),
@@ -95,6 +99,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     getAdmissions(12),
     getFeaturedUniversities(4),
     getFaqs(),
+    getStudyPaths(),
   ]);
 
   const whatsapp = whatsappLink(settings, dict.meta.tagline);
@@ -103,13 +108,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const heading = (section: SiteSection, field: "title" | "subtitle", fallback: string) =>
     pick(section, field, locale) || fallback;
 
-  const render = (section: SiteSection) => {
+  const renderBody = (section: SiteSection) => {
     switch (section.key) {
       case "process":
         return (
           <ProcessSection
             key={section.key}
-            steps={processSteps}
+            stages={processStages}
             trustBadges={trustBadges}
             locale={locale}
             dict={dict}
@@ -117,6 +122,29 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             title={heading(section, "title", dict.process.title)}
             subtitle={heading(section, "subtitle", dict.process.subtitle)}
             whatsapp={whatsapp}
+          />
+        );
+
+      case "study_paths":
+        return (
+          <StudyPathsSection
+            key={section.key}
+            paths={studyPaths}
+            locale={locale}
+            dict={dict}
+            title={heading(section, "title", dict.studyPaths.title)}
+            subtitle={heading(section, "subtitle", dict.studyPaths.subtitle)}
+          />
+        );
+
+      case "language_platform":
+        return (
+          <LanguagePlatformSection
+            key={section.key}
+            locale={locale}
+            dict={dict}
+            settings={settings}
+            title={heading(section, "title", dict.languagePlatform.title)}
           />
         );
 
@@ -314,6 +342,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       default:
         return null;
     }
+  };
+
+  const render = (section: SiteSection) => {
+    const body = renderBody(section);
+    if (!body) return null;
+    return (
+      <div key={section.key} id={section.key.replace(/_/g, "-")} className="scroll-mt-24">
+        {body}
+      </div>
+    );
   };
 
   const faqSectionVisible = sections.some((section) => section.key === "faq");

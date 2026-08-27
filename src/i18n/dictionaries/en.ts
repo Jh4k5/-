@@ -73,6 +73,23 @@ const en: Dictionary = {
     bridgePerk:
       'Signing up with us also gets you free lifetime access to the "Bridge to Chinese" language-learning platform.',
     cta: "Book your free consultation now",
+    viewAllSteps: "See all 11 detailed steps",
+  },
+  studyPaths: {
+    title: "Choose your path",
+    subtitle: "Whatever your academic stage, we have a clear track for you.",
+    cta: "Start here",
+  },
+  languagePlatform: {
+    title: "The Chinese language platform",
+    subtitle: "The \"Bridge to Chinese\" platform accompanies you before and during your studies in China.",
+    cta: "See details",
+    termsTitle: "Terms",
+  },
+  howItWorks: {
+    title: "Every step of your journey with us",
+    subtitle: "From the first consultation to settling in China — every step, grouped under its stage.",
+    backToStages: "Back to the main stages",
   },
   stats: {
     title: "Numbers that build trust",
@@ -290,7 +307,7 @@ const en: Dictionary = {
     empty: "Frequently asked questions will be published soon.",
   },
   universities: {
-    title: "Universities we work with",
+    title: "University examples",
     subtitle: "Precise profiles of the leading Chinese universities we help our students join.",
     viewAll: "More universities",
     exploreOne: "Explore the university",

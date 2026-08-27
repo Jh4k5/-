@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -9,12 +6,11 @@ import { iconFor } from "@/lib/icons";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
-import type { ProcessStep, ProcessTrustBadge } from "@/lib/types";
-import { track } from "@/lib/analytics";
-import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
+import type { ProcessStage, ProcessTrustBadge } from "@/lib/types";
+import TrackedWhatsAppLink from "./TrackedWhatsAppLink";
 
 export default function ProcessSection({
-  steps,
+  stages,
   trustBadges,
   locale,
   dict,
@@ -23,7 +19,7 @@ export default function ProcessSection({
   subtitle,
   whatsapp,
 }: {
-  steps: ProcessStep[];
+  stages: ProcessStage[];
   trustBadges: ProcessTrustBadge[];
   locale: Locale;
   dict: Dictionary;
@@ -32,9 +28,7 @@ export default function ProcessSection({
   subtitle?: string;
   whatsapp?: string;
 }) {
-  const [expandedStep, setExpandedStep] = useState<string | null>(null);
-
-  if (steps.length === 0) return null;
+  if (stages.length === 0) return null;
 
   const bridgePerkTitle = settingText(settings, "process_bridge_perk_title", locale, "");
   const bridgePerkDuration = settingText(settings, "process_bridge_perk_duration", locale, "");
@@ -68,51 +62,43 @@ export default function ProcessSection({
           })}
         </RevealGroup>
 
-        <div className="relative mt-16">
-          <div className="absolute top-0 bottom-0 hidden w-px bg-gradient-to-b from-china-red via-imperial-gold to-trust-blue/30 sm:block start-6" />
-          <ol className="space-y-6">
-            {steps.map((step, index) => {
-              const Icon = iconFor(step.icon);
-              return (
-                <Reveal key={step.id} delay={index * 60}>
-                  <li className="relative flex gap-5 sm:ps-16">
-                    <span className="absolute top-0 hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-white shadow-[0_14px_30px_-16px_rgba(27,58,107,0.9)] sm:flex start-0">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setExpandedStep((current) => (current === step.id ? null : step.id));
-                        track(ANALYTICS_EVENTS.processExpand, locale);
-                      }}
-                      className={`surface-card flex w-full items-start gap-4 p-5 text-start transition-all duration-300 ${
-                        expandedStep === step.id ? "ring-2 ring-china-red/50" : ""
-                      }`}
-                    >
-                      <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-trust-blue/10 text-sm font-extrabold text-trust-blue sm:hidden">
-                        {index + 1}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="text-xs font-bold uppercase tracking-widest text-china-red">
-                          {String(index + 1).padStart(2, "0")}
-                        </p>
-                        <h3 className="mt-1 text-lg font-extrabold text-trust-blue">
-                          {pick(step, "title", locale)}
-                        </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-                          {pick(step, "description", locale)}
-                        </p>
-                      </div>
-                    </button>
-                  </li>
-                </Reveal>
-              );
-            })}
-          </ol>
-        </div>
+        <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {stages.map((stage, index) => {
+            const Icon = iconFor(stage.icon);
+            return (
+              <RevealItem key={stage.id}>
+                <div className="surface-card h-full p-6">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-trust-blue to-china-red text-white">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <p className="mt-4 text-xs font-bold uppercase tracking-widest text-china-red">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-1 text-lg font-extrabold text-trust-blue">
+                    {pick(stage, "title", locale)}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
+                    {pick(stage, "description", locale)}
+                  </p>
+                </div>
+              </RevealItem>
+            );
+          })}
+        </RevealGroup>
+
+        <Reveal delay={80}>
+          <div className="mt-8 flex justify-center">
+            <Link
+              href={`/${locale}/how-it-works`}
+              className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
+            >
+              {dict.process.viewAllSteps}
+            </Link>
+          </div>
+        </Reveal>
 
         <Reveal delay={100}>
-          <div className="mt-14 flex flex-col items-center gap-4 rounded-2xl bg-trust-blue/5 p-8 text-center">
+          <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl bg-trust-blue/5 p-8 text-center">
             {bridgePerkDuration && (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-jade/10 px-3 py-1 text-xs font-bold text-jade">
                 {bridgePerkDuration}
@@ -128,22 +114,20 @@ export default function ProcessSection({
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
-                href={`/${locale}/contact`}
+                href={`/${locale}/contact#booking`}
                 className="inline-flex items-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-12px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-1"
               >
                 {dict.process.cta}
               </Link>
               {whatsapp && (
-                <a
+                <TrackedWhatsAppLink
                   href={whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
+                  locale={locale}
                   className="inline-flex items-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#008a60]"
                 >
                   <MessageCircle className="h-5 w-5" />
                   {dict.common.whatsapp}
-                </a>
+                </TrackedWhatsAppLink>
               )}
             </div>
           </div>

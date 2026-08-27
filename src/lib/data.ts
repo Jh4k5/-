@@ -5,11 +5,13 @@ import {
   SEED_COST_FACTORS,
   SEED_DESTINATIONS,
   SEED_FAQS,
+  SEED_PROCESS_STAGES,
   SEED_PROCESS_STEPS,
   SEED_PROCESS_TRUST_BADGES,
   SEED_SERVICES,
   SEED_SETTINGS,
   SEED_STORIES,
+  SEED_STUDY_PATHS,
   SEED_UNIVERSITIES,
   SEED_WHY_CHINA_POINTS,
 } from "./seed-content";
@@ -20,12 +22,14 @@ import type {
   DestinationMedia,
   Faq,
   GalleryItem,
+  ProcessStage,
   ProcessStep,
   ProcessTrustBadge,
   Service,
   SettingRow,
   SettingsMap,
   SiteSection,
+  StudyPath,
   SuccessStory,
   University,
   WhyChinaPoint,
@@ -70,6 +74,32 @@ export const getProcessSteps = cache(async function getProcessSteps(): Promise<P
     if (error || !data || data.length === 0) return SEED_PROCESS_STEPS;
     return data as ProcessStep[];
   }, SEED_PROCESS_STEPS);
+});
+
+export const getProcessStages = cache(async function getProcessStages(): Promise<
+  ProcessStage[]
+> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("process_stages")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_PROCESS_STAGES;
+    return data as ProcessStage[];
+  }, SEED_PROCESS_STAGES);
+});
+
+export const getStudyPaths = cache(async function getStudyPaths(): Promise<StudyPath[]> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase
+      .from("study_paths")
+      .select("*")
+      .order("display_order", { ascending: true });
+    if (error || !data || data.length === 0) return SEED_STUDY_PATHS;
+    return data as StudyPath[];
+  }, SEED_STUDY_PATHS);
 });
 
 export const getWhyChinaPoints = cache(async function getWhyChinaPoints(): Promise<

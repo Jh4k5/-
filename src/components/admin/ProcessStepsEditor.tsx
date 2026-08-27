@@ -60,6 +60,7 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
       description_ru: row.description_ru || null,
       icon: row.icon,
       display_order: Number(row.display_order) || 0,
+      stage_number: row.stage_number ?? null,
       status: row.status ?? "draft",
     };
 
@@ -215,6 +216,26 @@ export default function ProcessStepsEditor({ initial }: { initial: ProcessStep[]
                         value={row.display_order}
                         onChange={(event) => patch(row.id, "display_order", event.target.value)}
                       />
+                    </Field>
+
+                    <Field label="المرحلة الرئيسية">
+                      <select
+                        className={inputClass}
+                        value={row.stage_number ?? ""}
+                        onChange={(event) =>
+                          patch(
+                            row.id,
+                            "stage_number",
+                            event.target.value === "" ? null : Number(event.target.value),
+                          )
+                        }
+                      >
+                        <option value="">بلا مرحلة</option>
+                        <option value={1}>١ — الاستشارة والتسجيل</option>
+                        <option value={2}>٢ — التحضير والتقديم</option>
+                        <option value={3}>٣ — القبول والفيزا</option>
+                        <option value={4}>٤ — السفر والاستقرار</option>
+                      </select>
                     </Field>
                   </div>
 
