@@ -41,6 +41,12 @@ export default function Hero({
   const headline = settingText(settings, "hero_headline", locale, dict.hero.title);
   const description = settingText(settings, "hero_description", locale, dict.hero.subtitle);
   const ctaPrimary = settingText(settings, "hero_cta_primary", locale, dict.hero.ctaPrimary);
+  const ctaHelperText = settingText(
+    settings,
+    "hero_cta_helper_text",
+    locale,
+    "نراجع مرحلتك وهدفك وميزانيتك مبدئياً، ونوضح لك المسار المناسب قبل أي التزام.",
+  );
   const ctaWhatsapp = settingText(settings, "hero_cta_secondary", locale, dict.common.whatsapp);
   const servicesLinkLabel = settingText(
     settings,
@@ -48,7 +54,6 @@ export default function Hero({
     locale,
     dict.hero.ctaSecondary,
   );
-  const trustLine = settingText(settings, "hero_trust_line", locale, "");
 
   useEffect(() => {
     if (slides.length < 2) return;
@@ -273,6 +278,17 @@ export default function Hero({
             )}
           </motion.div>
 
+          {ctaHelperText && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0.75 }}
+              className="mt-3 max-w-xl text-sm leading-relaxed text-white/70"
+            >
+              {ctaHelperText}
+            </motion.p>
+          )}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -287,17 +303,6 @@ export default function Hero({
               <Arrow className="h-3.5 w-3.5" />
             </Link>
           </motion.div>
-
-          {trustLine && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.9, ease: EASE, delay: 0.95 }}
-              className="mt-6 max-w-xl text-sm leading-relaxed text-white/65"
-            >
-              {trustLine}
-            </motion.p>
-          )}
 
           {slides.length > 1 && (
             <motion.div

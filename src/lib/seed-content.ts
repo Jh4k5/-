@@ -317,7 +317,14 @@ export const SEED_SETTINGS: SettingRow[] = [
     value_ru:
       "Мы поможем выбрать подходящее направление, подготовить документы и подать заявку на программы и стипендии, предварительно соответствующие вашей квалификации и целям.",
   },
-  { key: "hero_cta_primary", value: null, value_ar: "تواصل معنا الآن", value_en: "Contact us now", value_ru: "Связаться с нами" },
+  { key: "hero_cta_primary", value: null, value_ar: "احجز استشارتك المجانية", value_en: "Book your free consultation", value_ru: "Забронировать бесплатную консультацию" },
+  {
+    key: "hero_cta_helper_text",
+    value: null,
+    value_ar: "نراجع مرحلتك وهدفك وميزانيتك مبدئياً، ونوضح لك المسار المناسب قبل أي التزام.",
+    value_en: "We review your stage, goal and budget initially, and explain the right track before any commitment.",
+    value_ru: "Мы предварительно рассмотрим ваш этап, цель и бюджет и объясним подходящий путь до принятия каких-либо обязательств.",
+  },
   {
     key: "hero_cta_secondary",
     value: null,
@@ -420,9 +427,12 @@ export const SEED_SETTINGS: SettingRow[] = [
   {
     key: "contact_success_message",
     value: null,
-    value_ar: "تم إرسال طلبك بنجاح! سنتواصل معك قريباً عبر الوسيلة التي اخترتها.",
-    value_en: "Your request has been sent! We will contact you soon through your chosen channel.",
-    value_ru: "Заявка отправлена! Мы свяжемся с вами выбранным способом.",
+    value_ar:
+      "وصل طلبك بنجاح. سنراجعه خلال يوم عمل واحد ونتواصل معك عبر الوسيلة التي اخترتها لتوضيح المسار المناسب — هذا الطلب الأولي بلا أي التزام.",
+    value_en:
+      "Your request has arrived. We'll review it within one business day and reach out through your chosen channel to explain the right track — this initial request carries no commitment.",
+    value_ru:
+      "Ваша заявка получена. Мы рассмотрим её в течение одного рабочего дня и свяжемся с вами удобным способом, чтобы объяснить подходящий путь — эта первичная заявка ни к чему не обязывает.",
   },
   {
     key: "contact_error_message",

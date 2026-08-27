@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
@@ -14,6 +15,7 @@ type Status = "idle" | "sending" | "success" | "error";
 const QUALIFICATIONS = ["high_school", "bachelor", "master", "phd"] as const;
 const LEVELS = ["none", "beginner", "hsk1_2", "hsk3_4", "hsk5_6"] as const;
 const CONTACT_METHODS = ["whatsapp", "email", "phone"] as const;
+const VALID_STAGES = new Set<string>(QUALIFICATIONS);
 
 export default function ContactForm({
   locale,
@@ -24,12 +26,17 @@ export default function ContactForm({
   dict: Dictionary;
   settings: SettingsMapLike;
 }) {
+  const searchParams = useSearchParams();
+  const stageParam = searchParams.get("stage") ?? "";
+  const initialStage = VALID_STAGES.has(stageParam) ? stageParam : "";
+
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [countryCode, setCountryCode] = useState<string>(COUNTRY_CODES[0].code);
   const [consented, setConsented] = useState(false);
   const [started, setStarted] = useState(false);
+  const [wantsScholarship, setWantsScholarship] = useState<"" | "yes" | "no">("");
 
   const markStarted = () => {
     if (started) return;
@@ -80,13 +87,20 @@ export default function ContactForm({
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, phone, language: locale }),
+        body: JSON.stringify({
+          ...data,
+          phone,
+          language: locale,
+          source: "contact_form",
+          wants_scholarship: wantsScholarship === "" ? null : wantsScholarship === "yes",
+        }),
       });
 
       if (!response.ok) throw new Error("request failed");
 
       form.reset();
       setConsented(false);
+      setWantsScholarship("");
       setStatus("success");
       setMessage(successMessage);
       track(ANALYTICS_EVENTS.formSubmit, locale);
@@ -155,7 +169,7 @@ export default function ContactForm({
             name="current_qualification"
             aria-invalid={Boolean(fieldErrors.current_qualification)}
             className={fieldClass}
-            defaultValue=""
+            defaultValue={initialStage}
           >
             <option value="" disabled>
               {dict.contact.fields.choose}
@@ -169,34 +183,6 @@ export default function ContactForm({
           {fieldErrors.current_qualification && (
             <p className={errorClass}>{fieldErrors.current_qualification}</p>
           )}
-        </div>
-
-        <div>
-          <label className={labelClass} htmlFor="desired_major">
-            {dict.contact.fields.major}{" "}
-            <span className="text-xs font-normal text-charcoal/45">({dict.common.optional})</span>
-          </label>
-          <input
-            id="desired_major"
-            name="desired_major"
-            className={fieldClass}
-            placeholder={dict.contact.placeholders.major}
-          />
-        </div>
-
-        <div>
-          <label className={labelClass} htmlFor="chinese_level">
-            {dict.contact.fields.chineseLevel}{" "}
-            <span className="text-xs font-normal text-charcoal/45">({dict.common.optional})</span>
-          </label>
-          <select id="chinese_level" name="chinese_level" className={fieldClass} defaultValue="">
-            <option value="">{dict.contact.fields.choose}</option>
-            {LEVELS.map((key) => (
-              <option key={key} value={key}>
-                {dict.options.chineseLevel[key]}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div>
@@ -217,7 +203,7 @@ export default function ContactForm({
           </select>
         </div>
 
-        <div>
+        <div className="sm:col-span-2">
           <label className={labelClass} htmlFor="phone_number">
             {dict.contact.fields.phone} <span className="text-china-red">*</span>
           </label>
@@ -247,10 +233,79 @@ export default function ContactForm({
           {fieldErrors.phone_number && <p className={errorClass}>{fieldErrors.phone_number}</p>}
         </div>
 
+        <div className="sm:col-span-2 mt-2 flex items-center gap-3">
+          <span className="h-px flex-1 bg-trust-blue/10" />
+          <span className="text-xs font-bold uppercase tracking-widest text-charcoal/45">
+            {dict.common.optional}
+          </span>
+          <span className="h-px flex-1 bg-trust-blue/10" />
+        </div>
+
+        <div>
+          <label className={labelClass} htmlFor="desired_major">
+            {dict.contact.fields.major}
+          </label>
+          <input
+            id="desired_major"
+            name="desired_major"
+            className={fieldClass}
+            placeholder={dict.contact.placeholders.major}
+          />
+        </div>
+
+        <div>
+          <label className={labelClass} htmlFor="desired_start_year">
+            {dict.eligibility.fields.startYear}
+          </label>
+          <input
+            id="desired_start_year"
+            name="desired_start_year"
+            type="number"
+            inputMode="numeric"
+            min={2024}
+            max={2035}
+            className={fieldClass}
+            placeholder={dict.eligibility.placeholders.startYear}
+          />
+        </div>
+
+        <div>
+          <label className={labelClass} htmlFor="chinese_level">
+            {dict.contact.fields.chineseLevel}
+          </label>
+          <select id="chinese_level" name="chinese_level" className={fieldClass} defaultValue="">
+            <option value="">{dict.contact.fields.choose}</option>
+            {LEVELS.map((key) => (
+              <option key={key} value={key}>
+                {dict.options.chineseLevel[key]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <span className={labelClass}>{dict.eligibility.fields.wantsScholarship}</span>
+          <div className="flex gap-2">
+            {(["yes", "no"] as const).map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setWantsScholarship(wantsScholarship === option ? "" : option)}
+                className={`flex-1 rounded-xl border px-4 py-3 text-sm font-bold transition-colors ${
+                  wantsScholarship === option
+                    ? "border-china-red bg-china-red/10 text-china-red"
+                    : "border-trust-blue/12 bg-white text-charcoal/70"
+                }`}
+              >
+                {option === "yes" ? dict.eligibility.yes : dict.eligibility.no}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div>
           <label className={labelClass} htmlFor="email">
-            {dict.contact.fields.email}{" "}
-            <span className="text-xs font-normal text-charcoal/45">({dict.common.optional})</span>
+            {dict.contact.fields.email}
           </label>
           <input
             id="email"
@@ -265,8 +320,7 @@ export default function ContactForm({
 
         <div className="sm:col-span-2">
           <label className={labelClass} htmlFor="message">
-            {dict.contact.fields.message}{" "}
-            <span className="text-xs font-normal text-charcoal/45">({dict.common.optional})</span>
+            {dict.contact.fields.message}
           </label>
           <textarea
             id="message"

@@ -18,7 +18,7 @@ const en: Dictionary = {
     admissions: "Admissions",
     stories: "Success Stories",
     contact: "Contact",
-    cta: "Contact us now",
+    cta: "Book a consultation",
     menu: "Menu",
     close: "Close",
     language: "Language",
@@ -45,7 +45,7 @@ const en: Dictionary = {
     title: "Bridge to China",
     subtitle:
       "Most Chinese universities offer partial or full scholarships — we walk with you from a free first consultation to meeting you at the airport",
-    ctaPrimary: "Contact us now",
+    ctaPrimary: "Book your free consultation",
     ctaSecondary: "Explore our services",
   },
   process: {
@@ -155,7 +155,7 @@ const en: Dictionary = {
     title: "Your first step towards China starts with one message",
     subtitle:
       "Send us your details and we will review your profile and come back with an offer tailored to your qualifications and budget.",
-    button: "Start now",
+    button: "Book your free consultation",
     whatsapp: "Chat on WhatsApp",
   },
   about: {
@@ -182,17 +182,17 @@ const en: Dictionary = {
     ],
   },
   contact: {
-    title: "Contact Us",
+    title: "Book Your Free Consultation",
     subtitle:
-      "Fill in the form with your basic details. We review every request manually and reply with a tailored offer through your preferred channel.",
-    formTitle: "Contact form",
+      "Answer a few simple questions and we'll do an initial review of your profile and reach out with a tailored plan through your preferred channel — the first consultation is free and comes with no commitment.",
+    formTitle: "Book Your Free Consultation",
     infoTitle: "Direct contact details",
     infoText: "Prefer something faster? Message us on WhatsApp and we will reply as soon as possible.",
     followUs: "Follow us",
     fields: {
       fullName: "Full name",
       country: "Country",
-      qualification: "Current qualification",
+      qualification: "Target study track",
       major: "Desired major",
       chineseLevel: "Chinese language level",
       preferredContact: "Preferred contact method",
@@ -211,7 +211,8 @@ const en: Dictionary = {
     },
     submit: "Send request",
     sending: "Sending…",
-    success: "Your request has been sent! We will contact you soon through your chosen channel.",
+    success:
+      "Your request has arrived. We'll review it within one business day and reach out through your chosen channel to explain the right track — this initial request carries no commitment.",
     error: "The request could not be sent. Please check your details and try again.",
     requiredError: "Please fill in the required fields.",
   },

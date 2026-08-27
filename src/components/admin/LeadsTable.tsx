@@ -9,8 +9,37 @@ import type { Lead, LeadSource, LeadStatus } from "@/lib/types";
 
 const STATUS_LABEL: Record<LeadStatus, string> = {
   new: "جديد",
+  reviewed: "تمت المراجعة",
+  awaiting_reply: "بانتظار الرد",
+  qualified: "مؤهل",
+  contracted: "تعاقد",
+  unqualified: "غير مؤهل",
+  deferred: "مؤجل",
+  // legacy values kept readable for rows saved before the status list was widened
   contacted: "تم التواصل",
   completed: "مكتمل",
+};
+
+const STATUS_ORDER: LeadStatus[] = [
+  "new",
+  "reviewed",
+  "awaiting_reply",
+  "qualified",
+  "contracted",
+  "unqualified",
+  "deferred",
+];
+
+const STATUS_COLOR: Record<LeadStatus, string> = {
+  new: "bg-china-red/10 text-china-red",
+  reviewed: "bg-trust-blue/10 text-trust-blue",
+  awaiting_reply: "bg-imperial-gold/20 text-[#8a6d12]",
+  qualified: "bg-trust-blue/10 text-trust-blue",
+  contracted: "bg-jade/15 text-jade",
+  unqualified: "bg-charcoal/8 text-charcoal/55",
+  deferred: "bg-charcoal/8 text-charcoal/55",
+  contacted: "bg-imperial-gold/20 text-[#8a6d12]",
+  completed: "bg-jade/15 text-jade",
 };
 
 const SOURCE_LABEL: Record<LeadSource, string> = {
@@ -67,15 +96,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
     });
   }, [leads, status, source, language, query]);
 
-  const counts = useMemo(
-    () => ({
-      all: leads.length,
-      new: leads.filter((lead) => lead.status === "new").length,
-      contacted: leads.filter((lead) => lead.status === "contacted").length,
-      completed: leads.filter((lead) => lead.status === "completed").length,
-    }),
-    [leads],
-  );
+  const newCount = useMemo(() => leads.filter((lead) => lead.status === "new").length, [leads]);
 
   async function updateStatus(id: string, next: LeadStatus) {
     const previous = leads;
@@ -113,22 +134,24 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
       />
 
       <div className="surface-card mb-6 flex flex-wrap items-center gap-3 p-4">
-        <div className="flex flex-wrap gap-1.5">
-          {(["all", "new", "contacted", "completed"] as const).map((key) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setStatus(key)}
-              className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
-                status === key
-                  ? "bg-trust-blue text-white"
-                  : "bg-trust-blue/8 text-trust-blue/70 hover:bg-trust-blue/15"
-              }`}
-            >
-              {key === "all" ? "الكل" : STATUS_LABEL[key]} ({counts[key]})
-            </button>
+        {newCount > 0 && (
+          <span className="rounded-full bg-china-red/10 px-3 py-1.5 text-xs font-bold text-china-red">
+            {newCount} جديد
+          </span>
+        )}
+
+        <select
+          value={status}
+          onChange={(event) => setStatus(event.target.value as typeof status)}
+          className={`${inputClass} w-auto`}
+        >
+          <option value="all">كل الحالات</option>
+          {STATUS_ORDER.map((key) => (
+            <option key={key} value={key}>
+              {STATUS_LABEL[key]}
+            </option>
           ))}
-        </div>
+        </select>
 
         <select
           value={source}
@@ -184,13 +207,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                   className="flex w-full flex-wrap items-center gap-4 p-5 text-start"
                 >
                   <span
-                    className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-sm font-extrabold ${
-                      lead.status === "new"
-                        ? "bg-china-red/10 text-china-red"
-                        : lead.status === "contacted"
-                          ? "bg-imperial-gold/20 text-[#8a6d12]"
-                          : "bg-jade/10 text-jade"
-                    }`}
+                    className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-sm font-extrabold ${STATUS_COLOR[lead.status]}`}
                   >
                     {lead.full_name.trim().charAt(0)}
                   </span>
@@ -212,15 +229,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
 
                   <span className="text-xs text-charcoal/55">{formatDate(lead.created_at, "ar")}</span>
 
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold ${
-                      lead.status === "new"
-                        ? "bg-china-red/10 text-china-red"
-                        : lead.status === "contacted"
-                          ? "bg-imperial-gold/20 text-[#8a6d12]"
-                          : "bg-jade/10 text-jade"
-                    }`}
-                  >
+                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${STATUS_COLOR[lead.status]}`}>
                     {STATUS_LABEL[lead.status]}
                   </span>
 
@@ -297,11 +306,14 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
                         onChange={(event) => updateStatus(lead.id, event.target.value as LeadStatus)}
                         className={`${inputClass} w-auto py-2 text-xs`}
                       >
-                        {(Object.keys(STATUS_LABEL) as LeadStatus[]).map((key) => (
+                        {STATUS_ORDER.map((key) => (
                           <option key={key} value={key}>
                             {STATUS_LABEL[key]}
                           </option>
                         ))}
+                        {!STATUS_ORDER.includes(lead.status) && (
+                          <option value={lead.status}>{STATUS_LABEL[lead.status]}</option>
+                        )}
                       </select>
 
                       <Button variant="danger" className="ms-auto" onClick={() => remove(lead.id)}>

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/components/ui/BrandIcons";
 import PageHero from "@/components/site/PageHero";
-import ContactFormSwitcher from "@/components/site/ContactFormSwitcher";
+import ContactForm from "@/components/site/ContactForm";
 import TrackedWhatsAppLink from "@/components/site/TrackedWhatsAppLink";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
@@ -71,10 +72,12 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     <>
       <PageHero title={dict.contact.title} subtitle={dict.contact.subtitle} scene="guangzhou" />
 
-      <section className="container-page py-16">
+      <section id="booking" className="container-page py-16 scroll-mt-24">
         <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
           <Reveal>
-            <ContactFormSwitcher locale={locale} dict={dict} settings={settings} whatsapp={whatsapp} />
+            <Suspense fallback={null}>
+              <ContactForm locale={locale} dict={dict} settings={settings} />
+            </Suspense>
           </Reveal>
 
           <Reveal delay={120}>

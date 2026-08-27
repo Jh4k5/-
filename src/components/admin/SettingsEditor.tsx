@@ -43,10 +43,10 @@ const STAT_LABEL_FIELDS: { key: string; label: string }[] = [
 const HERO_FIELDS: { key: string; label: string }[] = [
   { key: "hero_headline", label: "العنوان الرئيسي" },
   { key: "hero_description", label: "الوصف" },
-  { key: "hero_cta_primary", label: "زر التواصل الأساسي" },
+  { key: "hero_cta_primary", label: "زر الحجز الأساسي" },
+  { key: "hero_cta_helper_text", label: "سطر الشرح أسفل زر الحجز" },
   { key: "hero_cta_secondary", label: "زر واتساب" },
   { key: "hero_services_link_label", label: "رابط الخدمات (نصي)" },
-  { key: "hero_trust_line", label: "سطر الثقة" },
 ];
 
 const FOOTER_FIELDS: { key: string; label: string }[] = [

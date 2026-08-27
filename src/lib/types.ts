@@ -9,7 +9,17 @@ export type ResultType = "admission" | "scholarship" | "admission_scholarship" |
 export type BlurLevel = "none" | "light" | "medium" | "heavy";
 export type ChineseLevel = "none" | "beginner" | "hsk1_2" | "hsk3_4" | "hsk5_6";
 export type PreferredContact = "whatsapp" | "email" | "phone";
-export type LeadStatus = "new" | "contacted" | "completed";
+export type LeadStatus =
+  | "new"
+  | "reviewed"
+  | "awaiting_reply"
+  | "qualified"
+  | "contracted"
+  | "unqualified"
+  | "deferred"
+  /** Kept for backward compatibility with rows saved before the status was widened. */
+  | "contacted"
+  | "completed";
 
 export interface AdminUser {
   id: string;
