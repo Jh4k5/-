@@ -58,6 +58,12 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
       subtitle_ar: row.subtitle_ar || null,
       subtitle_en: row.subtitle_en || null,
       subtitle_ru: row.subtitle_ru || null,
+      eyebrow_ar: row.eyebrow_ar || null,
+      eyebrow_en: row.eyebrow_en || null,
+      eyebrow_ru: row.eyebrow_ru || null,
+      cta_label_ar: row.cta_label_ar || null,
+      cta_label_en: row.cta_label_en || null,
+      cta_label_ru: row.cta_label_ru || null,
       updated_at: new Date().toISOString(),
     }));
 
@@ -169,6 +175,38 @@ export default function SectionsEditor({ initial }: { initial: SiteSection[] }) 
                               patch(
                                 row.key,
                                 `subtitle_${lang}` as keyof SiteSection,
+                                event.target.value,
+                              )
+                            }
+                          />
+                        </Field>
+                        <Field
+                          label={`التسمية الصغيرة فوق العنوان (${lang})`}
+                          hint="اتركها فارغة للنص الافتراضي"
+                        >
+                          <input
+                            className={inputClass}
+                            value={(row[`eyebrow_${lang}` as const] as string) ?? ""}
+                            onChange={(event) =>
+                              patch(
+                                row.key,
+                                `eyebrow_${lang}` as keyof SiteSection,
+                                event.target.value,
+                              )
+                            }
+                          />
+                        </Field>
+                        <Field
+                          label={`نص زر القسم (${lang})`}
+                          hint="يظهر في الأقسام التي تحتوي زراً أسفلها"
+                        >
+                          <input
+                            className={inputClass}
+                            value={(row[`cta_label_${lang}` as const] as string) ?? ""}
+                            onChange={(event) =>
+                              patch(
+                                row.key,
+                                `cta_label_${lang}` as keyof SiteSection,
                                 event.target.value,
                               )
                             }

@@ -394,6 +394,14 @@ export interface SiteSection {
   subtitle_ar: string | null;
   subtitle_en: string | null;
   subtitle_ru: string | null;
+  /** Small label above the heading; falls back to the dictionary when null. */
+  eyebrow_ar?: string | null;
+  eyebrow_en?: string | null;
+  eyebrow_ru?: string | null;
+  /** Label on the section's button; falls back to the dictionary when null. */
+  cta_label_ar?: string | null;
+  cta_label_en?: string | null;
+  cta_label_ru?: string | null;
 }
 
 export type MotionIntensity = "calm" | "balanced" | "cinematic";

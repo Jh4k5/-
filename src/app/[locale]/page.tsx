@@ -105,6 +105,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const heading = (section: SiteSection, field: "title" | "subtitle", fallback: string) =>
     pick(section, field, locale) || fallback;
 
+  // Eyebrow and button label are editable per section too, so no visible string
+  // on this page is locked in code. Null falls back to the dictionary.
+  const eyebrow = (section: SiteSection, fallback: string) =>
+    pick(section, "eyebrow", locale) || fallback;
+  const ctaLabel = (section: SiteSection, fallback: string) =>
+    pick(section, "cta_label", locale) || fallback;
+
   const renderBody = (section: SiteSection) => {
     switch (section.key) {
       case "process":
@@ -199,7 +206,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <ViewTracker key={section.key} event={ANALYTICS_EVENTS.servicesView} locale={locale}>
             <section className="container-page py-24">
               <SectionHeading
-                eyebrow={dict.nav.services}
+                eyebrow={eyebrow(section, dict.nav.services)}
                 title={heading(section, "title", dict.services.title)}
                 subtitle={heading(section, "subtitle", dict.services.subtitle)}
               />
@@ -215,7 +222,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <section key={section.key} className="container-page py-24">
             <div className="grid items-start gap-12 lg:grid-cols-2">
               <SectionHeading
-                eyebrow={dict.nav.whyChina}
+                eyebrow={eyebrow(section, dict.nav.whyChina)}
                 title={heading(section, "title", dict.whyChina.title)}
                 subtitle={heading(section, "subtitle", dict.whyChina.subtitle)}
                 align="start"
@@ -247,7 +254,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <section key={section.key} className="bg-white py-24">
             <div className="container-page">
               <SectionHeading
-                eyebrow={dict.nav.stories}
+                eyebrow={eyebrow(section, dict.nav.stories)}
                 title={heading(section, "title", dict.stories.title)}
                 subtitle={heading(section, "subtitle", dict.stories.subtitle)}
               />
@@ -259,7 +266,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   href={`/${locale}/stories`}
                   className="group inline-flex items-center gap-2 rounded-full border-2 border-china-red px-7 py-3 text-sm font-bold text-china-red transition-all duration-300 hover:-translate-y-0.5 hover:bg-china-red hover:text-white"
                 >
-                  {dict.stories.viewAll}
+                  {ctaLabel(section, dict.stories.viewAll)}
                   <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 </Link>
               </div>
@@ -272,7 +279,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         return (
           <section key={section.key} className="container-page py-24">
             <SectionHeading
-              eyebrow={dict.nav.blog}
+              eyebrow={eyebrow(section, dict.nav.blog)}
               title={heading(section, "title", dict.blog.latest)}
               subtitle={heading(section, "subtitle", dict.blog.subtitle)}
             />
@@ -288,7 +295,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 href={`/${locale}/blog`}
                 className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
               >
-                {dict.blog.viewAll}
+                {ctaLabel(section, dict.blog.viewAll)}
                 <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
               </Link>
             </div>
