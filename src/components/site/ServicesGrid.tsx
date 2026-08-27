@@ -1,3 +1,4 @@
+import IconTile from "@/components/ui/IconTile";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
@@ -38,9 +39,7 @@ export default function ServicesGrid({
               <article className="defer-offscreen surface-card relative flex h-full flex-col overflow-hidden p-7 transition-shadow duration-500 hover:shadow-[var(--shadow-card)]">
                 <span className="absolute inset-x-0 top-0 h-1 bg-china-red opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-trust-blue text-white shadow-[0_16px_30px_-16px_rgba(27,58,107,0.95)] transition-[transform,background-color] duration-500 group-hover:-translate-y-1 group-hover:bg-china-red">
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </span>
+                <IconTile Icon={Icon} index={index} />
 
                 <h3 className="mt-5 text-xl font-extrabold text-trust-blue">
                   {pick(service, "title", locale)}

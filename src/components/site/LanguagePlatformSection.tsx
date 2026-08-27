@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
+import { ExternalLink, MessageCircle } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
 import KanjiWatermark from "@/components/art/KanjiWatermark";
 import Reveal from "@/components/motion/Reveal";
@@ -21,6 +21,13 @@ export default function LanguagePlatformSection({
   const image = settingValue(settings, "language_platform_image");
   const imageAlt = settingText(settings, "language_platform_image_alt", locale, dict.languagePlatform.title);
   const offerStatus = settingValue(settings, "language_platform_offer_status", "active");
+  const platformUrl = settingValue(settings, "language_platform_url");
+  const platformCta = settingText(
+    settings,
+    "language_platform_url_label",
+    locale,
+    "ادخل إلى المنصة",
+  );
   const headline = settingText(settings, "language_platform_headline", locale, dict.languagePlatform.title);
   const perkDuration = settingText(settings, "process_bridge_perk_duration", locale, "");
   const benefits = [
@@ -63,6 +70,19 @@ export default function LanguagePlatformSection({
               )}
 
               <div className="mt-7 flex flex-wrap gap-3">
+                {/* When the owner has published the platform itself, that link
+                    leads; the details page stays available beside it. */}
+                {platformUrl && (
+                  <a
+                    href={platformUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-seal"
+                  >
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    {platformCta}
+                  </a>
+                )}
                 <Link
                   href={`/${locale}/language-platform`}
                   className="inline-flex items-center gap-2 rounded-[10px] bg-trust-blue px-6 py-3 text-sm font-bold text-white transition-colors duration-300 hover:bg-trust-blue-dark"

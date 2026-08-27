@@ -84,8 +84,8 @@ export default function Header({
           : "bg-transparent"
       }`}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-4 sm:h-20">
-        <div className={scrolled ? "" : "drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"}>
+      <div className="container-page flex h-16 items-center justify-between gap-2 sm:h-20 sm:gap-4">
+        <div className={`min-w-0 flex-1 xl:flex-none ${scrolled ? "" : "drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"}`}>
           <Logo locale={locale} variant={scrolled ? "dark" : "light"} logoUrl={logoUrl} />
         </div>
 
@@ -103,7 +103,7 @@ export default function Header({
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           {/* Search and language sit together as one control cluster, visible at
               every width — switching language is a top-level action here, not
               something buried in the mobile drawer. */}
@@ -111,10 +111,10 @@ export default function Header({
             <Link
               href={`/${locale}/search`}
               aria-label={dict.search.title}
-              className={`inline-flex h-11 w-11 items-center justify-center rounded-[6px] border transition-colors focus-visible:ring-2 focus-visible:ring-china-red focus-visible:ring-offset-2 focus-visible:outline-none ${
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-colors focus-visible:ring-2 focus-visible:ring-china-red focus-visible:ring-offset-2 focus-visible:outline-none sm:h-11 sm:w-11 ${
                 scrolled
-                  ? "border-trust-blue/15 bg-white text-trust-blue hover:bg-trust-blue/8"
-                  : "border-white/25 bg-white/10 text-white hover:bg-white/20"
+                  ? "border-trust-blue/12 bg-white/70 text-trust-blue hover:bg-white"
+                  : "border-white/30 bg-white/15 text-white hover:bg-white/25"
               }`}
             >
               <SearchIcon className="h-4.5 w-4.5" aria-hidden="true" />
@@ -136,10 +136,10 @@ export default function Header({
             onClick={() => setOpen((value) => !value)}
             aria-label={open ? dict.nav.close : dict.nav.menu}
             aria-expanded={open}
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors xl:hidden ${
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-colors focus-visible:ring-2 focus-visible:ring-china-red focus-visible:ring-offset-2 focus-visible:outline-none sm:h-11 sm:w-11 xl:hidden ${
               scrolled
-                ? "border-trust-blue/15 bg-white text-trust-blue"
-                : "border-white/25 bg-white/10 text-white"
+                ? "border-trust-blue/12 bg-white/70 text-trust-blue"
+                : "border-white/30 bg-white/15 text-white"
             }`}
           >
             {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}

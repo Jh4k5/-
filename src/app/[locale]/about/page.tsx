@@ -5,7 +5,7 @@ import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
 import FinalCTA from "@/components/site/FinalCTA";
 import Reveal from "@/components/motion/Reveal";
-import SceneArt from "@/components/art/SceneArt";
+import MediaFrame from "@/components/ui/MediaFrame";
 import { getDictionary } from "@/i18n";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getSettings } from "@/lib/data";
@@ -45,6 +45,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   );
 
   const teamTitle = settingText(settings, "about_team_title", locale, dict.about.storyTitle);
+  const aboutImage1 = settingValue(settings, "about_image_1");
+  const aboutImage2 = settingValue(settings, "about_image_2");
+  const aboutImage1Alt = settingText(settings, "about_image_1_alt", locale, dict.about.title);
+  const aboutImage2Alt = settingText(settings, "about_image_2_alt", locale, dict.about.title);
   const companyIntro = settingText(settings, "company_intro", locale);
   const foundedYear = settingValue(settings, "company_founded_year");
 
@@ -80,10 +84,34 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       <section className="container-page py-20">
         <div className="grid items-center gap-12 lg:grid-cols-2">
+          {/* Two uploadable photographs, the second overlapping the first, so the
+              block has depth instead of sitting as one flat rectangle. Either
+              slot falls back to the brand illustration while it is empty, so the
+              page never shows a hole. */}
           <Reveal>
-            <div className="relative overflow-hidden rounded-2xl shadow-[var(--shadow-card)]">
-              <SceneArt scene="hangzhou" detail="full" className="h-80 w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/60 to-transparent" />
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl shadow-[var(--shadow-card)]">
+                <MediaFrame
+                  src={aboutImage1}
+                  alt={aboutImage1Alt}
+                  fallbackScene="hangzhou"
+                  sceneDetail="full"
+                  className="h-80 w-full object-cover"
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-trust-blue-dark/60 to-transparent" />
+              </div>
+
+              <div className="relative -mt-14 ms-auto w-2/3 overflow-hidden rounded-2xl shadow-[var(--shadow-deep)] ring-4 ring-ivory sm:-mt-16 sm:w-3/5">
+                <MediaFrame
+                  src={aboutImage2}
+                  alt={aboutImage2Alt}
+                  fallbackScene="campus-library"
+                  sceneDetail="full"
+                  className="h-44 w-full object-cover sm:h-52"
+                  sizes="(min-width: 1024px) 28vw, 60vw"
+                />
+              </div>
             </div>
           </Reveal>
 

@@ -43,12 +43,12 @@ export default function LanguageSwitcher({
 
   const base =
     variant === "light"
-      ? "border-white/25 bg-white/10 text-white"
-      : "border-trust-blue/15 bg-white text-trust-blue";
+      ? "border-white/30 bg-white/15 text-white"
+      : "border-trust-blue/12 bg-white/70 text-trust-blue";
 
   return (
     <div
-      className={`flex items-center gap-0.5 rounded-[6px] border p-1 ${base} ${pending ? "opacity-70" : ""}`}
+      className={`flex items-center gap-0.5 rounded-full border p-0.5 backdrop-blur-md sm:p-1 ${base} ${pending ? "opacity-70" : ""}`}
       role="group"
       aria-label={localeConfig[locale].label}
     >
@@ -61,8 +61,8 @@ export default function LanguageSwitcher({
             onClick={() => switchTo(code)}
             aria-current={active ? "true" : undefined}
             title={localeConfig[code].nativeLabel}
-            className={`flex items-center justify-center rounded-[4px] font-bold tracking-wide transition-all duration-300 focus-visible:ring-2 focus-visible:ring-china-red focus-visible:outline-none ${
-              size === "lg" ? "min-h-11 min-w-11 px-4 py-2.5 text-sm" : "px-2.5 py-1 text-xs"
+            className={`flex items-center justify-center rounded-full font-bold tracking-wide transition-all duration-300 focus-visible:ring-2 focus-visible:ring-china-red focus-visible:outline-none ${
+              size === "lg" ? "min-h-11 min-w-11 px-4 py-2.5 text-sm" : "px-2 py-1 text-[0.6875rem] sm:px-2.5 sm:text-xs"
             } ${
               active
                 ? "bg-china-red text-white shadow-[0_6px_16px_-6px_rgba(200,16,46,0.9)]"

@@ -26,6 +26,14 @@ const SOCIAL_FIELDS: { urlKey: string; statusKey: string; label: string }[] = [
   { urlKey: "youtube_url", statusKey: "youtube_status", label: "يوتيوب" },
 ];
 
+const HERO_TIMING_FIELDS: { key: string; label: string; hint?: string }[] = [
+  {
+    key: "hero_slide_interval_ms",
+    label: "مدة عرض كل صورة في الواجهة (بالميلي ثانية)",
+    hint: "5000 = خمس ثوانٍ. المدى المسموح 2000–20000.",
+  },
+];
+
 const STAT_FIELDS: { key: string; label: string }[] = [
   { key: "stat_students_helped", label: "عدد الطلاب الذين تمت مساعدتهم" },
   { key: "stat_years_experience", label: "سنوات الخبرة" },
@@ -152,6 +160,7 @@ const KNOWN_KEYS = [
   ...SHARED_FIELDS.map((field) => field.key),
   ...SOCIAL_FIELDS.flatMap((field) => [field.urlKey, field.statusKey]),
   ...STAT_FIELDS.map((field) => field.key),
+  ...HERO_TIMING_FIELDS.map((field) => field.key),
   ...TRANSLATED_FIELDS.map((field) => field.key),
   ...IMAGE_FIELDS.map((field) => field.key),
   "language_platform_offer_status",

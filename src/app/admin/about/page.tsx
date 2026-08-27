@@ -15,6 +15,16 @@ export default async function AdminAboutPage() {
       description="نبذة الشركة، المؤسس، والرئيس التنفيذي — كما تظهر في صفحة «من نحن». لا تظهر بطاقة أي شخص إلا بعد تعبئة الاسم ورفع الصورة معاً (وتفعيل الخيار في حالة الرئيس التنفيذي) — هذا يمنع ظهور بطاقة نصف فارغة على الموقع."
       images={[
         {
+          key: "about_image_1",
+          label: "صورة القسم الرئيسية",
+          hint: "الصورة الكبيرة أعلى قصة الشركة. اتركها فارغة لاستخدام رسمة الهوية.",
+        },
+        {
+          key: "about_image_2",
+          label: "الصورة الثانية (المتداخلة)",
+          hint: "تظهر أصغر ومتداخلة فوق الصورة الأولى لإعطاء عمق.",
+        },
+        {
           key: "founder_photo",
           label: "صورة المؤسس",
           hint: "مطلوبة لظهور البطاقة. تظهر صغيرة ودائرية بجانب الاسم مباشرة، وصورة مربعة تعطي أفضل نتيجة.",
@@ -26,6 +36,8 @@ export default async function AdminAboutPage() {
         },
       ]}
       translated={[
+        { key: "about_image_1_alt", label: "النص البديل للصورة الأولى" },
+        { key: "about_image_2_alt", label: "النص البديل للصورة الثانية" },
         { key: "company_intro", label: "نبذة الشركة", long: true },
         { key: "about_team_title", label: "عنوان قسم الفريق" },
         { key: "about_story_text", label: "قصتنا", long: true },

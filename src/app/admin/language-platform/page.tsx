@@ -20,7 +20,15 @@ export default async function AdminLanguagePlatformPage() {
           hint: "لقطة من واجهة المنصة أو صورة معبّرة — تظهر في القسم وفي الصفحة وعند مشاركة الرابط.",
         },
       ]}
+      plain={[
+        {
+          key: "language_platform_url",
+          label: "رابط المنصة",
+          hint: "عنوان المنصة نفسها (يبدأ بـ https://). عند تعبئته يظهر زر «ادخل إلى المنصة» في الصفحة الرئيسية وفي صفحة المنصة.",
+        },
+      ]}
       translated={[
+        { key: "language_platform_url_label", label: "نص زر الدخول إلى المنصة" },
         { key: "language_platform_headline", label: "العنوان التسويقي" },
         {
           key: "language_platform_seo_title",

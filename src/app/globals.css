@@ -584,6 +584,80 @@ textarea {
   line-height: 1.3;
 }
 
+/* --------------------------- icon tiles --------------------------- */
+.icon-tile {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  /* Squircle rather than a hard square — softer than a circle, still stamped. */
+  border-radius: 34%;
+  transition:
+    transform var(--motion-medium) var(--motion-ease),
+    box-shadow var(--motion-medium) var(--motion-ease);
+}
+
+/* An inset rim: light catching the top edge, shadow gathering at the bottom.
+   This is what reads as a solid lit object instead of a flat colour chip. */
+.icon-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    inset 0 -8px 14px -8px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+
+/* The sheen, parked off to one side until the card is hovered. */
+.icon-tile::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    100deg,
+    transparent 42%,
+    rgb(255 255 255 / 0.55) 50%,
+    transparent 58%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.group:hover .icon-tile,
+.group:focus-within .icon-tile {
+  transform: translateY(-4px) rotate(-4deg) scale(1.06);
+}
+
+.group:hover .icon-tile::after,
+.group:focus-within .icon-tile::after {
+  animation: icon-sheen 0.9s var(--motion-ease) forwards;
+}
+
+@keyframes icon-sheen {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+/* The gold tile needs dark glyphs to stay legible. */
+.icon-tile.bg-imperial-gold {
+  color: #3d2f06;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .icon-tile,
+  .group:focus-within .icon-tile {
+    transform: none;
+  }
+  .icon-tile::after {
+    display: none;
+  }
+}
+
 /* --------------------------- horizontal rail --------------------------- */
 /* The rail scrolls by gesture and by its own arrows, so the browser bar is
    redundant here — it would also sit over the cards' bottom edge. The track

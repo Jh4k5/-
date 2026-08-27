@@ -10,7 +10,7 @@ import { LogoMark } from "./Logo";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { DestinationMedia, SettingsMap } from "@/lib/types";
-import { settingText } from "@/lib/settings-helpers";
+import { settingNumber, settingText } from "@/lib/settings-helpers";
 import { track } from "@/lib/analytics";
 import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
@@ -39,7 +39,18 @@ export default function Hero({
   // Defaults to false (calm/static) until confirmed on the client, so a phone
   // never gets even one frame of motion it isn't supposed to have.
   const [motionEnabled, setMotionEnabled] = useState(false);
+  // The slideshow is a plain opacity cross-fade — cheap enough for a phone,
+  // unlike the parallax and ken-burns above. It is gated only on the visitor's
+  // reduced-motion preference, so the three hero images rotate on mobile too.
+  const [slideshowEnabled, setSlideshowEnabled] = useState(false);
   const Arrow = rtl ? ArrowLeft : ArrowRight;
+
+  // How long each hero image holds before the next fades in. Clamped so a typo
+  // in the panel cannot produce a strobing hero or a frozen one.
+  const slideIntervalMs = Math.min(
+    20000,
+    Math.max(2000, settingNumber(settings, "hero_slide_interval_ms", 5000)),
+  );
 
   const headline = settingText(settings, "hero_headline", locale, dict.hero.title);
   const description = settingText(settings, "hero_description", locale, dict.hero.subtitle);
@@ -65,7 +76,10 @@ export default function Hero({
   useEffect(() => {
     const mobile = window.matchMedia("(max-width: 767px)");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setMotionEnabled(!mobile.matches && !reduced.matches);
+    const update = () => {
+      setMotionEnabled(!mobile.matches && !reduced.matches);
+      setSlideshowEnabled(!reduced.matches);
+    };
     update();
     mobile.addEventListener("change", update);
     reduced.addEventListener("change", update);
@@ -76,10 +90,10 @@ export default function Hero({
   }, []);
 
   useEffect(() => {
-    if (!motionEnabled || slides.length < 2) return;
-    const timer = setInterval(() => setIndex((i) => (i + 1) % slides.length), 7500);
+    if (!slideshowEnabled || slides.length < 2) return;
+    const timer = setInterval(() => setIndex((i) => (i + 1) % slides.length), slideIntervalMs);
     return () => clearInterval(timer);
-  }, [motionEnabled, slides.length]);
+  }, [slideshowEnabled, slides.length, slideIntervalMs]);
 
   // Only fetch a slide's image once it has actually been shown — avoids
   // eagerly loading every hero photo on first paint just because they're

@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -68,6 +69,8 @@ export default async function LanguagePlatformPage({
   const perkDuration = settingText(settings, "process_bridge_perk_duration", locale, "");
   const perkText = settingText(settings, "process_bridge_perk_text", locale, dict.process.bridgePerk);
   const terms = settingText(settings, "language_platform_terms", locale, "");
+  const platformUrl = settingValue(settings, "language_platform_url");
+  const platformCta = settingText(settings, "language_platform_url_label", locale, "ادخل إلى المنصة");
   const integrationText = settingText(settings, "language_platform_integration_text", locale, "");
 
   const audiences = [1, 2, 3]
@@ -106,6 +109,15 @@ export default async function LanguagePlatformPage({
 
       <PageHero title={headline} subtitle={dict.languagePlatform.subtitle} scene="campus-library" />
       <Breadcrumbs locale={locale} trail={trail} />
+
+      {platformUrl && (
+        <div className="container-page flex justify-center pt-6">
+          <a href={platformUrl} target="_blank" rel="noopener noreferrer" className="btn-seal">
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            {platformCta}
+          </a>
+        </div>
+      )}
 
       {image && (
         <section className="container-page -mt-10 relative">

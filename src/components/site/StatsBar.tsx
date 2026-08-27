@@ -1,3 +1,4 @@
+import IconTile from "@/components/ui/IconTile";
 import { Building2, CalendarRange, Smile, Users } from "lucide-react";
 import Counter from "@/components/ui/Counter";
 import Reveal from "@/components/motion/Reveal";
@@ -47,11 +48,9 @@ export default function StatsBar({
     <section className="relative z-20 -mt-16">
       <div className="container-page">
         <Reveal className="surface-card grid gap-6 rounded-2xl bg-white p-8 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map(({ Icon, value, suffix, label }) => (
-            <div key={label} className="flex items-center gap-4">
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-china-red text-white shadow-[0_8px_18px_-10px_rgba(15,39,64,0.55)]">
-                <Icon className="h-5 w-5" aria-hidden="true" />
-              </span>
+          {items.map(({ Icon, value, suffix, label }, index) => (
+            <div key={label} className="group flex items-center gap-4">
+              <IconTile Icon={Icon} index={index} size="sm" className="shrink-0" />
               <div>
                 <p className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-trust-blue">
                   <Counter value={value} suffix={suffix} locale={locale} />
