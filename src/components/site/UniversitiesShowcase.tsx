@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { ArrowLeft, ArrowRight, Building2 } from "lucide-react";
 
-const Coverflow3D = dynamic(() => import("@/components/motion/Coverflow3D"));
+import HorizontalRail from "@/components/motion/HorizontalRail";
 import Reveal from "@/components/motion/Reveal";
 import UniversityCard from "./UniversityCard";
 import type { Dictionary } from "@/i18n";
@@ -55,11 +54,15 @@ export default function UniversitiesShowcase({
         </Reveal>
 
         <div className="mt-12">
-          <Coverflow3D
-            rtl={rtl}
+          <HorizontalRail
+            ariaLabel={title || dict.universities.title}
+            prevLabel={dict.common.previous}
+            nextLabel={dict.common.next}
             items={universities.map((university) => ({
               id: university.id,
-              node: <UniversityCard university={university} locale={locale} dict={dict} tall />,
+              node: (
+                <UniversityCard university={university} locale={locale} dict={dict} tall />
+              ),
             }))}
           />
         </div>

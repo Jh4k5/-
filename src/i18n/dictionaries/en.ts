@@ -39,6 +39,8 @@ const en: Dictionary = {
     email: "Email",
     phone: "Phone",
     scrollHint: "Scroll down",
+    previous: "Previous",
+    next: "Next",
   },
   hero: {
     badge: "Scholarship and university admission platform for China",

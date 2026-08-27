@@ -398,6 +398,19 @@ textarea {
   background: var(--color-trust-blue);
 }
 
+/* --------------------------- horizontal rail --------------------------- */
+/* The rail scrolls by gesture and by its own arrows, so the browser bar is
+   redundant here — it would also sit over the cards' bottom edge. The track
+   stays keyboard-reachable and its scroll never escapes to the page. */
+.rail-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-padding-inline-start: 0.25rem;
+}
+.rail-track::-webkit-scrollbar {
+  display: none;
+}
+
 /* --------------------------- animated scene art --------------------------- */
 @keyframes scene-drift {
   from {

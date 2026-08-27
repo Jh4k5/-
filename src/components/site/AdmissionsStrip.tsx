@@ -5,8 +5,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { BadgeCheck, ShieldCheck } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
-import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import Tilt3D from "@/components/motion/Tilt3D";
+import HorizontalRail from "@/components/motion/HorizontalRail";
+import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import { BLUR_LEVEL_PX, resolveBlurLevel } from "@/lib/blur";
@@ -53,39 +53,37 @@ function AdmissionCard({
   const major = pick(admission, "major", locale);
 
   return (
-    <Tilt3D intensity={8} className="h-full w-full">
-      <button
-        type="button"
-        onClick={onOpen}
-        className="gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start"
-      >
-        <span className="relative block aspect-3/4 overflow-hidden">
-          <span className="absolute inset-0 block transition-transform duration-[1200ms] group-hover:scale-105">
-            <MediaFrame
-              src={admission.image_url}
-              alt={dict.admissions.badge}
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            />
-          </span>
-          <PrivacyMask admission={admission} />
-
-          <span className="absolute top-3 inline-flex items-center gap-1 rounded-full bg-china-red px-2.5 py-1 text-[10px] font-bold text-white shadow-lg start-3">
-            <BadgeCheck className="h-3 w-3" />
-            {dict.admissions.badge}
-          </span>
+    <button
+      type="button"
+      onClick={onOpen}
+      className="gold-frame defer-offscreen group block w-full overflow-hidden bg-white text-start"
+    >
+      <span className="relative block aspect-3/4 overflow-hidden">
+        <span className="absolute inset-0 block transition-transform duration-700 group-hover:scale-105">
+          <MediaFrame
+            src={admission.image_url}
+            alt={dict.admissions.badge}
+            sizes="(min-width: 640px) 20rem, 70vw"
+          />
         </span>
+        <PrivacyMask admission={admission} />
 
-        <span className="block bg-gradient-to-b from-white to-ivory px-4 py-3">
-          <span className="block truncate text-sm font-extrabold text-trust-blue" dir="auto">
-            {admission.university_name || dict.admissions.university}
-          </span>
-          <span className="mt-0.5 block truncate text-xs text-charcoal/60" dir="auto">
-            {[major, admission.year ? String(admission.year) : null].filter(Boolean).join(" · ") ||
-              dict.admissions.badge}
-          </span>
+        <span className="absolute top-3 inline-flex items-center gap-1 rounded-full bg-china-red px-2.5 py-1 text-[10px] font-bold text-white shadow-lg start-3">
+          <BadgeCheck className="h-3 w-3" />
+          {dict.admissions.badge}
         </span>
-      </button>
-    </Tilt3D>
+      </span>
+
+      <span className="block bg-ivory px-4 py-3">
+        <span className="block truncate text-sm font-extrabold text-trust-blue" dir="auto">
+          {admission.university_name || dict.admissions.university}
+        </span>
+        <span className="mt-0.5 block truncate text-xs text-charcoal/60" dir="auto">
+          {[major, admission.year ? String(admission.year) : null].filter(Boolean).join(" · ") ||
+            dict.admissions.badge}
+        </span>
+      </span>
+    </button>
   );
 }
 
@@ -149,22 +147,28 @@ export default function AdmissionsStrip({
           </div>
         </Reveal>
 
-        <RevealGroup className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {items.slice(0, 6).map((admission) => (
-            <RevealItem key={admission.id}>
+        <HorizontalRail
+          className="mt-12"
+          ariaLabel={title || dict.admissions.title}
+          prevLabel={dict.common.previous}
+          nextLabel={dict.common.next}
+          itemClassName="w-[70vw] max-w-xs sm:w-[20rem]"
+          items={items.map((admission, i) => ({
+            id: admission.id,
+            node: (
               <AdmissionCard
                 admission={admission}
                 locale={locale}
                 dict={dict}
                 onOpen={() => {
-                  setIndex(items.findIndex((item) => item.id === admission.id));
+                  setIndex(i);
                   setOpen(true);
                   track(ANALYTICS_EVENTS.admissionOpen, locale);
                 }}
               />
-            </RevealItem>
-          ))}
-        </RevealGroup>
+            ),
+          }))}
+        />
 
         <div className="mt-10 flex flex-col items-center gap-4">
           <div className="max-w-2xl space-y-1.5 text-center">

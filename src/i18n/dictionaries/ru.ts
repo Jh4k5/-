@@ -39,6 +39,8 @@ const ru: Dictionary = {
     email: "Эл. почта",
     phone: "Телефон",
     scrollHint: "Прокрутите вниз",
+    previous: "Назад",
+    next: "Вперёд",
   },
   hero: {
     badge: "Платформа стипендий и поступления в вузы Китая",
