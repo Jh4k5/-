@@ -52,6 +52,7 @@ export interface Article {
 
 export interface Service {
   id: string;
+  slug?: string;
   title_ar: string;
   title_en: string | null;
   title_ru: string | null;
@@ -98,6 +99,7 @@ export interface ProcessStage {
 export type StudyPathKey = "language" | "bachelor" | "master" | "phd";
 export interface StudyPath {
   id: string;
+  slug?: string;
   path_key: StudyPathKey;
   title_ar: string;
   title_en: string | null;
@@ -164,6 +166,13 @@ export interface ProcessTrustBadge {
 
 export interface SuccessStory {
   id: string;
+  slug?: string;
+  /** Long-form story body, so the detail page isn't a thin page. */
+  body_ar?: string | null;
+  body_en?: string | null;
+  body_ru?: string | null;
+  /** Seeded placeholder rows — visible but never indexed. */
+  is_demo?: boolean;
   student_name: string;
   photo: string | null;
   university_name: string | null;
@@ -199,6 +208,10 @@ export interface GalleryItem {
 
 export interface DestinationMedia {
   id: string;
+  slug?: string;
+  description_ar?: string | null;
+  description_en?: string | null;
+  description_ru?: string | null;
   image_url: string;
   media_type?: "image" | "video" | "scene";
   poster?: string | null;

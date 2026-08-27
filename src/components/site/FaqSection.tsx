@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
@@ -14,16 +15,22 @@ export default function FaqSection({
   dict,
   title,
   subtitle,
+  limit,
 }: {
   items: Faq[];
   locale: Locale;
   dict: Dictionary;
   title?: string;
   subtitle?: string;
+  /** Homepage shows only a taste; the rest live on /faq. */
+  limit?: number;
 }) {
   const [open, setOpen] = useState<string | null>(items[0]?.id ?? null);
 
   if (items.length === 0) return null;
+
+  const shown = typeof limit === "number" ? items.slice(0, limit) : items;
+  const hasMore = shown.length < items.length;
 
   return (
     <section className="bg-ivory py-24">
@@ -31,7 +38,7 @@ export default function FaqSection({
         <SectionHeading title={title || dict.faq.title} subtitle={subtitle || dict.faq.subtitle} />
 
         <div className="mx-auto mt-12 max-w-3xl space-y-3">
-          {items.map((item, index) => {
+          {shown.map((item, index) => {
             const expanded = open === item.id;
             return (
               <Reveal key={item.id} delay={index * 40}>
@@ -62,6 +69,17 @@ export default function FaqSection({
             );
           })}
         </div>
+
+        {hasMore && (
+          <div className="mt-10 flex justify-center">
+            <Link
+              href={`/${locale}/faq`}
+              className="inline-flex items-center gap-2 rounded-[10px] border border-trust-blue px-6 py-3 text-sm font-bold text-trust-blue transition-colors duration-300 hover:bg-trust-blue hover:text-white"
+            >
+              {dict.faq.viewAll}
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

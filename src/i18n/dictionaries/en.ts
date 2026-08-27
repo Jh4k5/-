@@ -306,6 +306,13 @@ const en: Dictionary = {
     title: "Frequently asked questions",
     subtitle: "Direct answers to what students and parents ask most before applying.",
     empty: "Frequently asked questions will be published soon.",
+    viewAll: "See all questions",
+  },
+  search: {
+    title: "Search the site",
+    subtitle: "Search services, study paths, universities, cities, articles and FAQs.",
+    prompt: "Type a keyword — for example: scholarship, Beijing, master's, HSK.",
+    results: "Results",
   },
   universities: {
     title: "University examples",

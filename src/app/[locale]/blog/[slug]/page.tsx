@@ -7,11 +7,17 @@ import ArticleCard from "@/components/site/ArticleCard";
 import Reveal from "@/components/motion/Reveal";
 import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
-import { getArticleBySlug, getArticles } from "@/lib/data";
+import { getArticleBySlug, getArticles, getSettings } from "@/lib/data";
 import { formatDate, plainExcerpt } from "@/lib/format";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const articles = await getArticles();
+  return articles.filter((a) => a.slug).map((a) => ({ slug: a.slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -57,8 +63,44 @@ export default async function ArticlePage({
     locale === "ar" ? article.content_ar : locale === "en" ? article.content_en : article.content_ru;
   const hasTranslation = Boolean(localized && localized.trim());
 
+  const settings = await getSettings();
+  const title = pick(article, "title", locale);
+  const trail = [
+    { name: dict.nav.home, path: "/" },
+    { name: dict.nav.blog, path: "/blog" },
+    { name: title, path: `/blog/${slug}` },
+  ];
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: pick(article, "excerpt", locale) || plainExcerpt(content, 155),
+    datePublished: article.created_at,
+    dateModified: article.updated_at ?? article.created_at,
+    inLanguage: locale,
+    ...(article.cover_image && !article.cover_image.startsWith("scene:")
+      ? { image: [article.cover_image] }
+      : {}),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${getSiteUrl(settings)}/${locale}/blog/${slug}`,
+    },
+    publisher: {
+      "@type": "EducationalOrganization",
+      name: dict.meta.siteName,
+      url: getSiteUrl(settings),
+    },
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(articleJsonLd)} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
+      />
+
       <section className="relative flex min-h-[24rem] items-end overflow-hidden bg-trust-blue-dark pt-28 pb-12">
         <div className="absolute inset-0">
           <div className="ken-burns h-full w-full">

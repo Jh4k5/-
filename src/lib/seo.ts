@@ -51,3 +51,31 @@ export function buildMetadata({
     },
   };
 }
+
+/**
+ * BreadcrumbList JSON-LD for any sub-page. Google shows this as the
+ * navigation path under the result title instead of a bare URL.
+ * `trail` is ordered parent → current, with paths after the locale segment.
+ */
+export function breadcrumbJsonLd(
+  locale: Locale,
+  trail: { name: string; path: string }[],
+  settings?: SettingsMapLike,
+) {
+  const siteUrl = getSiteUrl(settings);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: `${siteUrl}/${locale}${crumb.path === "/" ? "" : crumb.path}`,
+    })),
+  };
+}
+
+/** Serialises a JSON-LD object for a <script type="application/ld+json"> tag. */
+export function jsonLdScript(data: unknown) {
+  return { __html: JSON.stringify(data) };
+}

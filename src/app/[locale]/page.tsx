@@ -303,6 +303,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             items={faqs}
             locale={locale}
             dict={dict}
+            limit={4}
             title={heading(section, "title", dict.faq.title)}
             subtitle={heading(section, "subtitle", dict.faq.subtitle)}
           />

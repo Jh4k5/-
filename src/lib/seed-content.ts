@@ -23,6 +23,7 @@ import type {
 export const SEED_SERVICES: Service[] = [
   {
     id: "seed-1",
+    slug: "university-admission",
     icon: "graduation-cap",
     display_order: 1,
     title_ar: "القبول الجامعي",
@@ -37,6 +38,7 @@ export const SEED_SERVICES: Service[] = [
   },
   {
     id: "seed-2",
+    slug: "chinese-language-programmes-hsk",
     icon: "languages",
     display_order: 2,
     title_ar: "برامج اللغة الصينية (HSK)",
@@ -51,6 +53,7 @@ export const SEED_SERVICES: Service[] = [
   },
   {
     id: "seed-3",
+    slug: "scholarships",
     icon: "award",
     display_order: 3,
     title_ar: "المنح الدراسية",
@@ -65,6 +68,7 @@ export const SEED_SERVICES: Service[] = [
   },
   {
     id: "seed-4",
+    slug: "test-preparation",
     icon: "book-open-check",
     display_order: 4,
     title_ar: "التحضير للاختبارات",
@@ -79,6 +83,7 @@ export const SEED_SERVICES: Service[] = [
   },
   {
     id: "seed-5",
+    slug: "interview-preparation",
     icon: "messages-square",
     display_order: 5,
     title_ar: "التحضير للمقابلات",
@@ -93,6 +98,7 @@ export const SEED_SERVICES: Service[] = [
   },
   {
     id: "seed-6",
+    slug: "arrival-and-settling-in",
     icon: "plane-landing",
     display_order: 6,
     title_ar: "الاستقبال والاستقرار",
@@ -110,6 +116,7 @@ export const SEED_SERVICES: Service[] = [
 export const SEED_DESTINATIONS: DestinationMedia[] = [
   {
     id: "d-hero-1",
+    slug: "your-bridge-to-a-wider-future",
     image_url: "scene:night-bridge",
     category: "hero",
     display_order: 1,
@@ -120,6 +127,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-hero-2",
+    slug: "shanghai-by-night",
     image_url: "scene:shanghai",
     category: "hero",
     display_order: 2,
@@ -130,6 +138,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-hero-3",
+    slug: "historic-beijing",
     image_url: "scene:beijing",
     category: "hero",
     display_order: 3,
@@ -140,6 +149,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-city-1",
+    slug: "shanghai",
     image_url: "scene:shanghai",
     category: "city",
     display_order: 1,
@@ -150,6 +160,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-city-2",
+    slug: "beijing",
     image_url: "scene:beijing",
     category: "city",
     display_order: 2,
@@ -160,6 +171,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-city-3",
+    slug: "guangzhou",
     image_url: "scene:guangzhou",
     category: "city",
     display_order: 3,
@@ -170,6 +182,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-city-4",
+    slug: "hangzhou",
     image_url: "scene:hangzhou",
     category: "city",
     display_order: 4,
@@ -180,6 +193,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-city-5",
+    slug: "xi-an",
     image_url: "scene:xian",
     category: "city",
     display_order: 5,
@@ -190,6 +204,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-campus-1",
+    slug: "the-campus-library",
     image_url: "scene:campus-library",
     category: "campus",
     display_order: 6,
@@ -200,6 +215,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-campus-2",
+    slug: "student-squares",
     image_url: "scene:campus-quad",
     category: "campus",
     display_order: 7,
@@ -210,6 +226,7 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
   },
   {
     id: "d-campus-3",
+    slug: "the-university-gate",
     image_url: "scene:campus-gate",
     category: "campus",
     display_order: 8,
@@ -223,6 +240,8 @@ export const SEED_DESTINATIONS: DestinationMedia[] = [
 export const SEED_STORIES: SuccessStory[] = [
   {
     id: "s-1",
+    slug: "omar-a",
+    is_demo: true,
     student_name: "Omar A.",
     photo: null,
     university_name: "Tsinghua University",
@@ -240,6 +259,8 @@ export const SEED_STORIES: SuccessStory[] = [
   },
   {
     id: "s-2",
+    slug: "lina-m",
+    is_demo: true,
     student_name: "Lina M.",
     photo: null,
     university_name: "Peking University",
@@ -254,6 +275,8 @@ export const SEED_STORIES: SuccessStory[] = [
   },
   {
     id: "s-3",
+    slug: "yusuf-k",
+    is_demo: true,
     student_name: "Yusuf K.",
     photo: null,
     university_name: "Zhejiang University",
@@ -880,6 +903,7 @@ export const DEFAULT_SECTIONS: SiteSection[] = [
 export const SEED_STUDY_PATHS: StudyPath[] = [
   {
     id: "sp-language",
+    slug: "language",
     path_key: "language",
     icon: "languages",
     display_order: 1,
@@ -892,6 +916,7 @@ export const SEED_STUDY_PATHS: StudyPath[] = [
   },
   {
     id: "sp-bachelor",
+    slug: "bachelor",
     path_key: "bachelor",
     icon: "graduation-cap",
     display_order: 2,
@@ -904,6 +929,7 @@ export const SEED_STUDY_PATHS: StudyPath[] = [
   },
   {
     id: "sp-master",
+    slug: "master",
     path_key: "master",
     icon: "award",
     display_order: 3,
@@ -916,6 +942,7 @@ export const SEED_STUDY_PATHS: StudyPath[] = [
   },
   {
     id: "sp-phd",
+    slug: "phd",
     path_key: "phd",
     icon: "book-open-check",
     display_order: 4,

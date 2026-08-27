@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X, MessageCircle, Search as SearchIcon } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import type { Dictionary } from "@/i18n";
@@ -45,16 +45,33 @@ export default function Header({
     };
   }, [open]);
 
+  /** Every indexable section — the full set opens in the mobile drawer. */
   const links = [
     { href: `/${locale}`, label: dict.nav.home },
     { href: `/${locale}/about`, label: dict.nav.about },
     { href: `/${locale}/services`, label: dict.nav.services },
+    { href: `/${locale}/study-paths`, label: dict.studyPaths.title },
+    { href: `/${locale}/language-platform`, label: dict.languagePlatform.title },
     { href: `/${locale}/universities`, label: dict.nav.universities },
+    { href: `/${locale}/destinations`, label: dict.explore.cityLabel },
+    { href: `/${locale}/how-it-works`, label: dict.process.title },
     { href: `/${locale}/admissions`, label: dict.nav.admissions },
     { href: `/${locale}/why-china`, label: dict.nav.whyChina },
     { href: `/${locale}/stories`, label: dict.nav.stories },
+    { href: `/${locale}/faq`, label: dict.faq.title },
     { href: `/${locale}/blog`, label: dict.nav.blog },
   ];
+
+  /** The desktop bar only has room for the highest-intent destinations. */
+  const primaryHrefs = new Set([
+    `/${locale}`,
+    `/${locale}/services`,
+    `/${locale}/study-paths`,
+    `/${locale}/language-platform`,
+    `/${locale}/universities`,
+    `/${locale}/about`,
+  ]);
+  const primaryLinks = links.filter((link) => primaryHrefs.has(link.href));
 
   const isActive = (href: string) =>
     href === `/${locale}` ? pathname === href : pathname.startsWith(href);
@@ -73,7 +90,7 @@ export default function Header({
         </div>
 
         <nav className="hidden items-center gap-0.5 xl:flex">
-          {links.map((link) => (
+          {primaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -87,6 +104,18 @@ export default function Header({
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link
+            href={`/${locale}/search`}
+            aria-label={dict.search.title}
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors ${
+              scrolled
+                ? "border-trust-blue/15 bg-white text-trust-blue hover:bg-trust-blue/8"
+                : "border-white/25 bg-white/10 text-white hover:bg-white/20"
+            }`}
+          >
+            <SearchIcon className="h-4.5 w-4.5" />
+          </Link>
+
           <div className="hidden xl:block">
             <LanguageSwitcher locale={locale} variant={scrolled ? "dark" : "light"} />
           </div>

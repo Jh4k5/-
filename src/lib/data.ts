@@ -208,6 +208,48 @@ export const getArticles = cache(async function getArticles(limit?: number): Pro
   }, []);
 });
 
+/**
+ * Single-item fetchers behind the deep-link routes added in Prompt 5.
+ * RLS already hides unpublished rows from anonymous readers, so these
+ * only need to match the slug.
+ *
+ * Each one falls back to the offline seed array rather than to `null`,
+ * because the sitemap is built from the same seed data when the database
+ * is unreachable — returning null here would advertise URLs that 404.
+ */
+function bySlug<T extends { slug?: string }>(seed: T[], slug: string): T | null {
+  return seed.find((item) => item.slug === slug) ?? null;
+}
+
+async function fetchBySlug<T extends { slug?: string }>(
+  table: string,
+  slug: string,
+  seed: T[],
+): Promise<T | null> {
+  return safe(async () => {
+    const supabase = createPublicSupabase();
+    const { data, error } = await supabase.from(table).select("*").eq("slug", slug).maybeSingle();
+    if (error || !data) return bySlug(seed, slug);
+    return data as T;
+  }, bySlug(seed, slug));
+}
+
+export const getServiceBySlug = cache(async function getServiceBySlug(slug: string) {
+  return fetchBySlug<Service>("services", slug, SEED_SERVICES);
+});
+
+export const getStudyPathBySlug = cache(async function getStudyPathBySlug(slug: string) {
+  return fetchBySlug<StudyPath>("study_paths", slug, SEED_STUDY_PATHS);
+});
+
+export const getDestinationBySlug = cache(async function getDestinationBySlug(slug: string) {
+  return fetchBySlug<DestinationMedia>("destination_media", slug, SEED_DESTINATIONS);
+});
+
+export const getStoryBySlug = cache(async function getStoryBySlug(slug: string) {
+  return fetchBySlug<SuccessStory>("success_stories", slug, SEED_STORIES);
+});
+
 export const getArticleBySlug = cache(async function getArticleBySlug(
   slug: string,
 ): Promise<Article | null> {

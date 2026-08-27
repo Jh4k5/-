@@ -22,9 +22,14 @@ import { getDictionary } from "@/i18n";
 import { isLocale, pick, type Locale } from "@/i18n/config";
 import { getSettings, getUniversities, getUniversityBySlug } from "@/lib/data";
 import { whatsappLink } from "@/lib/settings-helpers";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, jsonLdScript } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const universities = await getUniversities();
+  return universities.filter((u) => u.slug).map((u) => ({ slug: u.slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -71,6 +76,22 @@ export default async function UniversityPage({
     .map((line) => line.trim())
     .filter(Boolean);
 
+  const trail = [
+    { name: dict.nav.home, path: "/" },
+    { name: dict.nav.universities, path: "/universities" },
+    { name, path: `/universities/${slug}` },
+  ];
+
+  const collegeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollegeOrUniversity",
+    name,
+    description,
+    ...(city ? { address: { "@type": "PostalAddress", addressLocality: city, addressCountry: "CN" } } : {}),
+    ...(university.founded_year ? { foundingDate: String(university.founded_year) } : {}),
+    ...(university.logo && !university.logo.startsWith("scene:") ? { logo: university.logo } : {}),
+  };
+
   const facts = [
     { Icon: MapPin, label: dict.universities.facts.city, value: city },
     {
@@ -103,6 +124,12 @@ export default async function UniversityPage({
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(collegeJsonLd)} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
+      />
+
       <section className="relative flex min-h-[26rem] items-end overflow-hidden bg-trust-blue-dark pt-28 pb-14">
         <div className="absolute inset-0">
           <div className="ken-burns h-full w-full">

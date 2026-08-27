@@ -63,14 +63,33 @@ export default async function RootLayout({
     .filter((item) => item.active && item.url)
     .map((item) => item.url);
 
+  const siteUrl = getSiteUrl(settings);
+
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: dict.meta.siteName,
-    url: getSiteUrl(settings),
+    url: siteUrl,
     ...(logo ? { logo } : {}),
     ...(phone ? { telephone: phone } : {}),
     ...(socialLinks.length > 0 ? { sameAs: socialLinks } : {}),
+  };
+
+  /** Lets Google offer a search box for the site directly in results. */
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: dict.meta.siteName,
+    url: siteUrl,
+    inLanguage: locale,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/${locale}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (
@@ -85,6 +104,10 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         {children}
       </body>
