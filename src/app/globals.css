@@ -23,6 +23,10 @@
 
   --font-display: var(--font-heading), system-ui, sans-serif;
   --font-body: var(--font-text), system-ui, sans-serif;
+  /* Decorative Chinese glyphs render from the OS face — every current desktop
+     and mobile platform ships one, so no CJK web font is downloaded. */
+  --font-chinese: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+    "Noto Sans CJK SC", sans-serif;
 
   --shadow-soft: 0 8px 22px -14px rgb(15 39 64 / 0.22);
   --shadow-card: 0 14px 32px -18px rgb(15 39 64 / 0.28);
@@ -31,8 +35,8 @@
 }
 
 :root {
-  --font-heading: "Cairo", "Inter Variable", system-ui;
-  --font-text: "Tajawal", "Inter Variable", system-ui;
+  --font-heading: "Cairo", "Manrope Variable", system-ui;
+  --font-text: "Tajawal", "Manrope Variable", system-ui;
 
   /* motion scale — overridden by [data-motion] below */
   --motion-scale: 1;
@@ -56,10 +60,13 @@ html[data-motion="cinematic"] {
   --motion-medium: 0.85s;
 }
 
+/* Manrope replaces Inter for the Latin and Cyrillic locales: it carries the
+   same clarity at small sizes but has real character in its headings, and it
+   ships a Cyrillic subset so Russian is not left to a system fallback. */
 html[lang="en"],
 html[lang="ru"] {
-  --font-heading: "Inter Variable", "Inter", system-ui;
-  --font-text: "Inter Variable", "Inter", system-ui;
+  --font-heading: "Manrope Variable", system-ui;
+  --font-text: "Manrope Variable", system-ui;
 }
 
 html {
@@ -396,6 +403,26 @@ textarea {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-trust-blue);
+}
+
+/* --------------------------- chinese identity --------------------------- */
+/* Oversized decorative glyph behind a section heading. It is set in the OS
+   Chinese face and sized off the viewport so it scales with the heading. */
+.kanji-watermark {
+  font-family: var(--font-chinese);
+}
+.kanji-watermark--lg {
+  font-size: clamp(7rem, 18vw, 15rem);
+}
+/* Sized to sit whole inside a one-line strip rather than being cropped by it. */
+.kanji-watermark--sm {
+  font-size: 3.5rem;
+}
+
+/* Full-bleed China red for the sections that anchor the identity. */
+.china-red-panel {
+  background-color: var(--color-china-red);
+  color: #fff;
 }
 
 /* --------------------------- horizontal rail --------------------------- */

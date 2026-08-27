@@ -119,7 +119,7 @@ export default function ContactForm({
       noValidate
     >
       <h2 className="text-2xl font-extrabold text-trust-blue">{dict.contact.formTitle}</h2>
-      <span className="mt-3 block h-1 w-20 rounded-full bg-gradient-to-r from-china-red to-imperial-gold" />
+      <span className="mt-3 block h-1 w-20 rounded-full bg-china-red" />
 
       {/* honeypot — hidden from humans and assistive tech, catches naive spam bots */}
       <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">

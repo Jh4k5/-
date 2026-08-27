@@ -7,7 +7,7 @@ import "@fontsource/cairo/800.css";
 import "@fontsource/tajawal/400.css";
 import "@fontsource/tajawal/500.css";
 import "@fontsource/tajawal/700.css";
-import "@fontsource-variable/inter";
+import "@fontsource-variable/manrope";
 import "./globals.css";
 import { defaultLocale, dirOf, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n";

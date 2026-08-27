@@ -15,6 +15,7 @@ export function buildMetadata({
   description,
   settings,
   image,
+  keywords,
 }: {
   locale: Locale;
   /** Path after the locale segment, e.g. "" or "/services" or "/universities/tsinghua". */
@@ -23,6 +24,8 @@ export function buildMetadata({
   description: string;
   settings?: SettingsMapLike;
   image?: string | null;
+  /** Only worth setting on pages targeting a specific search intent. */
+  keywords?: string[];
 }): Metadata {
   const siteUrl = getSiteUrl(settings);
   const normalizedPath = path === "/" ? "" : path;
@@ -37,6 +40,7 @@ export function buildMetadata({
   return {
     title,
     description,
+    ...(keywords && keywords.length ? { keywords } : {}),
     alternates: {
       canonical,
       languages,
@@ -72,6 +76,46 @@ export function breadcrumbJsonLd(
       name: crumb.name,
       item: `${siteUrl}/${locale}${crumb.path === "/" ? "" : crumb.path}`,
     })),
+  };
+}
+
+/**
+ * Course JSON-LD for the Chinese-language platform. Google treats Course as a
+ * distinct result type, so this is what lets the platform surface for
+ * "learn Chinese" style queries rather than only for study-abroad ones.
+ */
+export function courseJsonLd({
+  locale,
+  name,
+  description,
+  path,
+  settings,
+  image,
+}: {
+  locale: Locale;
+  name: string;
+  description: string;
+  path: string;
+  settings?: SettingsMapLike;
+  image?: string | null;
+}) {
+  const siteUrl = getSiteUrl(settings);
+  const providerName = (settings ? settingValue(settings, "site_name") : "") || name;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name,
+    description,
+    url: `${siteUrl}/${locale}${path}`,
+    inLanguage: locale,
+    teaches: "Chinese language",
+    provider: {
+      "@type": "EducationalOrganization",
+      name: providerName,
+      url: `${siteUrl}/${locale}`,
+    },
+    ...(image ? { image } : {}),
   };
 }
 

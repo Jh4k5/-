@@ -49,7 +49,7 @@ export default function StatsBar({
         <Reveal className="surface-card grid gap-6 rounded-2xl bg-white p-8 sm:grid-cols-2 lg:grid-cols-4">
           {items.map(({ Icon, value, suffix, label }) => (
             <div key={label} className="flex items-center gap-4">
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-china-red to-trust-blue text-white shadow-[0_8px_18px_-10px_rgba(15,39,64,0.55)]">
+              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-china-red text-white shadow-[0_8px_18px_-10px_rgba(15,39,64,0.55)]">
                 <Icon className="h-5 w-5" />
               </span>
               <div>

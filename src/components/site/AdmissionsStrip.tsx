@@ -142,7 +142,10 @@ export default function AdmissionsStrip({
             <h2 className="text-[clamp(1.9rem,4vw,3rem)] font-extrabold text-white">
               {title || dict.admissions.title}
             </h2>
-            <span className="h-1 w-24 rounded-full bg-gradient-to-r from-china-red via-imperial-gold to-white/60" />
+            <span className="flex items-center gap-1" aria-hidden="true">
+              <span className="h-1 w-14 rounded-full bg-china-red" />
+              <span className="h-1 w-6 rounded-full bg-imperial-gold" />
+            </span>
             <p className="max-w-2xl text-white/75">{subtitle || dict.admissions.subtitle}</p>
           </div>
         </Reveal>

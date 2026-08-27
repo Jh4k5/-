@@ -183,7 +183,7 @@ export default async function UniversityPage({
               <h2 className="text-2xl font-extrabold text-trust-blue">
                 {dict.universities.aboutTitle}
               </h2>
-              <span className="mt-3 block h-1 w-20 rounded-full bg-gradient-to-r from-china-red to-imperial-gold" />
+              <span className="mt-3 block h-1 w-20 rounded-full bg-china-red" />
               <p className="mt-5 text-[17px] leading-[1.9] text-charcoal/80">{description}</p>
 
               {highlights.length > 0 && (
@@ -232,7 +232,7 @@ export default async function UniversityPage({
                 </dl>
               </div>
 
-              <div className="relative mt-5 overflow-hidden rounded-2xl bg-gradient-to-br from-china-red to-trust-blue p-6 text-white">
+              <div className="relative mt-5 overflow-hidden rounded-2xl bg-china-red p-6 text-white">
                 <div className="brand-pattern pointer-events-none absolute inset-0 opacity-40" />
                 <h3 className="relative text-lg font-extrabold">{dict.universities.ctaTitle}</h3>
                 <p className="relative mt-2 text-sm text-white/80">{dict.universities.ctaText}</p>

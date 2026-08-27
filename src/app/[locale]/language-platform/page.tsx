@@ -10,7 +10,8 @@ import { getDictionary } from "@/i18n";
 import { pick, isLocale, type Locale } from "@/i18n/config";
 import { getArticles, getFaqs, getSettings } from "@/lib/data";
 import { settingText, settingValue, whatsappLink } from "@/lib/settings-helpers";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, courseJsonLd, jsonLdScript } from "@/lib/seo";
+import Breadcrumbs from "@/components/site/Breadcrumbs";
 
 export async function generateMetadata({
   params,
@@ -20,11 +21,29 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
+  const settings = await getSettings();
+
+  // This page targets language-learning intent, which is a different search
+  // audience from the rest of the site, so it carries its own keyword set.
+  const keywords = {
+    ar: ["تعلم اللغة الصينية", "منصة اللغة الصينية", "HSK", "دورة لغة صينية", "الدراسة في الصين"],
+    en: ["learn Chinese", "Chinese language platform", "HSK", "Chinese course", "study in China"],
+    ru: ["изучение китайского", "платформа китайского языка", "HSK", "курс китайского", "учёба в Китае"],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "/language-platform",
-    title: dict.languagePlatform.title,
-    description: dict.languagePlatform.subtitle,
+    title: settingText(settings, "language_platform_seo_title", locale, dict.languagePlatform.title),
+    description: settingText(
+      settings,
+      "language_platform_seo_description",
+      locale,
+      dict.languagePlatform.subtitle,
+    ),
+    settings,
+    image: settingValue(settings, "language_platform_image") || null,
+    keywords,
   });
 }
 
@@ -62,9 +81,38 @@ export default async function LanguagePlatformPage({
     .filter((a) => a.category === "student_life" || a.category === "tips")
     .slice(0, 3);
 
+  const trail = [
+    { name: dict.nav.home, path: "/" },
+    { name: dict.languagePlatform.title, path: "/language-platform" },
+  ];
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(
+          courseJsonLd({
+            locale,
+            name: headline,
+            description: settingText(
+              settings,
+              "language_platform_seo_description",
+              locale,
+              dict.languagePlatform.subtitle,
+            ),
+            path: "/language-platform",
+            settings,
+            image,
+          }),
+        )}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(breadcrumbJsonLd(locale, trail, settings))}
+      />
+
       <PageHero title={headline} subtitle={dict.languagePlatform.subtitle} scene="campus-library" />
+      <Breadcrumbs locale={locale} trail={trail} />
 
       {image && (
         <section className="container-page -mt-10 relative">

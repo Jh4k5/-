@@ -28,7 +28,7 @@ export default function PageHero({
         <h1 className="text-[clamp(2rem,5vw,3.4rem)] font-extrabold text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
           {title}
         </h1>
-        <span className="mt-4 block h-1 w-28 rounded-full bg-gradient-to-r from-china-red via-imperial-gold to-white/70" />
+        <span className="mt-4 block h-1 w-28 rounded-full bg-china-red" />
         {subtitle && (
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg">
             {subtitle}

@@ -1,0 +1,55 @@
+import SettingsGroupEditor from "@/components/admin/SettingsGroupEditor";
+import { createServerSupabase } from "@/lib/supabase/server";
+import type { SettingRow } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+
+export default async function AdminAboutPage() {
+  const supabase = await createServerSupabase();
+  const { data } = await supabase.from("settings").select("*");
+
+  return (
+    <SettingsGroupEditor
+      initial={(data ?? []) as SettingRow[]}
+      title="من نحن"
+      description="نبذة الشركة، المؤسس، والرئيس التنفيذي — كما تظهر في صفحة /about."
+      images={[
+        {
+          key: "founder_photo",
+          label: "صورة المؤسس",
+          hint: "تظهر صغيرة ودائرية بجانب الاسم مباشرة. صورة مربعة تعطي أفضل نتيجة.",
+        },
+        {
+          key: "ceo_photo",
+          label: "صورة الرئيس التنفيذي",
+          hint: "لا تظهر البطاقة إلا إذا كان القسم مفعّلاً والاسم والصورة موجودين معاً.",
+        },
+      ]}
+      translated={[
+        { key: "company_intro", label: "نبذة الشركة", long: true },
+        { key: "about_team_title", label: "عنوان قسم الفريق" },
+        { key: "about_story_text", label: "قصتنا", long: true },
+        { key: "about_vision_text", label: "الرؤية", long: true },
+        { key: "about_mission_text", label: "الرسالة", long: true },
+        { key: "about_why_exclusive_text", label: "لماذا الصين حصراً؟", long: true },
+        { key: "founder_name", label: "اسم المؤسس" },
+        { key: "founder_title", label: "منصب المؤسس" },
+        { key: "founder_bio", label: "نبذة المؤسس", long: true },
+        { key: "ceo_name", label: "اسم الرئيس التنفيذي" },
+        { key: "ceo_title", label: "منصب الرئيس التنفيذي" },
+        { key: "ceo_bio", label: "نبذة الرئيس التنفيذي", long: true },
+      ]}
+      plain={[{ key: "company_founded_year", label: "سنة التأسيس", hint: "مثال: 2019" }]}
+      choices={[
+        {
+          key: "ceo_section_enabled",
+          label: "إظهار الرئيس التنفيذي",
+          options: [
+            { value: "false", label: "مخفي" },
+            { value: "true", label: "ظاهر" },
+          ],
+        },
+      ]}
+    />
+  );
+}

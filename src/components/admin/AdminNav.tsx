@@ -14,6 +14,7 @@ import {
   HelpCircle,
   Image as ImageIcon,
   Inbox,
+  Languages,
   LayoutDashboard,
   LayoutList,
   ListChecks,
@@ -24,8 +25,10 @@ import {
   Palette,
   School,
   Settings,
+  ShieldCheck,
   Sparkles,
   Star,
+  Users,
   X,
 } from "lucide-react";
 import { LogoMark } from "@/components/site/Logo";
@@ -44,6 +47,9 @@ const LINKS = [
   { href: "/admin/process-stages", label: "مراحل العمل", Icon: Milestone },
   { href: "/admin/process", label: "خطوات العمل معنا (تفصيلية)", Icon: ListChecks },
   { href: "/admin/why-china", label: "لماذا الصين؟", Icon: Globe2 },
+  { href: "/admin/language-platform", label: "منصة اللغة الصينية", Icon: Languages },
+  { href: "/admin/about", label: "من نحن", Icon: Users },
+  { href: "/admin/trust-bar", label: "شريط الثقة", Icon: ShieldCheck },
   { href: "/admin/stories", label: "قصص النجاح", Icon: Star },
   { href: "/admin/faq", label: "الأسئلة الشائعة", Icon: HelpCircle },
   { href: "/admin/hero", label: "شرائح الهيدر", Icon: GalleryHorizontal },

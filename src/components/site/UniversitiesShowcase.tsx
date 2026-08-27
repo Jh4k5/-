@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Building2 } from "lucide-react";
 
+import KanjiWatermark from "@/components/art/KanjiWatermark";
 import HorizontalRail from "@/components/motion/HorizontalRail";
 import Reveal from "@/components/motion/Reveal";
 import UniversityCard from "./UniversityCard";
@@ -38,6 +39,8 @@ export default function UniversitiesShowcase({
         }}
       />
 
+      <KanjiWatermark char="study" className="-top-10 end-0 hidden lg:block" />
+
       <div className="container-page relative">
         <Reveal>
           <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
@@ -48,7 +51,10 @@ export default function UniversitiesShowcase({
             <h2 className="text-[clamp(1.9rem,4vw,3rem)] font-extrabold text-trust-blue">
               {title || dict.universities.title}
             </h2>
-            <span className="h-1 w-24 rounded-full bg-gradient-to-r from-china-red via-imperial-gold to-trust-blue" />
+            <span className="flex items-center gap-1" aria-hidden="true">
+              <span className="h-1 w-14 rounded-full bg-china-red" />
+              <span className="h-1 w-6 rounded-full bg-imperial-gold" />
+            </span>
             <p className="text-charcoal/70">{subtitle || dict.universities.subtitle}</p>
           </div>
         </Reveal>

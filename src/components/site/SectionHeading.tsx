@@ -26,7 +26,11 @@ export default function SectionHeading({
         </span>
       )}
       <h2 className={`text-[clamp(1.9rem,4vw,3rem)] font-extrabold ${titleColor}`}>{title}</h2>
-      <span className="h-1 w-24 rounded-full bg-gradient-to-r from-china-red via-imperial-gold to-trust-blue" />
+      {/* Two solid brand strokes instead of a three-stop gradient rule. */}
+      <span className="flex items-center gap-1" aria-hidden="true">
+        <span className="h-1 w-14 rounded-full bg-china-red" />
+        <span className="h-1 w-6 rounded-full bg-imperial-gold" />
+      </span>
       {subtitle && <p className={`text-base leading-relaxed sm:text-lg ${subColor}`}>{subtitle}</p>}
     </Reveal>
   );

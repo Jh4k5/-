@@ -34,7 +34,7 @@ export default function HowItWorksAccordion({
                 aria-expanded={expanded}
                 className="flex w-full items-center gap-4 p-5 text-start"
               >
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-trust-blue to-china-red text-white">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-trust-blue text-white">
                   <StageIcon className="h-5 w-5" />
                 </span>
                 <span className="flex-1">

@@ -117,7 +117,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           ].map(({ Icon, title, text }, index) => (
             <Reveal key={title} delay={index * 100}>
               <article className="surface-card h-full p-8">
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-china-red to-imperial-gold text-white">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-china-red text-white">
                   <Icon className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 text-2xl font-extrabold text-trust-blue">{title}</h3>

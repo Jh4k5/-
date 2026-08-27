@@ -147,7 +147,7 @@ export default function StoriesEditor({ initial }: { initial: SuccessStory[] }) 
                   onClick={() => setOpen(expanded ? null : row.id)}
                   className="flex flex-1 items-center gap-4 text-start"
                 >
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-trust-blue to-china-red text-lg font-extrabold text-white">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-trust-blue text-lg font-extrabold text-white">
                     {row.student_name.trim().charAt(0) || "?"}
                   </span>
                   <span className="flex-1">

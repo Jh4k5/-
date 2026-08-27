@@ -27,7 +27,7 @@ export default function UniversityGallery({
   return (
     <section className="container-page py-14">
       <h2 className="text-2xl font-extrabold text-trust-blue">{title}</h2>
-      <span className="mt-3 block h-1 w-20 rounded-full bg-gradient-to-r from-china-red to-imperial-gold" />
+      <span className="mt-3 block h-1 w-20 rounded-full bg-china-red" />
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {images.map((image, i) => (
