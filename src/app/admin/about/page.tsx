@@ -12,12 +12,12 @@ export default async function AdminAboutPage() {
     <SettingsGroupEditor
       initial={(data ?? []) as SettingRow[]}
       title="من نحن"
-      description="نبذة الشركة، المؤسس، والرئيس التنفيذي — كما تظهر في صفحة /about."
+      description="نبذة الشركة، المؤسس، والرئيس التنفيذي — كما تظهر في صفحة «من نحن». لا تظهر بطاقة أي شخص إلا بعد تعبئة الاسم ورفع الصورة معاً (وتفعيل الخيار في حالة الرئيس التنفيذي) — هذا يمنع ظهور بطاقة نصف فارغة على الموقع."
       images={[
         {
           key: "founder_photo",
           label: "صورة المؤسس",
-          hint: "تظهر صغيرة ودائرية بجانب الاسم مباشرة. صورة مربعة تعطي أفضل نتيجة.",
+          hint: "مطلوبة لظهور البطاقة. تظهر صغيرة ودائرية بجانب الاسم مباشرة، وصورة مربعة تعطي أفضل نتيجة.",
         },
         {
           key: "ceo_photo",
@@ -32,10 +32,10 @@ export default async function AdminAboutPage() {
         { key: "about_vision_text", label: "الرؤية", long: true },
         { key: "about_mission_text", label: "الرسالة", long: true },
         { key: "about_why_exclusive_text", label: "لماذا الصين حصراً؟", long: true },
-        { key: "founder_name", label: "اسم المؤسس" },
+        { key: "founder_name", label: "اسم المؤسس", hint: "مطلوب لظهور البطاقة" },
         { key: "founder_title", label: "منصب المؤسس" },
         { key: "founder_bio", label: "نبذة المؤسس", long: true },
-        { key: "ceo_name", label: "اسم الرئيس التنفيذي" },
+        { key: "ceo_name", label: "اسم الرئيس التنفيذي", hint: "مطلوب لظهور البطاقة" },
         { key: "ceo_title", label: "منصب الرئيس التنفيذي" },
         { key: "ceo_bio", label: "نبذة الرئيس التنفيذي", long: true },
       ]}
@@ -44,6 +44,7 @@ export default async function AdminAboutPage() {
         {
           key: "ceo_section_enabled",
           label: "إظهار الرئيس التنفيذي",
+          hint: "اجعله «ظاهر» بعد تعبئة الاسم والصورة، وإلا يبقى القسم مخفياً.",
           options: [
             { value: "false", label: "مخفي" },
             { value: "true", label: "ظاهر" },

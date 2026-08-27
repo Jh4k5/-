@@ -50,14 +50,19 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   // A person is only shown once their name and photo are both filled in —
   // never a half-empty card. The CEO additionally needs the section enabled.
+  //
+  // Names are read as translated text, not as a shared value: the admin panel
+  // saves them per language (an Arabic spelling and a Latin one), so reading
+  // the untranslated `value` column would always come back empty and silently
+  // hide the card even though the owner had filled it in.
   const founder = {
-    name: settingValue(settings, "founder_name"),
+    name: settingText(settings, "founder_name", locale),
     photo: settingValue(settings, "founder_photo"),
     title: settingText(settings, "founder_title", locale),
     bio: settingText(settings, "founder_bio", locale),
   };
   const ceo = {
-    name: settingValue(settings, "ceo_name"),
+    name: settingText(settings, "ceo_name", locale),
     photo: settingValue(settings, "ceo_photo"),
     title: settingText(settings, "ceo_title", locale),
     bio: settingText(settings, "ceo_bio", locale),

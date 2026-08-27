@@ -23,7 +23,8 @@ export default function AboutTeaser({
   const excerpt = storyText.split(/(?<=[.؟!])\s+/).slice(0, 2).join(" ");
 
   const ceoEnabled = settingValue(settings, "ceo_section_enabled") === "true";
-  const ceoName = settingValue(settings, "ceo_name");
+  // Saved per language in the panel, so it must be read as translated text.
+  const ceoName = settingText(settings, "ceo_name", locale);
   const ceoPhoto = settingValue(settings, "ceo_photo");
   const ceoTitle = settingText(settings, "ceo_title", locale);
   const showCeo = ceoEnabled && Boolean(ceoName) && Boolean(ceoPhoto);
