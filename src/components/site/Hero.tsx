@@ -134,12 +134,21 @@ export default function Hero({
     };
   }, [motionEnabled]);
 
-  const layer = (depth: number, scrollDepth = 0, z = 0) => ({
-    transform: `translate3d(${(tilt.x * depth).toFixed(2)}px, ${(tilt.y * depth + tilt.scroll * scrollDepth).toFixed(2)}px, ${z}px)`,
-  });
+  // No inline transform at all when static — an identity translate3d() still
+  // forces the browser to promote the element to its own compositing layer,
+  // which is exactly the kind of avoidable paint cost that shows up as
+  // stutter while scrolling a phone with several stacked hero layers.
+  const layer = (depth: number, scrollDepth = 0, z = 0) =>
+    motionEnabled
+      ? {
+          transform: `translate3d(${(tilt.x * depth).toFixed(2)}px, ${(tilt.y * depth + tilt.scroll * scrollDepth).toFixed(2)}px, ${z}px)`,
+        }
+      : {};
 
   return (
-    <section className="stage-3d relative flex min-h-[100svh] items-center overflow-hidden bg-trust-blue-dark">
+    <section
+      className={`relative flex min-h-[100svh] items-center overflow-hidden bg-trust-blue-dark ${motionEnabled ? "stage-3d" : ""}`}
+    >
       {/* layer 1 — media backdrop with slow zoom */}
       <div className="absolute inset-0" style={layer(14, 0.06)}>
         {slides.map((slide, i) => (
@@ -150,10 +159,7 @@ export default function Hero({
             }`}
             aria-hidden={i !== index}
           >
-            <div
-              className="ken-burns h-full w-full"
-              style={{ animationPlayState: motionEnabled && i === index ? "running" : "paused" }}
-            >
+            <div className={`h-full w-full ${motionEnabled ? "ken-burns" : ""}`}>
               {(i === index || visited.has(i)) && (
                 <MediaFrame
                   src={slide.image_url}
@@ -180,7 +186,7 @@ export default function Hero({
 
       {/* layer 3 — parallax bridge */}
       <div
-        className="hero-layer pointer-events-none absolute inset-x-0 bottom-0 h-[26%] opacity-55"
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-[26%] opacity-55 ${motionEnabled ? "hero-layer" : ""}`}
         style={layer(46, -0.14)}
       >
         <svg viewBox="0 0 1600 400" preserveAspectRatio="none" className="h-full w-full">
@@ -257,6 +263,7 @@ export default function Hero({
           <TextReveal
             text={headline}
             delay={0.15}
+            calm={!motionEnabled}
             className="mt-6 text-[clamp(1.9rem,5.2vw,3.6rem)] font-extrabold leading-[1.2] text-white drop-shadow-[0_8px_28px_rgba(0,0,0,0.4)]"
           />
 
