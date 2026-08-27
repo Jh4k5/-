@@ -232,6 +232,7 @@ const en: Dictionary = {
       "Your request has arrived. We'll review it within one business day and reach out through your chosen channel to explain the right track — this initial request carries no commitment.",
     error: "The request could not be sent. Please check your details and try again.",
     requiredError: "Please fill in the required fields.",
+    optionalDetailsToggle: "Add optional details",
   },
   eligibility: {
     title: "Quick eligibility check",

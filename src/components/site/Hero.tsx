@@ -147,7 +147,7 @@ export default function Hero({
 
   return (
     <section
-      className={`relative flex min-h-[100svh] items-center overflow-hidden bg-trust-blue-dark ${motionEnabled ? "stage-3d" : ""}`}
+      className={`relative flex min-h-[min(100svh,47.5rem)] items-center overflow-hidden bg-trust-blue-dark ${motionEnabled ? "stage-3d" : ""}`}
     >
       {/* layer 1 — media backdrop with slow zoom */}
       <div className="absolute inset-0" style={layer(14, 0.06)}>
@@ -246,7 +246,7 @@ export default function Hero({
 
       {/* layer 5 — content */}
       <div
-        className="container-page relative z-10 pt-24 pb-14 sm:pt-28 sm:pb-20 lg:pb-24"
+        className="container-page relative z-10 pt-20 pb-14 sm:pt-28 sm:pb-20 lg:pb-24"
         style={layer(-16, 0.03)}
       >
         <div className="max-w-3xl">
@@ -320,7 +320,7 @@ export default function Hero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.8 }}
-            className="mt-4"
+            className="mt-4 hidden sm:block"
           >
             <Link
               href={`/${locale}/services`}
@@ -336,7 +336,7 @@ export default function Hero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.1 }}
-              className="mt-8 flex flex-wrap items-center gap-2"
+              className="mt-8 hidden flex-wrap items-center gap-2 sm:flex"
             >
               {slides.map((slide, i) => (
                 <button

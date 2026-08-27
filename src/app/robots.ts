@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
+import { getSettings } from "@/lib/data";
+import { getSiteUrl } from "@/lib/site-url";
 
-export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jisr-to-china.vercel.app";
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const settings = await getSettings();
+  const base = getSiteUrl(settings);
 
   return {
     rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api"] }],

@@ -3,9 +3,9 @@ import { settingValue, type SettingsMapLike } from "./settings-helpers";
 import type { MotionIntensity } from "./types";
 
 export const DEFAULT_THEME = {
-  primary: "#b73535",
-  gold: "#c6a15b",
-  blue: "#0f2740",
+  primary: "#C8102E",
+  gold: "#D4AF37",
+  blue: "#1B3A6B",
   jade: "#1f7a68",
   motion: "cinematic" as MotionIntensity,
   overlay: 66,

@@ -207,12 +207,12 @@ export default function ContactForm({
           <label className={labelClass} htmlFor="phone_number">
             {dict.contact.fields.phone} <span className="text-china-red">*</span>
           </label>
-          <div className="flex gap-2" dir="ltr">
+          <div className="flex min-w-0 flex-col gap-2 min-[360px]:flex-row" dir="ltr">
             <select
               aria-label="رمز الدولة"
               value={countryCode}
               onChange={(event) => setCountryCode(event.target.value)}
-              className={`${fieldClass} w-[40%] shrink-0`}
+              className={`${fieldClass} w-full shrink-0 min-[360px]:w-28`}
             >
               {COUNTRY_CODES.map((item) => (
                 <option key={item.label} value={item.code}>
@@ -226,110 +226,110 @@ export default function ContactForm({
               autoComplete="tel"
               inputMode="tel"
               aria-invalid={Boolean(fieldErrors.phone_number)}
-              className={fieldClass}
+              className={`${fieldClass} min-w-0 flex-1`}
               placeholder={dict.contact.placeholders.phone}
             />
           </div>
           {fieldErrors.phone_number && <p className={errorClass}>{fieldErrors.phone_number}</p>}
         </div>
 
-        <div className="sm:col-span-2 mt-2 flex items-center gap-3">
-          <span className="h-px flex-1 bg-trust-blue/10" />
-          <span className="text-xs font-bold uppercase tracking-widest text-charcoal/45">
-            {dict.common.optional}
-          </span>
-          <span className="h-px flex-1 bg-trust-blue/10" />
-        </div>
+        <details className="sm:col-span-2 mt-2 rounded-xl border border-trust-blue/10 bg-white/60 p-4 [&_summary::-webkit-details-marker]:hidden">
+          <summary className="cursor-pointer list-none text-sm font-bold text-trust-blue">
+            {dict.contact.optionalDetailsToggle}
+          </summary>
 
-        <div>
-          <label className={labelClass} htmlFor="desired_major">
-            {dict.contact.fields.major}
-          </label>
-          <input
-            id="desired_major"
-            name="desired_major"
-            className={fieldClass}
-            placeholder={dict.contact.placeholders.major}
-          />
-        </div>
+          <div className="mt-4 grid gap-5 sm:grid-cols-2">
+            <div>
+              <label className={labelClass} htmlFor="desired_major">
+                {dict.contact.fields.major}
+              </label>
+              <input
+                id="desired_major"
+                name="desired_major"
+                className={fieldClass}
+                placeholder={dict.contact.placeholders.major}
+              />
+            </div>
 
-        <div>
-          <label className={labelClass} htmlFor="desired_start_year">
-            {dict.eligibility.fields.startYear}
-          </label>
-          <input
-            id="desired_start_year"
-            name="desired_start_year"
-            type="number"
-            inputMode="numeric"
-            min={2024}
-            max={2035}
-            className={fieldClass}
-            placeholder={dict.eligibility.placeholders.startYear}
-          />
-        </div>
+            <div>
+              <label className={labelClass} htmlFor="desired_start_year">
+                {dict.eligibility.fields.startYear}
+              </label>
+              <input
+                id="desired_start_year"
+                name="desired_start_year"
+                type="number"
+                inputMode="numeric"
+                min={2024}
+                max={2035}
+                className={fieldClass}
+                placeholder={dict.eligibility.placeholders.startYear}
+              />
+            </div>
 
-        <div>
-          <label className={labelClass} htmlFor="chinese_level">
-            {dict.contact.fields.chineseLevel}
-          </label>
-          <select id="chinese_level" name="chinese_level" className={fieldClass} defaultValue="">
-            <option value="">{dict.contact.fields.choose}</option>
-            {LEVELS.map((key) => (
-              <option key={key} value={key}>
-                {dict.options.chineseLevel[key]}
-              </option>
-            ))}
-          </select>
-        </div>
+            <div>
+              <label className={labelClass} htmlFor="chinese_level">
+                {dict.contact.fields.chineseLevel}
+              </label>
+              <select id="chinese_level" name="chinese_level" className={fieldClass} defaultValue="">
+                <option value="">{dict.contact.fields.choose}</option>
+                {LEVELS.map((key) => (
+                  <option key={key} value={key}>
+                    {dict.options.chineseLevel[key]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <div>
-          <span className={labelClass}>{dict.eligibility.fields.wantsScholarship}</span>
-          <div className="flex gap-2">
-            {(["yes", "no"] as const).map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setWantsScholarship(wantsScholarship === option ? "" : option)}
-                className={`flex-1 rounded-xl border px-4 py-3 text-sm font-bold transition-colors ${
-                  wantsScholarship === option
-                    ? "border-china-red bg-china-red/10 text-china-red"
-                    : "border-trust-blue/12 bg-white text-charcoal/70"
-                }`}
-              >
-                {option === "yes" ? dict.eligibility.yes : dict.eligibility.no}
-              </button>
-            ))}
+            <div>
+              <span className={labelClass}>{dict.eligibility.fields.wantsScholarship}</span>
+              <div className="flex gap-2">
+                {(["yes", "no"] as const).map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => setWantsScholarship(wantsScholarship === option ? "" : option)}
+                    className={`flex-1 rounded-xl border px-4 py-3 text-sm font-bold transition-colors ${
+                      wantsScholarship === option
+                        ? "border-china-red bg-china-red/10 text-china-red"
+                        : "border-trust-blue/12 bg-white text-charcoal/70"
+                    }`}
+                  >
+                    {option === "yes" ? dict.eligibility.yes : dict.eligibility.no}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className={labelClass} htmlFor="email">
+                {dict.contact.fields.email}
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                dir="ltr"
+                autoComplete="email"
+                className={fieldClass}
+                placeholder={dict.contact.placeholders.email}
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className={labelClass} htmlFor="message">
+                {dict.contact.fields.message}
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                className={`${fieldClass} resize-y`}
+                placeholder={dict.contact.placeholders.message}
+              />
+            </div>
           </div>
-        </div>
-
-        <div>
-          <label className={labelClass} htmlFor="email">
-            {dict.contact.fields.email}
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            dir="ltr"
-            autoComplete="email"
-            className={fieldClass}
-            placeholder={dict.contact.placeholders.email}
-          />
-        </div>
-
-        <div className="sm:col-span-2">
-          <label className={labelClass} htmlFor="message">
-            {dict.contact.fields.message}
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={4}
-            className={`${fieldClass} resize-y`}
-            placeholder={dict.contact.placeholders.message}
-          />
-        </div>
+        </details>
       </div>
 
       {privacyConsentText && (

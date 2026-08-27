@@ -14,11 +14,7 @@ import { getDictionary } from "@/i18n";
 import { getSettings } from "@/lib/data";
 import { motionIntensity, themeStyle } from "@/lib/theme";
 import { settingValue } from "@/lib/settings-helpers";
-
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://jisr-to-china.vercel.app").replace(
-  /\/$/,
-  "",
-);
+import { getSiteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: {
@@ -68,7 +64,7 @@ export default async function RootLayout({
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: dict.meta.siteName,
-    url: SITE_URL,
+    url: getSiteUrl(settings),
     ...(logo ? { logo } : {}),
     ...(phone ? { telephone: phone } : {}),
     ...(socialLinks.length > 0 ? { sameAs: socialLinks } : {}),

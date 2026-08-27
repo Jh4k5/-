@@ -60,9 +60,17 @@ export default function AdmissionsGrid({
 
   return (
     <>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Flexbox with a centered last row (instead of a rigid grid, which
+          leaves a dangling gap when the count isn't a multiple of the
+          column count — e.g. 5 items in a 3-column grid). */}
+      <div className="flex flex-wrap justify-center gap-6">
         {items.map((admission, i) => (
-          <Reveal key={admission.id} delay={i * 60} direction="scale">
+          <Reveal
+            key={admission.id}
+            delay={i * 60}
+            direction="scale"
+            className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+          >
             <Tilt3D intensity={8} glare>
               <button
                 type="button"

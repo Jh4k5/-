@@ -75,6 +75,26 @@ const CONTACT_FIELDS: { key: string; label: string }[] = [
   { key: "contact_error_message", label: "رسالة الخطأ" },
 ];
 
+const LANGUAGE_PLATFORM_FIELDS: { key: string; label: string }[] = [
+  { key: "language_platform_headline", label: "العنوان التسويقي" },
+  { key: "language_platform_image_alt", label: "النص البديل للصورة" },
+  { key: "language_platform_benefit_1_text", label: "الميزة الأولى" },
+  { key: "language_platform_benefit_2_text", label: "الميزة الثانية" },
+  { key: "language_platform_benefit_3_text", label: "الميزة الثالثة" },
+  { key: "language_platform_audience_1_title", label: "الفئة 1 — العنوان" },
+  { key: "language_platform_audience_1_text", label: "الفئة 1 — الوصف" },
+  { key: "language_platform_audience_2_title", label: "الفئة 2 — العنوان" },
+  { key: "language_platform_audience_2_text", label: "الفئة 2 — الوصف" },
+  { key: "language_platform_audience_3_title", label: "الفئة 3 — العنوان" },
+  { key: "language_platform_audience_3_text", label: "الفئة 3 — الوصف" },
+  { key: "language_platform_integration_text", label: "كيف تتكامل مع رحلتك" },
+  { key: "language_platform_terms", label: "شروط العرض" },
+];
+
+const LANGUAGE_PLATFORM_SIMPLE_FIELDS: { key: string; label: string; hint?: string; ltr?: boolean }[] = [
+  { key: "language_platform_image", label: "رابط صورة المنصة", ltr: true },
+];
+
 const TRANSLATED_FIELDS: { key: string; label: string }[] = [
   { key: "office_location", label: "موقع المكتب" },
   ...HERO_FIELDS,
@@ -83,6 +103,7 @@ const TRANSLATED_FIELDS: { key: string; label: string }[] = [
   ...BRIDGE_PERK_FIELDS,
   ...DISCLAIMER_FIELDS,
   ...CONTACT_FIELDS,
+  ...LANGUAGE_PLATFORM_FIELDS,
 ];
 
 const KNOWN_KEYS = [
@@ -90,6 +111,8 @@ const KNOWN_KEYS = [
   ...SOCIAL_FIELDS.flatMap((field) => [field.urlKey, field.statusKey]),
   ...STAT_FIELDS.map((field) => field.key),
   ...TRANSLATED_FIELDS.map((field) => field.key),
+  ...LANGUAGE_PLATFORM_SIMPLE_FIELDS.map((field) => field.key),
+  "language_platform_offer_status",
 ];
 
 const KEY_PATTERN = /^[a-z][a-z0-9_]*$/;
@@ -301,6 +324,37 @@ export default function SettingsEditor({ initial }: { initial: SettingRow[] }) {
           )}
 
           {translatedCard("نموذج التواصل", CONTACT_FIELDS)}
+
+          <Card>
+            <h2 className="text-lg font-extrabold text-trust-blue">منصة اللغة الصينية</h2>
+            <p className="mt-1 text-xs text-charcoal/50">
+              صورة المنصة وحالة العرض — «مفعّل» لعرض ختم «شهران مجاناً»، «مخفي» لإخفائه بلا نص بديل.
+            </p>
+            <div className="mt-5 space-y-4">
+              {LANGUAGE_PLATFORM_SIMPLE_FIELDS.map((field) => (
+                <Field key={field.key} label={field.label} hint={field.hint}>
+                  <input
+                    className={inputClass}
+                    dir={field.ltr ? "ltr" : undefined}
+                    value={values[field.key]?.value ?? ""}
+                    onChange={(event) => patch(field.key, "value", event.target.value)}
+                  />
+                </Field>
+              ))}
+              <Field label="حالة العرض">
+                <select
+                  className={inputClass}
+                  value={values.language_platform_offer_status?.value || "active"}
+                  onChange={(event) => patch("language_platform_offer_status", "value", event.target.value)}
+                >
+                  <option value="active">مفعّل</option>
+                  <option value="hidden">مخفي</option>
+                </select>
+              </Field>
+            </div>
+          </Card>
+
+          {translatedCard("منصة اللغة الصينية — النصوص", LANGUAGE_PLATFORM_FIELDS)}
 
           <Card>
             <h2 className="text-lg font-extrabold text-trust-blue">إعداد مخصص</h2>

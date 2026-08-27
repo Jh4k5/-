@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { BadgeCheck, ShieldCheck } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
-import Marquee from "@/components/motion/Marquee";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import Tilt3D from "@/components/motion/Tilt3D";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
@@ -45,18 +44,16 @@ function AdmissionCard({
   locale,
   dict,
   onOpen,
-  compact = false,
 }: {
   admission: Admission;
   locale: Locale;
   dict: Dictionary;
   onOpen: () => void;
-  compact?: boolean;
 }) {
   const major = pick(admission, "major", locale);
 
   return (
-    <Tilt3D intensity={10} className={compact ? "w-[15rem] sm:w-[17rem]" : "w-full"}>
+    <Tilt3D intensity={8} className="h-full w-full">
       <button
         type="button"
         onClick={onOpen}
@@ -67,7 +64,7 @@ function AdmissionCard({
             <MediaFrame
               src={admission.image_url}
               alt={dict.admissions.badge}
-              sizes={compact ? "272px" : "(min-width: 1024px) 33vw, 100vw"}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             />
           </span>
           <PrivacyMask admission={admission} />
@@ -112,13 +109,10 @@ export default function AdmissionsStrip({
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
-  const rows = useMemo(() => {
-    if (items.length <= 3) return [items];
-    const middle = Math.ceil(items.length / 2);
-    return [items.slice(0, middle), items.slice(middle)];
-  }, [items]);
-
-  if (items.length === 0) return null;
+  // Fewer than 3 real examples reads as an empty section rather than proof —
+  // hide it on the homepage teaser; the full gallery at /admissions always
+  // shows whatever is published, regardless of count.
+  if (items.length < 3) return null;
 
   const slides = items.map((admission) => (
     <div key={admission.id} className="relative max-h-[78vh] w-auto">
@@ -154,46 +148,38 @@ export default function AdmissionsStrip({
             <p className="max-w-2xl text-white/75">{subtitle || dict.admissions.subtitle}</p>
           </div>
         </Reveal>
-      </div>
 
-      <div className="relative mt-12 space-y-5">
-        {rows.map((row, rowIndex) => (
-          <Marquee
-            key={rowIndex}
-            speed={rowIndex % 2 === 0 ? 52 : 64}
-            direction={rowIndex % 2 === 0 ? "forward" : "reverse"}
-          >
-            {row.map((admission) => (
+        <RevealGroup className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.slice(0, 6).map((admission) => (
+            <RevealItem key={admission.id}>
               <AdmissionCard
-                key={admission.id}
                 admission={admission}
                 locale={locale}
                 dict={dict}
-                compact
                 onOpen={() => {
                   setIndex(items.findIndex((item) => item.id === admission.id));
                   setOpen(true);
                   track(ANALYTICS_EVENTS.admissionOpen, locale);
                 }}
               />
-            ))}
-          </Marquee>
-        ))}
-      </div>
+            </RevealItem>
+          ))}
+        </RevealGroup>
 
-      <div className="container-page relative mt-10 flex flex-col items-center gap-4">
-        <div className="max-w-2xl space-y-1.5 text-center">
-          <p className="text-xs text-white/55">{dict.admissions.privacyNote}</p>
-          {disclaimer && <p className="text-xs text-white/45">{disclaimer}</p>}
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <div className="max-w-2xl space-y-1.5 text-center">
+            <p className="text-xs text-white/55">{dict.admissions.privacyNote}</p>
+            {disclaimer && <p className="text-xs text-white/45">{disclaimer}</p>}
+          </div>
+          {showAllLink && (
+            <Link
+              href={`/${locale}/admissions`}
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
+            >
+              {dict.admissions.viewAll}
+            </Link>
+          )}
         </div>
-        {showAllLink && (
-          <Link
-            href={`/${locale}/admissions`}
-            className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
-          >
-            {dict.admissions.viewAll}
-          </Link>
-        )}
       </div>
 
       <Lightbox

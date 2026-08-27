@@ -1,96 +1,77 @@
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
-import Reveal, { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
 import { iconFor } from "@/lib/icons";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
-import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
-import type { ProcessStage, ProcessTrustBadge } from "@/lib/types";
+import type { ProcessStage } from "@/lib/types";
 import TrackedWhatsAppLink from "./TrackedWhatsAppLink";
+import { MessageCircle } from "lucide-react";
 
+/** "كيف نعمل معك؟" — a single timeline (not a card grid), one stage per step. */
 export default function ProcessSection({
   stages,
-  trustBadges,
   locale,
   dict,
-  settings,
   title,
   subtitle,
   whatsapp,
 }: {
   stages: ProcessStage[];
-  trustBadges: ProcessTrustBadge[];
   locale: Locale;
   dict: Dictionary;
-  settings: SettingsMapLike;
   title?: string;
   subtitle?: string;
   whatsapp?: string;
 }) {
   if (stages.length === 0) return null;
 
-  const bridgePerkTitle = settingText(settings, "process_bridge_perk_title", locale, "");
-  const bridgePerkDuration = settingText(settings, "process_bridge_perk_duration", locale, "");
-  const bridgePerkText = settingText(settings, "process_bridge_perk_text", locale, dict.process.bridgePerk);
-
   return (
-    <section className="relative overflow-hidden bg-white py-24">
-      <div className="brand-pattern pointer-events-none absolute inset-0 opacity-20" />
-      <div className="container-page relative">
+    <section className="bg-white py-24">
+      <div className="container-page">
         <SectionHeading
           title={title || dict.process.title}
           subtitle={subtitle || dict.process.subtitle}
         />
 
-        <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {trustBadges.map((badge) => {
-            const Icon = iconFor(badge.icon);
-            return (
-              <RevealItem key={badge.id}>
-                <div className="h-full rounded-2xl border border-trust-blue/10 bg-ivory p-5">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-trust-blue/10 text-trust-blue">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <p className="mt-4 font-extrabold text-trust-blue">{pick(badge, "title", locale)}</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
-                    {pick(badge, "description", locale)}
-                  </p>
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealGroup>
+        <div className="relative mx-auto mt-16 max-w-2xl lg:max-w-none">
+          {/* connecting line: vertical on mobile, horizontal on desktop */}
+          <div className="absolute top-0 bottom-0 w-px bg-imperial-gold/50 start-[1.1rem] lg:top-[1.1rem] lg:bottom-auto lg:start-0 lg:h-px lg:w-full" />
 
-        <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stages.map((stage, index) => {
-            const Icon = iconFor(stage.icon);
-            return (
-              <RevealItem key={stage.id}>
-                <div className="surface-card h-full p-6">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-trust-blue to-china-red text-white">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <p className="mt-4 text-xs font-bold uppercase tracking-widest text-china-red">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-1 text-lg font-extrabold text-trust-blue">
-                    {pick(stage, "title", locale)}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-                    {pick(stage, "description", locale)}
-                  </p>
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealGroup>
+          <ol className="space-y-10 lg:flex lg:gap-8 lg:space-y-0">
+            {stages.map((stage, index) => {
+              const Icon = iconFor(stage.icon);
+              return (
+                <Reveal key={stage.id} delay={index * 90} className="lg:flex-1">
+                  <li className="relative flex gap-5 ps-0 lg:flex-col lg:gap-0 lg:ps-0">
+                    <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white lg:mb-5">
+                      <span className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-imperial-gold">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </span>
+                    <div className="min-w-0 pb-1 lg:pe-4">
+                      <div className="flex items-center gap-2">
+                        <Icon className="h-4 w-4 shrink-0 text-trust-blue/50" aria-hidden="true" />
+                        <h3 className="text-base font-extrabold text-trust-blue">
+                          {pick(stage, "title", locale)}
+                        </h3>
+                      </div>
+                      <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
+                        {pick(stage, "description", locale)}
+                      </p>
+                    </div>
+                  </li>
+                </Reveal>
+              );
+            })}
+          </ol>
+        </div>
 
         <Reveal delay={80}>
-          <div className="mt-8 flex justify-center">
+          <div className="mt-10 flex justify-center">
             <Link
               href={`/${locale}/how-it-works`}
-              className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
+              className="text-sm font-bold text-trust-blue underline underline-offset-4 transition-colors hover:text-china-red"
             >
               {dict.process.viewAllSteps}
             </Link>
@@ -98,38 +79,23 @@ export default function ProcessSection({
         </Reveal>
 
         <Reveal delay={100}>
-          <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl bg-trust-blue/5 p-8 text-center">
-            {bridgePerkDuration && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-jade/10 px-3 py-1 text-xs font-bold text-jade">
-                {bridgePerkDuration}
-              </span>
-            )}
-            {bridgePerkTitle && (
-              <p className="text-xs font-bold uppercase tracking-widest text-trust-blue/60">
-                {bridgePerkTitle}
-              </p>
-            )}
-            <p className="max-w-2xl text-sm leading-relaxed text-charcoal/75 sm:text-base">
-              {bridgePerkText}
-            </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Link
-                href={`/${locale}/contact#booking`}
-                className="inline-flex items-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_10px_24px_-12px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-1"
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <Link
+              href={`/${locale}/contact#booking`}
+              className="inline-flex items-center gap-2 rounded-full bg-china-red px-7 py-3.5 text-base font-bold text-white shadow-[0_8px_18px_-10px_var(--color-china-red)] transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              {dict.process.cta}
+            </Link>
+            {whatsapp && (
+              <TrackedWhatsAppLink
+                href={whatsapp}
+                locale={locale}
+                className="inline-flex items-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5"
               >
-                {dict.process.cta}
-              </Link>
-              {whatsapp && (
-                <TrackedWhatsAppLink
-                  href={whatsapp}
-                  locale={locale}
-                  className="inline-flex items-center gap-2 rounded-full bg-jade px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#008a60]"
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  {dict.common.whatsapp}
-                </TrackedWhatsAppLink>
-              )}
-            </div>
+                <MessageCircle className="h-5 w-5" />
+                {dict.common.whatsapp}
+              </TrackedWhatsAppLink>
+            )}
           </div>
         </Reveal>
       </div>

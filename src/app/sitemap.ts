@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
-import { getArticles, getUniversities } from "@/lib/data";
+import { getArticles, getSettings, getUniversities } from "@/lib/data";
+import { getSiteUrl } from "@/lib/site-url";
 
 const PAGES = [
   "",
@@ -17,8 +18,12 @@ const PAGES = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jisr-to-china.vercel.app";
-  const [articles, universities] = await Promise.all([getArticles(), getUniversities()]);
+  const [settings, articles, universities] = await Promise.all([
+    getSettings(),
+    getArticles(),
+    getUniversities(),
+  ]);
+  const base = getSiteUrl(settings);
 
   const staticEntries = locales.flatMap((locale) =>
     PAGES.map((page) => ({

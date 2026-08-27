@@ -67,7 +67,7 @@ export default function Header({
           : "bg-transparent"
       }`}
     >
-      <div className="container-page flex h-20 items-center justify-between gap-4">
+      <div className="container-page flex h-16 items-center justify-between gap-4 sm:h-20">
         <div className={scrolled ? "" : "drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"}>
           <Logo locale={locale} variant={scrolled ? "dark" : "light"} logoUrl={logoUrl} />
         </div>

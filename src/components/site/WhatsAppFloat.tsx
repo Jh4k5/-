@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import { track } from "@/lib/analytics";
 import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
@@ -9,6 +10,10 @@ const FOCUSABLE_FORM_TAGS = new Set(["INPUT", "TEXTAREA", "SELECT"]);
 
 export default function WhatsAppFloat({ href, label }: { href: string; label: string }) {
   const [hidden, setHidden] = useState(false);
+  const pathname = usePathname() || "";
+  // The booking form already has a static, non-floating WhatsApp CTA in its
+  // sidebar — a floating button here would risk covering the form itself.
+  const onContactPage = /\/contact\/?$/.test(pathname);
 
   useEffect(() => {
     const isFormField = (target: EventTarget | null) =>
@@ -28,6 +33,8 @@ export default function WhatsAppFloat({ href, label }: { href: string; label: st
       document.removeEventListener("focusout", onFocusOut);
     };
   }, []);
+
+  if (onContactPage) return null;
 
   return (
     <a

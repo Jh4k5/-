@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import { locales, type Locale } from "@/i18n/config";
+import { defaultLocale, locales, type Locale } from "@/i18n/config";
 import { settingValue, type SettingsMapLike } from "./settings-helpers";
-
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://jisr-to-china.vercel.app").replace(
-  /\/$/,
-  "",
-);
+import { getSiteUrl } from "./site-url";
 
 /**
  * Shared metadata builder used by every page. Computes a canonical URL and
@@ -28,11 +24,13 @@ export function buildMetadata({
   settings?: SettingsMapLike;
   image?: string | null;
 }): Metadata {
+  const siteUrl = getSiteUrl(settings);
   const normalizedPath = path === "/" ? "" : path;
-  const canonical = `${SITE_URL}/${locale}${normalizedPath}`;
-  const languages = Object.fromEntries(
-    locales.map((code) => [code, `${SITE_URL}/${code}${normalizedPath}`]),
+  const canonical = `${siteUrl}/${locale}${normalizedPath}`;
+  const languages: Record<string, string> = Object.fromEntries(
+    locales.map((code) => [code, `${siteUrl}/${code}${normalizedPath}`]),
   );
+  languages["x-default"] = `${siteUrl}/${defaultLocale}${normalizedPath}`;
 
   const ogImage = image || (settings ? settingValue(settings, "default_og_image") : "");
 

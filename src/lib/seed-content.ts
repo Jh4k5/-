@@ -269,6 +269,7 @@ export const SEED_STORIES: SuccessStory[] = [
 ];
 
 export const SEED_SETTINGS: SettingRow[] = [
+  { key: "site_url", value: "https://jisr-to-china-henna.vercel.app", value_ar: null, value_en: null, value_ru: null },
   { key: "whatsapp_number", value: "+201102956107", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_email", value: "info@bridgetochina.com", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_phone", value: "+201102956107", value_ar: null, value_en: null, value_ru: null },
@@ -606,6 +607,103 @@ export const SEED_SETTINGS: SettingRow[] = [
       "Бесплатная двухмесячная подписка распространяется на новых студентов, зарегистрированных у нас, и включает доступ к базовым урокам китайского языка. Полные условия действуют при регистрации.",
   },
 
+  // Language-platform marketing section/page (Prompt 4 §6)
+  { key: "language_platform_image", value: null, value_ar: null, value_en: null, value_ru: null },
+  {
+    key: "language_platform_image_alt",
+    value: null,
+    value_ar: "واجهة منصة تعلّم اللغة الصينية",
+    value_en: "Chinese language platform interface",
+    value_ru: "Интерфейс платформы изучения китайского языка",
+  },
+  { key: "language_platform_offer_status", value: "active", value_ar: null, value_en: null, value_ru: null },
+  {
+    key: "language_platform_headline",
+    value: null,
+    value_ar: "ابدأ الصينية قبل وصولك",
+    value_en: "Start learning Chinese before you arrive",
+    value_ru: "Начните изучать китайский до отъезда",
+  },
+  {
+    key: "language_platform_benefit_1_text",
+    value: null,
+    value_ar: "دروس منظمة للمبتدئين من الصفر.",
+    value_en: "Structured lessons for absolute beginners.",
+    value_ru: "Структурированные уроки для начинающих с нуля.",
+  },
+  {
+    key: "language_platform_benefit_2_text",
+    value: null,
+    value_ar: "مسار تحضيري لاختبار HSK بحسب مستواك.",
+    value_en: "A prep track for the HSK exam matched to your level.",
+    value_ru: "Подготовительный курс к экзамену HSK по вашему уровню.",
+  },
+  {
+    key: "language_platform_benefit_3_text",
+    value: null,
+    value_ar: "تهيئة عملية قبل السفر للتواصل اليومي في الصين.",
+    value_en: "Practical preparation for everyday communication once you are in China.",
+    value_ru: "Практическая подготовка к повседневному общению в Китае.",
+  },
+  { key: "language_platform_audience_1_title", value: null, value_ar: "المبتدئ", value_en: "The beginner", value_ru: "Начинающий" },
+  {
+    key: "language_platform_audience_1_text",
+    value: null,
+    value_ar: "لا خبرة سابقة باللغة الصينية ويريد أساساً واضحاً قبل التقديم.",
+    value_en: "No prior Chinese experience and wants a clear foundation before applying.",
+    value_ru: "Нет опыта китайского языка, нужна чёткая основа перед подачей документов.",
+  },
+  { key: "language_platform_audience_2_title", value: null, value_ar: "قبل الجامعة", value_en: "Pre-university", value_ru: "Перед университетом" },
+  {
+    key: "language_platform_audience_2_text",
+    value: null,
+    value_ar: "قُبل أو ينتظر القبول ويريد الوصول مستعداً للحياة الجامعية اليومية.",
+    value_en: "Admitted or awaiting admission and wants to arrive ready for daily campus life.",
+    value_ru: "Уже зачислен или ожидает зачисления и хочет приехать готовым к учебной жизни.",
+  },
+  { key: "language_platform_audience_3_title", value: null, value_ar: "رفع المستوى (HSK)", value_en: "Raising your HSK level", value_ru: "Повышение уровня HSK" },
+  {
+    key: "language_platform_audience_3_text",
+    value: null,
+    value_ar: "يدرس بالفعل ويريد رفع مستوى HSK المطلوب لتخصصه أو منحته.",
+    value_en: "Already studying and wants to raise the HSK level their major or scholarship requires.",
+    value_ru: "Уже учится и хочет повысить уровень HSK, требуемый для специальности или стипендии.",
+  },
+  {
+    key: "language_platform_integration_text",
+    value: null,
+    value_ar:
+      "منصة «Bridge to Chinese» شريك مستقل لتعلّم اللغة، لا بديل عن برنامج اللغة الجامعي الرسمي الذي ننسّق تسجيلك فيه ضمن خدماتنا. الهدف أن تصل لبرنامجك الجامعي وقد بدأت الاستعداد فعلاً، لا أن تبدأ من الصفر في يومك الأول.",
+    value_en:
+      'The "Bridge to Chinese" platform is an independent partner for language learning, not a substitute for the official university language programme we help you register in. The goal is to arrive at your programme already underway, not to start from zero on day one.',
+    value_ru:
+      "Платформа «Bridge to Chinese» — независимый партнёр для изучения языка, а не замена официальной университетской программе, на которую мы помогаем зарегистрироваться. Цель — приехать на программу уже подготовленным, а не начинать с нуля в первый день.",
+  },
+
+  // Homepage trust bar (Prompt 4 §3) — 3 short qualitative points, replaces
+  // the numeric stats bar in that position.
+  {
+    key: "trust_bar_point_1_text",
+    value: null,
+    value_ar: "التخصص الحصري في الصين",
+    value_en: "Exclusive specialisation in China",
+    value_ru: "Исключительная специализация на Китае",
+  },
+  {
+    key: "trust_bar_point_2_text",
+    value: null,
+    value_ar: "مراجعة أولية لملفك قبل أي التزام",
+    value_en: "An initial review of your file before any commitment",
+    value_ru: "Первичный анализ вашего досье до любых обязательств",
+  },
+  {
+    key: "trust_bar_point_3_text",
+    value: null,
+    value_ar: "مرافقة واضحة بعقد إلكتروني",
+    value_en: "Clear support with an electronic contract",
+    value_ru: "Чёткое сопровождение по электронному договору",
+  },
+
   // Future-feature flags (§10) — disabled by default; no page/route/table
   // exists for any of these yet. Flipping one to "true" is only meaningful
   // once the corresponding feature is actually built.
@@ -742,6 +840,7 @@ export const SEED_FAQS: Faq[] = [
     answer_en: "It's a free introductory subscription for two months to a Chinese language learning programme, subject to specific terms that we explain to you at sign-up.",
     answer_ru: "Это бесплатная ознакомительная подписка на два месяца на программу изучения китайского языка, на которую распространяются определённые условия, разъясняемые при регистрации.",
     display_order: 12,
+    category: "language_platform",
   },
 ];
 
@@ -760,19 +859,21 @@ export const UNIVERSITY_NAMES = [
 
 /** Home page sections in their default order — also the offline fallback. */
 export const DEFAULT_SECTIONS: SiteSection[] = [
-  { key: "stats", is_visible: true, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "study_paths", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "destinations", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stats", is_visible: false, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "trust_bar", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "study_paths", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "services", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "process", is_visible: true, display_order: 5, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "admissions", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "universities", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "why_china", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "language_platform", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "stories", is_visible: true, display_order: 10, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "faq", is_visible: true, display_order: 11, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "blog", is_visible: true, display_order: 12, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
-  { key: "final_cta", is_visible: true, display_order: 13, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "language_platform", is_visible: true, display_order: 6, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "admissions", is_visible: true, display_order: 7, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "destinations", is_visible: true, display_order: 8, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "universities", is_visible: true, display_order: 9, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "why_china", is_visible: true, display_order: 10, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "about", is_visible: true, display_order: 11, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "stories", is_visible: true, display_order: 12, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "faq", is_visible: true, display_order: 13, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "blog", is_visible: true, display_order: 14, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
+  { key: "final_cta", is_visible: true, display_order: 15, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
 ];
 
 /** Offline fallback for "اختر مسارك" — mirrors the DB seed (0015_study_paths.sql). */

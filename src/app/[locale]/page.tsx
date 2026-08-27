@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Hero from "@/components/site/Hero";
-import StatsBar from "@/components/site/StatsBar";
+import TrustBar from "@/components/site/TrustBar";
+import AboutTeaser from "@/components/site/AboutTeaser";
 import SectionHeading from "@/components/site/SectionHeading";
-import ServicesGrid from "@/components/site/ServicesGrid";
+import ServicesEditorial from "@/components/site/ServicesEditorial";
 import DestinationsSection from "@/components/site/DestinationsSection";
 import StoriesGrid from "@/components/site/StoriesGrid";
 import ArticleCard from "@/components/site/ArticleCard";
@@ -28,7 +29,6 @@ import {
   getFeaturedUniversities,
   getHeroSlides,
   getProcessStages,
-  getProcessTrustBadges,
   getSections,
   getServices,
   getSettings,
@@ -38,7 +38,6 @@ import {
 } from "@/lib/data";
 import { settingText, whatsappLink } from "@/lib/settings-helpers";
 import { heroOverlay } from "@/lib/theme";
-import { UNIVERSITY_NAMES } from "@/lib/seed-content";
 import { buildMetadata } from "@/lib/seo";
 import type { SiteSection } from "@/lib/types";
 
@@ -74,7 +73,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     slides,
     services,
     processStages,
-    trustBadges,
     whyChinaPoints,
     destinations,
     stories,
@@ -89,15 +87,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     getHeroSlides(),
     getServices(),
     getProcessStages(),
-    getProcessTrustBadges(),
     getWhyChinaPoints(),
     getDestinations(),
     getStories(3),
     getArticles(3),
     getSettings(),
     getSections(),
-    getAdmissions(12),
-    getFeaturedUniversities(4),
+    getAdmissions(6),
+    getFeaturedUniversities(3),
     getFaqs(),
     getStudyPaths(),
   ]);
@@ -115,10 +112,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <ProcessSection
             key={section.key}
             stages={processStages}
-            trustBadges={trustBadges}
             locale={locale}
             dict={dict}
-            settings={settings}
             title={heading(section, "title", dict.process.title)}
             subtitle={heading(section, "subtitle", dict.process.subtitle)}
             whatsapp={whatsapp}
@@ -148,8 +143,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           />
         );
 
-      case "stats":
-        return <StatsBar key={section.key} locale={locale} dict={dict} settings={settings} />;
+      case "trust_bar":
+        return <TrustBar key={section.key} locale={locale} settings={settings} />;
+
+      case "about":
+        return (
+          <AboutTeaser
+            key={section.key}
+            locale={locale}
+            dict={dict}
+            settings={settings}
+            title={heading(section, "title", dict.about.title)}
+          />
+        );
 
       case "admissions":
         return (
@@ -191,26 +197,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       case "services":
         return (
           <ViewTracker key={section.key} event={ANALYTICS_EVENTS.servicesView} locale={locale}>
-            <section className="relative overflow-hidden bg-white py-24">
-              <div className="brand-pattern pointer-events-none absolute inset-0 opacity-30" />
-              <div className="container-page relative">
-                <SectionHeading
-                  eyebrow={dict.nav.services}
-                  title={heading(section, "title", dict.services.title)}
-                  subtitle={heading(section, "subtitle", dict.services.subtitle)}
-                />
-                <div className="mt-14">
-                  <ServicesGrid services={services.slice(0, 6)} locale={locale} />
-                </div>
-                <div className="mt-10 flex justify-center">
-                  <Link
-                    href={`/${locale}/services`}
-                    className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"
-                  >
-                    {dict.services.viewAll}
-                    <Arrow className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
-                  </Link>
-                </div>
+            <section className="container-page py-24">
+              <SectionHeading
+                eyebrow={dict.nav.services}
+                title={heading(section, "title", dict.services.title)}
+                subtitle={heading(section, "subtitle", dict.services.subtitle)}
+              />
+              <div className="mt-14">
+                <ServicesEditorial services={services} locale={locale} dict={dict} />
               </div>
             </section>
           </ViewTracker>
@@ -219,7 +213,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       case "why_china":
         return (
           <section key={section.key} className="container-page py-24">
-            <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div className="grid items-start gap-12 lg:grid-cols-2">
               <SectionHeading
                 eyebrow={dict.nav.whyChina}
                 title={heading(section, "title", dict.whyChina.title)}
@@ -228,45 +222,23 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               />
 
               <Reveal delay={120} direction="start">
-                <ul className="grid gap-4 sm:grid-cols-2">
-                  {whyChinaPoints.slice(0, 4).map((point) => (
-                    <li
-                      key={point.id}
-                      className="surface-card p-5 transition-transform duration-500 hover:-translate-y-1"
-                    >
-                      <p className="font-extrabold text-trust-blue">{pick(point, "title", locale)}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-                        {pick(point, "description", locale)}
-                      </p>
+                <ul className="divide-y divide-trust-blue/10">
+                  {whyChinaPoints.slice(0, 4).map((point, index) => (
+                    <li key={point.id} className="flex gap-4 py-4 first:pt-0">
+                      <span className="shrink-0 font-[family-name:var(--font-display)] text-xl font-extrabold text-imperial-gold">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <p className="font-extrabold text-trust-blue">{pick(point, "title", locale)}</p>
+                        <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
+                          {pick(point, "description", locale)}
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
               </Reveal>
             </div>
-
-            <Reveal delay={100}>
-              <div className="mt-14 overflow-hidden rounded-2xl border border-trust-blue/10 bg-white py-6">
-                <p className="px-6 text-center text-xs font-bold uppercase tracking-widest text-charcoal/45">
-                  {dict.whyChina.universitiesTitle}
-                </p>
-                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-6">
-                  {UNIVERSITY_NAMES.map((name) => (
-                    <span
-                      key={name}
-                      dir="ltr"
-                      className="text-sm font-semibold text-trust-blue/55 transition-colors duration-300 hover:text-china-red"
-                    >
-                      {name}
-                    </span>
-                  ))}
-                </div>
-                {settingText(settings, "university_examples_disclaimer", locale, "") && (
-                  <p className="mx-auto mt-5 max-w-xl px-6 text-center text-xs leading-relaxed text-charcoal/50">
-                    {settingText(settings, "university_examples_disclaimer", locale, "")}
-                  </p>
-                )}
-              </div>
-            </Reveal>
           </section>
         );
 
