@@ -35,7 +35,7 @@ export default function UniversityCard({
   const description = pick(university, "description", locale);
 
   return (
-    <article className="defer-offscreen group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-trust-blue/8">
+    <article className="card-3d defer-offscreen group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-trust-blue/8">
       <div className={`relative overflow-hidden ${tall ? "h-56" : "h-44"}`}>
         <div className="absolute inset-0 transition-transform duration-[1400ms] group-hover:scale-110">
           <MediaFrame src={university.cover_media} alt={universityName(university, locale)} />

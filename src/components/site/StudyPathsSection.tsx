@@ -38,7 +38,7 @@ export default function StudyPathsSection({
             <RevealItem key={path.id}>
               <Link
                 href={`/${locale}/contact?stage=${path.path_key}#booking`}
-                className="surface-card group flex h-full flex-col p-6 transition-transform duration-300 hover:-translate-y-1"
+                className="card-3d surface-card group flex h-full flex-col p-6"
               >
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-trust-blue/10 text-trust-blue transition-colors duration-300 group-hover:bg-china-red group-hover:text-white">
                   <Icon className="h-6 w-6" aria-hidden="true" />

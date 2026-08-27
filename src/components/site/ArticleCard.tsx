@@ -22,7 +22,7 @@ export default function ArticleCard({
 
   return (
     <Tilt3D intensity={5} className="h-full">
-      <article className="defer-offscreen surface-card group flex h-full flex-col overflow-hidden">
+      <article className="card-3d defer-offscreen surface-card group flex h-full flex-col overflow-hidden">
         <Link href={`/${locale}/blog/${article.slug}`} className="relative block h-48 overflow-hidden">
           <div className="absolute inset-0 transition-transform duration-[1200ms] group-hover:scale-110">
             <MediaFrame src={article.cover_image} alt={pick(article, "title", locale)} />
