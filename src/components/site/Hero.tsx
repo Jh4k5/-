@@ -36,6 +36,9 @@ export default function Hero({
   const [index, setIndex] = useState(0);
   const [visited, setVisited] = useState<Set<number>>(() => new Set([0]));
   const [tilt, setTilt] = useState({ x: 0, y: 0, scroll: 0 });
+  // Defaults to false (calm/static) until confirmed on the client, so a phone
+  // never gets even one frame of motion it isn't supposed to have.
+  const [motionEnabled, setMotionEnabled] = useState(false);
   const Arrow = rtl ? ArrowLeft : ArrowRight;
 
   const headline = settingText(settings, "hero_headline", locale, dict.hero.title);
@@ -55,11 +58,28 @@ export default function Hero({
     dict.hero.ctaSecondary,
   );
 
+  // Single source of truth for "is it safe to animate here": desktop-width
+  // viewport and no reduced-motion preference. On phones the hero shows one
+  // fixed priority image — no auto-rotating background, no ken-burns, no
+  // tilt parallax — so the headline and CTA never move before they're read.
   useEffect(() => {
-    if (slides.length < 2) return;
+    const mobile = window.matchMedia("(max-width: 767px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotionEnabled(!mobile.matches && !reduced.matches);
+    update();
+    mobile.addEventListener("change", update);
+    reduced.addEventListener("change", update);
+    return () => {
+      mobile.removeEventListener("change", update);
+      reduced.removeEventListener("change", update);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!motionEnabled || slides.length < 2) return;
     const timer = setInterval(() => setIndex((i) => (i + 1) % slides.length), 7500);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [motionEnabled, slides.length]);
 
   // Only fetch a slide's image once it has actually been shown — avoids
   // eagerly loading every hero photo on first paint just because they're
@@ -69,10 +89,10 @@ export default function Hero({
     setVisited((prev) => (prev.has(index) ? prev : new Set(prev).add(index)));
   }, [index]);
 
-  // Parallax input: pointer on desktop, device tilt + scroll on phones, so the
-  // depth effect is present on every device.
+  // Parallax input: pointer position on desktop only. Disabled on phones and
+  // under reduced-motion so the hero never redraws on scroll/tilt there.
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!motionEnabled) return;
 
     let frame = 0;
     const schedule = (next: Partial<{ x: number; y: number; scroll: number }>) => {
@@ -112,7 +132,7 @@ export default function Hero({
       window.removeEventListener("scroll", onScroll);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [motionEnabled]);
 
   const layer = (depth: number, scrollDepth = 0, z = 0) => ({
     transform: `translate3d(${(tilt.x * depth).toFixed(2)}px, ${(tilt.y * depth + tilt.scroll * scrollDepth).toFixed(2)}px, ${z}px)`,
@@ -132,7 +152,7 @@ export default function Hero({
           >
             <div
               className="ken-burns h-full w-full"
-              style={{ animationPlayState: i === index ? "running" : "paused" }}
+              style={{ animationPlayState: motionEnabled && i === index ? "running" : "paused" }}
             >
               {(i === index || visited.has(i)) && (
                 <MediaFrame
