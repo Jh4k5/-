@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/logo-mark.svg", type: "image/svg+xml" }],
   },
+  verification: {
+    google: "LJl-JQBx91rZFrdUADtap4MnUNwBQtBFpxecbe9deFo",
+  },
 };
 
 export const viewport: Viewport = {
