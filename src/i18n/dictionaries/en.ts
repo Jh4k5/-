@@ -190,13 +190,6 @@ const en: Dictionary = {
     whyExclusiveTitle: "Why specialise in China alone?",
     whyExclusiveText:
       "Because the Chinese admission system has its own details: different application windows for every university, varying language requirements and scholarships with precise conditions. Specialising means we know those details closely and hold a real network inside China that serves the student instead of leaving them alone.",
-    valuesTitle: "Our values",
-    values: [
-      { title: "Transparency", text: "We explain what is achievable and what is not — no exaggerated promises." },
-      { title: "Professionalism", text: "Organised files, disciplined deadlines and careful follow-up on every request." },
-      { title: "Full companionship", text: "We do not stop at the admission letter; we stay with you until you settle in China." },
-      { title: "Credibility", text: "Information updated from official sources, never from rumours." },
-    ],
   },
   contact: {
     title: "Book Your Free Consultation",

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Eye, HeartHandshake, Target } from "lucide-react";
+import { Eye, Target } from "lucide-react";
 import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
 import FinalCTA from "@/components/site/FinalCTA";
@@ -44,12 +44,30 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     dict.about.whyExclusiveText,
   );
 
+  const teamTitle = settingText(settings, "about_team_title", locale, dict.about.storyTitle);
+  const companyIntro = settingText(settings, "company_intro", locale);
+  const foundedYear = settingValue(settings, "company_founded_year");
+
+  // A person is only shown once their name and photo are both filled in —
+  // never a half-empty card. The CEO additionally needs the section enabled.
+  const founder = {
+    name: settingValue(settings, "founder_name"),
+    photo: settingValue(settings, "founder_photo"),
+    title: settingText(settings, "founder_title", locale),
+    bio: settingText(settings, "founder_bio", locale),
+  };
+  const ceo = {
+    name: settingValue(settings, "ceo_name"),
+    photo: settingValue(settings, "ceo_photo"),
+    title: settingText(settings, "ceo_title", locale),
+    bio: settingText(settings, "ceo_bio", locale),
+  };
   const ceoEnabled = settingValue(settings, "ceo_section_enabled") === "true";
-  const ceoName = settingValue(settings, "ceo_name");
-  const ceoPhoto = settingValue(settings, "ceo_photo");
-  const ceoTitle = settingText(settings, "ceo_title", locale);
-  const ceoBio = settingText(settings, "ceo_bio", locale);
-  const showCeo = ceoEnabled && Boolean(ceoName) && Boolean(ceoPhoto);
+
+  const people = [
+    ...(founder.name && founder.photo ? [founder] : []),
+    ...(ceoEnabled && ceo.name && ceo.photo ? [ceo] : []),
+  ];
 
   return (
     <>
@@ -71,7 +89,15 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               align="start"
             />
             <Reveal delay={90}>
-              <p className="mt-6 text-base leading-relaxed text-charcoal/80">{storyText}</p>
+              {companyIntro && (
+                <p className="mt-6 text-base leading-relaxed font-semibold text-trust-blue">
+                  {companyIntro}
+                  {foundedYear && (
+                    <span className="ms-2 text-sm font-bold text-imperial-gold">— {foundedYear}</span>
+                  )}
+                </p>
+              )}
+              <p className="mt-4 text-base leading-relaxed text-charcoal/80">{storyText}</p>
               <div className="mt-8 rounded-2xl border-s-4 border-china-red bg-white p-6 shadow-[var(--shadow-soft)]">
                 <h3 className="text-lg font-extrabold text-trust-blue">
                   {dict.about.whyExclusiveTitle}
@@ -102,43 +128,37 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="container-page py-20">
-        <SectionHeading
-          eyebrow={dict.about.valuesTitle}
-          title={dict.about.valuesTitle}
-        />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {dict.about.values.map((value, index) => (
-            <Reveal key={value.title} delay={index * 80}>
-              <article className="surface-card h-full p-6 transition-transform duration-500 hover:-translate-y-1">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-trust-blue/8 text-trust-blue">
-                  <HeartHandshake className="h-5 w-5" />
-                </span>
-                <h3 className="mt-4 text-lg font-extrabold text-trust-blue">{value.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/70">{value.text}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {showCeo && (
-        <section className="bg-white py-20">
-          <div className="container-page">
-            <div className="surface-card mx-auto grid max-w-4xl items-center gap-8 p-8 sm:grid-cols-[auto_1fr] sm:p-10">
-              <Reveal>
-                <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full shadow-[var(--shadow-soft)] sm:h-40 sm:w-40">
-                  <Image src={ceoPhoto} alt={ceoName} fill sizes="160px" className="object-cover" />
-                </div>
+      {people.length > 0 && (
+        <section className="container-page py-20">
+          <SectionHeading title={teamTitle} />
+          <div className="mx-auto mt-12 max-w-3xl space-y-8">
+            {people.map((person, index) => (
+              <Reveal key={person.name} delay={index * 90}>
+                <article className="border-b border-trust-blue/10 pb-8 last:border-0">
+                  {/* Small photo sits directly beside the name, per the brief. */}
+                  <div className="flex items-center gap-3">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-trust-blue/10">
+                      <Image
+                        src={person.photo}
+                        alt={person.name}
+                        fill
+                        sizes="56px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-extrabold text-trust-blue">{person.name}</p>
+                      {person.title && (
+                        <p className="text-xs font-bold text-china-red">{person.title}</p>
+                      )}
+                    </div>
+                  </div>
+                  {person.bio && (
+                    <p className="mt-4 text-sm leading-relaxed text-charcoal/75">{person.bio}</p>
+                  )}
+                </article>
               </Reveal>
-              <Reveal delay={90} direction="start">
-                <p className="text-xl font-extrabold text-trust-blue">{ceoName}</p>
-                {ceoTitle && <p className="mt-1 text-sm font-bold text-china-red">{ceoTitle}</p>}
-                {ceoBio && (
-                  <p className="mt-3 text-sm leading-relaxed text-charcoal/75">{ceoBio}</p>
-                )}
-              </Reveal>
-            </div>
+            ))}
           </div>
         </section>
       )}

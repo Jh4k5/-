@@ -1,0 +1,68 @@
+-- Eight additional FAQs covering Chinese entrance exams, HSK, admission difficulty,
+-- English certificates, scholarship types, application windows, working while studying
+-- and living costs. Answers stay factual and avoid promising any outcome.
+insert into public.faqs (question_ar, question_en, question_ru, answer_ar, answer_en, answer_ru, category, display_order, status) values
+('هل توجد اختبارات قبول للجامعات الصينية؟',
+ 'Are there entrance exams for Chinese universities?',
+ 'Есть ли вступительные экзамены в китайские вузы?',
+ 'يختلف الأمر حسب الجامعة والبرنامج. كثير من برامج البكالوريوس للطلاب الدوليين تعتمد على تقييم الملف والمقابلة بدل اختبار موحّد، بينما تطلب بعض التخصصات (خصوصاً الطب والهندسة في الجامعات المتقدمة) اختباراً كتابياً أو مقابلة علمية. نوضح لك متطلبات كل جامعة تتقدم إليها قبل التقديم.',
+ 'It varies by university and programme. Many bachelor programmes for international students rely on file assessment and an interview rather than a standardised exam, while some fields (especially medicine and engineering at top universities) require a written test or an academic interview. We clarify each university''s requirements before you apply.',
+ 'Зависит от вуза и программы. Многие программы бакалавриата для иностранных студентов основаны на оценке досье и собеседовании, а не на стандартизированном экзамене, тогда как некоторые направления (особенно медицина и инженерия в ведущих вузах) требуют письменного теста или академического собеседования. Мы разъясняем требования каждого вуза до подачи.',
+ 'admissions', 13, 'published'),
+
+('ما هو اختبار HSK وما المستوى المطلوب؟',
+ 'What is the HSK exam and what level is required?',
+ 'Что такое экзамен HSK и какой уровень требуется?',
+ 'HSK هو الاختبار الرسمي لقياس إتقان اللغة الصينية، ومستوياته من HSK1 إلى HSK6. البرامج التي تُدرَّس بالصينية تطلب عادة HSK4 أو HSK5 بحسب التخصص، أما البرامج التي تُدرَّس بالإنجليزية فقد لا تطلبه إطلاقاً. نحدد لك المستوى المطلوب لتخصصك بدقة عند مراجعة ملفك.',
+ 'HSK is the official Chinese proficiency exam, with levels from HSK1 to HSK6. Programmes taught in Chinese usually require HSK4 or HSK5 depending on the field, while English-taught programmes may not require it at all. We identify the exact level your major needs when we review your file.',
+ 'HSK — официальный экзамен на знание китайского языка, уровни от HSK1 до HSK6. Программы на китайском обычно требуют HSK4 или HSK5 в зависимости от направления, а программы на английском могут вообще его не требовать. Мы определяем нужный именно вам уровень при анализе досье.',
+ 'admissions', 14, 'published'),
+
+('هل الحصول على قبول في جامعة صينية صعب؟',
+ 'Is it hard to get admitted to a Chinese university?',
+ 'Сложно ли поступить в китайский университет?',
+ 'الصعوبة نسبية وتعتمد على الجامعة والتخصص وقوة ملفك وتوقيت التقديم. الجامعات ضمن التصنيفات العليا والتخصصات المطلوبة (كالطب) تنافسية أكثر، بينما توجد جامعات جيدة ومعتمدة بشروط أيسر. لا نضمن قبولاً لأي طالب، لكننا نساعدك في اختيار الجامعات التي تناسب ملفك فعلياً وتجهيز ملف قوي.',
+ 'It depends on the university, the field, the strength of your file and when you apply. Top-ranked universities and in-demand fields such as medicine are more competitive, while there are good accredited universities with more accessible requirements. We never guarantee admission, but we help you target universities that genuinely fit your profile and prepare a strong file.',
+ 'Зависит от вуза, направления, качества досье и сроков подачи. Вузы из верхних строчек рейтингов и востребованные направления вроде медицины более конкурентны, при этом есть хорошие аккредитованные вузы с более доступными требованиями. Мы не гарантируем зачисление, но помогаем выбрать подходящие вузы и подготовить сильное досье.',
+ 'admissions', 15, 'published'),
+
+('هل أحتاج شهادة لغة إنجليزية مثل IELTS أو TOEFL؟',
+ 'Do I need an English certificate such as IELTS or TOEFL?',
+ 'Нужен ли сертификат по английскому (IELTS/TOEFL)?',
+ 'إذا كان البرنامج يُدرَّس بالإنجليزية فغالباً تطلب الجامعة إثباتاً لمستوى اللغة، وقد تقبل بعض الجامعات شهادة من جامعتك السابقة تفيد أن الدراسة كانت بالإنجليزية بدل IELTS. المتطلب يختلف من جامعة لأخرى ونتحقق منه لكل برنامج قبل التقديم.',
+ 'If the programme is taught in English the university usually asks for proof of your level, and some universities accept a letter from your previous institution stating that your studies were in English instead of IELTS. The requirement differs per university and we verify it for each programme before applying.',
+ 'Если программа на английском, вуз обычно запрашивает подтверждение уровня; некоторые вузы принимают справку от предыдущего учебного заведения об обучении на английском вместо IELTS. Требование различается, и мы проверяем его для каждой программы до подачи.',
+ 'admissions', 16, 'published'),
+
+('ما الفرق بين منحة CSC ومنح الجامعات؟',
+ 'What is the difference between the CSC scholarship and university scholarships?',
+ 'В чём разница между стипендией CSC и стипендиями вузов?',
+ 'منحة CSC حكومية صينية تُدار مركزياً ولها مواعيد وشروط محددة سنوياً وتغطي عادة الرسوم والسكن ومصروفاً شهرياً. منح الجامعات تصدر من الجامعة نفسها وتتفاوت تغطيتها بين جزئية وكاملة، وغالباً تكون مواعيدها أكثر مرونة. نراجع معك أيهما أنسب لملفك وتوقيتك.',
+ 'The CSC scholarship is a centrally administered Chinese government scholarship with fixed annual deadlines and conditions, usually covering tuition, accommodation and a monthly stipend. University scholarships are issued by the university itself, range from partial to full, and often have more flexible deadlines. We review with you which fits your profile and timing.',
+ 'Стипендия CSC — государственная китайская стипендия с централизованным управлением, фиксированными ежегодными сроками и условиями; обычно покрывает обучение, проживание и ежемесячную выплату. Стипендии вузов выдаёт сам университет, покрытие бывает частичным или полным, а сроки чаще более гибкие. Мы разбираем, что подходит именно вам.',
+ 'admissions', 17, 'published'),
+
+('متى تفتح مواعيد التقديم للجامعات الصينية؟',
+ 'When do applications for Chinese universities open?',
+ 'Когда открывается приём документов в китайские вузы?',
+ 'أغلب الجامعات لها فصلان: فصل الخريف (سبتمبر) وهو الأكبر، وفصل الربيع (مارس). يبدأ التقديم للخريف عادة من نهاية العام السابق ويستمر حتى الربيع، وتختلف المواعيد النهائية لكل جامعة ومنحة. ننصح ببدء التجهيز قبل الموعد النهائي بوقت كافٍ لأن التوثيق والترجمة يستغرقان وقتاً.',
+ 'Most universities have two intakes: autumn (September), the larger one, and spring (March). Autumn applications usually open late in the previous year and run into spring, with deadlines varying by university and scholarship. We recommend starting early, since document authentication and translation take time.',
+ 'В большинстве вузов два набора: осенний (сентябрь) — основной, и весенний (март). Приём на осень обычно открывается в конце предыдущего года и длится до весны, сроки различаются по вузам и стипендиям. Рекомендуем начинать заранее: легализация и перевод документов занимают время.',
+ 'admissions', 18, 'published'),
+
+('هل يمكن العمل أثناء الدراسة في الصين؟',
+ 'Can I work while studying in China?',
+ 'Можно ли работать во время учёбы в Китае?',
+ 'العمل للطلاب الدوليين مقيّد بأنظمة الإقامة والدراسة في الصين، ويحتاج عادة إذناً مسبقاً من الجامعة والجهة المختصة. الأنظمة تتغير وتختلف بين المدن، لذا لا نقدّم العمل كمصدر دخل مضمون ولا نبني عليه خطة التمويل، وننصح بالاعتماد على المنحة أو التمويل الشخصي.',
+ 'Work for international students is restricted by China''s residence and study regulations and usually requires prior permission from the university and the relevant authority. Rules change and differ between cities, so we never present work as a guaranteed income source or build your funding plan on it — we recommend relying on a scholarship or personal funding.',
+ 'Работа для иностранных студентов ограничена правилами пребывания и обучения в Китае и обычно требует предварительного разрешения вуза и профильного органа. Правила меняются и различаются по городам, поэтому мы не рассматриваем работу как гарантированный источник дохода и не строим на ней финансовый план.',
+ 'living', 19, 'published'),
+
+('كم تبلغ تكلفة المعيشة الشهرية تقريباً؟',
+ 'Roughly how much are monthly living costs?',
+ 'Каковы примерные ежемесячные расходы на жизнь?',
+ 'تختلف بشكل كبير حسب المدينة ونمط حياتك؛ المدن الكبرى مثل بكين وشنغهاي أعلى تكلفة من المدن المتوسطة. تشمل المصاريف عادة السكن والطعام والمواصلات والتأمين الصحي. نعطيك تقديراً واقعياً للمدينة والجامعة المحددة في خطتك بدل رقم عام، لأن الفروق بين المدن كبيرة.',
+ 'It varies a lot by city and lifestyle; major cities such as Beijing and Shanghai cost more than mid-sized ones. Costs typically cover accommodation, food, transport and health insurance. We give you a realistic estimate for the specific city and university in your plan rather than a generic figure, because the gap between cities is wide.',
+ 'Сильно зависит от города и образа жизни: крупные города вроде Пекина и Шанхая дороже средних. Расходы обычно включают жильё, питание, транспорт и медстраховку. Мы даём реалистичную оценку для конкретного города и вуза из вашего плана, а не общую цифру, так как разброс между городами велик.',
+ 'living', 20, 'published')
+on conflict do nothing;

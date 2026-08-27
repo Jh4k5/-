@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Plus, Save } from "lucide-react";
 import { AdminHeading, Button, Card, Field, LangTabs, StatusNote, inputClass } from "./ui";
+import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
 import type { SettingRow } from "@/lib/types";
 
@@ -91,8 +92,48 @@ const LANGUAGE_PLATFORM_FIELDS: { key: string; label: string }[] = [
   { key: "language_platform_terms", label: "شروط العرض" },
 ];
 
-const LANGUAGE_PLATFORM_SIMPLE_FIELDS: { key: string; label: string; hint?: string; ltr?: boolean }[] = [
-  { key: "language_platform_image", label: "رابط صورة المنصة", ltr: true },
+/**
+ * Image slots that must be uploadable from the device, not pasted as a URL.
+ * These render with <MediaField>, the same uploader the other editors use.
+ */
+const IMAGE_FIELDS: { key: string; label: string; hint: string }[] = [
+  {
+    key: "logo_url",
+    label: "شعار الموقع",
+    hint: "يظهر في الهيدر والتذييل. ارفع صورة شفافة (PNG/SVG) بجودة عالية.",
+  },
+  {
+    key: "founder_photo",
+    label: "صورة المؤسس",
+    hint: "تظهر صغيرة بجانب اسم المؤسس في صفحة «من نحن».",
+  },
+  {
+    key: "ceo_photo",
+    label: "صورة الرئيس التنفيذي",
+    hint: "لا يظهر قسم الرئيس التنفيذي إلا إذا كان مفعّلاً والاسم والصورة موجودين معاً.",
+  },
+  {
+    key: "language_platform_image",
+    label: "صورة منصة اللغة",
+    hint: "لقطة من واجهة المنصة أو صورة معبّرة — تظهر في قسم المنصة وصفحتها.",
+  },
+  {
+    key: "default_og_image",
+    label: "صورة المشاركة الافتراضية (OG)",
+    hint: "تظهر عند مشاركة رابط الموقع على واتساب وتويتر وفيسبوك. المقاس المفضّل 1200×630.",
+  },
+];
+
+const FOUNDER_FIELDS: { key: string; label: string }[] = [
+  { key: "company_intro", label: "نبذة الشركة" },
+  { key: "company_founded_year", label: "سنة التأسيس" },
+  { key: "about_team_title", label: "عنوان قسم الفريق" },
+  { key: "founder_name", label: "اسم المؤسس" },
+  { key: "founder_title", label: "منصب المؤسس" },
+  { key: "founder_bio", label: "نبذة المؤسس" },
+  { key: "ceo_name", label: "اسم الرئيس التنفيذي" },
+  { key: "ceo_title", label: "منصب الرئيس التنفيذي" },
+  { key: "ceo_bio", label: "نبذة الرئيس التنفيذي" },
 ];
 
 const TRANSLATED_FIELDS: { key: string; label: string }[] = [
@@ -104,6 +145,7 @@ const TRANSLATED_FIELDS: { key: string; label: string }[] = [
   ...DISCLAIMER_FIELDS,
   ...CONTACT_FIELDS,
   ...LANGUAGE_PLATFORM_FIELDS,
+  ...FOUNDER_FIELDS,
 ];
 
 const KNOWN_KEYS = [
@@ -111,8 +153,10 @@ const KNOWN_KEYS = [
   ...SOCIAL_FIELDS.flatMap((field) => [field.urlKey, field.statusKey]),
   ...STAT_FIELDS.map((field) => field.key),
   ...TRANSLATED_FIELDS.map((field) => field.key),
-  ...LANGUAGE_PLATFORM_SIMPLE_FIELDS.map((field) => field.key),
+  ...IMAGE_FIELDS.map((field) => field.key),
   "language_platform_offer_status",
+  "ceo_section_enabled",
+  "site_url",
 ];
 
 const KEY_PATTERN = /^[a-z][a-z0-9_]*$/;
@@ -326,29 +370,63 @@ export default function SettingsEditor({ initial }: { initial: SettingRow[] }) {
           {translatedCard("نموذج التواصل", CONTACT_FIELDS)}
 
           <Card>
-            <h2 className="text-lg font-extrabold text-trust-blue">منصة اللغة الصينية</h2>
+            <h2 className="text-lg font-extrabold text-trust-blue">الصور</h2>
             <p className="mt-1 text-xs text-charcoal/50">
-              صورة المنصة وحالة العرض — «مفعّل» لعرض ختم «شهران مجاناً»، «مخفي» لإخفائه بلا نص بديل.
+              ارفع كل صورة من جهازك مباشرة — لا حاجة لرابط خارجي.
             </p>
-            <div className="mt-5 space-y-4">
-              {LANGUAGE_PLATFORM_SIMPLE_FIELDS.map((field) => (
-                <Field key={field.key} label={field.label} hint={field.hint}>
-                  <input
-                    className={inputClass}
-                    dir={field.ltr ? "ltr" : undefined}
-                    value={values[field.key]?.value ?? ""}
-                    onChange={(event) => patch(field.key, "value", event.target.value)}
-                  />
-                </Field>
+            <div className="mt-6 space-y-8">
+              {IMAGE_FIELDS.map((field) => (
+                <MediaField
+                  key={field.key}
+                  label={field.label}
+                  hint={field.hint}
+                  allowVideo={false}
+                  showScenes={field.key === "language_platform_image"}
+                  value={values[field.key]?.value ?? null}
+                  onChange={(url) => patch(field.key, "value", url ?? "")}
+                />
               ))}
-              <Field label="حالة العرض">
+            </div>
+          </Card>
+
+          <Card>
+            <h2 className="text-lg font-extrabold text-trust-blue">منصة اللغة — حالة العرض</h2>
+            <div className="mt-5">
+              <Field label="حالة عرض «شهران مجاناً»" hint="«مخفي» يخفي الختم بلا نص بديل.">
                 <select
                   className={inputClass}
                   value={values.language_platform_offer_status?.value || "active"}
-                  onChange={(event) => patch("language_platform_offer_status", "value", event.target.value)}
+                  onChange={(event) =>
+                    patch("language_platform_offer_status", "value", event.target.value)
+                  }
                 >
                   <option value="active">مفعّل</option>
                   <option value="hidden">مخفي</option>
+                </select>
+              </Field>
+            </div>
+          </Card>
+
+          {translatedCard(
+            "الشركة والمؤسس والرئيس التنفيذي",
+            FOUNDER_FIELDS,
+            "تظهر في صفحة «من نحن». صور المؤسس والرئيس التنفيذي تُرفع من بطاقة «الصور» أعلاه.",
+          )}
+
+          <Card>
+            <h2 className="text-lg font-extrabold text-trust-blue">قسم الرئيس التنفيذي</h2>
+            <div className="mt-5">
+              <Field
+                label="إظهار القسم"
+                hint="لا يظهر إلا إذا كان مفعّلاً والاسم والصورة موجودين معاً."
+              >
+                <select
+                  className={inputClass}
+                  value={values.ceo_section_enabled?.value || "false"}
+                  onChange={(event) => patch("ceo_section_enabled", "value", event.target.value)}
+                >
+                  <option value="false">مخفي</option>
+                  <option value="true">ظاهر</option>
                 </select>
               </Field>
             </div>
