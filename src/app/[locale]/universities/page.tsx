@@ -18,11 +18,18 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
+  const keywords = {
+    ar: ['الجامعات الصينية', 'قائمة الجامعات في الصين', 'ترتيب الجامعات الصينية', 'أفضل جامعات الصين للطلاب الدوليين'],
+    en: ['Chinese universities', 'list of universities in China', 'China university rankings', 'top Chinese universities for international students'],
+    ru: ['китайские университеты', 'список вузов Китая', 'рейтинг университетов Китая'],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "/universities",
     title: dict.universities.title,
     description: dict.universities.subtitle,
+    keywords,
   });
 }
 

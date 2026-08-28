@@ -865,6 +865,19 @@ export const SEED_FAQS: Faq[] = [
     display_order: 12,
     category: "language_platform",
   },
+  {
+    id: "faq-21",
+    question_ar: "من نحن؟ وما اسم المنصة؟",
+    question_en: "Who are we, and what is the platform called?",
+    question_ru: "Кто мы и как называется платформа?",
+    answer_ar:
+      "نحن «جسر إلى الصين» (يُكتب أحياناً Jisr to China)، ويُعرف كياننا التعليمي رسمياً باسم «جسر الصين التعليمية» (Bridge to China Edu) — مكتب استشارات متخصص حصرياً في المنح الدراسية والقبول الجامعي في الصين، من أول استشارة مجانية حتى استقبال الطالب في مطار مدينته الجامعية.",
+    answer_en:
+      'We are "Bridge to China" (also written Jisr to China), and our educational entity is formally known as "Bridge to China Edu" — a consultancy focused exclusively on scholarships and university admission in China, from your first free consultation to being met at the airport of your university city.',
+    answer_ru:
+      "Мы — «Bridge to China» (также пишется Jisr to China), а наша образовательная организация официально называется «Bridge to China Edu» — консалтинговое агентство, специализирующееся исключительно на стипендиях и поступлении в вузы Китая, от первой бесплатной консультации до встречи в аэропорту вашего университетского города.",
+    display_order: 21,
+  },
 ];
 
 export const UNIVERSITY_NAMES = [

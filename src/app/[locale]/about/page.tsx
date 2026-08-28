@@ -50,6 +50,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const aboutImage1Alt = settingText(settings, "about_image_1_alt", locale, dict.about.title);
   const aboutImage2Alt = settingText(settings, "about_image_2_alt", locale, dict.about.title);
   const companyIntro = settingText(settings, "company_intro", locale);
+  // Visible, real on-page content — not just structured data — so the exact
+  // phrase Google is asked to associate with this entity actually appears on
+  // a page a visitor reads.
+  const legalName = settingText(settings, "company_legal_name", locale);
   const foundedYear = settingValue(settings, "company_founded_year");
 
   // A person is only shown once their name and photo are both filled in —
@@ -128,6 +132,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   {foundedYear && (
                     <span className="ms-2 text-sm font-bold text-imperial-gold">— {foundedYear}</span>
                   )}
+                </p>
+              )}
+              {legalName && (
+                <p className="mt-1 text-xs font-semibold tracking-wide text-charcoal/50">
+                  {locale === "ar" ? "الاسم الرسمي: " : "Formally: "}
+                  {legalName}
                 </p>
               )}
               <p className="mt-4 text-base leading-relaxed text-charcoal/80">{storyText}</p>

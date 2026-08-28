@@ -23,11 +23,18 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
+  const keywords = {
+    ar: ['مسارات الدراسة في الصين', 'بكالوريوس في الصين', 'ماجستير في الصين', 'دكتوراه في الصين', 'برنامج اللغة الصينية'],
+    en: ['study paths in China', "bachelor's in China", "master's in China", 'PhD in China', 'Chinese language programme'],
+    ru: ['направления обучения в Китае', 'бакалавриат в Китае', 'магистратура в Китае', 'докторантура в Китае'],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "/study-paths",
     title: dict.studyPaths.title,
     description: dict.studyPaths.subtitle,
+    keywords,
   });
 }
 

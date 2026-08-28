@@ -38,6 +38,11 @@ export default async function AdminAboutPage() {
       translated={[
         { key: "about_image_1_alt", label: "النص البديل للصورة الأولى" },
         { key: "about_image_2_alt", label: "النص البديل للصورة الثانية" },
+        {
+          key: "company_legal_name",
+          label: "الاسم الرسمي للجهة",
+          hint: "يظهر تحت نبذة الشركة، ويُستخدم في بيانات SEO المهيكلة ليتعرّف جوجل على الموقع تحت هذا الاسم أيضاً.",
+        },
         { key: "company_intro", label: "نبذة الشركة", long: true },
         { key: "about_team_title", label: "عنوان قسم الفريق" },
         { key: "about_story_text", label: "قصتنا", long: true },

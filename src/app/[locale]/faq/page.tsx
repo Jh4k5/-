@@ -28,11 +28,18 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
+  const keywords = {
+    ar: ['اختبار CSC', 'منحة CSC', 'اختبار HSK', 'أسئلة شائعة عن الدراسة في الصين', 'شروط القبول في الجامعات الصينية'],
+    en: ['CSC scholarship exam', 'HSK exam', 'China study FAQ', 'Chinese university admission requirements'],
+    ru: ['экзамен CSC', 'экзамен HSK', 'вопросы об учёбе в Китае', 'требования для поступления в китайские вузы'],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "/faq",
     title: dict.faq.title,
     description: dict.faq.subtitle,
+    keywords,
   });
 }
 

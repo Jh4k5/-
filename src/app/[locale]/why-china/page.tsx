@@ -22,11 +22,18 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
+  const keywords = {
+    ar: ['لماذا الدراسة في الصين', 'تكلفة الدراسة في الصين', 'منح دراسية الصين', 'مميزات الجامعات الصينية'],
+    en: ['why study in China', 'cost of studying in China', 'China scholarships', 'benefits of Chinese universities'],
+    ru: ['почему учиться в Китае', 'стоимость обучения в Китае', 'стипендии в Китае'],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "/why-china",
     title: dict.whyChina.title,
     description: dict.whyChina.subtitle,
+    keywords,
   });
 }
 

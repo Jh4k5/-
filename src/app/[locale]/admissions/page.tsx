@@ -19,11 +19,18 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const dict = getDictionary(locale);
+  const keywords = {
+    ar: ['نماذج قبول جامعي حقيقية', 'خطاب قبول الصين', 'قبول جامعي في الصين', 'أمثلة قبول منح CSC'],
+    en: ['real China admission letters', 'China acceptance letter', 'China university admission', 'CSC scholarship acceptance examples'],
+    ru: ['письма о зачислении в Китае', 'поступление в китайский вуз', 'примеры зачисления по стипендии CSC'],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "/admissions",
     title: dict.admissions.title,
     description: dict.admissions.subtitle,
+    keywords,
   });
 }
 

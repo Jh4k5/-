@@ -14,7 +14,7 @@ import { defaultLocale, dirOf, isLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n";
 import { getSettings } from "@/lib/data";
 import { motionIntensity, themeStyle } from "@/lib/theme";
-import { settingValue } from "@/lib/settings-helpers";
+import { settingText, settingValue } from "@/lib/settings-helpers";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
@@ -66,14 +66,36 @@ export default async function RootLayout({
 
   const siteUrl = getSiteUrl(settings);
 
+  // "Jisr to China" is the Latin-script transliteration people search for
+  // verbally; "Bridge to China Edu" / "جسر الصين التعليمية" is the formal
+  // brand pairing the owner has adopted (editable from /admin/about). Both
+  // ride as alternateName so Google's entity matching connects a search for
+  // any of these to this one Organization, without changing what the header
+  // actually displays.
+  const legalName = settingText(settings, "company_legal_name", locale);
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: dict.meta.siteName,
+    alternateName: [
+      "Jisr to China",
+      "Bridge to China Edu",
+      "جسر الصين للمنح الدراسية",
+      ...(legalName ? [legalName] : []),
+    ],
     url: siteUrl,
+    description: dict.meta.description,
     ...(logo ? { logo } : {}),
     ...(phone ? { telephone: phone } : {}),
     ...(socialLinks.length > 0 ? { sameAs: socialLinks } : {}),
+    areaServed: "CN",
+    knowsAbout: [
+      "China university admission",
+      "China scholarships",
+      "CSC Scholarship exam",
+      "HSK exam",
+      "Chinese language programmes",
+    ],
   };
 
   /** Lets Google offer a search box for the site directly in results. */

@@ -54,12 +54,49 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
   const settings = await getSettings();
 
+  // The owner's own words for what people actually type into Google when
+  // looking for this site — its Arabic and Latin-script name variants, the
+  // CSC exam, and the core services — so the homepage is eligible for all of
+  // them, not just the phrasing already in the title and description above.
+  const keywords = {
+    ar: [
+      "جسر الصين للمنح الدراسية",
+      "جسر إلى الصين",
+      "جسر الصين التعليمية",
+      "منح دراسية الصين",
+      "القبول الجامعي في الصين",
+      "اختبار CSC",
+      "منحة CSC",
+      "الدراسة في الصين",
+      "الجامعات الصينية",
+    ],
+    en: [
+      "Jisr to China",
+      "Bridge to China",
+      "Bridge to China Edu",
+      "China scholarships",
+      "CSC scholarship exam",
+      "study in China",
+      "China university admission",
+      "Chinese universities",
+    ],
+    ru: [
+      "Bridge to China Edu",
+      "стипендии в Китае",
+      "экзамен CSC",
+      "поступление в вузы Китая",
+      "учёба в Китае",
+      "китайские университеты",
+    ],
+  }[locale];
+
   return buildMetadata({
     locale,
     path: "",
     title: `${dict.meta.siteName} — ${dict.meta.tagline}`,
     description: dict.meta.description,
     settings,
+    keywords,
   });
 }
 
