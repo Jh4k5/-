@@ -320,9 +320,9 @@ export const SEED_SETTINGS: SettingRow[] = [
   {
     key: "footer_note",
     value: null,
-    value_ar: "جسر إلى الصين… مستقبل بلا حدود.",
-    value_en: "Bridge to China… a future without borders.",
-    value_ru: "Мост в Китай… будущее без границ.",
+    value_ar: "جسر الصين التعليمية… مستقبل بلا حدود.",
+    value_en: "Bridge to China Edu… a future without borders.",
+    value_ru: "Bridge to China Edu… будущее без границ.",
   },
 
   // hero
@@ -400,9 +400,9 @@ export const SEED_SETTINGS: SettingRow[] = [
   {
     key: "footer_builtwith",
     value: null,
-    value_ar: "جسر إلى الصين — نرافقك خطوة بخطوة نحو جامعتك في الصين",
-    value_en: "Bridge to China — walking with you step by step toward your university in China",
-    value_ru: "Мост в Китай — сопровождаем вас шаг за шагом на пути к вашему университету в Китае",
+    value_ar: "جسر الصين التعليمية — نرافقك خطوة بخطوة نحو جامعتك في الصين",
+    value_en: "Bridge to China Edu — walking with you step by step toward your university in China",
+    value_ru: "Bridge to China Edu — сопровождаем вас шаг за шагом на пути к вашему университету в Китае",
   },
 
   // "Bridge to Chinese" subscription perk (two months free, not lifetime)
@@ -577,11 +577,11 @@ export const SEED_SETTINGS: SettingRow[] = [
     key: "about_story_text",
     value: null,
     value_ar:
-      "بدأت فكرة «جسر إلى الصين» من تجربة شخصية مع تعقيد إجراءات الدراسة في الخارج: مستندات متفرقة، معلومات متضاربة، ووعود لا تُنفَّذ. اخترنا أن نتخصص في وجهة واحدة فقط ونتقنها بدل تشتيت الجهد على عشرات الدول. اليوم نرافق الطالب العربي خطوة بخطوة، من أول سؤال عن التخصص وحتى استقباله في مطار المدينة الصينية التي سيدرس فيها.",
+      "بدأت فكرة «جسر الصين التعليمية» (المعروفة سابقاً باسم جسر إلى الصين) من تجربة شخصية مع تعقيد إجراءات الدراسة في الخارج: مستندات متفرقة، معلومات متضاربة، ووعود لا تُنفَّذ. اخترنا أن نتخصص في وجهة واحدة فقط ونتقنها بدل تشتيت الجهد على عشرات الدول. اليوم نرافق الطالب العربي خطوة بخطوة، من أول سؤال عن التخصص وحتى استقباله في مطار المدينة الصينية التي سيدرس فيها.",
     value_en:
-      "Bridge to China began with first-hand experience of how complicated studying abroad can be: scattered documents, conflicting information and promises that were never kept. We chose to specialise in a single destination and master it, instead of spreading our effort across dozens of countries. Today we walk with the student step by step, from the first question about a major to being met at the airport of the Chinese city where they will study.",
+      "Bridge to China Edu (previously known as Bridge to China) began with first-hand experience of how complicated studying abroad can be: scattered documents, conflicting information and promises that were never kept. We chose to specialise in a single destination and master it, instead of spreading our effort across dozens of countries. Today we walk with the student step by step, from the first question about a major to being met at the airport of the Chinese city where they will study.",
     value_ru:
-      "«Мост в Китай» вырос из личного опыта: разрозненные документы, противоречивая информация и невыполненные обещания. Мы решили специализироваться на одном направлении и делать это безупречно, вместо того чтобы распылять усилия на десятки стран. Сегодня мы сопровождаем студента шаг за шагом — от первого вопроса о специальности до встречи в аэропорту китайского города, где он будет учиться.",
+      "«Bridge to China Edu» (ранее известное как Bridge to China) выросло из личного опыта: разрозненные документы, противоречивая информация и невыполненные обещания. Мы решили специализироваться на одном направлении и делать это безупречно, вместо того чтобы распылять усилия на десятки стран. Сегодня мы сопровождаем студента шаг за шагом — от первого вопроса о специальности до встречи в аэропорту китайского города, где он будет учиться.",
   },
   {
     key: "about_vision_text",
@@ -871,11 +871,11 @@ export const SEED_FAQS: Faq[] = [
     question_en: "Who are we, and what is the platform called?",
     question_ru: "Кто мы и как называется платформа?",
     answer_ar:
-      "نحن «جسر إلى الصين» (يُكتب أحياناً Jisr to China)، ويُعرف كياننا التعليمي رسمياً باسم «جسر الصين التعليمية» (Bridge to China Edu) — مكتب استشارات متخصص حصرياً في المنح الدراسية والقبول الجامعي في الصين، من أول استشارة مجانية حتى استقبال الطالب في مطار مدينته الجامعية.",
+      "نحن «جسر الصين التعليمية» (Bridge to China Edu) — مكتب استشارات متخصص حصرياً في المنح الدراسية والقبول الجامعي في الصين، عُرف سابقاً باسم «جسر إلى الصين» (يُكتب أحياناً Jisr to China). نرافقك من أول استشارة مجانية حتى استقبالك في مطار مدينتك الجامعية.",
     answer_en:
-      'We are "Bridge to China" (also written Jisr to China), and our educational entity is formally known as "Bridge to China Edu" — a consultancy focused exclusively on scholarships and university admission in China, from your first free consultation to being met at the airport of your university city.',
+      'We are "Bridge to China Edu" (جسر الصين التعليمية) — a consultancy focused exclusively on scholarships and university admission in China, previously known as "Bridge to China" (also written Jisr to China). We walk with you from your first free consultation to being met at the airport of your university city.',
     answer_ru:
-      "Мы — «Bridge to China» (также пишется Jisr to China), а наша образовательная организация официально называется «Bridge to China Edu» — консалтинговое агентство, специализирующееся исключительно на стипендиях и поступлении в вузы Китая, от первой бесплатной консультации до встречи в аэропорту вашего университетского города.",
+      "Мы — «Bridge to China Edu» (جسر الصين التعليمية) — консалтинговое агентство, специализирующееся исключительно на стипендиях и поступлении в вузы Китая, ранее известное как «Bridge to China» (также пишется Jisr to China). Мы сопровождаем вас от первой бесплатной консультации до встречи в аэропорту вашего университетского города.",
     display_order: 21,
   },
 ];

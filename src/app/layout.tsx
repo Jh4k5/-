@@ -19,8 +19,8 @@ import { getSiteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: {
-    default: "جسر إلى الصين | Bridge to China | Мост в Китай",
-    template: "%s | جسر إلى الصين",
+    default: "جسر الصين التعليمية | Bridge to China Edu",
+    template: "%s | جسر الصين التعليمية",
   },
   description:
     "مكتب استشارات تعليمية متخصص حصرياً في الدراسة بالصين — قبول جامعي، منح دراسية، لغة صينية، واستقبال الطالب.",
@@ -66,22 +66,23 @@ export default async function RootLayout({
 
   const siteUrl = getSiteUrl(settings);
 
-  // "Jisr to China" is the Latin-script transliteration people search for
-  // verbally; "Bridge to China Edu" / "جسر الصين التعليمية" is the formal
-  // brand pairing the owner has adopted (editable from /admin/about). Both
-  // ride as alternateName so Google's entity matching connects a search for
-  // any of these to this one Organization, without changing what the header
-  // actually displays.
+  // The primary name is now "Bridge to China Edu" / "جسر الصين التعليمية".
+  // The site launched under "Bridge to China" / "جسر إلى الصين", and people
+  // still search the Latin-script transliteration "Jisr to China" after
+  // hearing the name spoken — all three ride as alternateName so Google's
+  // entity matching keeps connecting those searches to this Organization
+  // through the rename, instead of losing that history.
   const legalName = settingText(settings, "company_legal_name", locale);
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: dict.meta.siteName,
     alternateName: [
+      "Bridge to China",
+      "جسر إلى الصين",
       "Jisr to China",
-      "Bridge to China Edu",
       "جسر الصين للمنح الدراسية",
-      ...(legalName ? [legalName] : []),
+      ...(legalName && legalName !== dict.meta.siteName ? [legalName] : []),
     ],
     url: siteUrl,
     description: dict.meta.description,

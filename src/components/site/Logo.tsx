@@ -55,7 +55,7 @@ export default function Logo({
           {dict.meta.siteName}
         </span>
         <span className={`truncate text-[0.5625rem] tracking-[0.14em] sm:text-[0.6875rem] sm:tracking-[0.16em] ${subColor}`}>
-          {locale === "ar" ? "BRIDGE TO CHINA" : dict.meta.siteNameChinese}
+          {locale === "ar" ? "BRIDGE TO CHINA EDU" : dict.meta.siteNameChinese}
         </span>
       </span>
     </Link>

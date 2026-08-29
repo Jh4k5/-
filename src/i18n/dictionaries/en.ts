@@ -2,11 +2,11 @@ import type { Dictionary } from "./ar";
 
 const en: Dictionary = {
   meta: {
-    siteName: "Bridge to China",
+    siteName: "Bridge to China Edu",
     siteNameChinese: "通往中国的桥梁",
     tagline: "Your scholarship and university admission platform for China",
     description:
-      "Bridge to China — a platform focused on scholarships and university admission in China: most master's and PhD programmes award full scholarships, with complete document preparation, Chinese-language programme enrolment and airport pick-up.",
+      "Bridge to China Edu — a platform focused on scholarships and university admission in China: most master's and PhD programmes award full scholarships, with complete document preparation, Chinese-language programme enrolment and airport pick-up.",
   },
   nav: {
     home: "Home",
@@ -44,7 +44,7 @@ const en: Dictionary = {
   },
   hero: {
     badge: "Scholarship and university admission platform for China",
-    title: "Bridge to China",
+    title: "Bridge to China Edu",
     subtitle:
       "Most Chinese universities offer partial or full scholarships — we walk with you from a free first consultation to meeting you at the airport",
     ctaPrimary: "Book your free consultation",
@@ -182,7 +182,7 @@ const en: Dictionary = {
     subtitle: "An educational consultancy that works on one destination only: China.",
     storyTitle: "Our story",
     storyText:
-      "Bridge to China began with first-hand experience of how complicated studying abroad can be: scattered documents, conflicting information and promises that were never kept. We chose to specialise in a single destination and master it, instead of spreading our effort across dozens of countries. Today we walk with the student step by step, from the first question about a major to being met at the airport of the Chinese city where they will study.",
+      "Bridge to China Edu (previously known as Bridge to China) began with first-hand experience of how complicated studying abroad can be: scattered documents, conflicting information and promises that were never kept. We chose to specialise in a single destination and master it, instead of spreading our effort across dozens of countries. Today we walk with the student step by step, from the first question about a major to being met at the airport of the Chinese city where they will study.",
     visionTitle: "Our vision",
     visionText:
       "To be the leading Arab reference for students who want to study in China, turning their ambitions into tangible reality.",
@@ -283,7 +283,7 @@ const en: Dictionary = {
     quickLinks: "Quick links",
     contactTitle: "Contact",
     rights: "All rights reserved",
-    builtWith: "Bridge to China — a future without borders",
+    builtWith: "Bridge to China Edu — a future without borders",
     adminLink: "Admin login",
   },
   admissions: {

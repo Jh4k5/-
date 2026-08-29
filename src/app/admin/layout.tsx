@@ -3,7 +3,7 @@ import AdminNav from "@/components/admin/AdminNav";
 import { createServerSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "لوحة التحكم | جسر إلى الصين",
+  title: "لوحة التحكم | جسر الصين التعليمية",
   robots: { index: false, follow: false },
 };
 
