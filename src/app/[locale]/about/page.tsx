@@ -12,6 +12,8 @@ import { getSettings } from "@/lib/data";
 import { settingText, settingValue, whatsappLink } from "@/lib/settings-helpers";
 import { buildMetadata } from "@/lib/seo";
 
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: {

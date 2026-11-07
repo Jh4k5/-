@@ -188,6 +188,7 @@ export default function Hero({
                   alt={pick(slide, "title", locale)}
                   priority={i === 0}
                   sceneDetail="full"
+                  sizes="100vw"
                 />
               )}
             </div>

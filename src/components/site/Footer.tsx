@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/components/ui/BrandIcons";
 import { LogoMark } from "./Logo";
 import { getDictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
+import { isOptimizableSrc } from "@/components/ui/MediaFrame";
 import { settingText, settingValue, type SettingsMapLike } from "@/lib/settings-helpers";
 
 export default function Footer({
@@ -74,8 +76,18 @@ export default function Footer({
         <div className="lg:col-span-2">
           <div className="flex items-center gap-3">
             {logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt={dict.meta.siteName} className="h-12 w-12 object-contain" />
+              isOptimizableSrc(logoUrl) ? (
+                <Image
+                  src={logoUrl}
+                  alt={dict.meta.siteName}
+                  width={96}
+                  height={96}
+                  className="h-12 w-12 object-contain"
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoUrl} alt={dict.meta.siteName} className="h-12 w-12 object-contain" />
+              )
             ) : (
               <LogoMark className="h-12 w-12" aria-hidden="true" />
             )}

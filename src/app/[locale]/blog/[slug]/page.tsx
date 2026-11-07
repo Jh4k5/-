@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { locale: raw, slug } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const article = await getArticleBySlug(slug);
-  if (!article) return { title: "404" };
+  if (!article) return {};
 
   const title = pick(article, "title", locale);
   const description =

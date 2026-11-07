@@ -111,6 +111,7 @@ const ru: Dictionary = {
     title: "Наши услуги",
     subtitle: "Всё необходимое для поступления в китайский вуз — в одном месте.",
     viewAll: "Все услуги",
+    excludesTitle: "Что мы не гарантируем",
     detailsTitle: "Что именно мы предлагаем?",
   },
   whyChina: {

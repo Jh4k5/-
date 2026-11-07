@@ -111,6 +111,7 @@ const en: Dictionary = {
     title: "Our Services",
     subtitle: "Everything you need to reach your university seat in China, under one roof.",
     viewAll: "All services",
+    excludesTitle: "What we don't guarantee",
     detailsTitle: "What exactly do we offer?",
   },
   whyChina: {

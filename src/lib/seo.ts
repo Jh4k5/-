@@ -3,6 +3,13 @@ import { defaultLocale, locales, type Locale } from "@/i18n/config";
 import { settingValue, type SettingsMapLike } from "./settings-helpers";
 import { getSiteUrl } from "./site-url";
 
+/** OpenGraph expects `language_TERRITORY` (e.g. `ar_AR`), not a bare locale. */
+const OG_LOCALE: Record<Locale, string> = {
+  ar: "ar_AR",
+  en: "en_US",
+  ru: "ru_RU",
+};
+
 /**
  * Shared metadata builder used by every page. Computes a canonical URL and
  * per-locale alternates from the ACTUAL current path (not a hardcoded root),
@@ -35,7 +42,14 @@ export function buildMetadata({
   );
   languages["x-default"] = `${siteUrl}/${defaultLocale}${normalizedPath}`;
 
-  const ogImage = image || (settings ? settingValue(settings, "default_og_image") : "");
+  const ogImageRaw = image || (settings ? settingValue(settings, "default_og_image") : "");
+  // Scrapers (WhatsApp above all) need an absolute URL — resolve local assets
+  // against the site origin so a "/og-default.png" value works everywhere.
+  const ogImage = ogImageRaw
+    ? ogImageRaw.startsWith("/")
+      ? `${siteUrl}${ogImageRaw}`
+      : ogImageRaw
+    : "";
 
   return {
     title,
@@ -49,9 +63,15 @@ export function buildMetadata({
       title,
       description,
       type: "website",
-      locale,
+      locale: OG_LOCALE[locale],
       url: canonical,
-      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+      ...(ogImage ? { images: [{ url: ogImage, width: 1344, height: 768 }] } : {}),
+    },
+    twitter: {
+      card: ogImage ? "summary_large_image" : "summary",
+      title,
+      description,
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
   };
 }

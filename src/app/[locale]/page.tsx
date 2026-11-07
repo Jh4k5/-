@@ -90,14 +90,20 @@ export async function generateMetadata({
     ],
   }[locale];
 
-  return buildMetadata({
-    locale,
-    path: "",
-    title: `${dict.meta.siteName} — ${dict.meta.tagline}`,
-    description: dict.meta.description,
-    settings,
-    keywords,
-  });
+  return {
+    ...buildMetadata({
+      locale,
+      path: "",
+      title: `${dict.meta.siteName} — ${dict.meta.tagline}`,
+      description: dict.meta.description,
+      settings,
+      keywords,
+    }),
+    // Absolute title: the homepage already carries the brand in its headline,
+    // so it must NOT be re-suffixed by the root layout's Arabic template
+    // (which produced "… | جسر الصين التعليمية" on the EN/RU homepages).
+    title: { absolute: `${dict.meta.siteName} — ${dict.meta.tagline}` },
+  };
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

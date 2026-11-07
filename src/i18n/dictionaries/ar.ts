@@ -110,6 +110,7 @@ const ar = {
     title: "خدماتنا",
     subtitle: "كل ما تحتاجه للوصول إلى مقعدك الجامعي في الصين، تحت سقف واحد.",
     viewAll: "كل الخدمات",
+    excludesTitle: "ما لا نضمنه",
     detailsTitle: "ماذا نقدّم لك بالتفصيل؟",
   },
   whyChina: {

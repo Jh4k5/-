@@ -293,6 +293,7 @@ export const SEED_STORIES: SuccessStory[] = [
 
 export const SEED_SETTINGS: SettingRow[] = [
   { key: "site_url", value: "https://jisr-to-china-henna.vercel.app", value_ar: null, value_en: null, value_ru: null },
+  { key: "default_og_image", value: "/og-default.png", value_ar: null, value_en: null, value_ru: null },
   { key: "whatsapp_number", value: "+201102956107", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_email", value: "info@bridgetochina.com", value_ar: null, value_en: null, value_ru: null },
   { key: "contact_phone", value: "+201102956107", value_ar: null, value_en: null, value_ru: null },

@@ -288,7 +288,20 @@ export const getSettings = cache(async function getSettings(): Promise<SettingsM
 
   const map: SettingsMap = {};
   for (const row of SEED_SETTINGS) map[row.key] = row;
-  for (const row of rows) map[row.key] = { ...map[row.key], ...row };
+  for (const row of rows) {
+    // A NULL database value means "not set" — fall back to the seeded value
+    // instead of blanking it (previously a single NULL row wiped the seed
+    // default, e.g. default_og_image, and cleared translations regressed to
+    // Arabic on EN/RU pages).
+    map[row.key] = {
+      ...map[row.key],
+      ...row,
+      value: row.value ?? map[row.key]?.value ?? null,
+      value_ar: row.value_ar ?? map[row.key]?.value_ar ?? null,
+      value_en: row.value_en ?? map[row.key]?.value_en ?? null,
+      value_ru: row.value_ru ?? map[row.key]?.value_ru ?? null,
+    };
+  }
   return map;
 });
 

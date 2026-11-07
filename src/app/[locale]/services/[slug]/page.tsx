@@ -34,7 +34,7 @@ export async function generateMetadata({
   const { locale: raw, slug } = await params;
   const locale = (isLocale(raw) ? raw : "ar") as Locale;
   const service = await getServiceBySlug(slug);
-  if (!service) return { title: "404" };
+  if (!service) return {};
 
   return buildMetadata({
     locale,
@@ -126,7 +126,7 @@ export default async function ServiceDetailPage({
                 {excludes.length > 0 && (
                   <div>
                     <h2 className="text-sm font-extrabold uppercase tracking-widest text-charcoal/50">
-                      {dict.faq.title}
+                      {dict.services.excludesTitle}
                     </h2>
                     <ul className="mt-4 space-y-2.5">
                       {excludes.map((item) => (

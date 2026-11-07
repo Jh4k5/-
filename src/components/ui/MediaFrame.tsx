@@ -9,7 +9,7 @@ export function isVideoSrc(src: string | null | undefined) {
 }
 
 /** next/image only optimizes hosts listed in next.config.ts's remotePatterns (our Supabase storage). */
-function isOptimizableSrc(src: string) {
+export function isOptimizableSrc(src: string) {
   if (!supabaseHost) return false;
   try {
     return new URL(src, "http://placeholder").hostname === supabaseHost;

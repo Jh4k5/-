@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getDictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
+import { isOptimizableSrc } from "@/components/ui/MediaFrame";
 
 export function LogoMark({ className = "h-11 w-11" }: { className?: string }) {
   return (
@@ -39,12 +41,22 @@ export default function Logo({
   return (
     <Link href={`/${locale}`} className="group flex min-w-0 items-center gap-2 sm:gap-3">
       {logoUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={logoUrl}
-          alt={dict.meta.siteName}
-          className="h-9 w-9 shrink-0 object-contain transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105 sm:h-11 sm:w-11"
-        />
+        isOptimizableSrc(logoUrl) ? (
+          <Image
+            src={logoUrl}
+            alt={dict.meta.siteName}
+            width={96}
+            height={96}
+            className="h-9 w-9 shrink-0 object-contain transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105 sm:h-11 sm:w-11"
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={logoUrl}
+            alt={dict.meta.siteName}
+            className="h-9 w-9 shrink-0 object-contain transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105 sm:h-11 sm:w-11"
+          />
+        )
       ) : (
         <LogoMark className="h-9 w-9 shrink-0 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:scale-105 sm:h-11 sm:w-11" aria-hidden="true" />
       )}
