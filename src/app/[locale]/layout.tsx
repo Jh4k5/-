@@ -53,6 +53,14 @@ export default async function LocaleLayout({
   return (
     <MotionConfig reducedMotion="user">
       <div className="flex min-h-screen flex-col">
+        {/* Skip link — first focusable element so keyboard users can bypass
+            the header before tabbing through every nav item (WCAG 2.4.1). */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-trust-blue focus:px-5 focus:py-3 focus:text-sm focus:font-bold focus:text-white"
+        >
+          {dict.a11y.skipToContent}
+        </a>
         <HtmlLangSync locale={locale} />
         <ScrollDepthTracker locale={locale} />
         <Header
@@ -61,7 +69,9 @@ export default async function LocaleLayout({
           whatsapp={whatsapp}
           logoUrl={settingValue(settings, "logo_url")}
         />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
         <Footer locale={locale} settings={settings} />
         <WhatsAppFloat href={whatsapp} label={dict.common.whatsapp} />
       </div>

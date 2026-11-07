@@ -42,6 +42,13 @@ const ru: Dictionary = {
     previous: "Назад",
     next: "Вперёд",
   },
+  a11y: {
+    skipToContent: "Перейти к содержимому",
+    mainNav: "Основная навигация",
+    mobileNav: "Мобильная навигация",
+    footerNav: "Навигация в подвале",
+    formErrors: "Пожалуйста, исправьте обязательные поля.",
+  },
   hero: {
     badge: "Платформа стипендий и поступления в вузы Китая",
     title: "Bridge to China Edu",

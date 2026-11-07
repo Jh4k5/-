@@ -6,6 +6,7 @@ import { Expand } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Tilt3D from "@/components/motion/Tilt3D";
 import Reveal from "@/components/motion/Reveal";
+import type { Locale } from "@/i18n/config";
 
 const Lightbox = dynamic(() => import("@/components/motion/Lightbox"));
 
@@ -14,10 +15,12 @@ export default function UniversityGallery({
   images,
   title,
   alt,
+  locale,
 }: {
   images: string[];
   title: string;
   alt: string;
+  locale: Locale;
 }) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
@@ -59,6 +62,7 @@ export default function UniversityGallery({
         index={index}
         onIndexChange={setIndex}
         onClose={() => setOpen(false)}
+        locale={locale}
         slides={images.map((image, i) => (
           <div key={`${image}-slide-${i}`} className="h-[70vh] w-full overflow-hidden rounded-2xl">
             <MediaFrame src={image} alt={alt} priority className="object-contain" />

@@ -338,7 +338,6 @@ export interface Admission {
 
 export type SectionKey =
   | "process"
-  | "stats"
   | "trust_bar"
   | "admissions"
   | "universities"

@@ -72,6 +72,8 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Environment-local agent skills (untracked) — not part of the website.
+      "skills/**",
     ],
   },
   houseStyle,

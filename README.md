@@ -12,7 +12,7 @@ A trilingual (Arabic / English / Russian) marketing site with a full admin dashb
 |---|---|
 | الواجهة | Next.js 15 (App Router) · React 19 · TypeScript |
 | التصميم | Tailwind CSS v4 + نظام تصميم مخصص (ألوان الهوية) |
-| الخطوط | Cairo + Tajawal (عربي) · Inter (لاتيني وسيريلي) — مستضافة محلياً عبر Fontsource |
+| الخطوط | Cairo + Tajawal (عربي) · Manrope Variable (لاتيني وسيريلي) — مستضافة محلياً عبر Fontsource |
 | قاعدة البيانات | Supabase (PostgreSQL + Row Level Security) |
 | التخزين | Supabase Storage (bucket `media`) لرفع الصور من لوحة التحكم |
 | المصادقة | Supabase Auth (كلمات المرور مشفّرة bcrypt) + حراسة عبر middleware |
@@ -30,7 +30,7 @@ A trilingual (Arabic / English / Russian) marketing site with a full admin dashb
 
 `/` (تحويل تلقائي) · `/[locale]` الرئيسية · `/about` · `/services` · `/universities` · `/universities/[slug]` · `/admissions` · `/why-china` · `/stories` · `/blog` · `/blog/[slug]` · `/contact`
 
-**الصفحة الرئيسية** تُرسَم من جدول `site_sections`: ترتيب الأقسام وظهورها وعناوينها تُدار من لوحة التحكم. الأقسام: الهيرو السينمائي، شريط الإحصائيات، شريط نماذج القبولات، عرض الجامعات ثلاثي الأبعاد، «استكشف الصين معنا»، الخدمات، لماذا الصين، قصص النجاح، أحدث المقالات، ودعوة التواصل — مع زر واتساب عائم في كل الصفحات.
+**الصفحة الرئيسية** تُرسَم من جدول `site_sections`: ترتيب الأقسام وظهورها وعناوينها تُدار من لوحة التحكم. الأقسام: الهيرو السينمائي، شريط الثقة، شريط نماذج القبولات، عرض الجامعات ثلاثي الأبعاد، «استكشف الصين معنا»، الخدمات، لماذا الصين، قصص النجاح، أحدث المقالات، والأسئلة الشائعة — مع زر واتساب عائم في كل الصفحات.
 
 ## نظام الحركة (`src/components/motion`)
 
@@ -38,11 +38,9 @@ A trilingual (Arabic / English / Russian) marketing site with a full admin dashb
 |---|---|
 | `Reveal` / `RevealGroup` | ظهور متدرّج عند التمرير |
 | `Tilt3D` | إمالة ثلاثية الأبعاد: بالماوس على الكمبيوتر، وبموضع العنصر أثناء التمرير + إمالة الجهاز على الجوال |
-| `Marquee` | شريط لا نهائي (يُستخدم لصور القبولات) |
 | `Coverflow3D` | كاروسيل ثلاثي الأبعاد بالسحب واللمس (الجامعات) |
-| `ParticleField` | طبقة Canvas للجزيئات الذهبية، تتوقف خارج نطاق الرؤية |
 | `TextReveal` | ظهور العناوين كلمة كلمة |
-| `Lightbox` | عارض ملء الشاشة للصور والفيديو |
+| `Lightbox` | عارض ملء الشاشة للصور والفيديو (مع حصر التركيز وملصقات مترجمة) |
 
 رسمات `SceneArt` نفسها متحركة (سحب، نوافذ تتلألأ، تموّج ماء، فوانيس)، وكل الحركات تعمل على جميع الأجهزة وتُقاس بشدة الحركة المختارة من اللوحة، مع احترام `prefers-reduced-motion`.
 
@@ -71,9 +69,9 @@ A trilingual (Arabic / English / Russian) marketing site with a full admin dashb
 
 ## قاعدة البيانات
 
-الجداول: `users` · `articles` · `services` · `success_stories` · `gallery` · `destination_media` · `universities` · `admissions` · `site_sections` · `leads` · `settings`.
+الجداول (19): `users` · `articles` · `services` · `process_steps` · `process_stages` · `process_trust_badges` · `study_paths` · `why_china_points` · `cost_factors` · `faqs` · `destination_media` · `success_stories` · `gallery` · `universities` · `admissions` · `site_sections` · `leads` · `settings` · `analytics_events`.
 
-المخطط موزّع على ملفين: `supabase/migrations/0001_init.sql` و`supabase/migrations/0002_visual_upgrade.sql`.
+المخطط موزّع على ملفات هجرة مرقّمة في `supabase/migrations/` (من `0001_init.sql` حتى آخر هجرة).
 
 المخطط الكامل مع سياسات RLS في `supabase/migrations/0001_init.sql`. القراءة العامة مسموحة للمحتوى المنشور فقط، وإدراج الطلبات (`leads`) مسموح للزوار، بينما القراءة والتعديل والحذف محصورة بحساب الإدارة.
 
@@ -84,7 +82,7 @@ A trilingual (Arabic / English / Russian) marketing site with a full admin dashb
 ```bash
 npm install
 cp .env.example .env.local   # اختياري — القيم الافتراضية مضمّنة
-npm run dev
+npm run dev                   # http://localhost:3000
 ```
 
 المفتاح العام (`anon` / publishable) آمن للنشر في المتصفح لأن كل الجداول محمية بـ RLS.
@@ -97,8 +95,8 @@ npm run dev
 
 ## النشر · Deployment
 
-- **الموقع الحي:** https://jisr-to-china.vercel.app
-- **لوحة التحكم:** https://jisr-to-china.vercel.app/admin/login
+- **الموقع الحي:** https://jisr-to-china-henna.vercel.app
+- **لوحة التحكم:** https://jisr-to-china-henna.vercel.app/admin/login
 - **المستودع:** https://github.com/Jh4k5/- (فرع `claude/jisr-china-trilingual-platform-wzojbr`)
 
 المشروع منشور على Vercel كمشروع إنتاج باسم `jisr-to-china`. أمر التثبيت في إعدادات المشروع يسحب الشيفرة من هذا المستودع أثناء البناء:

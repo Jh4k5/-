@@ -15,7 +15,7 @@ export default function Breadcrumbs({
 }) {
   return (
     <nav aria-label="breadcrumb" className="container-page pt-6">
-      <ol className="flex flex-wrap items-center gap-1 text-xs text-charcoal/55">
+      <ol className="flex flex-wrap items-center gap-1 text-xs text-charcoal/70">
         {trail.map((crumb, index) => {
           const last = index === trail.length - 1;
           const href = `/${locale}${crumb.path === "/" ? "" : crumb.path}`;

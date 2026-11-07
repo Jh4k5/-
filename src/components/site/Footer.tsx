@@ -106,7 +106,7 @@ export default function Footer({
           </p>
         </div>
 
-        <div>
+        <nav aria-label={dict.a11y.footerNav}>
           <h3 className="text-sm font-bold uppercase tracking-widest text-imperial-gold">
             {settingText(settings, "footer_quick_links_title", locale, dict.footer.quickLinks)}
           </h3>
@@ -122,7 +122,7 @@ export default function Footer({
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
 
         <div>
           <h3 className="text-sm font-bold uppercase tracking-widest text-imperial-gold">

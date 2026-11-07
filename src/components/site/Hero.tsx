@@ -366,10 +366,14 @@ export default function Hero({
                   type="button"
                   onClick={() => setIndex(i)}
                   aria-label={pick(slide, "title", locale) || `${i + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${
-                    i === index ? "w-10 bg-imperial-gold" : "w-4 bg-white/35 hover:bg-white/60"
-                  }`}
-                />
+                  className="flex h-6 w-6 items-center justify-center"
+                >
+                  <span
+                    className={`h-1.5 shrink-0 rounded-full transition-all duration-500 ${
+                      i === index ? "w-10 bg-imperial-gold" : "w-4 bg-white/35 hover:bg-white/60"
+                    }`}
+                  />
+                </button>
               ))}
               <span className="ms-3 text-xs font-semibold text-white/70">
                 {pick(slides[index], "title", locale)}

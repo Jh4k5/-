@@ -156,7 +156,7 @@ export default async function SearchPage({
               defaultValue={query}
               placeholder={dict.common.search}
               aria-label={dict.search.title}
-              className="w-full rounded-full border border-trust-blue/15 bg-white py-4 pe-5 ps-12 text-base outline-none transition-colors focus:border-china-red/50"
+              className="w-full rounded-full border border-trust-blue/15 bg-white py-4 pe-5 ps-12 text-base outline-none transition-colors focus:border-china-red/50 focus-visible:ring-2 focus-visible:ring-china-red/60"
             />
           </div>
         </form>
@@ -175,7 +175,7 @@ export default async function SearchPage({
                 {hits.map((hit) => (
                   <li key={hit.href + hit.title}>
                     <Link href={hit.href} className="block py-5 transition-colors hover:bg-white/60">
-                      <span className="text-[0.6875rem] font-bold uppercase tracking-widest text-imperial-gold">
+                      <span className="text-[0.6875rem] font-bold uppercase tracking-widest text-[#6b5410]">
                         {hit.kind}
                       </span>
                       <span className="mt-1 block font-extrabold text-trust-blue">{hit.title}</span>

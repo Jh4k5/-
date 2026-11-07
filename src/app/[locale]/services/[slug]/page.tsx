@@ -165,7 +165,7 @@ export default async function ServiceDetailPage({
 
         {others.length > 0 && (
           <div className="mx-auto mt-16 max-w-3xl border-t border-trust-blue/10 pt-8">
-            <h2 className="text-sm font-extrabold uppercase tracking-widest text-charcoal/45">
+            <h2 className="text-sm font-extrabold uppercase tracking-widest text-charcoal/70">
               {dict.services.viewAll}
             </h2>
             <ul className="mt-4 divide-y divide-trust-blue/10">

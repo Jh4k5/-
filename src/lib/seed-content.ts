@@ -896,7 +896,6 @@ export const UNIVERSITY_NAMES = [
 
 /** Home page sections in their default order — also the offline fallback. */
 export const DEFAULT_SECTIONS: SiteSection[] = [
-  { key: "stats", is_visible: false, display_order: 1, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "trust_bar", is_visible: true, display_order: 2, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "study_paths", is_visible: true, display_order: 3, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },
   { key: "services", is_visible: true, display_order: 4, title_ar: null, title_en: null, title_ru: null, subtitle_ar: null, subtitle_en: null, subtitle_ru: null },

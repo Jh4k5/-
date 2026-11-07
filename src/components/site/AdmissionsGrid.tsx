@@ -121,6 +121,7 @@ export default function AdmissionsGrid({
         index={index}
         onIndexChange={setIndex}
         onClose={() => setOpen(false)}
+        locale={locale}
         caption={
           active && (
             <span dir="auto" className="block space-y-1">

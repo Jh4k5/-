@@ -42,6 +42,13 @@ const en: Dictionary = {
     previous: "Previous",
     next: "Next",
   },
+  a11y: {
+    skipToContent: "Skip to content",
+    mainNav: "Main navigation",
+    mobileNav: "Mobile navigation",
+    footerNav: "Footer navigation",
+    formErrors: "Please correct the required fields.",
+  },
   hero: {
     badge: "Scholarship and university admission platform for China",
     title: "Bridge to China Edu",

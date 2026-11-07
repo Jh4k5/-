@@ -33,6 +33,7 @@ export default function ContactForm({
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [showErrorSummary, setShowErrorSummary] = useState(false);
   const [countryCode, setCountryCode] = useState<string>(COUNTRY_CODES[0].code);
   const [consented, setConsented] = useState(false);
   const [started, setStarted] = useState(false);
@@ -75,11 +76,23 @@ export default function ContactForm({
       setFieldErrors(errors);
       setStatus("error");
       setMessage("");
+      setShowErrorSummary(true);
       track(ANALYTICS_EVENTS.formError, locale);
+      // Move focus to the first invalid control so keyboard and screen reader
+      // users land directly on the problem instead of hunting for it.
+      const firstInvalid = [
+        "full_name",
+        "country",
+        "current_qualification",
+        "phone_number",
+        "consent",
+      ].find((name) => errors[name]);
+      if (firstInvalid) document.getElementById(firstInvalid)?.focus();
       return;
     }
 
     setFieldErrors({});
+    setShowErrorSummary(false);
     setStatus("sending");
     setMessage("");
 
@@ -121,6 +134,18 @@ export default function ContactForm({
       <h2 className="text-2xl font-extrabold text-trust-blue">{dict.contact.formTitle}</h2>
       <span className="mt-3 block h-1 w-20 rounded-full bg-china-red" />
 
+      {/* Error summary — announced on submit so screen reader users hear that
+          the form was rejected and which fields need attention (WCAG 3.3.1). */}
+      {showErrorSummary && (
+        <div
+          role="alert"
+          className="mt-6 flex items-center gap-2 rounded-xl bg-china-red/10 px-4 py-3 text-sm font-semibold text-china-red"
+        >
+          <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
+          {dict.a11y.formErrors}
+        </div>
+      )}
+
       {/* honeypot — hidden from humans and assistive tech, catches naive spam bots */}
       <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
         <label>
@@ -139,10 +164,15 @@ export default function ContactForm({
             name="full_name"
             autoComplete="name"
             aria-invalid={Boolean(fieldErrors.full_name)}
+            aria-describedby={fieldErrors.full_name ? "full_name-error" : undefined}
             className={fieldClass}
             placeholder={dict.contact.placeholders.fullName}
           />
-          {fieldErrors.full_name && <p className={errorClass}>{fieldErrors.full_name}</p>}
+          {fieldErrors.full_name && (
+            <p id="full_name-error" className={errorClass}>
+              {fieldErrors.full_name}
+            </p>
+          )}
         </div>
 
         <div>
@@ -154,10 +184,15 @@ export default function ContactForm({
             name="country"
             autoComplete="country-name"
             aria-invalid={Boolean(fieldErrors.country)}
+            aria-describedby={fieldErrors.country ? "country-error" : undefined}
             className={fieldClass}
             placeholder={dict.contact.placeholders.country}
           />
-          {fieldErrors.country && <p className={errorClass}>{fieldErrors.country}</p>}
+          {fieldErrors.country && (
+            <p id="country-error" className={errorClass}>
+              {fieldErrors.country}
+            </p>
+          )}
         </div>
 
         <div>
@@ -168,6 +203,9 @@ export default function ContactForm({
             id="current_qualification"
             name="current_qualification"
             aria-invalid={Boolean(fieldErrors.current_qualification)}
+            aria-describedby={
+              fieldErrors.current_qualification ? "current_qualification-error" : undefined
+            }
             className={fieldClass}
             defaultValue={initialStage}
           >
@@ -181,7 +219,9 @@ export default function ContactForm({
             ))}
           </select>
           {fieldErrors.current_qualification && (
-            <p className={errorClass}>{fieldErrors.current_qualification}</p>
+            <p id="current_qualification-error" className={errorClass}>
+              {fieldErrors.current_qualification}
+            </p>
           )}
         </div>
 
@@ -226,11 +266,16 @@ export default function ContactForm({
               autoComplete="tel"
               inputMode="tel"
               aria-invalid={Boolean(fieldErrors.phone_number)}
+              aria-describedby={fieldErrors.phone_number ? "phone_number-error" : undefined}
               className={`${fieldClass} min-w-0 flex-1`}
               placeholder={dict.contact.placeholders.phone}
             />
           </div>
-          {fieldErrors.phone_number && <p className={errorClass}>{fieldErrors.phone_number}</p>}
+          {fieldErrors.phone_number && (
+            <p id="phone_number-error" className={errorClass}>
+              {fieldErrors.phone_number}
+            </p>
+          )}
         </div>
 
         <details className="sm:col-span-2 mt-2 rounded-xl border border-trust-blue/10 bg-white/60 p-4 [&_summary::-webkit-details-marker]:hidden">
@@ -337,18 +382,25 @@ export default function ContactForm({
           <label className="flex items-start gap-2.5 text-sm text-charcoal/75">
             <input
               type="checkbox"
+              id="consent"
               checked={consented}
               onChange={(event) => setConsented(event.target.checked)}
+              aria-invalid={Boolean(fieldErrors.consent)}
+              aria-describedby={fieldErrors.consent ? "consent-error" : undefined}
               className="mt-0.5 h-4 w-4 shrink-0 rounded border-trust-blue/30 accent-[var(--color-china-red)]"
             />
             <span>{privacyConsentText}</span>
           </label>
-          {fieldErrors.consent && <p className={errorClass}>{fieldErrors.consent}</p>}
+          {fieldErrors.consent && (
+            <p id="consent-error" className={errorClass}>
+              {fieldErrors.consent}
+            </p>
+          )}
         </div>
       )}
 
       {afterSubmitNote && (
-        <p className="mt-4 text-xs leading-relaxed text-charcoal/50">{afterSubmitNote}</p>
+        <p className="mt-4 text-xs leading-relaxed text-charcoal/70">{afterSubmitNote}</p>
       )}
 
       {status !== "idle" && message && (

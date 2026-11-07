@@ -94,6 +94,8 @@ html[lang="ru"] {
 
 html {
   scroll-behavior: smooth;
+  /* Anchor targets must clear the fixed header instead of hiding behind it. */
+  scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -103,7 +105,9 @@ body {
   font-family: var(--font-body);
   font-size: clamp(15.5px, 0.45vw + 14.4px, 18px);
   line-height: 1.75;
-  overflow-x: hidden;
+  /* clip (not hidden) so un-revealed animation transforms can't open a
+     horizontal scrollport on phones — the page simply never scrolls sideways. */
+  overflow-x: clip;
 }
 
 h1,

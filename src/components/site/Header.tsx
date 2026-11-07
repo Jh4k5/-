@@ -89,7 +89,7 @@ export default function Header({
           <Logo locale={locale} variant={scrolled ? "dark" : "light"} logoUrl={logoUrl} />
         </div>
 
-        <nav className="hidden items-center gap-0.5 xl:flex">
+        <nav aria-label={dict.a11y.mainNav} className="hidden items-center gap-0.5 xl:flex">
           {primaryLinks.map((link) => (
             <Link
               key={link.href}
@@ -152,7 +152,7 @@ export default function Header({
           open ? "max-h-[40rem] opacity-100 shadow-xl" : "max-h-0 opacity-0"
         }`}
       >
-        <nav className="container-page flex flex-col gap-1 py-4">
+        <nav aria-label={dict.a11y.mobileNav} className="container-page flex flex-col gap-1 py-4">
           {links.map((link) => (
             <Link
               key={link.href}

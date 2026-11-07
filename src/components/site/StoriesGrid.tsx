@@ -132,6 +132,7 @@ export default function StoriesGrid({
         index={index}
         onIndexChange={setIndex}
         onClose={() => setOpen(false)}
+        locale={locale}
         caption={
           active && (
             <span dir="auto">

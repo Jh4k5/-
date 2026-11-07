@@ -173,7 +173,7 @@ export default function AdmissionsStrip({
         <div className="mt-10 flex flex-col items-center gap-4">
           <div className="max-w-2xl space-y-1.5 text-center">
             <p className="text-xs text-white/55">{dict.admissions.privacyNote}</p>
-            {disclaimer && <p className="text-xs text-white/45">{disclaimer}</p>}
+            {disclaimer && <p className="text-xs text-white/70">{disclaimer}</p>}
           </div>
           {showAllLink && (
             <Link
@@ -192,6 +192,7 @@ export default function AdmissionsStrip({
         index={index}
         onIndexChange={setIndex}
         onClose={() => setOpen(false)}
+        locale={locale}
         caption={
           active && (
             <span dir="auto" className="block space-y-1">

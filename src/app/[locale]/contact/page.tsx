@@ -125,7 +125,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
 
               {socials.length > 0 && (
                 <div className="surface-card p-7">
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-charcoal/50">
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-charcoal/70">
                     {dict.contact.followUs}
                   </h3>
                   <div className="mt-4 flex flex-wrap gap-2">

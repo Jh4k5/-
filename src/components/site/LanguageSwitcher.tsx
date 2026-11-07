@@ -62,7 +62,7 @@ export default function LanguageSwitcher({
             aria-current={active ? "true" : undefined}
             title={localeConfig[code].nativeLabel}
             className={`flex items-center justify-center rounded-full font-bold tracking-wide transition-all duration-300 focus-visible:ring-2 focus-visible:ring-china-red focus-visible:outline-none ${
-              size === "lg" ? "min-h-11 min-w-11 px-4 py-2.5 text-sm" : "px-2 py-1 text-[0.6875rem] sm:px-2.5 sm:text-xs"
+              size === "lg" ? "min-h-11 min-w-11 px-4 py-2.5 text-sm" : "min-h-9 min-w-9 px-2 py-1 text-[0.6875rem] sm:px-2.5 sm:text-xs"
             } ${
               active
                 ? "bg-china-red text-white shadow-[0_6px_16px_-6px_rgba(200,16,46,0.9)]"
