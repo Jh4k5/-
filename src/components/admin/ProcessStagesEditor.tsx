@@ -12,6 +12,7 @@ import {
   StatusToggle,
   UpdatedAtLabel,
   inputClass,
+  persistRowStatus,
 } from "./ui";
 import { createClient } from "@/lib/supabase/client";
 import { ICON_KEYS, iconFor } from "@/lib/icons";
@@ -27,6 +28,19 @@ export default function ProcessStagesEditor({ initial }: { initial: ProcessStage
     setRows((current) =>
       current.map((row) => (row.id === id ? ({ ...row, [key]: value } as ProcessStage) : row)),
     );
+
+  async function toggleStatus(row: ProcessStage) {
+    const current = row.status ?? "draft";
+    const next: "draft" | "published" = current === "published" ? "draft" : "published";
+    patch(row.id, "status", next);
+    const failure = await persistRowStatus("process_stages", row.id, next);
+    if (failure) {
+      patch(row.id, "status", current);
+      setNote({ type: "error", text: failure });
+    } else {
+      setNote({ type: "ok", text: next === "published" ? "تم النشر." : "تم التحويل إلى مسودة." });
+    }
+  }
 
   async function save(row: ProcessStage) {
     if (!row.title_ar.trim()) {
@@ -106,9 +120,7 @@ export default function ProcessStagesEditor({ initial }: { initial: ProcessStage
                 </button>
                 <StatusToggle
                   status={row.status ?? "published"}
-                  onToggle={() =>
-                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
-                  }
+                  onToggle={() => toggleStatus(row)}
                 />
                 <button
                   type="button"

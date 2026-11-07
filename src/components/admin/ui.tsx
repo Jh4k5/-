@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { CheckCircle2, Eye, EyeOff, Loader2, TriangleAlert } from "lucide-react";
 import { formatDate } from "@/lib/format";
+import { createClient } from "@/lib/supabase/client";
 
 export const LANGS = [
   { code: "ar", label: "عربي" },
@@ -105,6 +106,21 @@ export function StatusNote({ status }: { status: { type: "ok" | "error"; text: s
       {status.text}
     </p>
   );
+}
+
+/**
+ * Immediately persists a draft/published flip for an existing row.
+ * The caller flips local state optimistically first, then calls this and
+ * reverts on failure. Returns an error message or null on success.
+ */
+export async function persistRowStatus(
+  table: string,
+  id: string,
+  next: "draft" | "published",
+): Promise<string | null> {
+  const supabase = createClient();
+  const { error } = await supabase.from(table).update({ status: next }).eq("id", id);
+  return error ? "تعذّر تحديث حالة النشر." : null;
 }
 
 /** Shared مسودة/منشور badge + toggle button — reused by every content editor. */

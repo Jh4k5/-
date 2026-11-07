@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronDown, ClipboardCheck, Mail, MessageCircle, Phone, Search, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ChevronDown, ChevronLeft, ChevronRight, ClipboardCheck, Mail, MessageCircle, Phone, Search, Trash2 } from "lucide-react";
 import { AdminHeading, Button, StatusNote, inputClass } from "./ui";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/format";
@@ -74,7 +75,18 @@ const LANGUAGE_LABEL: Record<string, string> = {
   ru: "Русский",
 };
 
-export default function LeadsTable({ initial }: { initial: Lead[] }) {
+export default function LeadsTable({
+  initial,
+  page,
+  totalPages,
+  total,
+}: {
+  initial: Lead[];
+  page: number;
+  totalPages: number;
+  total: number;
+}) {
+  const router = useRouter();
   const [leads, setLeads] = useState(initial);
   const [status, setStatus] = useState<LeadStatus | "all">("all");
   const [source, setSource] = useState<LeadSource | "all">("all");
@@ -97,6 +109,12 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
   }, [leads, status, source, language, query]);
 
   const newCount = useMemo(() => leads.filter((lead) => lead.status === "new").length, [leads]);
+
+  function goToPage(next: number) {
+    if (next < 1 || next > totalPages || next === page) return;
+    router.push(`/admin/leads?page=${next}`);
+    router.refresh();
+  }
 
   async function updateStatus(id: string, next: LeadStatus) {
     const previous = leads;
@@ -130,7 +148,7 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
     <div>
       <AdminHeading
         title="صندوق الطلبات الواردة"
-        subtitle="كل طلب مرسل من نموذج التواصل، مع اللغة التي استخدمها الزائر وحالة المتابعة."
+        subtitle={`${total} طلب إجمالاً · عرض ${leads.length} طلب في هذه الصفحة · 50 طلب لكل صفحة`}
       />
 
       <div className="surface-card mb-6 flex flex-wrap items-center gap-3 p-4">
@@ -327,6 +345,31 @@ export default function LeadsTable({ initial }: { initial: Lead[] }) {
             );
           })}
         </div>
+      )}
+
+      {totalPages > 1 && (
+        <nav
+          aria-label="تصفّح الطلبات"
+          className="mt-6 flex flex-wrap items-center justify-between gap-3"
+        >
+          <span className="text-xs text-charcoal/55">
+            صفحة {page} من {totalPages}
+          </span>
+          <span className="flex gap-2">
+            <Button variant="ghost" onClick={() => goToPage(page - 1)} disabled={page <= 1}>
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              السابق
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => goToPage(page + 1)}
+              disabled={page >= totalPages}
+            >
+              التالي
+              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          </span>
+        </nav>
       )}
     </div>
   );

@@ -12,6 +12,7 @@ import {
   StatusToggle,
   UpdatedAtLabel,
   inputClass,
+  persistRowStatus,
 } from "./ui";
 import MediaField from "./MediaField";
 import MediaFrame from "@/components/ui/MediaFrame";
@@ -71,6 +72,20 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
     setRows((current) =>
       current.map((row) => (row.id === id ? ({ ...row, [key]: value } as Row) : row)),
     );
+
+  async function toggleStatus(row: Row) {
+    const current = row.status ?? "draft";
+    const next: "draft" | "published" = current === "published" ? "draft" : "published";
+    patch(row.id, "status", next);
+    if (row._new) return; // not yet in the database — will be saved with the row
+    const failure = await persistRowStatus("universities", row.id, next);
+    if (failure) {
+      patch(row.id, "status", current);
+      setNote({ type: "error", text: failure });
+    } else {
+      setNote({ type: "ok", text: next === "published" ? "تم النشر." : "تم التحويل إلى مسودة." });
+    }
+  }
 
   const number = (value: unknown) => {
     const parsed = Number.parseInt(String(value ?? ""), 10);
@@ -216,9 +231,7 @@ export default function UniversitiesEditor({ initial }: { initial: University[] 
                 </button>
                 <StatusToggle
                   status={row.status ?? "published"}
-                  onToggle={() =>
-                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
-                  }
+                  onToggle={() => toggleStatus(row)}
                 />
                 <button
                   type="button"

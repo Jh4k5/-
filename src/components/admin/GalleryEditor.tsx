@@ -12,6 +12,7 @@ import {
   StatusToggle,
   UpdatedAtLabel,
   inputClass,
+  persistRowStatus,
 } from "./ui";
 import MediaField from "./MediaField";
 import { createClient } from "@/lib/supabase/client";
@@ -40,6 +41,20 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
     setRows((current) =>
       current.map((row) => (row.id === id ? ({ ...row, [key]: value } as Row) : row)),
     );
+
+  async function toggleStatus(row: Row) {
+    const current = row.status ?? "draft";
+    const next: "draft" | "published" = current === "published" ? "draft" : "published";
+    patch(row.id, "status", next);
+    if (row._new) return; // not yet in the database — will be saved with the row
+    const failure = await persistRowStatus("gallery", row.id, next);
+    if (failure) {
+      patch(row.id, "status", current);
+      setNote({ type: "error", text: failure });
+    } else {
+      setNote({ type: "ok", text: next === "published" ? "تم النشر." : "تم التحويل إلى مسودة." });
+    }
+  }
 
   async function save(row: Row) {
     setBusy(row.id);
@@ -113,9 +128,7 @@ export default function GalleryEditor({ initial }: { initial: GalleryItem[] }) {
               <div className="flex items-center justify-between gap-3">
                 <StatusToggle
                   status={row.status ?? "published"}
-                  onToggle={() =>
-                    patch(row.id, "status", row.status === "published" ? "draft" : "published")
-                  }
+                  onToggle={() => toggleStatus(row)}
                 />
                 <UpdatedAtLabel value={row.updated_at} />
               </div>

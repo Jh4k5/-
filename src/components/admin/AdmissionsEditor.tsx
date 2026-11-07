@@ -12,6 +12,7 @@ import {
   StatusToggle,
   UpdatedAtLabel,
   inputClass,
+  persistRowStatus,
 } from "./ui";
 import MediaField from "./MediaField";
 import BlurBoxEditor from "./BlurBoxEditor";
@@ -81,6 +82,24 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
     setRows((current) =>
       current.map((row) => (row.id === id ? ({ ...row, [key]: value } as Row) : row)),
     );
+
+  async function toggleStatus(row: Row) {
+    const current = row.status ?? "draft";
+    const next: "draft" | "published" = current === "published" ? "draft" : "published";
+    if (next === "published" && !row.student_consent) {
+      setNote({ type: "error", text: "لا يمكن النشر بدون موافقة الطالب على النشر." });
+      return;
+    }
+    patch(row.id, "status", next);
+    if (row._new) return; // not yet in the database — will be saved with the row
+    const failure = await persistRowStatus("admissions", row.id, next);
+    if (failure) {
+      patch(row.id, "status", current);
+      setNote({ type: "error", text: failure });
+    } else {
+      setNote({ type: "ok", text: next === "published" ? "تم النشر." : "تم التحويل إلى مسودة." });
+    }
+  }
 
   async function save(row: Row) {
     if (!row.image_url) {
@@ -233,14 +252,7 @@ export default function AdmissionsEditor({ initial }: { initial: Admission[] }) 
                   </button>
                   <StatusToggle
                     status={row.status ?? "published"}
-                    onToggle={() => {
-                      const next = row.status === "published" ? "draft" : "published";
-                      if (next === "published" && !row.student_consent) {
-                        setNote({ type: "error", text: "لا يمكن النشر بدون موافقة الطالب على النشر." });
-                        return;
-                      }
-                      patch(row.id, "status", next);
-                    }}
+                    onToggle={() => toggleStatus(row)}
                   />
                   <button
                     type="button"
