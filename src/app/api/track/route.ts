@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createPublicSupabase } from "@/lib/supabase/server";
 import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
+import { clientIpFromHeaders, createRateLimiter } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -11,18 +12,7 @@ const REFERRERS = new Set(["direct", "organic", "social", "whatsapp", "other"]);
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** Analytics is not a form: much looser throttle than /api/leads. */
-const WINDOW_MS = 60 * 1000;
-const MAX_PER_WINDOW = 60;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string) {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((time) => now - time < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  if (hits.size > 5000) hits.clear();
-  return recent.length > MAX_PER_WINDOW;
-}
+const limiter = createRateLimiter({ windowMs: 60 * 1000, max: 60 });
 
 function text(value: unknown, max = 200): string | null {
   if (typeof value !== "string") return null;
@@ -38,12 +28,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_payload" }, { status: 400 });
   }
 
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
-    request.headers.get("x-real-ip") ||
-    "unknown";
+  const ip = clientIpFromHeaders(request);
 
-  if (rateLimited(ip)) {
+  if (limiter.limited(ip)) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

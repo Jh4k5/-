@@ -34,7 +34,10 @@ async function guardAdmin(request: NextRequest) {
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options),
+          response.cookies.set(name, value, {
+            ...options,
+            secure: process.env.NODE_ENV === "production",
+          }),
         );
       },
     },
@@ -51,17 +54,31 @@ async function guardAdmin(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     url.searchParams.set("next", pathname);
-    return NextResponse.redirect(url);
+    return redirectWithCookies(url, response);
   }
 
   if (user && isLoginPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
     url.search = "";
-    return NextResponse.redirect(url);
+    return redirectWithCookies(url, response);
   }
 
   return response;
+}
+
+/**
+ * Build a redirect that carries over any session cookies `getUser()` already
+ * wrote onto `response` — otherwise a token refresh performed right before the
+ * redirect would be silently dropped and the browser would keep the rotated-out
+ * refresh token.
+ */
+function redirectWithCookies(url: URL, response: NextResponse) {
+  const redirect = NextResponse.redirect(url);
+  for (const cookie of response.headers.getSetCookie()) {
+    redirect.headers.append("set-cookie", cookie);
+  }
+  return redirect;
 }
 
 export async function middleware(request: NextRequest) {

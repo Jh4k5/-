@@ -10,7 +10,13 @@ import { createClient } from "@/lib/supabase/client";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") || "/admin";
+  // Only same-origin absolute paths are allowed as the post-login target.
+  // Rejects absolute URLs (`https://…`), protocol-relative (`//evil.com`),
+  // backslash tricks (`/\evil.com` — browsers may normalize `\` to `/`),
+  // and any character outside the URL path set.
+  const SAFE_NEXT = /^\/(?!\/)[/a-zA-Z0-9\-._~%!$&'()*+,;=:@?#]*$/;
+  const rawNext = searchParams.get("next");
+  const next = rawNext && SAFE_NEXT.test(rawNext) ? rawNext : "/admin";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
