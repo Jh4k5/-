@@ -14,6 +14,46 @@ import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
 
+/** Locale-aware fallbacks for settings that may not exist in the database. */
+const AFTER_INTERVIEW_TITLE: Record<Locale, string> = {
+  ar: "ماذا يحدث بعد المقابلة؟",
+  en: "What happens after the interview?",
+  ru: "Что происходит после собеседования?",
+};
+
+const AFTER_INTERVIEW_STEPS: Record<Locale, string[]> = {
+  ar: [
+    "نفهم مرحلتك الدراسية وتخصصك وهدفك وميزانيتك.",
+    "نراجع المسارات والبرامج التي تناسب ملفك مبدئياً.",
+    "نرسل لك خطة تقديم مخصصة لتختار منها.",
+    "نبدأ تجهيز الملف والتقديم بعد الاتفاق الواضح على النطاق والتكلفة.",
+  ],
+  en: [
+    "We understand your academic stage, major, goals and budget.",
+    "We initially review the tracks and programmes that suit your profile.",
+    "We send you a tailored application plan to choose from.",
+    "We start preparing your file and applying once the scope and cost are clearly agreed.",
+  ],
+  ru: [
+    "Мы понимаем ваш этап обучения, специальность, цели и бюджет.",
+    "Мы предварительно рассматриваем направления и программы, подходящие вашему профилю.",
+    "Мы отправляем вам индивидуальный план подачи на выбор.",
+    "Мы начинаем подготовку документов и подачу после чёткого согласования объёма и стоимости.",
+  ],
+};
+
+const COST_TITLE: Record<Locale, string> = {
+  ar: "كيف تتحدد التكلفة؟",
+  en: "How is the cost determined?",
+  ru: "Как определяется стоимость?",
+};
+
+const COST_TEXT: Record<Locale, string> = {
+  ar: "تختلف التكلفة حسب ملفك والخدمات التي تحتاجها. بعد المقابلة نرسل لك نطاقاً واضحاً وخطة مكتوبة قبل بدء التعاقد، ولا توجد رسوم مخفية خارج ما ينص عليه العقد.",
+  en: "The cost varies according to your profile and the services you need. After the interview we send you a clear range and a written plan before the contract begins — there are no hidden fees beyond what the contract states.",
+  ru: "Стоимость зависит от вашего профиля и необходимых услуг. После собеседования мы отправляем вам чёткий диапазон и письменный план до начала договора — никаких скрытых платежей сверх условий договора.",
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -51,41 +91,18 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     settings,
     "services_after_interview_title",
     locale,
-    "ماذا يحدث بعد المقابلة؟",
+    AFTER_INTERVIEW_TITLE[locale],
   );
-  const afterInterviewSteps = [
-    settingText(
-      settings,
-      "services_after_interview_step1",
-      locale,
-      "نفهم مرحلتك الدراسية وتخصصك وهدفك وميزانيتك.",
-    ),
-    settingText(
-      settings,
-      "services_after_interview_step2",
-      locale,
-      "نراجع المسارات والبرامج التي تناسب ملفك مبدئياً.",
-    ),
-    settingText(
-      settings,
-      "services_after_interview_step3",
-      locale,
-      "نرسل لك خطة تقديم مخصصة لتختار منها.",
-    ),
-    settingText(
-      settings,
-      "services_after_interview_step4",
-      locale,
-      "نبدأ تجهيز الملف والتقديم بعد الاتفاق الواضح على النطاق والتكلفة.",
-    ),
-  ];
+  const afterInterviewSteps = AFTER_INTERVIEW_STEPS[locale].map((fallback, index) =>
+    settingText(settings, `services_after_interview_step${index + 1}`, locale, fallback),
+  );
 
-  const costTitle = settingText(settings, "services_cost_title", locale, "كيف تتحدد التكلفة؟");
+  const costTitle = settingText(settings, "services_cost_title", locale, COST_TITLE[locale]);
   const costText = settingText(
     settings,
     "cost_transparency_text",
     locale,
-    "تختلف التكلفة حسب ملفك والخدمات التي تحتاجها. بعد المقابلة نرسل لك نطاقاً واضحاً وخطة مكتوبة قبل بدء التعاقد، ولا توجد رسوم مخفية خارج ما ينص عليه العقد.",
+    COST_TEXT[locale],
   );
 
   return (

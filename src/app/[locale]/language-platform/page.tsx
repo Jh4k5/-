@@ -15,6 +15,15 @@ import { settingText, settingValue, whatsappLink } from "@/lib/settings-helpers"
 import { breadcrumbJsonLd, buildMetadata, courseJsonLd } from "@/lib/seo";
 import Breadcrumbs from "@/components/site/Breadcrumbs";
 
+export const revalidate = 60;
+
+/** Locale-aware CTA fallback when the platform URL label setting is missing. */
+const PLATFORM_CTA: Record<Locale, string> = {
+  ar: "ادخل إلى المنصة",
+  en: "Enter the platform",
+  ru: "Войти на платформу",
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -70,7 +79,12 @@ export default async function LanguagePlatformPage({
   const perkText = settingText(settings, "process_bridge_perk_text", locale, dict.process.bridgePerk);
   const terms = settingText(settings, "language_platform_terms", locale, "");
   const platformUrl = settingValue(settings, "language_platform_url");
-  const platformCta = settingText(settings, "language_platform_url_label", locale, "ادخل إلى المنصة");
+  const platformCta = settingText(
+    settings,
+    "language_platform_url_label",
+    locale,
+    PLATFORM_CTA[locale],
+  );
   const integrationText = settingText(settings, "language_platform_integration_text", locale, "");
 
   const audiences = [1, 2, 3]

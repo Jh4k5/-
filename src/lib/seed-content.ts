@@ -381,7 +381,7 @@ export const SEED_SETTINGS: SettingRow[] = [
     value: null,
     value_ar: "جامعة صينية نتعامل معها",
     value_en: "Chinese universities we work with",
-    value_ru: "Китайских вузов-партнёров",
+    value_ru: "Китайских вузов, с которыми мы работаем",
   },
   { key: "stat_satisfaction_rate_label", value: null, value_ar: "نسبة رضا الطلاب", value_en: "Student satisfaction rate", value_ru: "Уровень удовлетворённости" },
   { key: "stats_measured_at", value: null, value_ar: "بيانات محدثة دورياً", value_en: "Figures updated periodically", value_ru: "Данные обновляются регулярно" },

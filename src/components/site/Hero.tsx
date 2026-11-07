@@ -16,6 +16,13 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/** Fallback helper text under the hero CTA when the setting is missing. */
+const HERO_CTA_HELPER: Record<Locale, string> = {
+  ar: "نراجع مرحلتك وهدفك وميزانيتك مبدئياً، ونوضح لك المسار المناسب قبل أي التزام.",
+  en: "We do an initial review of your stage, goals and budget, and clarify the right path before any commitment.",
+  ru: "Мы предварительно оцениваем ваш этап, цели и бюджет и разъясняем подходящий путь до любых обязательств.",
+};
+
 export default function Hero({
   locale,
   dict,
@@ -59,7 +66,7 @@ export default function Hero({
     settings,
     "hero_cta_helper_text",
     locale,
-    "نراجع مرحلتك وهدفك وميزانيتك مبدئياً، ونوضح لك المسار المناسب قبل أي التزام.",
+    HERO_CTA_HELPER[locale],
   );
   const ctaWhatsapp = settingText(settings, "hero_cta_secondary", locale, dict.common.whatsapp);
   const servicesLinkLabel = settingText(

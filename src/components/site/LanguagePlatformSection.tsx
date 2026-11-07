@@ -7,6 +7,13 @@ import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
 import { settingText, settingValue, type SettingsMapLike } from "@/lib/settings-helpers";
 
+/** Locale-aware CTA fallback when the platform URL label setting is missing. */
+const PLATFORM_CTA_FALLBACK: Record<Locale, string> = {
+  ar: "ادخل إلى المنصة",
+  en: "Enter the platform",
+  ru: "Войти на платформу",
+};
+
 export default function LanguagePlatformSection({
   locale,
   dict,
@@ -26,7 +33,7 @@ export default function LanguagePlatformSection({
     settings,
     "language_platform_url_label",
     locale,
-    "ادخل إلى المنصة",
+    PLATFORM_CTA_FALLBACK[locale],
   );
   const headline = settingText(settings, "language_platform_headline", locale, dict.languagePlatform.title);
   const perkDuration = settingText(settings, "process_bridge_perk_duration", locale, "");

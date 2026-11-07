@@ -73,7 +73,7 @@ const en: Dictionary = {
       },
     ],
     bridgePerk:
-      'Signing up with us also gets you free lifetime access to the "Bridge to Chinese" language-learning platform.',
+      'Signing up with us also gets you two months of free access to the "Bridge to Chinese" language-learning platform.',
     cta: "Book your free consultation now",
     viewAllSteps: "See all 11 detailed steps",
   },
@@ -209,6 +209,7 @@ const en: Dictionary = {
       chineseLevel: "Chinese language level",
       preferredContact: "Preferred contact method",
       phone: "Phone / WhatsApp number",
+      countryCode: "Country code",
       email: "Email address",
       message: "Additional message",
       choose: "Choose…",

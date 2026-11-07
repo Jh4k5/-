@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import type { Dictionary } from "@/i18n";
 import type { Locale } from "@/i18n/config";
-import { COUNTRY_CODES } from "@/lib/country-codes";
+import { COUNTRY_CODES, countryLabel } from "@/lib/country-codes";
 import { settingText, type SettingsMapLike } from "@/lib/settings-helpers";
 import { track } from "@/lib/analytics";
 import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
@@ -209,14 +209,14 @@ export default function ContactForm({
           </label>
           <div className="flex min-w-0 flex-col gap-2 min-[360px]:flex-row" dir="ltr">
             <select
-              aria-label="رمز الدولة"
+              aria-label={dict.contact.fields.countryCode}
               value={countryCode}
               onChange={(event) => setCountryCode(event.target.value)}
               className={`${fieldClass} w-full shrink-0 min-[360px]:w-28`}
             >
               {COUNTRY_CODES.map((item) => (
                 <option key={item.label} value={item.code}>
-                  {item.label}
+                  {countryLabel(item, locale)}
                 </option>
               ))}
             </select>
