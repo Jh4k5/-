@@ -32,7 +32,17 @@ function LoginForm() {
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
     if (signInError) {
-      setError("بيانات الدخول غير صحيحة. تحقق من البريد وكلمة المرور.");
+      // Supabase returns 429 when the IP/email exceeds the auth rate limit.
+      // Showing the generic "wrong credentials" message in that case makes a
+      // temporary throttle look like a permanently broken login.
+      const isRateLimited =
+        (signInError as { status?: number }).status === 429 ||
+        /rate\s*limit/i.test(signInError.message ?? "");
+      setError(
+        isRateLimited
+          ? "تم تجاوز الحد المسموح لمحاولات الدخول مؤقتًا. انتظر دقيقة أو دقيقتين ثم أعد المحاولة."
+          : "بيانات الدخول غير صحيحة. تحقق من البريد وكلمة المرور.",
+      );
       setLoading(false);
       return;
     }
