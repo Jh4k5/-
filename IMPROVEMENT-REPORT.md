@@ -160,3 +160,20 @@ The blog/articles infrastructure + FAQ table already exist. Highest-leverage inf
 Vercel-side config is already staged for that switch: www serves, apex 308 → www, and the auth allowlist already admits both hosts.
 
 **Redeploy note:** `robots.txt` and `sitemap.xml` are Next.js build-time metadata routes — they snapshot `settings.site_url` at build time. After any future `site_url` change (e.g. when the custom domain goes live), push any commit or trigger a redeploy so they re-bake; per-page canonicals update via ISR within 60 s on their own.
+
+---
+
+## 11. Session 3 — environment handover recovery (2026-11-10)
+
+A new AI development environment took over the project per the owner's handover directive and completed full recovery before changing anything:
+
+- **Git:** `44fce32` and `e3069da` confirmed pushed and deployed (the earlier "two commits ahead locally" note is obsolete — both landed on GitHub and auto-deployed). `improvement/audit-remediation` (`77fc550`) is fully contained in the default branch. Clean tree, no tags, nothing dangling.
+- **Production:** latest Vercel deployment READY from `e3069da`; the project runs with zero env vars by design (committed publishable-key fallback; no service-role key exists in the codebase, and the pre-commit scanner keeps it that way).
+- **Database:** `jisr-to-china` ACTIVE_HEALTHY (Postgres 17.6, eu-central-1). Migration-history mismatch documented and resolved as benign: remote history holds 30 entries (≈ `0001`–`0029`); `0030`–`0033` are absent from the table but **verified live in the schema** (0032 indexes + constrained insert policies, 0033 `default_og_image`, post-0030/0031 renamed settings keys). No history repair attempted, per the handover.
+- **DB-06 re-verified live:** `is_admin()` still returns true for both `admin` and `editor` roles — remains the next database work item before any editor is hired.
+- **Search Console:** the owner's new verification token was added to `verification.google` in `src/app/layout.tsx` (legacy token retained alongside — one meta tag each). Rendered HTML verified on the dev server; tsc + eslint clean.
+- **Emails:** confirmed absent from the codebase — the two Resend workflows (applicant confirmation + owner notification) are greenfield and blocked on the owner's fresh restricted key + notification address.
+- **Skills:** the previous 27-skill install lived in an untracked `skills/` folder and was lost in the handover; the new environment re-cloned all nine owner-requested repos (122 skills) and maps its native skill system onto them — see `docs/AI-SKILLS-INVENTORY.md`.
+- Full evidence and the twelve recovery answers: `docs/PROJECT-RECOVERY-REPORT.md`.
+
+**Untouched, per owner decisions:** admission-letter samples and their storage, DNS/custom domain (postponed), brand/identity, production data (read-only inspection only).
