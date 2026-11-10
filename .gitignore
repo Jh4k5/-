@@ -38,6 +38,10 @@ yarn-error.log*
 dev.log
 /tool-results
 
+# lockfiles — package-lock.json is the canonical one (used by the Vercel npm
+# build); bun.lock is a sandbox/dev-machine artifact only
+bun.lock
+
 # vercel
 .vercel
 

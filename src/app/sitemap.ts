@@ -42,6 +42,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl(settings);
   const now = new Date();
 
+  // Static pages have no per-page timestamps in the database. Advertising
+  // "right now" on every build tells crawlers every URL changed whenever the
+  // site redeploys, which trains them to distrust lastModified. Instead,
+  // date them from the newest content row across the fetched collections —
+  // a defensible "the site's content last changed on" stamp — and only fall
+  // back to now when there is no content at all.
+  const contentTimestamps = [
+    articles,
+    universities,
+    services,
+    studyPaths,
+    destinations,
+    stories,
+  ]
+    .flat()
+    .map((item) => item.updated_at ?? item.created_at)
+    .filter((value): value is string => Boolean(value))
+    .map((value) => new Date(value).getTime())
+    .filter((time) => Number.isFinite(time));
+  const lastContentChange = contentTimestamps.length
+    ? new Date(Math.max(...contentTimestamps))
+    : now;
+
   /** One entry per locale for a list of items that each carry a slug. */
   const entriesFor = <T extends { slug?: string; updated_at?: string | null; created_at?: string }>(
     prefix: string,
@@ -62,7 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = locales.flatMap((locale) =>
     PAGES.map((page) => ({
       url: `${base}/${locale}${page}`,
-      lastModified: now,
+      lastModified: page === "" ? now : lastContentChange,
       changeFrequency: "weekly" as const,
       priority: page === "" ? 1 : 0.7,
     })),

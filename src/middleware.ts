@@ -88,6 +88,19 @@ export async function middleware(request: NextRequest) {
     return guardAdmin(request);
   }
 
+  // Typed or shared uppercase locale prefixes (/AR, /En/…) used to miss the
+  // lowercase lookup below and get re-prefixed into a 404 (/ar/AR/…).
+  // Normalize them with a permanent redirect so links and search indexes
+  // converge on the canonical lowercase form.
+  const segments = pathname.split("/");
+  const first = segments[1] ?? "";
+  if (first !== first.toLowerCase() && isLocale(first.toLowerCase())) {
+    const url = request.nextUrl.clone();
+    segments[1] = first.toLowerCase();
+    url.pathname = segments.join("/");
+    return NextResponse.redirect(url, 308);
+  }
+
   const active = locales.find(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );

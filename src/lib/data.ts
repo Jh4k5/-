@@ -52,6 +52,11 @@ async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
  * a single Supabase round trip automatically — no call-site changes needed.
  */
 
+// DB-07: the seed arrays are an *outage* fallback (connection error / API
+// error), never an "empty database" fallback. A legitimately empty result —
+// the owner unpublished or deleted every row — must render as empty, or the
+// dashboard would silently resurrect content the owner removed.
+
 export const getServices = cache(async function getServices(): Promise<Service[]> {
   return safe(async () => {
     const supabase = createPublicSupabase();
@@ -59,7 +64,7 @@ export const getServices = cache(async function getServices(): Promise<Service[]
       .from("services")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_SERVICES;
+    if (error || !data) return SEED_SERVICES;
     return data as Service[];
   }, SEED_SERVICES);
 });
@@ -71,7 +76,7 @@ export const getProcessSteps = cache(async function getProcessSteps(): Promise<P
       .from("process_steps")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_PROCESS_STEPS;
+    if (error || !data) return SEED_PROCESS_STEPS;
     return data as ProcessStep[];
   }, SEED_PROCESS_STEPS);
 });
@@ -85,7 +90,7 @@ export const getProcessStages = cache(async function getProcessStages(): Promise
       .from("process_stages")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_PROCESS_STAGES;
+    if (error || !data) return SEED_PROCESS_STAGES;
     return data as ProcessStage[];
   }, SEED_PROCESS_STAGES);
 });
@@ -97,7 +102,7 @@ export const getStudyPaths = cache(async function getStudyPaths(): Promise<Study
       .from("study_paths")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_STUDY_PATHS;
+    if (error || !data) return SEED_STUDY_PATHS;
     return data as StudyPath[];
   }, SEED_STUDY_PATHS);
 });
@@ -111,7 +116,7 @@ export const getWhyChinaPoints = cache(async function getWhyChinaPoints(): Promi
       .from("why_china_points")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_WHY_CHINA_POINTS;
+    if (error || !data) return SEED_WHY_CHINA_POINTS;
     return data as WhyChinaPoint[];
   }, SEED_WHY_CHINA_POINTS);
 });
@@ -123,7 +128,7 @@ export const getCostFactors = cache(async function getCostFactors(): Promise<Cos
       .from("cost_factors")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_COST_FACTORS;
+    if (error || !data) return SEED_COST_FACTORS;
     return data as CostFactor[];
   }, SEED_COST_FACTORS);
 });
@@ -135,7 +140,7 @@ export const getFaqs = cache(async function getFaqs(): Promise<Faq[]> {
       .from("faqs")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_FAQS;
+    if (error || !data) return SEED_FAQS;
     return data as Faq[];
   }, SEED_FAQS);
 });
@@ -149,7 +154,7 @@ export const getProcessTrustBadges = cache(async function getProcessTrustBadges(
       .from("process_trust_badges")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_PROCESS_TRUST_BADGES;
+    if (error || !data) return SEED_PROCESS_TRUST_BADGES;
     return data as ProcessTrustBadge[];
   }, SEED_PROCESS_TRUST_BADGES);
 });
@@ -163,7 +168,7 @@ export const getDestinations = cache(async function getDestinations(): Promise<
       .from("destination_media")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_DESTINATIONS;
+    if (error || !data) return SEED_DESTINATIONS;
     return data as DestinationMedia[];
   }, SEED_DESTINATIONS);
 });
@@ -186,7 +191,7 @@ export const getStories = cache(async function getStories(
       .from("success_stories")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_STORIES;
+    if (error || !data) return SEED_STORIES;
     return data as SuccessStory[];
   }, SEED_STORIES);
   return typeof limit === "number" ? rows.slice(0, limit) : rows;
@@ -213,9 +218,11 @@ export const getArticles = cache(async function getArticles(limit?: number): Pro
  * RLS already hides unpublished rows from anonymous readers, so these
  * only need to match the slug.
  *
- * Each one falls back to the offline seed array rather than to `null`,
- * because the sitemap is built from the same seed data when the database
- * is unreachable — returning null here would advertise URLs that 404.
+ * The seed lookup is an *outage* fallback only: when the request itself
+ * fails, the sitemap (built from the same seed data in an outage) would
+ * otherwise advertise URLs that 404. A null row with no error means the
+ * row genuinely does not exist — that must surface as a 404, never as
+ * resurrected seed content the owner deleted or unpublished (DB-07).
  */
 function bySlug<T extends { slug?: string }>(seed: T[], slug: string): T | null {
   return seed.find((item) => item.slug === slug) ?? null;
@@ -229,8 +236,8 @@ async function fetchBySlug<T extends { slug?: string }>(
   return safe(async () => {
     const supabase = createPublicSupabase();
     const { data, error } = await supabase.from(table).select("*").eq("slug", slug).maybeSingle();
-    if (error || !data) return bySlug(seed, slug);
-    return data as T;
+    if (error) return bySlug(seed, slug);
+    return (data as T | null) ?? null;
   }, bySlug(seed, slug));
 }
 
@@ -314,7 +321,7 @@ export const getUniversities = cache(async function getUniversities(): Promise<U
       .from("universities")
       .select("*")
       .order("display_order", { ascending: true });
-    if (error || !data || data.length === 0) return SEED_UNIVERSITIES;
+    if (error || !data) return SEED_UNIVERSITIES;
     return data as University[];
   }, SEED_UNIVERSITIES);
 });

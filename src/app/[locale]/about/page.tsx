@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Eye, Target } from "lucide-react";
 import PageHero from "@/components/site/PageHero";
 import SectionHeading from "@/components/site/SectionHeading";
@@ -183,12 +182,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   {/* Small photo sits directly beside the name, per the brief. */}
                   <div className="flex items-center gap-3">
                     <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-1 ring-trust-blue/10">
-                      <Image
+                      <MediaFrame
                         src={person.photo}
                         alt={person.name}
-                        fill
                         sizes="56px"
-                        className="object-cover"
+                        fallbackScene="campus-gate"
                       />
                     </div>
                     <div>

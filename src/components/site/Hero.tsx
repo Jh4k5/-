@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, MessageCircle, MousePointerClick } from "lucide-react";
+import { ArrowLeft, ArrowRight, MessageCircle, MousePointerClick, Pause, Play } from "lucide-react";
 import MediaFrame from "@/components/ui/MediaFrame";
 import TextReveal from "@/components/motion/TextReveal";
 import { LogoMark } from "./Logo";
@@ -21,6 +21,18 @@ const HERO_CTA_HELPER: Record<Locale, string> = {
   ar: "نراجع مرحلتك وهدفك وميزانيتك مبدئياً، ونوضح لك المسار المناسب قبل أي التزام.",
   en: "We do an initial review of your stage, goals and budget, and clarify the right path before any commitment.",
   ru: "Мы предварительно оцениваем ваш этап, цели и бюджет и разъясняем подходящий путь до любых обязательств.",
+};
+
+/** WCAG 2.2.2: the auto-advancing hero slideshow needs a visible pause. */
+const SLIDESHOW_PAUSE_LABEL: Record<Locale, string> = {
+  ar: "إيقاف تبديل صور الواجهة مؤقتاً",
+  en: "Pause the background slideshow",
+  ru: "Остановить слайд-шоу на фоне",
+};
+const SLIDESHOW_RESUME_LABEL: Record<Locale, string> = {
+  ar: "استئناف تبديل صور الواجهة",
+  en: "Resume the background slideshow",
+  ru: "Возобновить слайд-шоу на фоне",
 };
 
 export default function Hero({
@@ -47,9 +59,11 @@ export default function Hero({
   // never gets even one frame of motion it isn't supposed to have.
   const [motionEnabled, setMotionEnabled] = useState(false);
   // The slideshow is a plain opacity cross-fade — cheap enough for a phone,
-  // unlike the parallax and ken-burns above. It is gated only on the visitor's
-  // reduced-motion preference, so the three hero images rotate on mobile too.
-  const [slideshowEnabled, setSlideshowEnabled] = useState(false);
+  // unlike the parallax and ken-burns above. It is gated on the visitor's
+  // reduced-motion preference AND a visible pause control (WCAG 2.2.2).
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const slideshowActive = !reducedMotion && !userPaused;
   const Arrow = rtl ? ArrowLeft : ArrowRight;
 
   // How long each hero image holds before the next fades in. Clamped so a typo
@@ -85,7 +99,7 @@ export default function Hero({
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
       setMotionEnabled(!mobile.matches && !reduced.matches);
-      setSlideshowEnabled(!reduced.matches);
+      setReducedMotion(reduced.matches);
     };
     update();
     mobile.addEventListener("change", update);
@@ -97,10 +111,10 @@ export default function Hero({
   }, []);
 
   useEffect(() => {
-    if (!slideshowEnabled || slides.length < 2) return;
+    if (!slideshowActive || slides.length < 2) return;
     const timer = setInterval(() => setIndex((i) => (i + 1) % slides.length), slideIntervalMs);
     return () => clearInterval(timer);
-  }, [slideshowEnabled, slides.length, slideIntervalMs]);
+  }, [slideshowActive, slides.length, slideIntervalMs]);
 
   // Only fetch a slide's image once it has actually been shown — avoids
   // eagerly loading every hero photo on first paint just because they're
@@ -382,6 +396,25 @@ export default function Hero({
           )}
         </div>
       </div>
+
+      {/* layer 6 — slideshow pause control (WCAG 2.2.2). Sits in the bottom
+          *start* corner: the WhatsApp float owns the bottom *end* corner on
+          every page and breakpoint, and they must never overlap. */}
+      {slides.length > 1 && (
+        <button
+          type="button"
+          onClick={() => setUserPaused((paused) => !paused)}
+          aria-label={userPaused ? SLIDESHOW_RESUME_LABEL[locale] : SLIDESHOW_PAUSE_LABEL[locale]}
+          title={userPaused ? SLIDESHOW_RESUME_LABEL[locale] : SLIDESHOW_PAUSE_LABEL[locale]}
+          className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom))] start-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/30 text-white/85 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-imperial-gold focus-visible:outline-none"
+        >
+          {userPaused ? (
+            <Play className="h-4 w-4" aria-hidden="true" />
+          ) : (
+            <Pause className="h-4 w-4" aria-hidden="true" />
+          )}
+        </button>
+      )}
 
       <motion.div
         initial={{ opacity: 0 }}

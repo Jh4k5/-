@@ -1,12 +1,17 @@
 import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
-import "@fontsource/cairo/400.css";
+// Font weights shipped — audited against actual usage:
+//   · Cairo (Arabic display): every font-display usage pairs with
+//     font-extrabold/semibold and h1–h5 are weight 800, so 600/700/800 cover
+//     it. 400 is never rendered.
+//   · Tajawal (Arabic body): font-medium never appears in the codebase, so
+//     500 is never rendered. 400 (body/normal) + 700 (bold) cover it.
+//   · Manrope Variable: one variable file, all weights.
 import "@fontsource/cairo/600.css";
 import "@fontsource/cairo/700.css";
 import "@fontsource/cairo/800.css";
 import "@fontsource/tajawal/400.css";
-import "@fontsource/tajawal/500.css";
 import "@fontsource/tajawal/700.css";
 import "@fontsource-variable/manrope";
 import "./globals.css";

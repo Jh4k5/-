@@ -1,2 +1,4 @@
 #!/bin/sh
-node scripts/pre-commit-scan.mjs || exit 1
+# Runs scripts/pre-commit-scan.mjs (secrets + unaudited raw HTML injection on
+# staged files). Wired automatically by `npm run prepare` (core.hooksPath).
+exec node scripts/pre-commit-scan.mjs

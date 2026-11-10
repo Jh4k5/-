@@ -1,6 +1,6 @@
 import KanjiWatermark from "@/components/art/KanjiWatermark";
 import Link from "next/link";
-import Image from "next/image";
+import MediaFrame from "@/components/ui/MediaFrame";
 import Reveal from "@/components/motion/Reveal";
 import SectionHeading from "./SectionHeading";
 import type { Dictionary } from "@/i18n";
@@ -43,7 +43,7 @@ export default function AboutTeaser({
           <Reveal delay={130}>
             <div className="mt-8 flex items-center justify-center gap-3">
               <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                <Image src={ceoPhoto} alt={ceoName} fill sizes="48px" className="object-cover" />
+                <MediaFrame src={ceoPhoto} alt={ceoName} sizes="48px" fallbackScene="campus-gate" />
               </div>
               <div className="text-start">
                 <p className="text-sm font-extrabold text-trust-blue">{ceoName}</p>
