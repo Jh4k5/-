@@ -182,9 +182,8 @@ A new AI development environment took over the project per the owner's handover 
 
 ## 12. Session 4 — email automation, DB-06, rate limiting, blog batch 1 (2026-11)
 
-Continuing the master directive with the owner's notification address provided (`mohmonef6@gmail.com`,
-delivered via the chat channel and stored only in the gitignored `.env.local` + Vercel-style env
-documentation — never in the public repo).
+Continuing the master directive with the owner's notification address provided (delivered
+via the chat channel and stored only in the gitignored `.env.local` — never in the public repo).
 
 ### Phase 4 — two-way lead email notifications (implemented & locally verified)
 
@@ -259,3 +258,77 @@ covers. They go live (blog archive + sitemap) the moment the migration is applie
   commit — **all local; push requires GitHub credentials this environment does not hold**
   (verified: `git push` → no stored credentials). Production therefore still serves `2d88802`.
 - Owner decisions untouched: admission-letter samples, DNS/custom domain, brand, canonicals.
+
+## 13. Session 5 — deployment preflight & production readiness (2026-11-10)
+
+Mission: move the four local commits toward safe production deployment (owner directive:
+recovery/push → migration preflight → Resend config → blog publication → GSC → final
+verification). Deliverable: **`docs/PRODUCTION-DEPLOYMENT-GUIDE.md`** (Parts A–F).
+
+### Verified this session (all read-only)
+
+- **Git state:** branch `claude/jisr-china-trilingual-platform-wzojbr`, remote at `2d88802`,
+  local 4 ahead (`9dae837`, `a3f5775`, `7dc50de`, `fffecab` — +2,410/−14 lines). Tracked tree
+  clean; only sandbox artifacts untracked. **Secrets scan of the full diff: clean** (patterns,
+  high-entropy, `.env.example`). `git ls-remote` works (public repo) → connectivity fine.
+- **Push blocked solely on credentials:** no helper/`.git-credentials`/`gh`/env token exists in
+  this sandbox (session-3 rotation removed them — correct). Exact secure setup instructions
+  delivered (guide Part A): fine-grained PAT, repo-scoped, `Contents: RW`, 7-day expiry,
+  delivered via secure env settings (`GITHUB_TOKEN`), revoked after push. No force-push; clean
+  fast-forward confirmed.
+- **Migration preflight (guide Part B):** all four of 0034–0037 inspected line-by-line —
+  idempotent (drop-if-exists / if-not-exists / on-conflict-do-nothing), additive, no data
+  changes, **no admin-lockout path** (owner keeps full privileges; `users` policy unchanged in
+  effect). App feature-detects both new RPCs (verified in code: `record_lead_notification`,
+  `consume_rate_limit` — log-only / fail-open fallbacks). 0037 schema-compatible with
+  `public.articles`; all five `scene:*` covers exist in `SceneArt.tsx`; categories valid.
+- **`db push` prohibition made explicit:** local files are `00NN_`-named, remote history holds
+  timestamp versions → `db push` would re-run everything; `0001` has 21 unguarded
+  `create policy` (loud failure), and re-running 0030/0031 would clobber owner-edited settings.
+  SQL-editor sequential procedure (P1–P5 preflight, Steps 1–4 + V1–V7 verification, optional
+  history bookkeeping) written into the guide.
+- **Resend config (guide Part C):** three Vercel env vars specified; DNS requirement explained
+  precisely — `onboarding@resend.dev` can deliver only to the Resend account owner's own
+  address (enough to test the owner notification at the configured recipient once the Resend
+  account uses that address), while **applicant confirmations require a verified sending
+  domain** (SPF/DKIM/DMARC) — blocked until `bridge-to-china.com` DNS is under the owner's
+  control. Sandbox `.env.local` intentionally keyless (verified: only `LEAD_NOTIFICATION_TO`,
+  value matches the owner address) so Review-Panel test leads can never email real applicants.
+- **Email implementation re-verified:** subjects exact in all three languages; `BTC-XXXXXXXX`
+  reference derivation; idempotency keys; one retry on transient failures; status recording via
+  RPC with graceful degradation.
+- **GSC (guide Part E):** both tokens confirmed served in rendered HTML (exactly two
+  `google-site-verification` meta tags); owner click-path for URL-prefix verification +
+  sitemap submission documented (submit after the blog is live so article URLs are included).
+
+### Local verification suite (this session)
+
+`eslint` clean · `tsc --noEmit` clean · dev server healthy on :3000 (Review Panel running
+throughout) · Playwright read-only sweep (no form submissions — the sandbox app talks to the
+production database): **22/22 effective passes** — AR/EN/RU homepages render (correct dir),
+blog archive routes render in all locales, article slug honestly 404s pre-migration, sitemap
+valid (per-locale URL design; excludes unpublished articles; `hrefLang` alternates rendered at
+page level + canonicals), robots correct (blocks `/admin`,`/api`), both GSC meta tags present,
+footer pushed naturally on long pages, AR mobile 375px zero horizontal overflow, zero console
+errors. (Three initial check-pattern false alarms — RSC payload double-counting, attribute
+casing — confirmed correct against raw HTML.)
+
+### Honest status (unchanged by this session's work)
+
+- Production still serves `2d88802`; the four commits remain **local only**.
+- Migrations 0034–0037 remain **unapplied**; the five articles are **not published**.
+- Emails remain in skipped-mode (no key configured anywhere) — by design.
+- Test records (`BTC-5F816BB1` + earlier ones) still await admin-credential deletion.
+- **Security housekeeping (this session):** the owner recipient address was found committed in
+  `fffecab`'s IMPROVEMENT-REPORT §12 (one occurrence — session-4 slip against the project's own
+  `.env.example` rule). The working tree is now fully redacted (both docs); the single
+  historical occurrence in `fffecab` was left untouched because the owner's directive forbids
+  history rewrites. It is local/unpushed, so the owner may optionally authorize a one-time
+  redacting rewrite of the unpushed stack before the push — flagged for decision, not acted on.
+
+### Next actions (owner, ordered)
+
+1. GitHub token via secure channel → I push → revoke token (guide Part A).
+2. Apply 0034–0037 via guide Part B (owner-run SQL editor, or scoped Supabase PAT for me).
+3. Vercel env vars for Resend (guide Part C) → real-submission email test (guide Part F 5–7).
+4. GSC verification + sitemap submission (guide Part E).
