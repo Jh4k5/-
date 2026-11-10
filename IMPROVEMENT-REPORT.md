@@ -177,3 +177,85 @@ A new AI development environment took over the project per the owner's handover 
 - Full evidence and the twelve recovery answers: `docs/PROJECT-RECOVERY-REPORT.md`.
 
 **Untouched, per owner decisions:** admission-letter samples and their storage, DNS/custom domain (postponed), brand/identity, production data (read-only inspection only).
+
+---
+
+## 12. Session 4 — email automation, DB-06, rate limiting, blog batch 1 (2026-11)
+
+Continuing the master directive with the owner's notification address provided (`mohmonef6@gmail.com`,
+delivered via the chat channel and stored only in the gitignored `.env.local` + Vercel-style env
+documentation — never in the public repo).
+
+### Phase 4 — two-way lead email notifications (implemented & locally verified)
+
+- **New `src/lib/email/` module** (no new dependencies — plain `fetch` to the Resend API):
+  `config.ts` (env-gated), `templates.ts` (applicant confirmation in AR/EN/RU with true RTL for
+  Arabic + English owner notification), `notifications.ts` (dispatcher).
+- **Applicant confirmation** — subject "Your Request Has Been Received Successfully — Bridge to
+  China Edu" (localized AR/RU equivalents), confirms receipt only (explicit no-admission/no-
+  scholarship disclaimer), includes the service, the unique reference and next steps; mobile-
+  friendly inline-styled HTML, image-free, with plain-text alternative. Reply-to routes to the
+  owner's notification address.
+- **Owner notification** — subject "New Student Inquiry — Bridge to China Edu": student name,
+  email, phone/WhatsApp, country, service, track, scholarship interest, preferred contact,
+  submission time (UTC), website language, unique lead reference + lead ID, and a link to the
+  admin leads dashboard.
+- **References:** stable `BTC-XXXXXXXX` derived deterministically from the lead UUID
+  (`src/lib/leads/reference.ts`) — no schema change needed, shown to the applicant in the success
+  state (all three locales), quoted in both emails, displayed and searchable in the admin
+  leads table.
+- **Reliability contract:** the API route generates the UUID server-side (RLS grants anon no
+  SELECT, so insert+returning would return empty), persists the lead FIRST, then dispatches both
+  emails best-effort — email failure can never lose a lead or fail the response. Resend
+  idempotency keys (`lead-{uuid}-confirmation/owner-notice`) prevent duplicate sends; one retry
+  on 429/5xx/network; errors classified and logged by reference only (no keys, no PII).
+- **Delivery status:** recorded on the lead row via a tightly-bounded RPC (migration 0035) —
+  feature-detected: while the migration is unapplied the dispatcher degrades to log-only mode
+  (verified live). Statuses surface in the admin leads table once 0035 lands.
+- **Verified:** browser golden path on :3000 — Arabic form submit → `201 {ok:true, reference:
+  BTC-5F816BB1}` → reference rendered in the success UI; EN/RU render; zero console errors;
+  dev log shows the expected `[lead-email] ref=… skipped — email not configured` line; all four
+  templates structurally verified (RTL/LTR directions, content, no unresolved placeholders,
+  clean text parts).
+- **Not yet possible:** a real end-to-end send — the previously shared Resend key is treated as
+  compromised and no fresh restricted key exists. Activation steps are in
+  `docs/COMMERCIAL-READINESS-REPORT.md`.
+
+### Database work (written, application pending credentials)
+
+Three idempotent migrations written; none applied — this environment holds no Supabase
+management credentials (verified: both new RPCs return `PGRST202` against production):
+
+- **`0034_split_admin_editor_roles.sql` (DB-06):** `is_admin()` now means `role='admin'` only;
+  new `is_staff()` (admin or editor) powers all content tables + the media bucket. Leads,
+  analytics, settings and users stay admin-only. The current single admin is unaffected;
+  future editor accounts can no longer inherit full administrator privileges.
+- **`0035_lead_notification_status.sql`:** `confirmation_status`/`owner_notice_status` columns
+  (sent|failed|skipped), the bounded `record_lead_notification()` RPC (24 h recency window,
+  enum validation, 200-char error cap) and a hardened `leads_public_insert` that keeps both
+  status columns out of the anon insert surface.
+- **`0036_shared_rate_limiting.sql`:** cross-instance fixed-window limiter inside the existing
+  Supabase (free tier, no new infrastructure) — `rate_limit_hits` + atomic `consume_rate_limit()`
+  with input validation, probabilistic pruning and a hard row cap; table hidden from all client
+  roles. The application side (`sharedLimited()` in `src/lib/rate-limit.ts`) is already live on
+  both `/api/leads` and `/api/track` and fails open (verified live: PGRST202 probe → silent
+  fallback; the in-memory limiter remains the per-instance first line).
+
+### Blog batch 1 (Phase 6)
+
+Five articles written natively in AR/EN/RU as migration `0037_blog_batch_1.sql` (CSC guide, X1/X2
+visa, English-taught degrees, HSK levels, costs) — see `docs/EDITORIAL-CONTENT-PLAN.md` for the
+full 30-topic plan. All 15 bodies pass the project's real `sanitizeRichText` with headings/links
+intact; hrefs limited to five official domains + 54 localized internal links; unique brand-scene
+covers. They go live (blog archive + sitemap) the moment the migration is applied.
+
+### Housekeeping / known state
+
+- **Test records:** this session created exactly one clearly-marked verification lead
+  (`BTC-5F816BB1`, name "TEST VERIFICATION — SESSION 4 — SAFE TO DELETE") through the real API.
+  Together with the previously documented test lead + test analytics event, all three await
+  deletion via admin credentials (Phase 3D cleanup).
+- **Commits:** `9dae837` (email feature), `a3f5775` (migrations 0034–0036), plus the blog-batch
+  commit — **all local; push requires GitHub credentials this environment does not hold**
+  (verified: `git push` → no stored credentials). Production therefore still serves `2d88802`.
+- Owner decisions untouched: admission-letter samples, DNS/custom domain, brand, canonicals.
