@@ -33,7 +33,14 @@ export const metadata: Metadata = {
     icon: [{ url: "/logo-mark.svg", type: "image/svg+xml" }],
   },
   verification: {
-    google: "LJl-JQBx91rZFrdUADtap4MnUNwBQtBFpxecbe9deFo",
+    // New owner-provided token (November 2026 handover) for Google Search
+    // Console. The legacy token is kept alongside it so a Search Console
+    // property verified with the old value stays verified — Next.js renders
+    // one meta tag per array entry, so both verification methods coexist.
+    google: [
+      "exO4pshzvmU92JX-E0Sjh3hBBvKqX9lzqMxLdU8AyYk",
+      "LJl-JQBx91rZFrdUADtap4MnUNwBQtBFpxecbe9deFo",
+    ],
   },
 };
 
