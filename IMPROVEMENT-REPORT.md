@@ -332,3 +332,39 @@ casing — confirmed correct against raw HTML.)
 2. Apply 0034–0037 via guide Part B (owner-run SQL editor, or scoped Supabase PAT for me).
 3. Vercel env vars for Resend (guide Part C) → real-submission email test (guide Part F 5–7).
 4. GSC verification + sitemap submission (guide Part E).
+
+### Session 5 execution addendum (same day, later) — DEPLOYED & VERIFIED
+
+Owner provided fresh credentials (GitHub PAT, Supabase PAT, Vercel token — pasted in chat,
+therefore **treated as exposed: rotate/revoke all three after confirming this session's
+results**; stored only in a permission-600 file outside the repository). Executed:
+
+- **Vercel:** `LEAD_NOTIFICATION_TO` (production) set via API before the push. `RESEND_API_KEY`
+  remains for the owner to add; `LEAD_NOTIFICATION_FROM` defaults to `onboarding@resend.dev`.
+- **GitHub push:** clean fast-forward `2d88802..942c015` (5 commits), no force, after
+  transient network flakiness (GnuTLS -110 on receive-pack; cleared on retry). Production
+  auto-deploy **`942c015` READY at 17:22 UTC** (target: production, ~1 min after push).
+  `*.vercel.app` still unreachable from inside the sandbox (documented DNS hijack) —
+  deployment verified via the Vercel API.
+- **Supabase migrations applied sequentially via the Management API** (whole-file, each
+  verified before the next):
+  - **P1 gate:** 3 accounts, all `role='admin'` (incl. the owner's) → no lockout path.
+  - **0034 applied** → V1: `is_admin()` = admin-only, `is_staff()` = admin∪editor; V2:
+    articles→`is_staff()`, leads/settings→`is_admin()` predicates live.
+  - **0035 applied** → V3: both status columns live; V4: RPC ACL = anon/authenticated/
+    service_role execute.
+  - **0036 applied** → V5: `rate_limit_hits` (RLS on, zero client privileges), RPC granted;
+    V6 probes: legit bucket→allowed, malformed bucket/out-of-bounds→fail-closed.
+  - **0037 applied** → V7: **9 published articles** (4 existing + 5 batch-1), all trilingual
+    (bodies 3.1k–4.5k chars per language), correct categories and scene covers.
+- **Blog publication verified end-to-end** (dev server = same code as the `942c015`
+  deployment, same production DB): **25/25 Playwright checks** — all 15 article URLs 200
+  (AR RTL / EN / RU LTR, localized headlines), all 3 archives list the batch, sitemap
+  contains all 15 article URLs, scene covers render, zero page errors.
+- **System state sweep:** 40 public policies across 19 tables + 4 storage (inventory
+  verified policy-by-policy — nothing missing), 2 lead email columns, 4 helper functions,
+  rate-limit table present.
+
+**Remaining owner actions:** add `RESEND_API_KEY` (Vercel) and run one real submission to see
+both emails; GSC verification click + sitemap submission (guide Part E); optional test-record
+cleanup; **rotate the three chat-pasted tokens**.
