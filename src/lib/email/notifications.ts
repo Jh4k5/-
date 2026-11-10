@@ -77,6 +77,10 @@ async function sendViaResend(params: {
           Authorization: `Bearer ${params.apiKey}`,
           "Content-Type": "application/json",
           "Idempotency-Key": params.idempotencyKey,
+          // Explicit UA: Cloudflare in front of api.resend.com rejects some
+          // UA-less default clients (observed with python-urllib; error 1010).
+          // Node's undici sends no UA by default, so state one explicitly.
+          "User-Agent": "BridgeToChinaEdu-LeadMail/1.0",
         },
         body: JSON.stringify({
           from: params.from,

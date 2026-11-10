@@ -250,6 +250,29 @@ step entirely — it is not required for correctness.
 The code defaults `LEAD_NOTIFICATION_FROM` to `onboarding@resend.dev`, so **you may start by
 setting only `RESEND_API_KEY` and `LEAD_NOTIFICATION_TO`** — no FROM is needed for step ①.
 
+### Session 6 activation findings (2026-11-10, later)
+
+`RESEND_API_KEY` is now set in Vercel (production, encrypted) and the pipeline was exercised
+end-to-end with a real TEST lead (`BTC-D8407EE4`): lead saved, both emails attempted, statuses
+correctly recorded on the lead row, and a delivery-path probe via the app's exact fetch code
+was **accepted by Resend (HTTP 200, message id `01a1c6b7…`)**. Two restrictions surfaced:
+
+1. **The Resend account's signup address is not the configured `LEAD_NOTIFICATION_TO` address**
+   (both are the owner's Gmail accounts: `mh…` vs `mo…`). With `onboarding@resend.dev` and no
+   verified domain, Resend 403-rejects sends to any address except the signup one — so the
+   owner notification currently fails with `sending_not_allowed`. **Fix (choose one):**
+   - set `LEAD_NOTIFICATION_TO` in Vercel to the Resend signup address (works immediately for
+     owner notifications), or
+   - register the Resend account with the `mo…` address, or
+   - verify a sending domain (below) — the recommended production fix either way.
+2. **Applicant confirmations to arbitrary addresses require a verified sending domain** (unchanged
+   — see the decision section above). Until then they are recorded as `failed` on the lead; the
+   lead itself is never lost.
+
+Also hardened: the email dispatcher now sends an explicit `User-Agent` header — Cloudflare in
+front of `api.resend.com` rejects some UA-less clients (observed error 1010), and Node's undici
+sends no UA by default.
+
 ### Why the sandbox intentionally has no key
 
 The sandbox dev server talks to the **production database**. Without a key in `.env.local`,
