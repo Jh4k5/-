@@ -110,23 +110,53 @@ The blog/articles infrastructure + FAQ table already exist. Highest-leverage inf
 
 **Verification evidence:** `tsc --noEmit` 0 errors · `eslint . --quiet` 0 problems in project code · live curl checks (headers present, 429 after 5 posts, XFF last-entry keying, 307 admin gating, 200s on ar/en/ru/contact/faq/search/universities, 404 on bad route) · agent-browser end-to-end (skip link first-focus, EN↔RU switching, empty-submit form shows role=alert + focuses first invalid + aria-describedby, lightbox focus trap, mobile 390px scrollWidth = 390 (was 406), zero console/page errors on every page tested) · logo 667,792 B → 7,200 B measured.
 
-## 7. Database migrations awaiting owner review (NOT applied)
+## 7. Database migrations — status update (Session 2, 2026-11-10)
 
-- **`0032_security_rls_and_indexes.sql`** — admissions consent in RLS, constrained public inserts for leads/analytics, 12 partial indexes, InitPlan-wrapped is_admin(). **Read §DB findings before applying; back up first.**
-- **`0033_default_og_image.sql`** — backfills the default OG image (idempotent, never overwrites an owner value).
+**0032 and 0033 have been applied to production** (statement-by-statement via the Management API, all 23 statements OK) after a documented pre-flight review:
 
-Apply via `supabase db push` or the SQL editor after review. Until 0032 is applied, the RLS-side consent enforcement and insert constraints are not active in production.
+- `leads_public_insert` / `analytics_events_insert` constraints were diffed against the ONLY two insert paths (`/api/leads`, `/api/track`) — field-by-field match (status/source allowlists, length caps).
+- Consent impact checked before applying: 4/4 published admissions and 3/3 published stories already carry consent, so nothing was hidden by the new policies.
+- Post-apply verification (live REST tests as `anon`): valid lead insert → **201**; wrong-status insert → **blocked (42501)**; 200-char name → **blocked**; fake analytics event → **blocked**; anon SELECT on leads/analytics → **`[]`** (PII still private). Test rows deleted after verification.
+- 11 partial indexes live (public read paths + `leads_created_idx`).
 
-## 8. Remaining issues & limitations (prioritized backlog)
+## 8. Remaining issues & limitations (prioritized backlog — updated Session 2)
+
+**Fixed in Session 2 (commit `44fce32`, deployed & verified):** DB-07 seed fallback (list fetchers + `fetchBySlug` — unpublished/deleted content now stays gone); sitemap `lastModified` honesty (static pages date from the newest content row, not "now"); uppercase-locale 404s (`/AR` → 308 → `/ar`); WCAG 2.2.2 hero slideshow pause/resume control (44 px, trilingual, opposite the WhatsApp float — click, pause-freeze and resume verified in-browser); AboutTeaser/about owner photos through MediaFrame; Cairo 400 + Tajawal 500 font weights dropped (audited unused); `bun.lock` ignored (package-lock.json canonical); pre-commit scanner activated via `npm run prepare` → `core.hooksPath` (ran on this session's commit).
 
 1. **DB-02 (Critical, owner decision):** admission-letter originals are publicly readable in the `media` bucket regardless of blur/consent. Plan: private bucket (or server-side redaction) + short-lived signed URLs for consented+published rows only; keep `media` public for marketing assets.
 2. **DB-06:** `is_admin()` treats editors as admins (delete/leads access). Needs role split before hiring an editor.
-3. **DB-07:** seed fallback re-renders on legitimately-empty datasets (unpublish-all → seed content returns). Restrict fallback to connection errors.
-4. Rate limiter is per-process (serverless multi-instance dilutes it); back with a shared store if abuse appears.
-5. `npm audit` against the official registry (blocked in this sandbox — mirror lacks the endpoint).
-6. Sitemap `lastModified` is always "now" for static entries; uppercase-locale paths 404 instead of normalizing; no hero slideshow pause control (WCAG 2.2.2); AboutTeaser/about photos still bypass MediaFrame; unused font weights shipped; competing lockfiles (bun.lock/package-lock.json — pick one); `scripts/pre-commit-scan.mjs` not wired to a hook.
-7. **Deferred verification:** Lighthouse/CWV on the production build (dev-server numbers are not representative); title template behavior in a production build; Search Console data.
+3. Rate limiter is per-process (serverless multi-instance dilutes it); back with a shared store if abuse appears.
+4. `npm audit` against the official registry (blocked in this sandbox — mirror lacks the endpoint).
+5. Sitemap `lastModified` for static entries now content-derived (fixed); uppercase-locale paths 308-normalize (fixed); hero slideshow pause control added (fixed); AboutTeaser/about photos render via MediaFrame (fixed); unused font weights dropped (fixed); competing lockfiles resolved (package-lock.json canonical, bun.lock ignored, fixed); `scripts/pre-commit-scan.mjs` wired via `.githooks` + `prepare` (fixed).
+6. **Deferred verification:** Lighthouse/CWV on the production build (dev-server numbers are not representative); title template behavior in a production build; Search Console data.
 
 ## 9. Reproducing the environment
 
 `npm install` → `npm run dev` (port 3000). Supabase URL/anon key have safe built-in fallbacks; `.env.example` documents the three overridable variables. The admin CMS is at `/admin/login` (credentials via Supabase Auth, outside this repo).
+
+---
+
+## 10. Session 2 continuation log (2026-11-10, "push updates straight to GitHub")
+
+**Pipeline confirmed:** `Jh4k5/-` default branch `claude/jisr-china-trilingual-platform-wzojbr` → Vercel project `jisr-to-china` (henna) auto-deploy, verified live end-to-end. Every code change lands in production within ~1 minute of push.
+
+**Deployed:** commit `44fce32` (backlog batch, §8 above) — deployment READY; production HTML verified to contain the pause control, per-locale titles, content-derived sitemap dates.
+
+**Production platform state (all live-verified):**
+- Leads pipeline: RLS-hardened AND still accepting public inserts (201 on valid, 42501 on crafted abuse) — the original "orders don't appear" fix remains intact.
+- `default_og_image` backfilled (0033): every page now emits `og:image` + `summary_large_image` — WhatsApp shares render the branded card.
+- Supabase Auth hardened: `site_url` set to the serving host, `uri_allow_list` covers the vercel.app host, both custom hosts and localhost.
+- Canonicals/sitemap/robots serve from `https://jisr-to-china-henna.vercel.app` (the one host that actually serves).
+
+**Custom-domain investigation (bridge-to-china.com):** the domain (registered 2011, Xin Net/xincache nameservers) has its apex AND www records pointing to legacy hosting on AS2516 (`106.186.19.42`) — it has **never** pointed at Vercel; the Vercel "verified" flags came from TXT records only. A redirect experiment was run and fully reverted after live testing exposed this. **No production traffic was affected** (the platform continued serving on henna throughout; verified mid- and post-experiment).
+
+**Owner action to activate the custom domain** (DNS changes at the Xin Net registrar — then flip `settings.site_url`, auth `site_url`, and the henna redirect, all already prepared):
+
+| Record | Type | Value |
+|---|---|---|
+| `bridge-to-china.com` | A | `76.76.21.21` |
+| `www.bridge-to-china.com` | CNAME | `cname.vercel-dns.com` |
+
+Vercel-side config is already staged for that switch: www serves, apex 308 → www, and the auth allowlist already admits both hosts.
+
+**Redeploy note:** `robots.txt` and `sitemap.xml` are Next.js build-time metadata routes — they snapshot `settings.site_url` at build time. After any future `site_url` change (e.g. when the custom domain goes live), push any commit or trigger a redeploy so they re-bake; per-page canonicals update via ISR within 60 s on their own.
