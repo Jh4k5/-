@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronLeft, ChevronRight, ClipboardCheck, Mail, MessageCircle, Phone, Search, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ClipboardCheck, Hash, Mail, MailCheck, MailX, MessageCircle, Phone, Search, Trash2 } from "lucide-react";
 import { AdminHeading, Button, StatusNote, inputClass } from "./ui";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/format";
+import { leadReference } from "@/lib/leads/reference";
 import type { Lead, LeadSource, LeadStatus } from "@/lib/types";
 
 const STATUS_LABEL: Record<LeadStatus, string> = {
@@ -75,6 +76,12 @@ const LANGUAGE_LABEL: Record<string, string> = {
   ru: "Русский",
 };
 
+const EMAIL_STATUS_LABEL: Record<string, string> = {
+  sent: "مُرسل",
+  failed: "فشل الإرسال",
+  skipped: "تم التخطي",
+};
+
 export default function LeadsTable({
   initial,
   page,
@@ -102,7 +109,7 @@ export default function LeadsTable({
       if (source !== "all" && (lead.source ?? "contact_form") !== source) return false;
       if (language !== "all" && lead.language !== language) return false;
       if (!needle) return true;
-      return `${lead.full_name} ${lead.country} ${lead.phone} ${lead.email ?? ""} ${lead.desired_major ?? ""}`
+      return `${lead.full_name} ${lead.country} ${lead.phone} ${lead.email ?? ""} ${lead.desired_major ?? ""} ${leadReference(lead.id)}`
         .toLowerCase()
         .includes(needle);
     });
@@ -233,6 +240,8 @@ export default function LeadsTable({
                   <span className="min-w-40 flex-1">
                     <span className="block font-extrabold text-trust-blue">{lead.full_name}</span>
                     <span className="block text-xs text-charcoal/55">
+                      <span dir="ltr" className="font-mono font-bold">{leadReference(lead.id)}</span>
+                      {" · "}
                       {lead.country} · {QUALIFICATION_LABEL[lead.current_qualification]} ·{" "}
                       {LANGUAGE_LABEL[lead.language]}
                     </span>
@@ -276,6 +285,7 @@ export default function LeadsTable({
                         ["وسيلة التواصل المفضلة", CONTACT_LABEL[lead.preferred_contact]],
                         ["مصدر الطلب", SOURCE_LABEL[lead.source ?? "contact_form"]],
                         ["لغة الإرسال", LANGUAGE_LABEL[lead.language]],
+                        ["الرقم المرجعي", leadReference(lead.id)],
                       ].map(([label, value]) => (
                         <div key={label}>
                           <dt className="text-xs font-bold text-charcoal/45">{label}</dt>
@@ -289,6 +299,37 @@ export default function LeadsTable({
                     {lead.message && (
                       <div className="mt-4 rounded-xl bg-white p-4 text-sm leading-relaxed text-charcoal/80">
                         {lead.message}
+                      </div>
+                    )}
+
+                    {/* Phase 4: transactional-email delivery status per lead.
+                        Columns arrive with migration 0035 — hidden until then. */}
+                    {(lead.confirmation_status || lead.owner_notice_status) && (
+                      <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-trust-blue/8 px-3 py-1.5 font-bold text-trust-blue">
+                          <Hash className="h-3.5 w-3.5" aria-hidden="true" />
+                          <span dir="ltr" className="font-mono">{leadReference(lead.id)}</span>
+                        </span>
+                        {lead.confirmation_status && (
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-trust-blue/8 px-3 py-1.5 font-bold text-trust-blue">
+                            {lead.confirmation_status === "sent" ? (
+                              <MailCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                            ) : (
+                              <MailX className="h-3.5 w-3.5" aria-hidden="true" />
+                            )}
+                            تأكيد مقدّم الطلب: {EMAIL_STATUS_LABEL[lead.confirmation_status] ?? lead.confirmation_status}
+                          </span>
+                        )}
+                        {lead.owner_notice_status && (
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-trust-blue/8 px-3 py-1.5 font-bold text-trust-blue">
+                            {lead.owner_notice_status === "sent" ? (
+                              <MailCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                            ) : (
+                              <MailX className="h-3.5 w-3.5" aria-hidden="true" />
+                            )}
+                            إشعار الإدارة: {EMAIL_STATUS_LABEL[lead.owner_notice_status] ?? lead.owner_notice_status}
+                          </span>
+                        )}
                       </div>
                     )}
 

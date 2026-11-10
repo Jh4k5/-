@@ -237,6 +237,7 @@ const en: Dictionary = {
     error: "The request could not be sent. Please check your details and try again.",
     requiredError: "Please fill in the required fields.",
     optionalDetailsToggle: "Add optional details",
+    referenceLabel: "Your request reference",
   },
   eligibility: {
     title: "Quick eligibility check",

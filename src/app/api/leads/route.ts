@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { createPublicSupabase } from "@/lib/supabase/server";
-import { clientIpFromHeaders, createRateLimiter } from "@/lib/rate-limit";
+import { clientIpFromHeaders, createRateLimiter, sharedLimited } from "@/lib/rate-limit";
+import { dispatchLeadNotifications } from "@/lib/email/notifications";
+import type { NotifiableLead } from "@/lib/email/templates";
+import { leadReference } from "@/lib/leads/reference";
+import type { LeadSource } from "@/lib/types";
 
 export const runtime = "nodejs";
 
@@ -10,8 +14,13 @@ const CONTACTS = new Set(["whatsapp", "email", "phone"]);
 const LANGUAGES = new Set(["ar", "en", "ru"]);
 const SOURCES = new Set(["contact_form", "eligibility_check"]);
 
-/** Very small in-memory throttle: 5 submissions per IP per 10 minutes. */
-const limiter = createRateLimiter({ windowMs: 10 * 60 * 1000, max: 5 });
+/** Per-IP submission throttle: 5 per 10 minutes.
+ *  First line of defence is in-process (fast); the authoritative check is
+ *  the shared Supabase-backed limiter, which also holds across serverless
+ *  instances once migration 0036 is applied. */
+const WINDOW_SECONDS = 10 * 60;
+const MAX_PER_WINDOW = 5;
+const limiter = createRateLimiter({ windowMs: WINDOW_SECONDS * 1000, max: MAX_PER_WINDOW });
 
 function text(value: unknown, max = 400): string | null {
   if (typeof value !== "string") return null;
@@ -33,8 +42,12 @@ export async function POST(request: Request) {
   }
 
   const ip = clientIpFromHeaders(request);
+  const supabase = createPublicSupabase();
 
   if (limiter.limited(ip)) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  }
+  if (await sharedLimited(supabase, `leads:${ip}`, MAX_PER_WINDOW, WINDOW_SECONDS)) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -58,7 +71,15 @@ export async function POST(request: Request) {
       ? startYearRaw
       : null;
 
+  // The id is generated here (not by the database) because RLS grants the
+  // anon role no SELECT on `leads` — an insert+returning would come back
+  // empty. Knowing the id lets us derive the applicant-facing reference
+  // and dispatch notifications without reading the row back.
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
+
   const record = {
+    id,
     full_name,
     country,
     current_qualification: qualification,
@@ -75,7 +96,6 @@ export async function POST(request: Request) {
     desired_start_year: startYear,
   };
 
-  const supabase = createPublicSupabase();
   const { error } = await supabase.from("leads").insert(record);
 
   if (error) {
@@ -83,5 +103,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "insert_failed" }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true }, { status: 201 });
+  // Phase 4: lead persisted → dispatch both transactional emails
+  // (applicant confirmation + owner notification). Strictly best-effort:
+  // an email failure must never lose an otherwise successful lead.
+  const notifiable: NotifiableLead = {
+    ...record,
+    source: record.source as LeadSource,
+    created_at: now,
+  };
+
+  try {
+    await dispatchLeadNotifications(supabase, notifiable);
+  } catch (dispatchError) {
+    console.error(
+      "[lead-email] dispatcher crashed (lead is saved)",
+      dispatchError instanceof Error ? dispatchError.message : dispatchError,
+    );
+  }
+
+  return NextResponse.json({ ok: true, reference: leadReference(id) }, { status: 201 });
 }

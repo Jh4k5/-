@@ -32,6 +32,10 @@ export default function ContactForm({
 
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+  // Phase 4: the API returns a unique reference (BTC-XXXXXXXX) for every
+  // saved request — shown back to the applicant so they can quote it when
+  // they follow up, and mirrored in their confirmation email.
+  const [reference, setReference] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [showErrorSummary, setShowErrorSummary] = useState(false);
   const [countryCode, setCountryCode] = useState<string>(COUNTRY_CODES[0].code);
@@ -111,15 +115,19 @@ export default function ContactForm({
 
       if (!response.ok) throw new Error("request failed");
 
+      const result: { reference?: string } = await response.json().catch(() => ({}));
+
       form.reset();
       setConsented(false);
       setWantsScholarship("");
       setStatus("success");
       setMessage(successMessage);
+      setReference(typeof result.reference === "string" ? result.reference : "");
       track(ANALYTICS_EVENTS.formSubmit, locale);
     } catch {
       setStatus("error");
       setMessage(errorMessage);
+      setReference("");
       track(ANALYTICS_EVENTS.formError, locale);
     }
   }
@@ -416,6 +424,15 @@ export default function ContactForm({
             <AlertCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
           )}
           {message}
+        </p>
+      )}
+
+      {status === "success" && reference && (
+        <p className="mt-3 flex flex-wrap items-center gap-2 rounded-xl border border-jade/30 bg-jade/5 px-4 py-3 text-sm text-jade">
+          <span className="font-semibold">{dict.contact.referenceLabel}:</span>
+          <span dir="ltr" className="font-mono text-base font-extrabold tracking-wider">
+            {reference}
+          </span>
         </p>
       )}
 

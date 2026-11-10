@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createPublicSupabase } from "@/lib/supabase/server";
 import { ANALYTICS_EVENTS } from "@/lib/analytics-events";
-import { clientIpFromHeaders, createRateLimiter } from "@/lib/rate-limit";
+import { clientIpFromHeaders, createRateLimiter, sharedLimited } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -11,8 +11,12 @@ const DEVICES = new Set(["mobile", "tablet", "desktop"]);
 const REFERRERS = new Set(["direct", "organic", "social", "whatsapp", "other"]);
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/** Analytics is not a form: much looser throttle than /api/leads. */
-const limiter = createRateLimiter({ windowMs: 60 * 1000, max: 60 });
+/** Analytics is not a form: much looser throttle than /api/leads.
+ *  60 events per IP per minute — in-process first, then the shared
+ *  cross-instance limiter (migration 0036). */
+const WINDOW_SECONDS = 60;
+const MAX_PER_WINDOW = 60;
+const limiter = createRateLimiter({ windowMs: WINDOW_SECONDS * 1000, max: MAX_PER_WINDOW });
 
 function text(value: unknown, max = 200): string | null {
   if (typeof value !== "string") return null;
@@ -29,8 +33,12 @@ export async function POST(request: Request) {
   }
 
   const ip = clientIpFromHeaders(request);
+  const supabase = createPublicSupabase();
 
   if (limiter.limited(ip)) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  }
+  if (await sharedLimited(supabase, `track:${ip}`, MAX_PER_WINDOW, WINDOW_SECONDS)) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -54,7 +62,6 @@ export async function POST(request: Request) {
     session_id: sessionId && UUID_RE.test(sessionId) ? sessionId : null,
   };
 
-  const supabase = createPublicSupabase();
   const { error } = await supabase.from("analytics_events").insert(record);
 
   if (error) {

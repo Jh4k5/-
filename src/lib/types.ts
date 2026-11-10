@@ -246,6 +246,11 @@ export interface Lead {
   wants_scholarship?: boolean | null;
   desired_start_year?: number | null;
   created_at: string;
+  /** Phase 4 (migration 0035): delivery status of the transactional
+   *  emails dispatched after this lead was saved. Absent until the
+   *  migration is applied — always render defensively. */
+  confirmation_status?: "sent" | "failed" | "skipped" | null;
+  owner_notice_status?: "sent" | "failed" | "skipped" | null;
 }
 
 export interface SettingRow {

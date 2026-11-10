@@ -234,6 +234,7 @@ const ar = {
     error: "تعذّر إرسال الطلب. تحقق من البيانات وحاول مرة أخرى.",
     requiredError: "يرجى تعبئة الحقول المطلوبة.",
     optionalDetailsToggle: "أضف تفاصيل اختيارية",
+    referenceLabel: "رقم طلبك المرجعي",
   },
   eligibility: {
     title: "فحص أهلية أولي",
