@@ -248,13 +248,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       case "services":
         return (
           <ViewTracker key={section.key} event={ANALYTICS_EVENTS.servicesView} locale={locale}>
-            <section className="container-page py-24">
+            <section className="container-page section-pad">
               <SectionHeading
                 eyebrow={eyebrow(section, dict.nav.services)}
                 title={heading(section, "title", dict.services.title)}
                 subtitle={heading(section, "subtitle", dict.services.subtitle)}
               />
-              <div className="mt-14">
+              <div className="mt-8 sm:mt-14">
                 <ServicesEditorial services={services} locale={locale} dict={dict} />
               </div>
             </section>
@@ -263,8 +263,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       case "why_china":
         return (
-          <section key={section.key} className="container-page py-24">
-            <div className="grid items-start gap-12 lg:grid-cols-2">
+          <section key={section.key} className="container-page section-pad">
+            <div className="grid items-start gap-8 sm:gap-12 lg:grid-cols-2">
               <SectionHeading
                 eyebrow={eyebrow(section, dict.nav.whyChina)}
                 title={heading(section, "title", dict.whyChina.title)}
@@ -279,9 +279,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                       <span className="shrink-0 font-[family-name:var(--font-display)] text-xl font-extrabold text-imperial-gold">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <div>
-                        <p className="font-extrabold text-trust-blue">{pick(point, "title", locale)}</p>
-                        <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
+                      <div className="min-w-0">
+                        <p className="font-extrabold break-words text-trust-blue">{pick(point, "title", locale)}</p>
+                        <p className="mt-1.5 text-sm leading-relaxed break-words text-charcoal/70">
                           {pick(point, "description", locale)}
                         </p>
                       </div>
@@ -295,17 +295,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       case "stories":
         return (
-          <section key={section.key} className="bg-white py-24">
+          <section key={section.key} className="bg-white section-pad">
             <div className="container-page">
               <SectionHeading
                 eyebrow={eyebrow(section, dict.nav.stories)}
                 title={heading(section, "title", dict.stories.title)}
                 subtitle={heading(section, "subtitle", dict.stories.subtitle)}
               />
-              <div className="mt-14">
+              <div className="mt-8 sm:mt-14">
                 <StoriesGrid stories={stories} locale={locale} dict={dict} />
               </div>
-              <div className="mt-10 flex justify-center">
+              <div className="mt-8 flex justify-center sm:mt-10">
                 <Link
                   href={`/${locale}/stories`}
                   className="group inline-flex items-center gap-2 rounded-full border-2 border-china-red px-7 py-3 text-sm font-bold text-china-red transition-all duration-300 hover:-translate-y-0.5 hover:bg-china-red hover:text-white"
@@ -321,20 +321,20 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       case "blog":
         if (articles.length === 0) return null;
         return (
-          <section key={section.key} className="container-page py-24">
+          <section key={section.key} className="container-page section-pad">
             <SectionHeading
               eyebrow={eyebrow(section, dict.nav.blog)}
               title={heading(section, "title", dict.blog.latest)}
               subtitle={heading(section, "subtitle", dict.blog.subtitle)}
             />
-            <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {articles.map((article, index) => (
                 <Reveal key={article.id} delay={index * 80} direction="scale">
                   <ArticleCard article={article} locale={locale} dict={dict} />
                 </Reveal>
               ))}
             </div>
-            <div className="mt-10 flex justify-center">
+            <div className="mt-8 flex justify-center sm:mt-10">
               <Link
                 href={`/${locale}/blog`}
                 className="group inline-flex items-center gap-2 rounded-full border-2 border-trust-blue px-7 py-3 text-sm font-bold text-trust-blue transition-all duration-300 hover:-translate-y-0.5 hover:bg-trust-blue hover:text-white"

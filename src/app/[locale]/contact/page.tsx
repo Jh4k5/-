@@ -72,7 +72,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     <>
       <PageHero title={dict.contact.title} subtitle={dict.contact.subtitle} scene="guangzhou" />
 
-      <section id="booking" className="container-page py-16 scroll-mt-24">
+      <section id="booking" className="container-page section-pad scroll-mt-24">
         <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
           <Reveal>
             <Suspense fallback={null}>

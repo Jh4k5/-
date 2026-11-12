@@ -36,7 +36,7 @@ export default async function StoriesPage({ params }: { params: Promise<{ locale
     <>
       <PageHero title={dict.stories.title} subtitle={dict.stories.subtitle} scene="campus-quad" />
 
-      <section className="container-page py-20">
+      <section className="container-page section-pad">
         <StoriesGrid stories={stories} locale={locale} dict={dict} variant="grid" />
       </section>
 

@@ -51,7 +51,7 @@ export default async function UniversitiesPage({
         scene="campus-library"
       />
 
-      <section className="container-page py-16">
+      <section className="container-page section-pad">
         <UniversitiesExplorer universities={universities} locale={locale} dict={dict} />
       </section>
 

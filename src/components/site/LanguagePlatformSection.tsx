@@ -44,7 +44,7 @@ export default function LanguagePlatformSection({
   ].filter(Boolean);
 
   return (
-    <section className="relative overflow-hidden bg-ivory-dark/40 py-24">
+    <section className="relative overflow-hidden bg-ivory-dark/40 section-pad">
       <KanjiWatermark char="language" className="top-6 end-6 hidden lg:block" />
       <div className="container-page relative">
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16">

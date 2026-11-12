@@ -64,7 +64,7 @@ export default function Footer({
   const location = settingText(settings, "office_location", locale, "China");
 
   return (
-    <footer className="relative mt-24 overflow-hidden bg-trust-blue-dark text-white">
+    <footer className="relative mt-12 overflow-hidden bg-trust-blue-dark text-white sm:mt-24">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.16]"
         style={{
@@ -72,8 +72,8 @@ export default function Footer({
             "radial-gradient(circle at 15% 20%, #d4af37 0, transparent 45%), radial-gradient(circle at 85% 80%, #c8102e 0, transparent 45%)",
         }}
       />
-      <div className="container-page relative grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
-        <div className="lg:col-span-2">
+      <div className="container-page relative grid gap-10 py-12 sm:py-16 md:grid-cols-2 lg:grid-cols-4 lg:gap-12 lg:py-16">
+        <div className="lg:col-span-2 lg:max-w-md">
           <div className="flex items-center gap-3">
             {logoUrl ? (
               isOptimizableSrc(logoUrl) ? (
@@ -110,12 +110,15 @@ export default function Footer({
           <h3 className="text-sm font-bold uppercase tracking-widest text-imperial-gold">
             {settingText(settings, "footer_quick_links_title", locale, dict.footer.quickLinks)}
           </h3>
-          <ul className="mt-5 space-y-2.5">
+          {/* Two columns on a phone: eight links stack into a squat, scannable
+              block instead of one tall skinny column that pushes the contact
+              block below the fold. */}
+          <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-1 sm:gap-y-2 lg:block lg:space-y-2.5 lg:gap-0">
             {links.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm text-white/70 transition-colors hover:text-white"
+                  className="inline-block py-1.5 text-sm text-white/75 transition-colors hover:text-white lg:py-0"
                 >
                   {link.label}
                 </Link>
@@ -128,7 +131,7 @@ export default function Footer({
           <h3 className="text-sm font-bold uppercase tracking-widest text-imperial-gold">
             {settingText(settings, "footer_contact_title", locale, dict.footer.contactTitle)}
           </h3>
-          <ul className="mt-5 space-y-3 text-sm text-white/70">
+          <ul className="mt-5 space-y-3 text-sm text-white/75">
             <li className="flex items-center gap-2.5">
               <Mail className="h-4 w-4 shrink-0 text-china-red" aria-hidden="true" />
               <a href={`mailto:${email}`} className="hover:text-white" dir="ltr">

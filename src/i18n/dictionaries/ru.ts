@@ -170,6 +170,10 @@ const ru: Dictionary = {
     searchPlaceholder: "Поиск по статьям…",
     allCategories: "Все категории",
     empty: "Опубликованных статей пока нет.",
+    readingTime: "мин чтения",
+    minutesShort: "мин",
+    tocTitle: "Содержание статьи",
+    updatedOn: "Обновлено",
     categories: {
       about_china: "О Китае",
       universities: "Университеты",

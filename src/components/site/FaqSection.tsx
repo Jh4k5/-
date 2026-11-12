@@ -34,7 +34,7 @@ export default function FaqSection({
   const hasMore = shown.length < items.length;
 
   return (
-    <section className="surface-deep relative overflow-hidden py-24">
+    <section className="surface-deep relative overflow-hidden section-pad">
       <KanjiWatermark char="bridge" className="top-6 end-6 hidden lg:block" />
       <div className="container-page">
         <SectionHeading title={title || dict.faq.title} subtitle={subtitle || dict.faq.subtitle} />

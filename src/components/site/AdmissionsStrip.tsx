@@ -129,7 +129,7 @@ export default function AdmissionsStrip({
   const active = items[index];
 
   return (
-    <section className="surface-deep-dark relative overflow-hidden py-20 text-white">
+    <section className="surface-deep-dark relative overflow-hidden section-pad text-white">
       <div className="brand-pattern pointer-events-none absolute inset-0 opacity-40" />
 
       <div className="container-page relative">

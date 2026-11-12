@@ -27,6 +27,17 @@ export function plainExcerpt(html: string, length = 160): string {
   return text.length > length ? `${text.slice(0, length).trim()}…` : text;
 }
 
+/**
+ * Estimated reading time in whole minutes. CJK-adjacent Arabic and Cyrillic
+ * prose both land near 200 words/minute for study-guidance reading; one
+ * minute is the honest floor so a card never promises "0 min".
+ */
+export function readingMinutes(html: string | null | undefined): number {
+  if (!html) return 1;
+  const words = plainExcerpt(html, Number.MAX_SAFE_INTEGER).split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export function slugify(value: string): string {
   return value
     .toLowerCase()

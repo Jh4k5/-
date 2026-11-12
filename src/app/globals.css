@@ -94,8 +94,9 @@ html[lang="ru"] {
 
 html {
   scroll-behavior: smooth;
-  /* Anchor targets must clear the fixed header instead of hiding behind it. */
-  scroll-padding-top: 5rem;
+  /* Anchor targets must clear the fixed header instead of hiding behind it
+     (xl header is 5rem; the extra rem keeps heading ascenders clear). */
+  scroll-padding-top: 6rem;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -132,6 +133,99 @@ h5 {
   margin-inline: auto;
   max-width: 82rem;
   padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* Responsive section rhythm. py-24 everywhere cost a phone six rem of dead
+   space per section; this scale breathes on desktop without burying mobile
+   content. Applied to every major section instead of hand-picked paddings. */
+@utility section-pad {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* Intelligent glassmorphism — translucent surface, one-pixel light border,
+   medium blur only (house rules ban the heavy 2xl+ tier). Reads as a lit
+   pane of frosted glass, never a smudge. */
+@utility glass-panel {
+  background: color-mix(in srgb, #fff 72%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.6);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility glass-panel-dark {
+  background: color-mix(in srgb, var(--color-trust-blue-dark) 55%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.14);
+}
+
+/* Generic safe-area helper (the admin shell has its own variant). */
+@utility safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* --------------------------- mobile nav sheet --------------------------- */
+/* The mobile navigation sheet: slides down from under the header with a
+   soft spring. Direction-agnostic (no translateX) so RTL and LTR share it. */
+@keyframes sheet-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sheet-panel {
+  animation: sheet-drop calc(0.42s * var(--motion-scale, 1)) var(--motion-ease) both;
+}
+
+@keyframes scrim-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sheet-scrim {
+  animation: scrim-fade 0.3s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-panel,
+  .sheet-scrim {
+    animation: none;
+  }
+}
+
+/* Rows inside the mobile sheet: one visual language for every destination. */
+.mobile-nav-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.875rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-trust-blue);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+.mobile-nav-row:hover,
+.mobile-nav-row:focus-visible {
+  background-color: color-mix(in srgb, var(--color-trust-blue) 7%, transparent);
+}
+.mobile-nav-row[data-active="true"] {
+  background-color: color-mix(in srgb, var(--color-china-red) 9%, #fff);
+  color: var(--color-china-red-dark);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-china-red) 22%, transparent);
 }
 
 @utility text-gradient-brand {
@@ -298,6 +392,18 @@ h5 {
     opacity: 0;
   }
   100% {
+    opacity: 0;
+  }
+}
+
+/* One soft halo behind a floating action button. */
+.pulse-ring {
+  animation: pulse-ring 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-ring {
+    animation: none;
     opacity: 0;
   }
 }

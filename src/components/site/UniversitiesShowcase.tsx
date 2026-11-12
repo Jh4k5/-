@@ -33,9 +33,8 @@ export default function UniversitiesShowcase({
   const Arrow = rtl ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="surface-deep relative overflow-hidden py-24">
+    <section className="surface-deep relative overflow-hidden section-pad">
       <KanjiWatermark char="study" className="top-6 end-6 hidden lg:block" />
-
       <div className="container-page relative">
         <Reveal>
           <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 text-center">
@@ -51,17 +50,33 @@ export default function UniversitiesShowcase({
           </div>
         </Reveal>
 
-        <div className="mt-12">
-          <Coverflow3D
-            rtl={rtl}
-            ariaLabel={title || dict.universities.title}
-            prevLabel={dict.common.previous}
-            nextLabel={dict.common.next}
-            items={universities.map((university) => ({
-              id: university.id,
-              node: <UniversityCard university={university} locale={locale} dict={dict} tall />,
-            }))}
-          />
+        <div className="mt-8 sm:mt-12">
+          {/* Phones get a native snap rail — the 3D coverflow needs width a
+              390px viewport cannot spare, and a gesture-scrolling rail feels
+              faster and more certain than animated depth on touch. */}
+          <div className="rail-track -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:hidden">
+            {universities.map((university) => (
+              <div
+                key={university.id}
+                className="w-[82vw] max-w-[21rem] shrink-0 snap-center"
+              >
+                <UniversityCard university={university} locale={locale} dict={dict} tall />
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden md:block">
+            <Coverflow3D
+              rtl={rtl}
+              ariaLabel={title || dict.universities.title}
+              prevLabel={dict.common.previous}
+              nextLabel={dict.common.next}
+              items={universities.map((university) => ({
+                id: university.id,
+                node: <UniversityCard university={university} locale={locale} dict={dict} tall />,
+              }))}
+            />
+          </div>
         </div>
 
         <div className="mt-10 flex justify-center">

@@ -66,7 +66,9 @@ export default function Logo({
         >
           {dict.meta.siteName}
         </span>
-        <span className={`truncate text-[0.5625rem] tracking-[0.14em] sm:text-[0.6875rem] sm:tracking-[0.16em] ${subColor}`}>
+        {/* The Latin sub-line only fits once the bar has desktop room; on a
+            phone it cropped mid-word and fought the control cluster. */}
+        <span className={`hidden truncate text-[0.5625rem] tracking-[0.14em] sm:block sm:text-[0.6875rem] sm:tracking-[0.16em] ${subColor}`}>
           {locale === "ar" ? "BRIDGE TO CHINA EDU" : dict.meta.siteNameChinese}
         </span>
       </span>

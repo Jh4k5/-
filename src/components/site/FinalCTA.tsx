@@ -20,7 +20,7 @@ export default function FinalCTA({
   return (
     <section className="container-page py-8">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] bg-trust-blue px-8 py-16 text-center shadow-[var(--shadow-card)] sm:px-16">
+        <div className="relative overflow-hidden rounded-[1.5rem] bg-trust-blue px-5 py-10 text-center shadow-[var(--shadow-card)] sm:rounded-[2rem] sm:px-16 sm:py-14">
           <div
             className="pointer-events-none absolute inset-0 opacity-30"
             style={{

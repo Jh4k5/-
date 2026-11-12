@@ -144,7 +144,7 @@ export default async function LanguagePlatformPage({
       )}
 
       {audiences.length > 0 && (
-        <section className="container-page py-20">
+        <section className="container-page section-pad">
           <SectionHeading title={dict.languagePlatform.title} subtitle={dict.languagePlatform.subtitle} />
           <div className="mx-auto mt-12 grid max-w-3xl gap-8 sm:grid-cols-3">
             {audiences.map((audience, index) => (
@@ -160,7 +160,7 @@ export default async function LanguagePlatformPage({
       )}
 
       {integrationText && (
-        <section className="bg-white py-16">
+        <section className="bg-white section-pad">
           <div className="container-page">
             <div className="mx-auto max-w-2xl rounded-2xl border-s-4 border-trust-blue bg-ivory p-7 text-center sm:text-start">
               <p className="text-sm leading-relaxed text-charcoal/75">{integrationText}</p>
@@ -169,7 +169,7 @@ export default async function LanguagePlatformPage({
         </section>
       )}
 
-      <section className="container-page py-20">
+      <section className="container-page section-pad">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
             {offerStatus === "active" && perkDuration && (
@@ -199,7 +199,7 @@ export default async function LanguagePlatformPage({
       </section>
 
       {platformFaqs.length > 0 && (
-        <section className="bg-ivory-dark/40 py-20">
+        <section className="bg-ivory-dark/40 section-pad">
           <div className="container-page">
             <SectionHeading title={dict.faq.title} />
             <div className="mx-auto mt-10 max-w-2xl space-y-4">
@@ -219,7 +219,7 @@ export default async function LanguagePlatformPage({
       )}
 
       {relatedArticles.length > 0 && (
-        <section className="container-page py-20">
+        <section className="container-page section-pad">
           <SectionHeading title={dict.blog.latest} />
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {relatedArticles.map((article, index) => (

@@ -109,14 +109,14 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     <>
       <PageHero title={dict.services.title} subtitle={dict.services.subtitle} scene="campus-library" />
 
-      <section className="container-page py-20">
+      <section className="container-page section-pad">
         <SectionHeading eyebrow={dict.nav.services} title={dict.services.detailsTitle} />
         <div className="mt-14">
           <ServicesGrid services={services} locale={locale} detailed />
         </div>
       </section>
 
-      <section className="border-t border-trust-blue/8 bg-trust-blue/[0.03] py-20">
+      <section className="border-t border-trust-blue/8 bg-trust-blue/[0.03] section-pad">
         <div className="container-page">
           <SectionHeading eyebrow={dict.nav.services} title={afterInterviewTitle} />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -138,7 +138,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       </section>
 
       {costFactors.length > 0 && (
-        <section className="container-page py-20">
+        <section className="container-page section-pad">
           <SectionHeading eyebrow={dict.nav.services} title={costTitle} subtitle={costText} />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {costFactors.map((factor, index) => {

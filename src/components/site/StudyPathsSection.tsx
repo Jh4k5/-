@@ -23,7 +23,7 @@ export default function StudyPathsSection({
   if (paths.length === 0) return null;
 
   return (
-    <section className="surface-deep relative overflow-hidden py-24">
+    <section className="surface-deep relative overflow-hidden section-pad">
       <KanjiWatermark char="path" className="top-6 end-6 hidden lg:block" />
       <div className="container-page relative">
       <SectionHeading

@@ -33,7 +33,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
   return (
     <>
       <PageHero title={dict.blog.title} subtitle={dict.blog.subtitle} scene="hangzhou" />
-      <section className="container-page py-16">
+      <section className="container-page section-pad">
         <BlogExplorer articles={articles} locale={locale} dict={dict} />
       </section>
     </>

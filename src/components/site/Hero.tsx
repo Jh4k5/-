@@ -282,7 +282,7 @@ export default function Hero({
 
       {/* layer 5 — content */}
       <div
-        className="container-page relative z-10 pt-20 pb-14 sm:pt-28 sm:pb-20 lg:pb-24"
+        className="container-page relative z-10 pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pb-24"
         style={layer(-16, 0.03)}
       >
         <div className="max-w-3xl">
@@ -290,7 +290,7 @@ export default function Hero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold tracking-wide text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-4 py-1.5 text-xs font-bold tracking-wide text-white backdrop-blur-sm"
           >
             <span className="h-2 w-2 rounded-full bg-imperial-gold" />
             {dict.hero.badge}
@@ -316,12 +316,12 @@ export default function Hero({
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE, delay: 0.65 }}
-            className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+            className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
           >
             <Link
               href={`/${locale}/contact`}
               onClick={() => track(ANALYTICS_EVENTS.heroPrimaryClick, locale)}
-              className="btn-seal group justify-center text-base"
+              className="btn-seal group w-full justify-center text-base sm:w-auto"
             >
               {ctaPrimary}
               <Arrow className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -333,7 +333,7 @@ export default function Hero({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track(ANALYTICS_EVENTS.whatsappClick, locale)}
-                className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-[6px] bg-jade px-7 py-3.5 text-base font-bold text-white transition-transform duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:w-auto"
               >
                 <MessageCircle className="h-5 w-5" aria-hidden="true" />
                 {ctaWhatsapp}

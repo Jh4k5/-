@@ -45,7 +45,7 @@ export default async function HowItWorksPage({
     <>
       <PageHero title={dict.howItWorks.title} subtitle={dict.howItWorks.subtitle} scene="campus-quad" />
 
-      <section className="container-page py-20">
+      <section className="container-page section-pad">
         <HowItWorksAccordion stages={stages} steps={steps} locale={locale} />
       </section>
 

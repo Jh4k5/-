@@ -29,7 +29,7 @@ export default function DestinationsSection({
     item.category === "campus" ? dict.explore.campusLabel : dict.explore.cityLabel;
 
   return (
-    <section className="surface-deep relative overflow-hidden py-24">
+    <section className="surface-deep relative overflow-hidden section-pad">
       <KanjiWatermark char="gate" className="top-6 end-6 hidden lg:block" />
       <div className="container-page relative">
       <SectionHeading

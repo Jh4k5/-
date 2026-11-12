@@ -260,7 +260,7 @@ export default async function UniversityPage({
       <UniversityGallery images={gallery} title={dict.universities.galleryTitle} alt={name} locale={locale} />
 
       {others.length > 0 && (
-        <section className="bg-white py-16">
+        <section className="bg-white section-pad">
           <div className="container-page">
             <h2 className="text-2xl font-extrabold text-trust-blue">
               {dict.universities.viewAll}

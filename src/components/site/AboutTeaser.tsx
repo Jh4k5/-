@@ -30,7 +30,7 @@ export default function AboutTeaser({
   const showCeo = ceoEnabled && Boolean(ceoName) && Boolean(ceoPhoto);
 
   return (
-    <section className="surface-deep relative overflow-hidden py-20">
+    <section className="surface-deep relative overflow-hidden section-pad">
       <KanjiWatermark char="bridge" className="top-6 end-6 hidden lg:block" />
       <div className="container-page relative">
       <div className="mx-auto max-w-3xl text-center">

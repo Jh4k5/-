@@ -62,12 +62,12 @@ export default async function AdmissionsPage({
             showAllLink={false}
             disclaimer={disclaimer}
           />
-          <section className="container-page py-16">
+          <section className="container-page section-pad">
             <AdmissionsGrid items={admissions} locale={locale} dict={dict} disclaimer={disclaimer} />
           </section>
         </>
       ) : (
-        <section className="container-page py-24 text-center text-charcoal/60">
+        <section className="container-page section-pad text-center text-charcoal/60">
           {dict.admissions.empty}
         </section>
       )}

@@ -87,7 +87,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     <>
       <PageHero title={dict.about.title} subtitle={dict.about.subtitle} scene="campus-gate" />
 
-      <section className="container-page py-20">
+      <section className="container-page section-pad">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Two uploadable photographs, the second overlapping the first, so the
               block has depth instead of sitting as one flat rectangle. Either
@@ -153,7 +153,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="bg-white py-20">
+      <section className="bg-white section-pad">
         <div className="container-page grid gap-6 md:grid-cols-2">
           {[
             { Icon: Eye, title: dict.about.visionTitle, text: visionText },
@@ -173,7 +173,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       </section>
 
       {people.length > 0 && (
-        <section className="container-page py-20">
+        <section className="container-page section-pad">
           <SectionHeading title={teamTitle} />
           <div className="mx-auto mt-12 max-w-3xl space-y-8">
             {people.map((person, index) => (

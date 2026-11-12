@@ -168,6 +168,10 @@ const ar = {
     searchPlaceholder: "ابحث في المقالات…",
     allCategories: "كل التصنيفات",
     empty: "لا توجد مقالات منشورة بعد.",
+    readingTime: "دقيقة قراءة",
+    minutesShort: "د",
+    tocTitle: "محتويات المقال",
+    updatedOn: "آخر تحديث",
     categories: {
       about_china: "عن الصين",
       universities: "الجامعات",

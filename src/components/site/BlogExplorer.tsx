@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { CalendarDays, Search, Star } from "lucide-react";
+import { CalendarDays, Clock3, Search, Star } from "lucide-react";
 import ArticleCard from "./ArticleCard";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Reveal from "@/components/motion/Reveal";
 import type { Dictionary } from "@/i18n";
 import { pick, type Locale } from "@/i18n/config";
 import type { Article, ArticleCategory } from "@/lib/types";
-import { formatDate, plainExcerpt } from "@/lib/format";
+import { formatDate, plainExcerpt, readingMinutes } from "@/lib/format";
 
 const CATEGORIES: ArticleCategory[] = ["about_china", "universities", "student_life", "tips"];
 
@@ -44,12 +44,18 @@ export default function BlogExplorer({
 
   return (
     <div>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col gap-3.5 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
+        {/* Category chips become a single-line swipe rail on phones — wrapping
+            chips pushed the search field far down the screen. */}
+        <div
+          className="rail-track -mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
+          role="group"
+          aria-label={dict.blog.allCategories}
+        >
           <button
             type="button"
             onClick={() => setCategory("all")}
-            className={`rounded-full px-4 py-2 text-sm font-bold transition-all duration-300 ${
+            className={`shrink-0 snap-start rounded-full px-4 py-2.5 text-sm font-bold transition-all duration-300 sm:py-2 ${
               category === "all"
                 ? "bg-trust-blue text-white"
                 : "bg-white text-trust-blue/70 hover:bg-trust-blue/8"
@@ -62,7 +68,7 @@ export default function BlogExplorer({
               key={key}
               type="button"
               onClick={() => setCategory(key)}
-              className={`rounded-full px-4 py-2 text-sm font-bold transition-all duration-300 ${
+              className={`shrink-0 snap-start rounded-full px-4 py-2.5 text-sm font-bold transition-all duration-300 sm:py-2 ${
                 category === key
                   ? "bg-china-red text-white"
                   : "bg-white text-trust-blue/70 hover:bg-china-red/10"
@@ -92,7 +98,7 @@ export default function BlogExplorer({
       ) : (
         <>
           {featured && (
-            <Reveal className="mt-10">
+            <Reveal className="mt-8 sm:mt-10">
               <Link
                 href={`/${locale}/blog/${featured.slug}`}
                 className="group grid overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-imperial-gold/25 md:grid-cols-2"
@@ -106,10 +112,16 @@ export default function BlogExplorer({
                     {dict.blog.categories[featured.category] ?? featured.category}
                   </span>
                 </div>
-                <div className="flex flex-col justify-center p-7 sm:p-9">
-                  <p className="flex items-center gap-1.5 text-xs text-charcoal/55">
-                    <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
-                    {formatDate(featured.created_at, locale)}
+                <div className="flex flex-col justify-center p-5 sm:p-9">
+                  <p className="flex items-center gap-3 text-xs text-charcoal/55">
+                    <span className="inline-flex items-center gap-1.5">
+                      <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
+                      {formatDate(featured.created_at, locale)}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
+                      {readingMinutes(pick(featured, "content", locale))} {dict.blog.minutesShort}
+                    </span>
                   </p>
                   <h3 className="mt-3 text-2xl font-extrabold text-trust-blue transition-colors group-hover:text-china-red sm:text-3xl">
                     {pick(featured, "title", locale)}
@@ -125,7 +137,7 @@ export default function BlogExplorer({
             </Reveal>
           )}
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {rest.map((article, index) => (
               <Reveal key={article.id} delay={index * 60}>
                 <ArticleCard article={article} locale={locale} dict={dict} />

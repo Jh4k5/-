@@ -53,7 +53,7 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
     <>
       <PageHero title={dict.whyChina.title} subtitle={dict.whyChina.subtitle} scene="xian" />
 
-      <section className="container-page py-20">
+      <section className="container-page section-pad">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {whyChinaPoints.map((point, index) => {
             const Icon = iconFor(point.icon);
@@ -76,7 +76,7 @@ export default async function WhyChinaPage({ params }: { params: Promise<{ local
         </div>
       </section>
 
-      <section className="bg-white py-20">
+      <section className="bg-white section-pad">
         <div className="container-page">
           <SectionHeading
             eyebrow={dict.nav.whyChina}

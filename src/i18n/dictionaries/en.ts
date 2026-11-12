@@ -170,6 +170,10 @@ const en: Dictionary = {
     searchPlaceholder: "Search articles…",
     allCategories: "All categories",
     empty: "No published articles yet.",
+    readingTime: "min read",
+    minutesShort: "min",
+    tocTitle: "In this article",
+    updatedOn: "Updated",
     categories: {
       about_china: "About China",
       universities: "Universities",
